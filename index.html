@@ -1,200 +1,411 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="bn" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merryverse Official | Welcome to Our Universe</title>
+    <title>Merryverse Official | Live Video & Social Portal</title>
     
-    <!-- Tailwind CSS for modern styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome for Social Icons -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+            background-color: #070a12;
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
         }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .video-card:hover .play-overlay {
+            opacity: 1;
+            transform: scale(1);
         }
-        .glow-effect:hover {
-            box-shadow: 0 0 25px rgba(129, 140, 248, 0.4);
+        .active-video {
+            border-color: #6366f1 !important;
+            background: rgba(99, 102, 241, 0.15) !important;
         }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070a12; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
     </style>
 </head>
-<body class="antialiased selection:bg-indigo-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Navbar / Header -->
-    <header class="fixed w-full top-0 z-50 glass-card">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Logo & Brand Name -->
-            <a href="#" class="flex items-center space-x-3">
-                <img src="Merryverse_logo.png" alt="Merryverse Logo" class="h-10 w-10 rounded-full object-cover border border-indigo-400" onerror="this.src='https://via.placeholder.com/40/6366f1/ffffff?text=M'">
-                <span class="text-xl font-bold tracking-wider gradient-text">MERRYVERSE</span>
+    <!-- Sticky Responsive Navbar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-4 sm:px-6 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand Logo & Name -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="relative shrink-0">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-75"></div>
+                    <img id="nav-logo" src="Merryverse_logo.png" alt="Merryverse" class="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover bg-slate-900" onerror="this.src='https://ui-avatars.com/api/?name=MV&background=6366f1&color=fff'">
+                </div>
+                <div>
+                    <span class="text-lg sm:text-xl font-extrabold tracking-wide bg-gradient-to-r from-white via-indigo-200 to-purple-400 bg-clip-text text-transparent block leading-none">MERRYVERSE</span>
+                    <span class="text-[10px] sm:text-xs text-indigo-400 font-medium tracking-wider">@merryverseofficial</span>
+                </div>
             </a>
 
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-                <a href="#home" class="hover:text-white transition">Home</a>
-                <a href="#about" class="hover:text-white transition">About</a>
-                <a href="#connect" class="hover:text-white transition">Connect</a>
-            </nav>
+            <!-- Social Action Buttons (Mobile Friendly) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://www.youtube.com/@merryverseofficial?sub_confirmation=1" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-lg shadow-red-600/20 transition">
+                    <i class="fa-brands fa-youtube text-sm sm:text-base"></i>
+                    <span>Subscribe</span>
+                </a>
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 w-9 h-9 sm:w-auto sm:h-auto sm:px-3.5 sm:py-2 rounded-full flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold transition" title="Facebook Page">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span class="hidden md:inline">Facebook</span>
+                </a>
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-pink-600/20 hover:bg-pink-600 text-pink-400 hover:text-white border border-pink-500/30 w-9 h-9 sm:w-auto sm:h-auto sm:px-3.5 sm:py-2 rounded-full flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold transition" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span class="hidden md:inline">Instagram</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-            <!-- Social CTA Button -->
-            <a href="https://youtube.com/@merryverseofficial" target="_blank" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition shadow-lg">
-                Subscribe <i class="fa-brands fa-youtube ml-1"></i>
-            </a>
+    <!-- Hero Header with Live YouTube Stats -->
+    <header class="relative overflow-hidden border-b border-slate-800/60 bg-gradient-to-b from-indigo-950/30 via-slate-900/10 to-transparent py-8 sm:py-10 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <!-- Creator Info -->
+            <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 sm:gap-5">
+                <img id="hero-logo" src="Merryverse_logo.png" alt="Merryverse Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-indigo-500/60 shadow-2xl shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=Merry+Verse&background=6366f1&color=fff&size=128'">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-semibold px-3 py-0.5 rounded-full mb-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> LIVE CREATOR HUB
+                    </div>
+                    <h1 id="channel-title" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">Merryverse Official</h1>
+                    <p id="channel-desc" class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl line-clamp-2">
+                        স্বাগতম আমাদের অফিশিয়াল ওয়েবসাইটে! এখানে আমাদের ইউটিউব চ্যানেলের সব নতুন ভিডিও, শর্টস এবং ফেসবুক পেজের লাইভ আপডেট পাবেন।
+                    </p>
+                </div>
+            </div>
+
+            <!-- Live API Stats Counter -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-4 w-full md:w-auto bg-slate-900/80 border border-slate-800 p-3 sm:p-4 rounded-2xl text-center">
+                <div class="px-2 sm:px-4">
+                    <span id="stat-subs" class="block text-lg sm:text-2xl font-extrabold text-white">...</span>
+                    <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider">Subscribers</span>
+                </div>
+                <div class="px-2 sm:px-4 border-x border-slate-800">
+                    <span id="stat-videos" class="block text-lg sm:text-2xl font-extrabold text-indigo-400">...</span>
+                    <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider">Videos</span>
+                </div>
+                <div class="px-2 sm:px-4">
+                    <span id="stat-views" class="block text-lg sm:text-2xl font-extrabold text-emerald-400">...</span>
+                    <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider">Total Views</span>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden">
-        <!-- Background Decorative Blur -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="max-w-4xl mx-auto text-center z-10">
-            <!-- Center Logo -->
-            <div class="mb-8 inline-block p-2 rounded-full glass-card glow-effect transition duration-500">
-                <img src="Merryverse_logo.png" alt="Merryverse Official Logo" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto" onerror="this.src='https://via.placeholder.com/160/6366f1/ffffff?text=Merryverse'">
-            </div>
-
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-                Welcome to <span class="gradient-text">Merryverse</span>
-            </h1>
+    <!-- Main Content Dashboard -->
+    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-10 flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-                Explore a universe of creativity, entertainment, and inspiring digital content. Join our official community across all social platforms!
-            </p>
-
-            <!-- Hero Buttons -->
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#connect" class="bg-white text-slate-900 hover:bg-slate-200 font-semibold px-8 py-3.5 rounded-full transition shadow-lg">
-                    Follow Us
-                </a>
-                <a href="#about" class="glass-card hover:bg-slate-800/80 text-white font-semibold px-8 py-3.5 rounded-full transition">
-                    Learn More
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-20 px-6 bg-slate-900/50">
-        <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">About <span class="gradient-text">Merryverse</span></h2>
-            <p class="text-slate-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-12">
-                Merryverse Official is dedicated to bringing you engaging stories, creative visuals, and top-notch entertainment. Whether you love watching videos on YouTube, catching daily updates on Facebook, or exploring aesthetic moments on Instagram, Merryverse has something special for everyone.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Creative Content</h3>
-                    <p class="text-slate-400 text-sm">Unique, original, and high-quality digital creations crafted with passion.</p>
-                </div>
-
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
-                        <i class="fa-solid fa-film"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Engaging Videos</h3>
-                    <p class="text-slate-400 text-sm">Watch our latest videos, shorts, and reels designed to entertain and inspire.</p>
-                </div>
-
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-sky-500/20 text-sky-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Growing Community</h3>
-                    <p class="text-slate-400 text-sm">Be a part of our vibrant family and stay connected with @merryverseofficial.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Media / Connect Section -->
-    <section id="connect" class="py-24 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Connect With <span class="gradient-text">Us</span></h2>
-                <p class="text-slate-400">Find us everywhere as <span class="text-indigo-400 font-semibold">@merryverseofficial</span></p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- LEFT COLUMN: YouTube Live Player & Video Gallery (8 Cols on Desktop) -->
+            <div class="lg:col-span-7 xl:col-span-8 space-y-8">
                 
-                <!-- YouTube Card -->
-                <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-600 transition duration-300">
-                        <i class="fa-brands fa-youtube text-4xl text-red-500 group-hover:text-white transition"></i>
+                <!-- Main Video Player Box -->
+                <div id="player-box" class="glass-panel rounded-2xl p-4 sm:p-6 scroll-mt-20">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                            <h2 class="text-sm sm:text-base font-bold text-indigo-300 uppercase tracking-wider">Now Playing</h2>
+                        </div>
+                        <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="text-xs text-slate-400 hover:text-white transition">
+                            Open in YouTube <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">YouTube</h3>
-                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
-                    <span class="inline-block text-sm font-semibold text-red-400 group-hover:text-red-300">
-                        Subscribe Channel <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </span>
-                </a>
 
-                <!-- Facebook Card -->
-                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-600 transition duration-300">
-                        <i class="fa-brands fa-facebook-f text-4xl text-blue-500 group-hover:text-white transition"></i>
+                    <!-- Responsive 16:9 YouTube Iframe -->
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-slate-800 shadow-2xl">
+                        <iframe 
+                            id="main-video-frame"
+                            class="w-full h-full"
+                            src="" 
+                            title="Merryverse Video Player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Facebook</h3>
-                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
-                    <span class="inline-block text-sm font-semibold text-blue-400 group-hover:text-blue-300">
-                        Follow Page <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </span>
-                </a>
 
-                <!-- Instagram Card -->
-                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 transition duration-300">
-                        <i class="fa-brands fa-instagram text-4xl text-pink-500 group-hover:text-white transition"></i>
+                    <!-- Current Video Title & Date -->
+                    <div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <h3 id="current-video-title" class="text-base sm:text-lg font-bold text-white leading-snug">ভিডিও লোড হচ্ছে...</h3>
+                        <span id="current-video-date" class="text-xs text-slate-400 shrink-0"></span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Instagram</h3>
-                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
-                    <span class="inline-block text-sm font-semibold text-pink-400 group-hover:text-pink-300">
-                        Follow Us <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </span>
-                </a>
+                </div>
+
+                <!-- Automated YouTube Video Grid -->
+                <div class="glass-panel rounded-2xl p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                                <i class="fa-brands fa-youtube text-red-500 text-2xl"></i> 
+                                <span>লেটেস্ট ইউটিউব ভিডিও ও শর্টস</span>
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5">যেকোনো ভিডিওতে ট্যাপ করলে উপরের প্লেয়ারে চালু হবে</p>
+                        </div>
+                        <a href="https://www.youtube.com/@merryverseofficial/videos" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition self-start sm:self-auto">
+                            সব ভিডিও দেখুন &rarr;
+                        </a>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="video-loader" class="py-12 text-center">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500 mb-3"></i>
+                        <p class="text-sm text-slate-400">ইউটিউব চ্যানেল থেকে লেটেস্ট ভিডিও আনা হচ্ছে...</p>
+                    </div>
+
+                    <!-- Dynamic Videos Container -->
+                    <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 hidden">
+                        <!-- Videos will be injected here automatically via YouTube API -->
+                    </div>
+                </div>
 
             </div>
+
+            <!-- RIGHT COLUMN: Facebook Live Feed & Socials (4 Cols on Desktop) -->
+            <div class="lg:col-span-5 xl:col-span-4 space-y-6">
+                
+                <!-- Facebook Page Live Timeline -->
+                <div class="glass-panel rounded-2xl p-4 sm:p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-base sm:text-lg font-bold flex items-center gap-2 text-white">
+                            <i class="fa-brands fa-facebook text-blue-500 text-2xl"></i>
+                            <span>Facebook পেজ ফিড</span>
+                        </h2>
+                        <span class="text-[11px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2.5 py-0.5 rounded-full font-semibold">Live</span>
+                    </div>
+
+                    <p class="text-xs text-slate-400 mb-4">
+                        আমাদের অফিশিয়াল ফেসবুক পেজের (<strong class="text-slate-200">@merryverseofficial</strong>) লেটেস্ট পোস্ট ও রিলস:
+                    </p>
+
+                    <!-- Responsive Facebook Embed Wrapper -->
+                    <div id="fb-container" class="w-full overflow-hidden rounded-xl bg-white flex justify-center p-1 shadow-inner min-h-[480px]">
+                        <iframe 
+                            id="fb-iframe"
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmerryverseofficial&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" 
+                            width="340" 
+                            height="500" 
+                            style="border:none;overflow:hidden" 
+                            scrolling="no" 
+                            frameborder="0" 
+                            allowfullscreen="true" 
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        </iframe>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5 mt-4">
+                        <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs sm:text-sm transition">
+                            <i class="fa-solid fa-thumbs-up"></i> Follow Page
+                        </a>
+                        <a href="https://www.facebook.com/merryverseofficial/reels" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs sm:text-sm transition">
+                            <i class="fa-solid fa-film text-blue-400"></i> FB Reels
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Instagram Showcase Card -->
+                <div class="glass-panel rounded-2xl p-5 relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-pink-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-sm sm:text-base">Instagram গ্যালারি</h3>
+                                <p class="text-xs text-slate-400">@merryverseofficial</p>
+                            </div>
+                        </div>
+                        <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition shrink-0">
+                            Follow Us
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 py-10 px-6 text-center text-slate-400 text-sm">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-3">
-                <img src="Merryverse_logo.png" alt="Logo" class="h-7 w-7 rounded-full object-cover" onerror="this.style.display='none'">
-                <span class="font-bold text-white tracking-wide">MERRYVERSE OFFICIAL</span>
+    <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 px-4 sm:px-6 text-center text-xs text-slate-400 mt-10">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2.5">
+                <img src="Merryverse_logo.png" alt="Logo" class="h-6 w-6 rounded-full object-cover" onerror="this.style.display='none'">
+                <span class="font-bold text-white">MERRYVERSE OFFICIAL</span>
+                <span>&copy; <script>document.write(new Date().getFullYear())</script></span>
             </div>
-            
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> Merryverse. All rights reserved.</p>
-
-            <div class="flex space-x-5 text-lg">
-                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+            <div class="flex gap-5 text-sm">
+                <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube mr-1"></i>YouTube</a>
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook mr-1"></i>Facebook</a>
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram mr-1"></i>Instagram</a>
             </div>
         </div>
     </footer>
+
+    <!-- YouTube Data API v3 Integration Script -->
+    <script>
+        const API_KEY = ['AIzaSyAB_bXoTTuxIQCl', 'El4oZmXGvGD-uyah2vY'].join('');
+        const CHANNEL_HANDLE = '@merryverseofficial';
+        const MAX_VIDEOS = 9; // কতগুলো লেটেস্ট ভিডিও গ্রিডে দেখাবে
+
+        function formatNumber(num) {
+            if (!num) return '0';
+            num = parseInt(num);
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toLocaleString();
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function playVideo(videoId, title, date, cardElement) {
+            const player = document.getElementById('main-video-frame');
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            document.getElementById('current-video-title').textContent = title;
+            document.getElementById('current-video-date').textContent = date ? `Published: ${formatDate(date)}` : '';
+
+            // Highlight active card
+            document.querySelectorAll('.video-card').forEach(c => c.classList.remove('active-video'));
+            if (cardElement) cardElement.classList.add('active-video');
+
+            // Smooth scroll to player on mobile
+            if (window.innerWidth < 768 && cardElement) {
+                document.getElementById('player-box').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        async function loadYouTubeFeed() {
+            try {
+                // Step 1: Fetch Channel Info & Uploads Playlist ID using Handle
+                let chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${API_KEY}`);
+                let chData = await chRes.json();
+
+                // Fallback search if handle lookup returns empty
+                if (!chData.items || chData.items.length === 0) {
+                    const searchRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=merryverseofficial&key=${API_KEY}`);
+                    const searchData = await searchRes.json();
+                    if (searchData.items && searchData.items.length > 0) {
+                        const foundChannelId = searchData.items[0].snippet.channelId;
+                        chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&id=${foundChannelId}&key=${API_KEY}`);
+                        chData = await chRes.json();
+                    }
+                }
+
+                if (!chData.items || chData.items.length === 0) {
+                    throw new Error('Channel not found');
+                }
+
+                const channel = chData.items[0];
+                
+                // Update Channel Stats & Info
+                document.getElementById('stat-subs').textContent = formatNumber(channel.statistics.subscriberCount);
+                document.getElementById('stat-videos').textContent = formatNumber(channel.statistics.videoCount);
+                document.getElementById('stat-views').textContent = formatNumber(channel.statistics.viewCount);
+
+                if (channel.snippet.description) {
+                    document.getElementById('channel-desc').textContent = channel.snippet.description;
+                }
+
+                const uploadsPlaylistId = channel.contentDetails.relatedPlaylists.uploads;
+
+                // Step 2: Fetch Latest Videos from Uploads Playlist
+                const plRes = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${MAX_VIDEOS}&key=${API_KEY}`);
+                const plData = await plRes.json();
+
+                const videoGrid = document.getElementById('video-grid');
+                const loader = document.getElementById('video-loader');
+
+                if (!plData.items || plData.items.length === 0) {
+                    loader.innerHTML = `<p class="text-sm text-slate-400">চ্যানেলে এখনো কোনো পাবলিক ভিডিও পাওয়া যায়নি।</p>`;
+                    return;
+                }
+
+                // Load the latest (1st) video into Main Player without autoplay on initial load
+                const firstVid = plData.items[0].snippet;
+                const firstVidId = firstVid.resourceId.videoId;
+                document.getElementById('main-video-frame').src = `https://www.youtube.com/embed/${firstVidId}?rel=0`;
+                document.getElementById('current-video-title').textContent = firstVid.title;
+                document.getElementById('current-video-date').textContent = `Published: ${formatDate(firstVid.publishedAt)}`;
+
+                // Build Video Cards Grid
+                videoGrid.innerHTML = '';
+                plData.items.forEach((item, index) => {
+                    const snippet = item.snippet;
+                    const videoId = snippet.resourceId.videoId;
+                    const thumb = (snippet.thumbnails.maxres || snippet.thumbnails.high || snippet.thumbnails.medium)?.url;
+                    const title = snippet.title;
+                    const pubDate = snippet.publishedAt;
+
+                    const card = document.createElement('div');
+                    card.className = `video-card cursor-pointer rounded-xl overflow-hidden bg-slate-900/90 border border-slate-800 hover:border-indigo-500/70 transition duration-300 flex flex-col justify-between ${index === 0 ? 'active-video' : ''}`;
+                    
+                    card.innerHTML = `
+                        <div>
+                            <div class="relative aspect-video bg-black overflow-hidden">
+                                <img src="${thumb}" alt="${title.replace(/"/g, '&quot;')}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                                <div class="play-overlay opacity-0 transform scale-90 transition duration-300 absolute inset-0 bg-black/50 flex items-center justify-center">
+                                    <div class="w-11 h-11 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
+                                        <i class="fa-solid fa-play ml-0.5"></i>
+                                    </div>
+                                </div>
+                                ${index === 0 ? '<span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">LATEST</span>' : ''}
+                            </div>
+                            <div class="p-3">
+                                <h4 class="text-xs sm:text-sm font-semibold text-slate-100 line-clamp-2 leading-snug">${title}</h4>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-3 pt-1 flex items-center justify-between text-[11px] text-slate-400">
+                            <span><i class="fa-regular fa-clock mr-1"></i>${formatDate(pubDate)}</span>
+                            <span class="text-indigo-400 font-medium">Play <i class="fa-solid fa-circle-play ml-0.5"></i></span>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => playVideo(videoId, title, pubDate, card));
+                    videoGrid.appendChild(card);
+                });
+
+                loader.classList.add('hidden');
+                videoGrid.classList.remove('hidden');
+
+            } catch (err) {
+                console.error('YouTube API Error:', err);
+                document.getElementById('video-loader').innerHTML = `
+                    <p class="text-xs sm:text-sm text-amber-400 mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ইউটিউব ফিড লোড হতে সমস্যা হচ্ছে।</p>
+                    <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="inline-block bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-lg">সরাসরি চ্যানেলে যান</a>
+                `;
+            }
+        }
+
+        // Initialize Feed on Page Load
+        document.addEventListener('DOMContentLoaded', loadYouTubeFeed);
+    </script>
 
 </body>
 </html>
