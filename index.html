@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merryverse Official | Welcome to Our Universe</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navbar / Header -->
+    <header class="fixed w-full top-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo & Brand Name -->
+            <a href="#" class="flex items-center space-x-3">
+                <img src="Merryverse_logo.png" alt="Merryverse Logo" class="h-10 w-10 rounded-full object-cover border border-indigo-400" onerror="this.src='https://via.placeholder.com/40/6366f1/ffffff?text=M'">
+                <span class="text-xl font-bold tracking-wider gradient-text">MERRYVERSE</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#home" class="hover:text-white transition">Home</a>
+                <a href="#about" class="hover:text-white transition">About</a>
+                <a href="#connect" class="hover:text-white transition">Connect</a>
+            </nav>
+
+            <!-- Social CTA Button -->
+            <a href="https://youtube.com/@merryverseofficial" target="_blank" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition shadow-lg">
+                Subscribe <i class="fa-brands fa-youtube ml-1"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden">
+        <!-- Background Decorative Blur -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <!-- Center Logo -->
+            <div class="mb-8 inline-block p-2 rounded-full glass-card glow-effect transition duration-500">
+                <img src="Merryverse_logo.png" alt="Merryverse Official Logo" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto" onerror="this.src='https://via.placeholder.com/160/6366f1/ffffff?text=Merryverse'">
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+                Welcome to <span class="gradient-text">Merryverse</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Explore a universe of creativity, entertainment, and inspiring digital content. Join our official community across all social platforms!
+            </p>
+
+            <!-- Hero Buttons -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#connect" class="bg-white text-slate-900 hover:bg-slate-200 font-semibold px-8 py-3.5 rounded-full transition shadow-lg">
+                    Follow Us
+                </a>
+                <a href="#about" class="glass-card hover:bg-slate-800/80 text-white font-semibold px-8 py-3.5 rounded-full transition">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 bg-slate-900/50">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">About <span class="gradient-text">Merryverse</span></h2>
+            <p class="text-slate-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-12">
+                Merryverse Official is dedicated to bringing you engaging stories, creative visuals, and top-notch entertainment. Whether you love watching videos on YouTube, catching daily updates on Facebook, or exploring aesthetic moments on Instagram, Merryverse has something special for everyone.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Creative Content</h3>
+                    <p class="text-slate-400 text-sm">Unique, original, and high-quality digital creations crafted with passion.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Engaging Videos</h3>
+                    <p class="text-slate-400 text-sm">Watch our latest videos, shorts, and reels designed to entertain and inspire.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-sky-500/20 text-sky-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Growing Community</h3>
+                    <p class="text-slate-400 text-sm">Be a part of our vibrant family and stay connected with @merryverseofficial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media / Connect Section -->
+    <section id="connect" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Connect With <span class="gradient-text">Us</span></h2>
+                <p class="text-slate-400">Find us everywhere as <span class="text-indigo-400 font-semibold">@merryverseofficial</span></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- YouTube Card -->
+                <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-600 transition duration-300">
+                        <i class="fa-brands fa-youtube text-4xl text-red-500 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">YouTube</h3>
+                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
+                    <span class="inline-block text-sm font-semibold text-red-400 group-hover:text-red-300">
+                        Subscribe Channel <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </a>
+
+                <!-- Facebook Card -->
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-600 transition duration-300">
+                        <i class="fa-brands fa-facebook-f text-4xl text-blue-500 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Facebook</h3>
+                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
+                    <span class="inline-block text-sm font-semibold text-blue-400 group-hover:text-blue-300">
+                        Follow Page <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </a>
+
+                <!-- Instagram Card -->
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="glass-card p-8 rounded-2xl text-center group hover:-translate-y-2 transition duration-300 glow-effect">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 transition duration-300">
+                        <i class="fa-brands fa-instagram text-4xl text-pink-500 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Instagram</h3>
+                    <p class="text-slate-400 text-sm mb-6">@merryverseofficial</p>
+                    <span class="inline-block text-sm font-semibold text-pink-400 group-hover:text-pink-300">
+                        Follow Us <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-10 px-6 text-center text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <img src="Merryverse_logo.png" alt="Logo" class="h-7 w-7 rounded-full object-cover" onerror="this.style.display='none'">
+                <span class="font-bold text-white tracking-wide">MERRYVERSE OFFICIAL</span>
+            </div>
+            
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Merryverse. All rights reserved.</p>
+
+            <div class="flex space-x-5 text-lg">
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
