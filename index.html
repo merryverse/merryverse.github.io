@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merryverse Official | Live Video & Social Portal</title>
+    <title>Merryverse Official | Video & Social Portal</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: #070a12;
             color: #f1f5f9;
             overflow-x: hidden;
@@ -40,9 +40,8 @@
             color: white;
             border-color: transparent;
         }
-        /* Smooth Aspect Ratio Transition for Player */
         #player-wrapper {
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s ease;
         }
         .player-16-9 {
             aspect-ratio: 16 / 9;
@@ -51,11 +50,10 @@
         .player-9-16 {
             aspect-ratio: 9 / 16;
             width: 100%;
-            max-width: 340px;
+            max-width: 320px;
             margin-left: auto;
             margin-right: auto;
         }
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #070a12; }
         ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
@@ -63,10 +61,9 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Sticky Responsive Navbar -->
+    <!-- Sticky Navbar -->
     <nav class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-4 sm:px-6 py-3">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Brand Logo & Name -->
             <a href="#" class="flex items-center gap-3">
                 <div class="relative shrink-0">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-75"></div>
@@ -78,7 +75,6 @@
                 </div>
             </a>
 
-            <!-- Social Action Buttons -->
             <div class="flex items-center gap-2 sm:gap-3">
                 <a href="https://www.youtube.com/@merryverseofficial?sub_confirmation=1" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-lg shadow-red-600/20 transition">
                     <i class="fa-brands fa-youtube text-sm sm:text-base"></i>
@@ -96,25 +92,23 @@
         </div>
     </nav>
 
-    <!-- Hero Header with Live YouTube Stats -->
+    <!-- Header Section -->
     <header class="relative overflow-hidden border-b border-slate-800/60 bg-gradient-to-b from-indigo-950/30 via-slate-900/10 to-transparent py-7 sm:py-9 px-4 sm:px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            
-            <!-- Creator Info -->
             <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 sm:gap-5">
-                <img src="Merryverse_logo.png" alt="Merryverse Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-indigo-500/60 shadow-2xl shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=Merry+Verse&background=6366f1&color=fff&size=128'">
+                <img src="Merryverse_logo.png" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-indigo-500/60 shadow-2xl shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=Merry+Verse&background=6366f1&color=fff&size=128'">
                 <div>
                     <div class="inline-flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-semibold px-3 py-0.5 rounded-full mb-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> OFFICIAL MEDIA PORTAL
                     </div>
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">Merryverse Official</h1>
                     <p id="channel-desc" class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl line-clamp-2">
-                        আমাদের সব নতুন অ্যানিমেশন, শর্টস, ভিডিও এবং ফেসবুক পেজের লাইভ আপডেট দেখুন এক জায়গায়।
+                        Welcome to our official website! Explore our latest videos, shorts, and live social updates in one place.
                     </p>
                 </div>
             </div>
 
-            <!-- Live API Stats Counter -->
+            <!-- Stats Counter -->
             <div class="grid grid-cols-3 gap-2 sm:gap-4 w-full md:w-auto bg-slate-900/80 border border-slate-800 p-3 sm:p-4 rounded-2xl text-center">
                 <div class="px-2 sm:px-4">
                     <span id="stat-subs" class="block text-lg sm:text-2xl font-extrabold text-white">...</span>
@@ -129,18 +123,17 @@
                     <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider">Total Views</span>
                 </div>
             </div>
-
         </div>
     </header>
 
-    <!-- Main Content Dashboard -->
+    <!-- Main Dashboard -->
     <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-10 flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- LEFT COLUMN: Smart Frame Player & Categorized Gallery -->
+            <!-- Left Column: Player & Video Gallery -->
             <div class="lg:col-span-7 xl:col-span-8 space-y-8">
                 
-                <!-- Adaptive Video Player Box (Auto switches between 9:16 and 16:9) -->
+                <!-- Clean Video Player Box -->
                 <div id="player-box" class="glass-panel rounded-2xl p-4 sm:p-6 scroll-mt-20">
                     <div class="flex items-center justify-between gap-2 mb-4">
                         <div class="flex items-center gap-2">
@@ -148,107 +141,92 @@
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                             </span>
-                            <span id="player-badge" class="text-xs font-extrabold px-2.5 py-0.5 rounded bg-red-600/20 text-red-400 border border-red-500/30 uppercase tracking-wider">
-                                SHORTS (9:16)
-                            </span>
+                            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Now Playing</span>
                         </div>
                         <a id="direct-yt-link" href="https://www.youtube.com/@merryverseofficial" target="_blank" class="text-xs text-slate-400 hover:text-white transition flex items-center gap-1">
-                            <span>YouTube অ্যাপে দেখুন</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Open in YouTube</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
 
-                    <!-- Dynamic Frame Container (Clean Poster Facade + Clean Iframe) -->
-                    <div id="player-wrapper" class="player-9-16 relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800/90 shadow-2xl">
-                        
-                        <!-- Clean Poster Overlay (No Cluttered YouTube UI until clicked!) -->
+                    <!-- Dynamic Frame Container -->
+                    <div id="player-wrapper" class="player-16-9 relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
                         <div id="video-poster" class="absolute inset-0 z-10 cursor-pointer group bg-black flex items-center justify-center">
-                            <img id="poster-img" src="" alt="Video Thumbnail" class="w-full h-full object-cover opacity-95 group-hover:scale-105 transition duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20"></div>
-                            
-                            <!-- Clean Center Play Button -->
-                            <div class="relative z-20 w-16 h-16 rounded-full bg-red-600/95 text-white flex items-center justify-center shadow-2xl shadow-red-600/50 group-hover:scale-110 group-hover:bg-red-600 transition duration-300">
+                            <img id="poster-img" src="" alt="Thumbnail" class="w-full h-full object-cover opacity-95 group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="relative z-20 w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition duration-300">
                                 <i class="fa-solid fa-play text-2xl ml-1"></i>
                             </div>
-
-                            <span class="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] font-medium text-white/90 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 whitespace-nowrap">
-                                <i class="fa-solid fa-wand-magic-sparkles text-amber-400 mr-1"></i> ক্লিন ভিউতে প্লে করতে ট্যাপ করুন
-                            </span>
                         </div>
-
-                        <!-- Actual YouTube Iframe (Loaded only when playing) -->
                         <iframe 
                             id="main-video-frame"
                             class="w-full h-full hidden"
                             src="" 
-                            title="Merryverse Video Player" 
+                            title="Player" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen>
                         </iframe>
                     </div>
 
-                    <!-- Current Video Title & Date (Placed cleanly below the video) -->
-                    <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-center sm:text-left">
-                        <h3 id="current-video-title" class="text-base sm:text-lg font-bold text-white leading-snug">ভিডিও লোড হচ্ছে...</h3>
+                    <!-- Title & Date -->
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h3 id="current-video-title" class="text-base sm:text-lg font-bold text-white leading-snug">Loading video...</h3>
                         <span id="current-video-date" class="text-xs text-slate-400 shrink-0"></span>
                     </div>
                 </div>
 
-                <!-- Categorized Gallery: Shorts (9:16) vs Videos (16:9) -->
+                <!-- Video Gallery Section -->
                 <div class="glass-panel rounded-2xl p-4 sm:p-6">
-                    
-                    <!-- Header & Filter Tabs -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                                 <i class="fa-brands fa-youtube text-red-500 text-2xl"></i> 
-                                <span>আমাদের ভিডিও গ্যালারি</span>
+                                <span>Video Gallery</span>
                             </h2>
-                            <p class="text-xs text-slate-400 mt-0.5">শর্টস (9:16) এবং বড় ভিডিও (16:9) আলাদা ফ্রেমে সাজানো</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Explore channel videos and shorts tabs</p>
                         </div>
 
-                        <!-- Filter Buttons -->
+                        <!-- YouTube Official Tabs -->
                         <div class="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
-                            <button onclick="switchTab('shorts')" id="tab-shorts" class="tab-active text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-mobile-screen"></i> Shorts (9:16) <span id="count-shorts" class="opacity-80"></span>
+                            <button onclick="switchTab('videos')" id="tab-videos" class="tab-active text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-film"></i> Videos <span id="count-videos" class="opacity-80"></span>
                             </button>
-                            <button onclick="switchTab('videos')" id="tab-videos" class="text-slate-400 hover:text-white text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-tv"></i> Videos (16:9) <span id="count-videos" class="opacity-80"></span>
+                            <button onclick="switchTab('shorts')" id="tab-shorts" class="text-slate-400 hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-bolt"></i> Shorts <span id="count-shorts" class="opacity-80"></span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Loading Spinner -->
+                    <!-- Loader -->
                     <div id="video-loader" class="py-12 text-center">
                         <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500 mb-3"></i>
-                        <p class="text-sm text-slate-400">ইউটিউব চ্যানেল থেকে শর্টস ও ভিডিও আনা হচ্ছে...</p>
+                        <p class="text-sm text-slate-400">Loading videos from YouTube channel...</p>
                     </div>
 
-                    <!-- 9:16 Shorts Grid (Vertical Cards) -->
-                    <div id="shorts-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4 hidden"></div>
-
-                    <!-- 16:9 Full Videos Grid (Horizontal Cards) -->
+                    <!-- 16:9 Videos Grid -->
                     <div id="videos-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden"></div>
 
+                    <!-- 9:16 Shorts Grid -->
+                    <div id="shorts-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4 hidden"></div>
                 </div>
 
             </div>
 
-            <!-- RIGHT COLUMN: Facebook Live Feed & Socials -->
+            <!-- Right Column: Facebook Feed & Socials -->
             <div class="lg:col-span-5 xl:col-span-4 space-y-6">
                 
-                <!-- Facebook Page Live Timeline -->
+                <!-- Facebook Feed -->
                 <div class="glass-panel rounded-2xl p-4 sm:p-6">
                     <div class="flex items-center justify-between mb-3">
                         <h2 class="text-base sm:text-lg font-bold flex items-center gap-2 text-white">
                             <i class="fa-brands fa-facebook text-blue-500 text-2xl"></i>
-                            <span>Facebook পেজ ফিড</span>
+                            <span>Facebook Feed</span>
                         </h2>
                         <span class="text-[11px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2.5 py-0.5 rounded-full font-semibold">Live</span>
                     </div>
 
                     <p class="text-xs text-slate-400 mb-4">
-                        আমাদের অফিশিয়াল ফেসবুক পেজের (<strong class="text-slate-200">@merryverseofficial</strong>) লেটেস্ট পোস্ট ও রিলস:
+                        Latest updates and posts from <strong class="text-slate-200">@merryverseofficial</strong>:
                     </p>
 
                     <div class="w-full overflow-hidden rounded-xl bg-white flex justify-center p-1 shadow-inner min-h-[480px]">
@@ -265,16 +243,16 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5 mt-4">
-                        <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs sm:text-sm transition">
+                        <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs transition">
                             <i class="fa-solid fa-thumbs-up"></i> Follow Page
                         </a>
-                        <a href="https://www.facebook.com/merryverseofficial/reels" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs sm:text-sm transition">
+                        <a href="https://www.facebook.com/merryverseofficial/reels" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs transition">
                             <i class="fa-solid fa-film text-blue-400"></i> FB Reels
                         </a>
                     </div>
                 </div>
 
-                <!-- Instagram Showcase Card -->
+                <!-- Instagram Card -->
                 <div class="glass-panel rounded-2xl p-5 relative overflow-hidden">
                     <div class="flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
@@ -282,12 +260,12 @@
                                 <i class="fa-brands fa-instagram"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-white text-sm sm:text-base">Instagram গ্যালারি</h3>
+                                <h3 class="font-bold text-white text-sm sm:text-base">Instagram Official</h3>
                                 <p class="text-xs text-slate-400">@merryverseofficial</p>
                             </div>
                         </div>
                         <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition shrink-0">
-                            Follow Us
+                            Follow
                         </a>
                     </div>
                 </div>
@@ -313,11 +291,11 @@
         </div>
     </footer>
 
-    <!-- Smart YouTube API v3 Script (Auto 9:16 vs 16:9 Detection) -->
+    <!-- Script -->
     <script>
         const API_KEY = ['AIzaSyAB_bXoTTuxIQCl', 'El4oZmXGvGD-uyah2vY'].join('');
         const CHANNEL_HANDLE = '@merryverseofficial';
-        const MAX_FETCH = 18;
+        const MAX_FETCH = 30; // Fetch more items to accurately segregate YouTube tabs
 
         let currentVideoId = '';
 
@@ -334,7 +312,6 @@
             return new Date(dateString).toLocaleDateString('en-US', options);
         }
 
-        // Convert ISO 8601 duration (e.g. PT1M15S) to total seconds
         function parseDurationToSeconds(isoDuration) {
             if (!isoDuration) return 0;
             const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
@@ -345,14 +322,6 @@
             return hours * 3600 + minutes * 60 + seconds;
         }
 
-        function formatDurationBadge(seconds) {
-            if (!seconds) return '';
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        // Switch between Shorts (9:16) and Full Videos (16:9) Tabs
         function switchTab(tab) {
             const shortsGrid = document.getElementById('shorts-grid');
             const videosGrid = document.getElementById('videos-grid');
@@ -362,47 +331,38 @@
             if (tab === 'shorts') {
                 shortsGrid.classList.remove('hidden');
                 videosGrid.classList.add('hidden');
-                tabShorts.className = 'tab-active text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5';
-                tabVideos.className = 'text-slate-400 hover:text-white text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5';
+                tabShorts.className = 'tab-active text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5';
+                tabVideos.className = 'text-slate-400 hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5';
             } else {
                 videosGrid.classList.remove('hidden');
                 shortsGrid.classList.add('hidden');
-                tabVideos.className = 'tab-active text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5';
-                tabShorts.className = 'text-slate-400 hover:text-white text-xs font-bold px-3.5 py-2 rounded-lg transition flex items-center gap-1.5';
+                tabVideos.className = 'tab-active text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5';
+                tabShorts.className = 'text-slate-400 hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5';
             }
         }
 
-        // Set up the main player box (9:16 for Shorts, 16:9 for Full Videos)
         function setupMainPlayer(video, autoPlay = false, cardElement = null) {
             currentVideoId = video.id;
             const wrapper = document.getElementById('player-wrapper');
             const poster = document.getElementById('video-poster');
             const posterImg = document.getElementById('poster-img');
             const iframe = document.getElementById('main-video-frame');
-            const badge = document.getElementById('player-badge');
             const ytLink = document.getElementById('direct-yt-link');
 
-            // Adjust aspect ratio dynamically
             if (video.isShort) {
                 wrapper.className = 'player-9-16 relative rounded-2xl overflow-hidden bg-slate-950 border border-indigo-500/40 shadow-2xl';
-                badge.textContent = 'SHORTS (9:16 VERTICAL)';
-                badge.className = 'text-xs font-extrabold px-2.5 py-0.5 rounded bg-pink-600/20 text-pink-400 border border-pink-500/30 uppercase tracking-wider';
                 ytLink.href = `https://www.youtube.com/shorts/${video.id}`;
             } else {
                 wrapper.className = 'player-16-9 relative rounded-2xl overflow-hidden bg-slate-950 border border-indigo-500/40 shadow-2xl';
-                badge.textContent = 'VIDEO (16:9 WIDESCREEN)';
-                badge.className = 'text-xs font-extrabold px-2.5 py-0.5 rounded bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider';
                 ytLink.href = `https://www.youtube.com/watch?v=${video.id}`;
             }
 
             document.getElementById('current-video-title').textContent = video.title;
             document.getElementById('current-video-date').textContent = `Published: ${formatDate(video.pubDate)}`;
 
-            // Highlight selected card
             document.querySelectorAll('.video-card').forEach(c => c.classList.remove('active-video'));
             if (cardElement) cardElement.classList.add('active-video');
 
-            // Clean embed parameters to minimize clutter
             const cleanEmbedUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0&playsinline=1`;
 
             if (autoPlay) {
@@ -411,7 +371,6 @@
                 iframe.src = cleanEmbedUrl;
                 document.getElementById('player-box').scrollIntoView({ behavior: 'smooth' });
             } else {
-                // Show clean poster thumbnail first (zero YouTube overlay clutter!)
                 iframe.src = '';
                 iframe.classList.add('hidden');
                 posterImg.src = video.thumb;
@@ -419,7 +378,6 @@
             }
         }
 
-        // Click on Clean Poster -> Start Playing
         document.getElementById('video-poster').addEventListener('click', () => {
             if (!currentVideoId) return;
             const poster = document.getElementById('video-poster');
@@ -431,7 +389,6 @@
 
         async function loadYouTubeFeed() {
             try {
-                // 1. Fetch Channel Stats & Uploads Playlist
                 let chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${API_KEY}`);
                 let chData = await chRes.json();
 
@@ -452,16 +409,14 @@
 
                 const uploadsPlaylistId = channel.contentDetails.relatedPlaylists.uploads;
 
-                // 2. Fetch Latest Playlist Items
                 const plRes = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${MAX_FETCH}&key=${API_KEY}`);
                 const plData = await plRes.json();
 
                 if (!plData.items || plData.items.length === 0) {
-                    document.getElementById('video-loader').innerHTML = `<p class="text-sm text-slate-400">চ্যানেলে কোনো ভিডিও পাওয়া যায়নি।</p>`;
+                    document.getElementById('video-loader').innerHTML = `<p class="text-sm text-slate-400">No videos found.</p>`;
                     return;
                 }
 
-                // 3. Fetch Exact Video Durations to Separate Shorts (9:16) vs Full Videos (16:9)
                 const videoIds = plData.items.map(item => item.snippet.resourceId.videoId).join(',');
                 const vidDetailsRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoIds}&key=${API_KEY}`);
                 const vidDetailsData = await vidDetailsRes.json();
@@ -475,15 +430,21 @@
                     const desc = item.snippet.description || '';
                     const thumb = (item.snippet.thumbnails.maxres || item.snippet.thumbnails.standard || item.snippet.thumbnails.high || item.snippet.thumbnails.medium)?.url;
 
-                    // Any video <= 120 seconds or tagged #shorts is treated as 9:16 Vertical Short
-                    const isShort = (durationSec > 0 && durationSec <= 120) || /#shorts/i.test(title) || /#shorts/i.test(desc);
+                    // YouTube Official Tab Logic:
+                    // YouTube Shorts are vertically formatted or explicitly tagged #shorts, 
+                    // and typically structured for the Shorts tab (under vertical aspect or tagged). 
+                    // Here we check explicit #shorts tag or title indicators which strictly route items to the YouTube Shorts tab.
+                    const hasShortsTag = /#shorts/i.test(title) || /#shorts/i.test(desc);
+                    
+                    // If a video has standard horizontal orientation or is a long video format uploaded to Videos tab, 
+                    // duration > 90 seconds without #shorts tag belongs strictly to the 'Videos' tab.
+                    const isShort = hasShortsTag || (durationSec > 0 && durationSec <= 65 && !title.toLowerCase().includes('episode'));
 
                     const vidObj = {
                         id: item.id,
                         title: title,
                         pubDate: item.snippet.publishedAt,
                         thumb: thumb,
-                        durationSec: durationSec,
                         isShort: isShort
                     };
 
@@ -501,29 +462,19 @@
                 document.getElementById('count-shorts').textContent = `(${shortsList.length})`;
                 document.getElementById('count-videos').textContent = `(${videosList.length})`;
 
-                // Render 9:16 Shorts Cards
+                // Render Shorts Tab
                 if (shortsList.length > 0) {
-                    shortsList.forEach((vid, idx) => {
+                    shortsList.forEach(vid => {
                         const card = document.createElement('div');
                         card.className = `video-card group cursor-pointer rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-pink-500/70 transition duration-300 flex flex-col`;
                         card.innerHTML = `
                             <div class="relative aspect-[9/16] bg-black overflow-hidden">
                                 <img src="${vid.thumb}" alt="${vid.title.replace(/"/g, '&quot;')}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
-                                
-                                <span class="absolute top-2.5 left-2.5 bg-red-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow">
-                                    <i class="fa-solid fa-bolt"></i> SHORT
-                                </span>
-                                <span class="absolute top-2.5 right-2.5 bg-black/70 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">
-                                    ${formatDurationBadge(vid.durationSec)}
-                                </span>
-
+                                <span class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">SHORT</span>
                                 <div class="play-overlay opacity-0 transform scale-90 transition duration-300 absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
-                                        <i class="fa-solid fa-play ml-0.5"></i>
-                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg"><i class="fa-solid fa-play ml-0.5"></i></div>
                                 </div>
-
                                 <div class="absolute bottom-0 inset-x-0 p-3">
                                     <h4 class="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug mb-1">${vid.title}</h4>
                                     <span class="text-[10px] text-slate-300"><i class="fa-regular fa-calendar mr-1"></i>${formatDate(vid.pubDate)}</span>
@@ -534,10 +485,10 @@
                         shortsGrid.appendChild(card);
                     });
                 } else {
-                    shortsGrid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">কোনো শর্টস ভিডিও পাওয়া যায়নি।</p>`;
+                    shortsGrid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No shorts available.</p>`;
                 }
 
-                // Render 16:9 Full Video Cards
+                // Render Videos Tab
                 if (videosList.length > 0) {
                     videosList.forEach(vid => {
                         const card = document.createElement('div');
@@ -546,13 +497,8 @@
                             <div>
                                 <div class="relative aspect-video bg-black overflow-hidden">
                                     <img src="${vid.thumb}" alt="${vid.title.replace(/"/g, '&quot;')}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
-                                    <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded">
-                                        ${formatDurationBadge(vid.durationSec)}
-                                    </span>
                                     <div class="play-overlay opacity-0 transform scale-90 transition duration-300 absolute inset-0 bg-black/45 flex items-center justify-center">
-                                        <div class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg">
-                                            <i class="fa-solid fa-play ml-0.5"></i>
-                                        </div>
+                                        <div class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg"><i class="fa-solid fa-play ml-0.5"></i></div>
                                     </div>
                                 </div>
                                 <div class="p-3.5">
@@ -561,31 +507,30 @@
                             </div>
                             <div class="px-3.5 pb-3 pt-1 flex items-center justify-between text-xs text-slate-400">
                                 <span><i class="fa-regular fa-clock mr-1"></i>${formatDate(vid.pubDate)}</span>
-                                <span class="text-indigo-400 font-semibold">16:9 Widescreen <i class="fa-solid fa-circle-play ml-1"></i></span>
+                                <span class="text-indigo-400 font-semibold">Watch <i class="fa-solid fa-circle-play ml-1"></i></span>
                             </div>
                         `;
                         card.addEventListener('click', () => setupMainPlayer(vid, true, card));
                         videosGrid.appendChild(card);
                     });
                 } else {
-                    videosGrid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">এখনো কোনো লং ভিডিও (16:9) আপলোড করা হয়নি।</p>`;
+                    videosList.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No videos available.</p>`;
                 }
 
-                // Initialize Default Player & Default Tab
                 loader.classList.add('hidden');
-                if (shortsList.length > 0) {
-                    switchTab('shorts');
-                    setupMainPlayer(shortsList[0], false, shortsGrid.firstElementChild);
-                } else if (videosList.length > 0) {
+                if (videosList.length > 0) {
                     switchTab('videos');
                     setupMainPlayer(videosList[0], false, videosGrid.firstElementChild);
+                } else if (shortsList.length > 0) {
+                    switchTab('shorts');
+                    setupMainPlayer(shortsList[0], false, shortsGrid.firstElementChild);
                 }
 
             } catch (err) {
                 console.error('YouTube API Error:', err);
                 document.getElementById('video-loader').innerHTML = `
-                    <p class="text-xs sm:text-sm text-amber-400 mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ইউটিউব ফিড লোড হতে সমস্যা হচ্ছে।</p>
-                    <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="inline-block bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-lg">সরাসরি চ্যানেলে যান</a>
+                    <p class="text-xs sm:text-sm text-amber-400 mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Failed to load YouTube feed.</p>
+                    <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="inline-block bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-lg">Visit Channel</a>
                 `;
             }
         }
