@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAF Bus Schedule - Election Holiday Update</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; background: #f8fafc; margin: 0; scroll-behavior: smooth; }
+        .content-wrapper { max-width: 500px; margin: 0 auto; background: #ffffff; min-height: 100vh; }
+        .premium-header { background: #1e293b; padding: 30px 20px 45px 20px; text-align: center; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; }
+        .nav-container { background: white; margin: -25px 25px 20px 25px; padding: 12px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative; z-index: 50; }
+        
+        .route-card { border-radius: 24px; padding: 12px; cursor: pointer; transition: transform 0.1s; }
+        .inner-box { background: white; border-radius: 18px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; min-height: 90px; }
+        .time-val { font-size: 24px; font-weight: 900; color: #1e293b; line-height: 1; }
+
+        .note-regular { color: #64748b; font-weight: 700; }
+        .note-female { color: #db2777; font-weight: 900; }
+        .note-aaub { color: #2563eb; font-weight: 900; }
+        .note-uttara { color: #0891b2; font-weight: 900; }
+        .note-record { color: #059669; font-weight: 900; }
+        .note-216 { color: #a855f7; font-weight: 900; }
+        .note-208 { color: #92400e; font-weight: 900; }
+        .note-jco { color: #b45309; font-weight: 900; }
+        .note-special-red { color: #ef4444; font-weight: 900; }
+        
+        .color-to-akr { background: #2563eb; }
+        .color-from-akr { background: #10b981; }
+        .color-holiday { background: #ef4444; }
+    </style>
+</head>
+<body class="pb-10">
+
+<div class="content-wrapper">
+    <div class="premium-header">
+        <h2 class="text-white font-bold text-lg uppercase text-center">AIR HQ-BSR-AKR BUS SCHEDULE</h2>
+    </div>
+
+    <div class="nav-container">
+        <button onclick="changeDate(-1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 rounded-full"><i class="fas fa-chevron-left"></i></button>
+        <div class="relative cursor-pointer px-5 text-center">
+            <h1 id="formatted-date" class="text-base font-bold text-gray-800">-- --- ----</h1>
+            <p id="display-day" class="text-[10px] text-blue-500 font-bold uppercase">--</p>
+            <input type="date" id="date-picker" class="absolute inset-0 opacity-0 cursor-pointer" onchange="pickDate(this.value)">
+        </div>
+        <button onclick="changeDate(1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 rounded-full"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="px-5">
+        <div class="flex items-center justify-between bg-slate-50 px-4 py-3 rounded-2xl mb-6 border border-slate-100">
+            <div class="flex items-center gap-3">
+                <div id="status-dot" class="w-2.5 h-2.5 rounded-full"></div>
+                <p id="status-name" class="text-[12px] font-bold text-slate-600 uppercase"></p>
+            </div>
+            <span id="live-time" class="text-[11px] font-bold text-slate-400 font-mono"></span>
+        </div>
+
+        <div id="timer-grid" class="grid grid-cols-2 gap-4 mb-8"></div>
+
+        <div id="filter-section" class="hidden bg-slate-50 rounded-3xl p-6 border border-slate-200 mb-8 shadow-inner">
+            <div class="flex justify-between items-center mb-5">
+                <h3 id="filter-title" class="text-slate-800 font-bold text-xs uppercase"></h3>
+                <button onclick="closeFilter()" class="w-8 h-8 flex items-center justify-center bg-white rounded-full text-slate-400 shadow-sm">&times;</button>
+            </div>
+            <div id="filter-list" class="grid grid-cols-2 gap-3"></div>
+        </div>
+
+        <div id="full-tables-container" class="space-y-6"></div>
+    </div>
+</div>
+
+<script>
+    const busData = {
+        workingDay: {
+            "BSR TO AKR": ["05:45 0615 Uttara", "08:30 Regular", "14:00 Regular", "14:30 Regular", "14:40 216", "14:50 Uttara", "15:00 Regular", "15:30 Regular", "17:00 Record Office", "19:30 Regular", "20:30 Regular"],
+            "AKR TO BSR": ["06:00 Regular", "06:50 Regular", "07:10 Regular", "07:10 Female", "07:10 216", "07:10 208", "07:20 JCO", "13:15 Regular", "17:30 Regular", "20:00 Regular", "21:00 Regular"],
+            "AIR HQ TO AKR": ["07:55 Regular", "10:30 Regular", "14:00 Regular", "14:30 Regular", "15:00 Regular", "15:30 Record Office", "16:00 Record Office", "20:15 Regular"],
+            "AKR TO AIR HQ": ["06:45 Regular", "07:00 Regular", "07:05 Regular", "07:10 Regular", "07:15 Regular", "07:20 Regular", "08:20 AAUB", "13:15 Regular", "19:45 Regular"]
+        },
+        holiday: {
+            "BSR TO AKR": ["05:45 Regular", "08:30 Regular", "12:30 Friday Only", "14:00 Regular", "17:00 Regular", "19:30 Regular", "20:30 Regular"],
+            "AKR TO BSR": ["06:00 Regular", "07:30 Regular", "09:15 Saturday Only", "13:15 Regular", "17:30 Regular", "20:00 Regular", "21:00 Regular"],
+            "AIR HQ TO AKR": ["08:00 Regular", "14:00 Regular", "13:00 Friday Only", "20:15 Regular"],
+            "AKR TO AIR HQ": ["07:30 Regular", "13:15 Regular", "12:30 Friday Only", "19:45 Regular"]
+        }
+    };
+
+    function getNoteColorClass(note) {
+        const n = note.toLowerCase();
+        if (n.includes('friday only') || n.includes('saturday only')) return 'note-special-red';
+        if (n.includes('female')) return 'note-female';
+        if (n.includes('aaub')) return 'note-aaub';
+        if (n.includes('uttara')) return 'note-uttara';
+        if (n.includes('office')) return 'note-record';
+        if (n.includes('216')) return 'note-216';
+        if (n.includes('208')) return 'note-208';
+        if (n.includes('jco')) return 'note-jco';
+        return 'note-regular';
+    }
+
+    function filterBusesByDay(list, dayIdx) {
+        return list.filter(t => {
+            const note = t.toLowerCase();
+            if (note.includes('friday only') && dayIdx !== 5) return false;
+            if (note.includes('saturday only') && dayIdx !== 6) return false;
+            return true;
+        });
+    }
+
+    function getHolidayName(date) {
+        const yyyy = date.getFullYear();
+        const mmdd = (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        const yyyymmdd = date.toISOString().split('T')[0];
+        const fixed = { "02-21": "শহীদ দিবস", "03-17": "বঙ্গবন্ধুর জন্মদিন", "03-26": "স্বাধীনতা দিবস", "04-14": "পহেলা বৈশাখ", "05-01": "মে দিবস", "12-16": "বিজয় দিবস", "12-25": "বড়দিন" };
+        const cal2026 = {
+            "2026-02-04": "শবে বরাত",
+            "2026-02-11": "নির্বাচন (সাধারণ ছুটি)", // Updated: New holiday added
+            "2026-02-12": "নির্বাচন (সাধারণ ছুটি)",
+            "2026-03-17": "শবে কদর",
+            "2026-03-19": "ঈদুল ফিতর ছুটি", "2026-03-20": "জুমাতুল বিদা", "2026-03-21": "ঈদুল ফিতর", "2026-03-22": "ঈদুল ফিতর ছুটি", "2026-03-23": "ঈদুল ফিতর ছুটি",
+            "2026-05-26": "ঈদুল আযহা ছুটি", "2026-05-27": "ঈদুল আযহা ছুটি", "2026-05-28": "ঈদুল আযহা", "2026-05-29": "ঈদুল আযহা ছুটি", "2026-05-30": "ঈদুল আযহা ছুটি", "2026-05-31": "ঈদুল আযহা ছুটি",
+            "2026-06-26": "আশুরা", "2026-08-05": "জুলাই গণঅভ্যুত্থান দিবস", "2026-08-26": "ঈদে মিলাদুন্নবী", "2026-09-04": "জন্মাষ্টমী",
+            "2026-10-20": "দুর্গাপূজা (নবমী)", "2026-10-21": "বিজয়া দশমী"
+        };
+        if (yyyy === 2026) return cal2026[yyyymmdd] || fixed[mmdd] || null;
+        return fixed[mmdd] || null;
+    }
+
+    let viewDate = new Date();
+    let openRoute = null;
+
+    function updateUI() {
+        const now = new Date();
+        const isToday = viewDate.toDateString() === now.toDateString();
+        const holidayName = getHolidayName(viewDate);
+        const dayIdx = viewDate.getDay();
+        const isHoliday = holidayName || dayIdx === 5 || dayIdx === 6;
+        const scheduleKey = isHoliday ? 'holiday' : 'workingDay';
+
+        const statusLabel = document.getElementById('status-name');
+        const statusDot = document.getElementById('status-dot');
+        if (holidayName) { statusLabel.innerText = holidayName; statusDot.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"; }
+        else if (dayIdx === 5 || dayIdx === 6) { statusLabel.innerText = (dayIdx === 5 ? "শুক্রবার" : "শনিবার") + " (ছুটি)"; statusDot.className = "w-2.5 h-2.5 rounded-full bg-orange-500"; }
+        else { statusLabel.innerText = "সাধারণ কর্মদিবস"; statusDot.className = "w-2.5 h-2.5 rounded-full bg-green-500"; }
+
+        document.getElementById('formatted-date').innerText = viewDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        document.getElementById('display-day').innerText = viewDate.toLocaleDateString('bn-BD', { weekday: 'long' });
+        document.getElementById('live-time').innerText = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        const grid = document.getElementById('timer-grid');
+        grid.innerHTML = '';
+        Object.keys(busData[scheduleKey]).forEach(route => {
+            let list = filterBusesByDay(busData[scheduleKey][route], dayIdx);
+            const nextBus = getNextBusInfo(list, isToday ? now : null);
+            let theme = isHoliday ? 'color-holiday' : (route.includes("TO AKR") ? 'color-to-akr' : 'color-from-akr');
+            let iconColor = isHoliday ? 'text-red-600' : (route.includes("TO AKR") ? 'text-blue-600' : 'text-emerald-500');
+            grid.innerHTML += `<div id="route-${route.replace(/ /g, '-')}" onclick="toggleRouteDetails('${route}', '${scheduleKey}')" class="route-card text-white ${theme}"><p class="text-[10px] font-black opacity-90 px-1 mb-1 uppercase">${route}</p><div class="inner-box"><div class="flex flex-col"><h3 class="time-val">${nextBus.time}</h3><p class="text-[9px] font-bold ${getNoteColorClass(nextBus.note)} uppercase mt-1">${nextBus.note}</p><div class="text-[9px] font-extrabold px-2 py-1 bg-slate-100 ${iconColor} rounded-lg mt-2 inline-block w-fit">${nextBus.label}</div></div><div class="bus-icon-side"><i class="fas fa-bus ${iconColor} text-3xl"></i></div></div></div>`;
+        });
+        renderFullTables(scheduleKey);
+    }
+
+    function toggleRouteDetails(route, type) {
+        const section = document.getElementById('filter-section');
+        const now = new Date();
+        const dayIdx = viewDate.getDay();
+        const isToday = viewDate.toDateString() === now.toDateString();
+        if (openRoute === route) { closeFilter(); } else {
+            openRoute = route; section.classList.remove('hidden');
+            document.getElementById('filter-title').innerText = route + " (NEXT BUSES)";
+            let list = filterBusesByDay(busData[type][route], dayIdx);
+            if (isToday) { list = list.filter(t => { const [h, m] = t.split(' ')[0].split(':'); const bTime = new Date(); bTime.setHours(parseInt(h), parseInt(m), 0); return bTime > now; }); }
+            document.getElementById('filter-list').innerHTML = list.map(t => {
+                const p = t.split(' '); const note = p.slice(1).join(' ') || 'Regular';
+                return `<div class="bg-white p-4 rounded-2xl text-center shadow-sm border border-slate-100"><p class="text-blue-600 font-black text-lg">${p[0]}</p><p class="text-[9px] font-bold ${getNoteColorClass(note)} mt-1 uppercase">${note}</p></div>`;
+            }).join('') || '<p class="col-span-2 text-center text-slate-400 py-4">আজকের জন্য আর কোন বাস নেই</p>';
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function closeFilter() { 
+        if(openRoute) {
+            const lastClickedId = `route-${openRoute.replace(/ /g, '-')}`;
+            document.getElementById('filter-section').classList.add('hidden');
+            openRoute = null;
+            document.getElementById(lastClickedId).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function getNextBusInfo(times, refTime) {
+        if (!times || times.length === 0) return { time: "DONE", note: "See Tomorrow", label: "FINISHED" };
+        let targetBus = times[0]; let label = "NEXT";
+        if (refTime) {
+            let found = false;
+            for (let tStr of times) {
+                let [h, m] = tStr.split(' ')[0].split(':'); let bTime = new Date(); bTime.setHours(h, m, 0);
+                if (bTime > refTime) { targetBus = tStr; let diff = Math.floor((bTime - refTime) / 60000); label = `${Math.floor(diff/60)}H ${diff%60}M LEFT`; found = true; break; }
+            }
+            if(!found) return { time: "DONE", note: "See Tomorrow", label: "FINISHED" };
+        }
+        const parts = targetBus.split(' '); return { time: parts[0], note: parts.slice(1).join(' ') || "Regular", label: label };
+    }
+
+    function renderFullTables(type) {
+        const container = document.getElementById('full-tables-container');
+        const dayIdx = viewDate.getDay();
+        const layouts = [{ title: 'BSR MT', r: ['BSR TO AKR', 'AKR TO BSR'] }, { title: 'AIR HQ MT', r: ['AIR HQ TO AKR', 'AKR TO AIR HQ'] }];
+        container.innerHTML = layouts.map(l => `
+            <div class="bg-white rounded-[28px] overflow-hidden shadow-sm border border-slate-100">
+                <div class="bg-slate-800 text-white py-3 text-[10px] font-bold text-center uppercase tracking-widest">${l.title}</div>
+                <div class="grid grid-cols-2 divide-x divide-slate-50">
+                    ${l.r.map(rName => `<div class="p-4"><p class="text-[9px] font-black text-blue-600 mb-4 text-center bg-blue-50 py-1 rounded-full uppercase">${rName}</p>${filterBusesByDay(busData[type][rName], dayIdx).map(t => { const p = t.split(' '); const note = p.slice(1).join(' ') || 'Regular'; return `<div class="mb-3 text-center"><p class="text-slate-700 font-bold text-sm">${p[0]}</p><p class="text-[8px] font-bold ${getNoteColorClass(note)} uppercase">${note}</p></div>`; }).join('')}</div>`).join('')}
+                </div>
+            </div>`).join('');
+    }
+
+    function pickDate(val) { if(val) { viewDate = new Date(val); updateUI(); } }
+    function changeDate(days) { viewDate.setDate(viewDate.getDate() + days); updateUI(); }
+    setInterval(updateUI, 1000);
+    updateUI();
+</script>
+</body>
+  </html>
