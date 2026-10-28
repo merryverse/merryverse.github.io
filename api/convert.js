@@ -22,35 +22,20 @@ module.exports = async (req, res) => {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
 
-    let response;
-    let data;
-    let retries = 3;
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: promptText },
+            { inline_data: { mime_type: mimeType, data: base64Data } }
+          ]
+        }]
+      })
+    });
 
-    while (retries > 0) {
-      response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: promptText },
-              { inline_data: { mime_type: mimeType, data: base64Data } }
-            ]
-          }]
-        })
-      });
-
-      data = await response.json();
-
-      if (!data.error || !data.error.message.includes("high demand")) {
-        break;
-      }
-
-      retries--;
-      if (retries > 0) {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-      }
-    }
+    const data = await response.json();
 
     if (data.error) {
       return res.status(400).json({ error: data.error.message });
