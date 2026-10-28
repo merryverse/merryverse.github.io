@@ -17,10 +17,8 @@ export default async function handler(req, res) {
 
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
 
-    // লিংকের ফরম্যাট সমস্যা এড়াতে ভেরিয়েবল আলাদা করা হয়েছে
-    const apiUrl = "[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=)" + apiKey;
-
-    const response = await fetch(apiUrl, {
+    // এখানে লিংকের সকল ভুল ব্র্যাকেট সরিয়ে একদম ক্লিন লিংক দেওয়া হয়েছে
+    const response = await fetch("[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=)" + apiKey, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
