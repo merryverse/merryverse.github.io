@@ -13,9 +13,13 @@ module.exports = async (req, res) => {
 
   try {
     const { mimeType, base64Data } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+    if (!apiKey) {
+        return res.status(400).json({ error: "Vercel-এ API Key পাওয়া যাচ্ছে না। Vercel Environment Variables চেক করুন।" });
+    }
 
-    const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
 
     const response = await fetch(apiUrl, {
