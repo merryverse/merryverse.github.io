@@ -19,29 +19,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "API Key পাওয়া যাচ্ছে না।" });
     }
 
-    const listResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-    const listData = await listResponse.json();
-
-    if (listData.error) {
-      return res.status(400).json({ error: listData.error.message });
-    }
-
-    const validModels = (listData.models || []).filter(m => 
-      m.supportedGenerationMethods && 
-      m.supportedGenerationMethods.includes("generateContent") &&
-      m.name.includes("gemini")
-    );
-
-    const chosenModel = validModels.find(m => m.name.includes("2.5-flash")) || 
-                        validModels.find(m => m.name.includes("2.0-flash")) || 
-                        validModels.find(m => m.name.includes("flash")) || 
-                        validModels[0];
-
-    if (!chosenModel) {
-      return res.status(400).json({ error: "কোনো সচল Gemini মডেল পাওয়া যায়নি।" });
-    }
-
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/${chosenModel.name}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
 
     const response = await fetch(apiUrl, {
