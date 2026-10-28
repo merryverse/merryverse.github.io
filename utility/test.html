@@ -113,7 +113,7 @@
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         }
 
-        const GEMINI_API_KEY = "AQ.Ab8RN6IxBB1ArJjBuMu8hvxosNvl6l3PZEIwZfJ7Lx1M7CcsoQ"; 
+        const GEMINI_API_KEY = "AQ.Ab8RN6LqqKBufwoPhVGxvfEe_OFeGFElU3k2UdD0xjydfvOj4A"; 
 
         function showToast(message, isSuccess = false) {
             const toast = document.getElementById('custom-toast');
@@ -376,7 +376,7 @@
                 try {
                     data = JSON.parse(responseText);
                 } catch (e) {
-                    throw new Error(`সার্ভার ব্লক করেছে (Status: ${response.status})। আপনার API Key-তে রেস্ট্রিকশন আছে, দয়া করে একদম নতুন একটি API Key তৈরি করে ব্যবহার করুন।`);
+                    throw new Error(`সার্ভার ব্লক করেছে (Status: ${response.status})। আপনার API Key চেক করুন।`);
                 }
 
                 if (data.error) {
