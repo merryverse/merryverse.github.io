@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS পারমিশন দেওয়ার জন্য
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -14,11 +13,14 @@ export default async function handler(req, res) {
 
   try {
     const { mimeType, base64Data } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY; // Vercel-এর সিক্রেট কি থেকে এটি অটোমেটিক নিয়ে নেবে
+    const apiKey = process.env.GEMINI_API_KEY; 
 
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
 
-    const response = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$){apiKey}`, {
+    // লিংকের ফরম্যাট সমস্যা এড়াতে ভেরিয়েবল আলাদা করা হয়েছে
+    const apiUrl = "[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=)" + apiKey;
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
