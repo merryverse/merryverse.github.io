@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Image, PDF & Word Converter</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: #ffffff; width: 100%; max-width: 600px; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; }
+        
+        .tabs { display: flex; margin-bottom: 25px; border-radius: 8px; overflow: hidden; background: #f1f3f5; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: 600; font-size: 14px; color: #555; cursor: pointer; transition: 0.3s; }
+        .tab-btn.active { background: #007bff; color: #fff; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .upload-area { border: 2px dashed #007bff; background-color: #f8fbff; padding: 30px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 20px; display: block; }
+        .upload-area:hover { background-color: #e6f0ff; }
+        .upload-area span { color: #007bff; font-weight: 600; display: block; pointer-events: none; }
+        input[type="file"] { display: none; }
+
+        .options { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .options label { cursor: pointer; font-weight: 600; color: #444; font-size: 14px; }
+
+        .file-list { max-height: 200px; overflow-y: auto; text-align: left; margin-bottom: 20px; }
+        .file-item { display: flex; justify-content: space-between; background: #f1f3f5; padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; font-size: 14px; }
+        .status { font-weight: 600; font-size: 12px; padding: 3px 8px; border-radius: 4px; }
+        .pending { background: #ffeaa7; color: #d35400; }
+        .processing { background: #81ecec; color: #00b894; }
+        .done { background: #55efc4; color: #2d3436; }
+
+        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; }
+        .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        .btn:hover:not(:disabled) { opacity: 0.9; transform: scale(0.98); }
+
+        /* Custom Toast CSS */
+        #custom-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px;
+            font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Toast Element -->
+    <div id="custom-toast"></div>
+
+    <div class="container">
+        <h2>Ultimate Converter</h2>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('imgToPdfTab', this)">Image to PDF</button>
+            <button class="tab-btn" onclick="switchTab('pdfToImgTab', this)">PDF to Image</button>
+            <button class="tab-btn" onclick="switchTab('toWordTab', this)">To Word (AI)</button>
+        </div>
+
+        <div id="imgToPdfTab" class="section active">
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">যেকোনো ছবি (JPG, PNG) আপলোড করুন</p>
+            <label for="imageInput" class="upload-area">
+                <span>ছবি সিলেক্ট করতে এখানে ক্লিক করুন</span>
+            </label>
+            <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageFiles(event)">
+            
+            <div class="options" id="imgOptions" style="display: none;">
+                <label><input type="radio" name="imgMode" value="single" checked> Single PDF</label>
+                <label><input type="radio" name="imgMode" value="separate"> Separate PDFs</label>
+            </div>
+            <div class="file-list" id="imgFileList"></div>
+            <button class="btn" id="convertImgBtn" onclick="convertImagesToPdf()" disabled>Convert to PDF</button>
+        </div>
+
+        <div id="pdfToImgTab" class="section">
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">একটি PDF ফাইল আপলোড করুন</p>
+            <label for="pdfInput" class="upload-area">
+                <span>PDF সিলেক্ট করতে এখানে ক্লিক করুন</span>
+            </label>
+            <input type="file" id="pdfInput" accept="application/pdf" onchange="handlePdfFile(event)">
+            
+            <div class="options" id="pdfOptions" style="display: none;">
+                <label><input type="radio" name="pdfMode" value="pages" checked> Page by Page</label>
+                <label><input type="radio" name="pdfMode" value="long"> Long Image</label>
+            </div>
+            <div class="file-list" id="pdfFileList"></div>
+            <button class="btn" id="convertPdfBtn" onclick="convertPdfToImage()" disabled>Convert to Image</button>
+        </div>
+
+        <div id="toWordTab" class="section">
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">একটি ছবি বা PDF আপলোড করুন (টেক্সট ও টেবিল এক্সট্র্যাক্ট করতে)</p>
+            <label for="wordInput" class="upload-area">
+                <span>ফাইল সিলেক্ট করতে এখানে ক্লিক করুন</span>
+            </label>
+            <input type="file" id="wordInput" accept="image/*,application/pdf" onchange="handleWordFile(event)">
+            
+            <div class="file-list" id="wordFileList"></div>
+            <button class="btn" id="convertWordBtn" onclick="convertToWord()" disabled>Convert to Word</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+    <script>
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        }
+
+        // আপনার এপিআই কি এখানে বসানো হলো
+        const GEMINI_API_KEY = "AIzaSyDFOW7nyWYtk0SWt-WK7dr_DuLvVVPnPXM"; 
+
+        // 1. Android WebView এর জন্য Custom Alert System
+        function showToast(message, isSuccess = false) {
+            const toast = document.getElementById('custom-toast');
+            toast.innerText = message;
+            toast.style.background = isSuccess ? "#2ed573" : "#ff4757";
+            toast.style.display = "block";
+            setTimeout(() => { toast.style.opacity = "1"; }, 10);
+            
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => { toast.style.display = "none"; }, 300);
+            }, 4000);
+        }
+
+        // ডিফল্ট অ্যালার্টকে ওভাররাইড করা হলো
+        window.alert = function(msg) { showToast(msg); };
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function downloadDataUrl(dataUrl, filename) {
+            const a = document.createElement('a');
+            a.href = dataUrl; a.download = filename;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        }
+
+        const MAX_FILES = 100;
+        let selectedImages = [];
+
+        function handleImageFiles(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) return;
+            if (files.length > MAX_FILES) { showToast(`সর্বোচ্চ ${MAX_FILES} টি ফাইল সিলেক্ট করা যাবে।`); event.target.value = ""; return; }
+            selectedImages = files;
+            document.getElementById('imgOptions').style.display = 'flex';
+            const list = document.getElementById('imgFileList');
+            list.innerHTML = ''; 
+            selectedImages.forEach((file, index) => {
+                list.innerHTML += `<div class="file-item"><span>${file.name}</span><span class="status pending" id="img-status-${index}">অপেক্ষমান</span></div>`;
+            });
+            document.getElementById('convertImgBtn').disabled = selectedImages.length === 0;
+        }
+
+        function getImageData(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width; canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve({ imgData: canvas.toDataURL('image/jpeg', 1.0), width: img.width, height: img.height, orientation: img.width > img.height ? 'l' : 'p' });
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function convertImagesToPdf() {
+            const btn = document.getElementById('convertImgBtn');
+            btn.disabled = true; btn.innerText = "কনভার্ট হচ্ছে...";
+            const mode = document.querySelector('input[name="imgMode"]:checked').value;
+            const { jsPDF } = window.jspdf;
+
+            try {
+                if (mode === 'separate') {
+                    for (let i = 0; i < selectedImages.length; i++) {
+                        const statusEl = document.getElementById(`img-status-${i}`);
+                        statusEl.innerText = "চলছে..."; statusEl.className = "status processing";
+                        const { imgData, width, height, orientation } = await getImageData(selectedImages[i]);
+                        const doc = new jsPDF({ orientation: orientation, unit: 'px', format: [width, height] });
+                        doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+                        doc.save(selectedImages[i].name.replace(/\.[^/.]+$/, "") + '.pdf');
+                        statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
+                        await new Promise(r => setTimeout(r, 400)); 
+                    }
+                } else {
+                    let doc = null;
+                    for (let i = 0; i < selectedImages.length; i++) {
+                        const statusEl = document.getElementById(`img-status-${i}`);
+                        statusEl.innerText = "যোগ হচ্ছে..."; statusEl.className = "status processing";
+                        const { imgData, width, height, orientation } = await getImageData(selectedImages[i]);
+                        if (i === 0) {
+                            doc = new jsPDF({ orientation: orientation, unit: 'px', format: [width, height] });
+                            doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+                        } else {
+                            doc.addPage([width, height], orientation);
+                            doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+                        }
+                        statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
+                        await new Promise(r => setTimeout(r, 200)); 
+                    }
+                    doc.save(selectedImages[0].name.replace(/\.[^/.]+$/, "") + '.pdf'); 
+                }
+                showToast("সম্পন্ন হয়েছে!", true);
+            } catch (err) {
+                showToast("ফাইল সেভ করতে সমস্যা হয়েছে!");
+            }
+            
+            btn.innerText = "সম্পন্ন হয়েছে!";
+            setTimeout(() => { btn.innerText = "Convert to PDF"; document.getElementById('imgFileList').innerHTML = ""; document.getElementById('imgOptions').style.display = 'none'; selectedImages = []; document.getElementById('imageInput').value = ""; btn.disabled = false; }, 3000);
+        }
+
+        let selectedPdf = null;
+
+        function handlePdfFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            selectedPdf = file;
+            document.getElementById('pdfOptions').style.display = 'flex';
+            document.getElementById('pdfFileList').innerHTML = `<div class="file-item"><span>${file.name}</span><span class="status pending" id="pdf-status">প্রস্তুত</span></div>`;
+            document.getElementById('convertPdfBtn').disabled = false;
+        }
+
+        async function convertPdfToImage() {
+            if (!selectedPdf || typeof pdfjsLib === 'undefined') return;
+            const btn = document.getElementById('convertPdfBtn');
+            const statusEl = document.getElementById('pdf-status');
+            btn.disabled = true; btn.innerText = "প্রসেস হচ্ছে...";
+            statusEl.innerText = "প্রসেসিং..."; statusEl.className = "status processing";
+
+            const mode = document.querySelector('input[name="pdfMode"]:checked').value;
+            const arrayBuffer = await selectedPdf.arrayBuffer();
+            
+            try {
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                const originalName = selectedPdf.name.replace(/\.[^/.]+$/, "");
+
+                if (mode === 'pages') {
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        statusEl.innerText = `পেইজ ${i}/${pdf.numPages}...`;
+                        const page = await pdf.getPage(i);
+                        const viewport = page.getViewport({ scale: 2 }); 
+                        const canvas = document.createElement('canvas');
+                        canvas.height = viewport.height; canvas.width = viewport.width;
+                        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+                        downloadDataUrl(canvas.toDataURL('image/jpeg', 0.9), `${originalName}_page_${i}.jpg`);
+                        await new Promise(r => setTimeout(r, 600)); 
+                    }
+                } else {
+                    statusEl.innerText = "লম্বা ছবি তৈরি হচ্ছে...";
+                    let totalHeight = 0; let maxWidth = 0; const pagesData = [];
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        pagesData.push({ page, viewport });
+                        totalHeight += viewport.height;
+                        if (viewport.width > maxWidth) maxWidth = viewport.width;
+                    }
+                    const giantCanvas = document.createElement('canvas');
+                    giantCanvas.width = maxWidth; giantCanvas.height = totalHeight;
+                    const giantCtx = giantCanvas.getContext('2d');
+                    let currentY = 0;
+                    for (let i = 0; i < pagesData.length; i++) {
+                        const { page, viewport } = pagesData[i];
+                        const tempCanvas = document.createElement('canvas');
+                        tempCanvas.width = viewport.width; tempCanvas.height = viewport.height;
+                        await page.render({ canvasContext: tempCanvas.getContext('2d'), viewport: viewport }).promise;
+                        giantCtx.drawImage(tempCanvas, 0, currentY);
+                        currentY += viewport.height;
+                    }
+                    downloadDataUrl(giantCanvas.toDataURL('image/jpeg', 0.9), `${originalName}_long_image.jpg`);
+                }
+                statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done"; btn.innerText = "সম্পন্ন হয়েছে!";
+                showToast("সফলভাবে ডাউনলোড হয়েছে!", true);
+                
+                setTimeout(() => { btn.innerText = "Convert to Image"; document.getElementById('pdfFileList').innerHTML = ""; document.getElementById('pdfOptions').style.display = 'none'; document.getElementById('pdfInput').value = ""; selectedPdf = null; btn.disabled = false; }, 3000);
+            } catch (error) {
+                showToast("PDF প্রসেস করতে সমস্যা হয়েছে।"); btn.innerText = "Convert to Image"; btn.disabled = false;
+            }
+        }
+
+        let selectedWordFile = null;
+
+        function handleWordFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            selectedWordFile = file;
+            document.getElementById('wordFileList').innerHTML = `<div class="file-item"><span>${file.name}</span><span class="status pending" id="word-status">প্রস্তুত</span></div>`;
+            document.getElementById('convertWordBtn').disabled = false;
+        }
+
+        function getBase64WithoutPrefix(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+                    if ((encoded.length % 4) > 0) {
+                        encoded += '='.repeat(4 - (encoded.length % 4));
+                    }
+                    resolve(encoded);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // 2. Blob Download URL Revoke Fix for Android WebView
+        function createWordDoc(htmlContent, filename) {
+            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title><style>table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid black; padding: 8px; text-align: left;}</style></head><body>";
+            const footer = "</body></html>";
+            const sourceHTML = header + htmlContent + footer;
+            
+            const blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            downloadDataUrl(url, filename + '.doc');
+            
+            // WebView কে ফাইল ডাউনলোড করার জন্য পর্যাপ্ত সময় দেওয়া হলো
+            setTimeout(() => { URL.revokeObjectURL(url); }, 6000);
+        }
+
+        async function convertToWord() {
+            if (!selectedWordFile) return;
+
+            const btn = document.getElementById('convertWordBtn');
+            const statusEl = document.getElementById('word-status');
+            btn.disabled = true; 
+            
+            const originalName = selectedWordFile.name.replace(/\.[^/.]+$/, "");
+            // 3. WhatsApp Image MimeType Fix
+            let mimeType = selectedWordFile.type;
+            if (!mimeType || mimeType === "") {
+                mimeType = originalName.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
+            }
+
+            try {
+                statusEl.innerText = "AI এনালাইজ করছে..."; 
+                statusEl.className = "status processing";
+                btn.innerText = "ডেটা এক্সট্র্যাক্ট হচ্ছে...";
+
+                const base64Data = await getBase64WithoutPrefix(selectedWordFile);
+
+                const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
+
+                const requestBody = {
+                    contents: [{
+                        parts: [
+                            { text: promptText },
+                            { inline_data: { mime_type: mimeType, data: base64Data } }
+                        ]
+                    }]
+                };
+
+                const response = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$){GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                if (!data.candidates || data.candidates.length === 0) {
+                    throw new Error("AI কোনো ডেটা দিতে পারেনি।");
+                }
+
+                let htmlResult = data.candidates[0].content.parts[0].text;
+                htmlResult = htmlResult.replace(/```html/gi, '').replace(/```/g, '').trim();
+
+                createWordDoc(htmlResult, originalName);
+
+                statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
+                btn.innerText = "সফলভাবে সম্পন্ন হয়েছে!";
+                showToast("Word ফাইল তৈরি হয়েছে!", true);
+
+            } catch (error) {
+                console.error(error);
+                // এখন আর হ্যাং হবে না, বরং বাটনে এরর দেখাবে
+                showToast("এরর: " + error.message);
+                statusEl.innerText = "ব্যর্থ"; statusEl.className = "status pending";
+                btn.innerText = "আবার চেষ্টা করুন";
+            }
+
+            // যদি সফল হয়, তাহলে পেজ রিসেট হবে
+            if(statusEl.innerText === "সম্পন্ন") {
+                setTimeout(() => {
+                    btn.innerText = "Convert to Word"; btn.disabled = false;
+                    document.getElementById('wordFileList').innerHTML = "";
+                    document.getElementById('wordInput').value = "";
+                    selectedWordFile = null;
+                }, 4000);
+            } else {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
