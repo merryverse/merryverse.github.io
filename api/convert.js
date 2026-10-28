@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const { mimeType, base64Data } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY; 
+    const apiKey = process.env.GEMINI_API_KEY;
 
     const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
     const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    
+
     if (data.error) {
       return res.status(400).json({ error: data.error.message });
     }
@@ -45,4 +45,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}
+};
