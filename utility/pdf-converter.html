@@ -211,7 +211,7 @@
             const { jsPDF } = window.jspdf;
 
             if (mode === 'separate') {
-                // Separate PDFs
+                // Separate PDFs: প্রতিটি ছবির নিজ নিজ নামে সেভ হবে
                 for (let i = 0; i < selectedImages.length; i++) {
                     const statusEl = document.getElementById(`img-status-${i}`);
                     statusEl.innerText = "চলছে..."; statusEl.className = "status processing";
@@ -219,13 +219,16 @@
                     const { imgData, width, height, orientation } = await getImageData(selectedImages[i]);
                     const doc = new jsPDF({ orientation: orientation, unit: 'px', format: [width, height] });
                     doc.addImage(imgData, 'JPEG', 0, 0, width, height);
-                    doc.save(selectedImages[i].name.replace(/\.[^/.]+$/, "") + '.pdf');
+                    
+                    // ছবির আসল নাম থেকে এক্সটেনশন বাদ দিয়ে .pdf যুক্ত করা
+                    const fileName = selectedImages[i].name.replace(/\.[^/.]+$/, "");
+                    doc.save(fileName + '.pdf');
 
                     statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
                     await new Promise(r => setTimeout(r, 400)); 
                 }
             } else {
-                // Single PDF
+                // Single PDF: প্রথম ছবির নাম অনুযায়ী সেভ হবে
                 let doc = null;
                 for (let i = 0; i < selectedImages.length; i++) {
                     const statusEl = document.getElementById(`img-status-${i}`);
@@ -244,7 +247,10 @@
                     statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
                     await new Promise(r => setTimeout(r, 200)); 
                 }
-                doc.save('Merged_Images.pdf'); // ১টি পিডিএফ ফাইলের নাম
+                
+                // প্রথম ছবির নাম বের করে সেটি দিয়ে সেভ করা
+                const firstFileName = selectedImages[0].name.replace(/\.[^/.]+$/, "");
+                doc.save(firstFileName + '.pdf'); 
             }
 
             btn.innerText = "সম্পন্ন হয়েছে!";
@@ -293,7 +299,9 @@
             try {
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                 const numPages = pdf.numPages;
-                const originalName = selectedPdf.name.replace('.pdf', '');
+                
+                // পিডিএফ এর আসল নাম বের করা (এক্সটেনশন ছাড়া)
+                const originalName = selectedPdf.name.replace(/\.[^/.]+$/, "");
 
                 if (mode === 'pages') {
                     for (let i = 1; i <= numPages; i++) {
@@ -306,6 +314,8 @@
                         const ctx = canvas.getContext('2d');
                         
                         await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                        
+                        // পিডিএফ এর নাম অনুযায়ী ছবির নাম (ওভাররাইট ঠেকাতে page number যুক্ত করা)
                         downloadDataUrl(canvas.toDataURL('image/jpeg', 0.9), `${originalName}_page_${i}.jpg`);
                         await new Promise(r => setTimeout(r, 600)); 
                     }
@@ -337,6 +347,8 @@
                         giantCtx.drawImage(tempCanvas, 0, currentY);
                         currentY += viewport.height;
                     }
+                    
+                    // পিডিএফ এর নাম অনুযায়ী লম্বা ছবির নাম
                     downloadDataUrl(giantCanvas.toDataURL('image/jpeg', 0.9), `${originalName}_long_image.jpg`);
                 }
 
