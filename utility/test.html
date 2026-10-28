@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Image, PDF & Word Converter</title>
-    <link href="[https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap)" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
@@ -81,12 +81,12 @@
         </div>
     </div>
 
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js](https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js)"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
     <script>
         if (typeof pdfjsLib !== 'undefined') {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = '[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js)';
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         }
 
         function showToast(message, isSuccess = false) {
@@ -286,7 +286,7 @@
         }
 
         function createWordDoc(htmlContent, filename) {
-            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='[http://www.w3.org/TR/REC-html40](http://www.w3.org/TR/REC-html40)'><head><meta charset='utf-8'><title>Export HTML To Doc</title><style>table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid black; padding: 8px; text-align: left;}</style></head><body>";
+            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title><style>table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid black; padding: 8px; text-align: left;}</style></head><body>";
             const footer = "</body></html>";
             const sourceHTML = header + htmlContent + footer;
             const blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
@@ -313,7 +313,7 @@
                 btn.innerText = "ডেটা এক্সট্র্যাক্ট হচ্ছে...";
                 const base64Data = await getBase64WithoutPrefix(selectedWordFile);
 
-                const VERCEL_API_URL = "[https://merryversegithubio.vercel.app/api/convert](https://merryversegithubio.vercel.app/api/convert)";
+                const VERCEL_API_URL = "https://merryversegithubio.vercel.app/api/convert";
 
                 const response = await fetch(VERCEL_API_URL, {
                     method: 'POST',
