@@ -1,160 +1,96 @@
-
 module.exports = async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method Not Allowed"
-    });
-  }
-
-  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
-
-  if (!apiKey) {
-    return res.status(500).json({
-      error: "GEMINI_API_KEY পাওয়া যায়নি। Vercel Environment Variables পরীক্ষা করুন।"
-    });
-  }
-
-  const { mimeType, base64Data } = req.body || {};
-
-  if (
-    typeof mimeType !== "string" ||
-    typeof base64Data !== "string" ||
-    !base64Data
-  ) {
-    return res.status(400).json({
-      error: "mimeType অথবা base64Data পাওয়া যায়নি।"
-    });
-  }
-
-  const promptText = `
-Extract all text, data, and tables from this document accurately.
-Preserve the original reading order, headings, paragraphs and tables.
-Convert tables into valid HTML table tags with borders.
-Use appropriate HTML tags for headings and paragraphs.
-Return only raw HTML, without Markdown code fences.
-Do not invent missing or unreadable content.
-`;
-
-  async function generate(model) {
-    const apiUrl =
-      `https://generativelanguage.googleapis.com/v1beta/models/` +
-      `${model}:generateContent`;
-
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: promptText },
-            {
-              inline_data: {
-                mime_type: mimeType,
-                data: base64Data
-              }
-            }
-          ]
-        }]
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      const error = new Error(
-        data?.error?.message || "Gemini API request failed"
-      );
-
-      error.status = response.status;
-      error.apiStatus = data?.error?.status;
-      error.model = model;
-      throw error;
-    }
-
-    const candidate = data?.candidates?.[0];
-    const html = candidate?.content?.parts
-      ?.map(part => part.text || "")
-      .join("")
-      .trim();
-
-    if (!html) {
-      const reason = candidate?.finishReason ||
-        data?.promptFeedback?.blockReason ||
-        "No text returned";
-
-      const error = new Error(
-        `Gemini থেকে HTML পাওয়া যায়নি: ${reason}`
-      );
-      error.status = 502;
-      throw error;
-    }
-
-    return html
-      .replace(/```html/gi, "")
-      .replace(/```/g, "")
-      .trim();
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
-    let html;
-    let usedModel = "gemini-4-argon";
+    const { mimeType, base64Data } = req.body;
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 
-    try {
-      html = await generate(usedModel);
-    } catch (err) {
-      // Only switch models for temporary service overload.
-      if (err.status !== 503) {
-        throw err;
+    if (!apiKey) {
+      return res.status(400).json({ error: "API Key পাওয়া যাচ্ছে না।" });
+    }
+
+    const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    const listData = await listRes.json();
+
+    let availableModels = [];
+    if (listData.models) {
+      availableModels = listData.models
+        .filter(m => 
+          m.supportedGenerationMethods && 
+          m.supportedGenerationMethods.includes("generateContent") &&
+          !m.name.includes("3.8") &&
+          !m.name.includes("argon") &&
+          !m.name.includes("pro") &&
+          !m.name.includes("ultra")
+        )
+        .map(m => m.name.replace("models/", ""));
+    }
+
+    const priorityList = [
+      "gemini-3.5-flash-lite",
+      "gemini-3.1-flash-lite",
+      "gemini-3.0-flash-lite",
+      "gemini-2.5-flash-lite",
+      "gemini-2.0-flash-lite",
+      "gemini-3.5-flash",
+      "gemini-3.0-flash",
+      "gemini-2.0-flash"
+    ];
+
+    const modelsToTry = [...new Set([...priorityList, ...availableModels])].filter(m => !m.includes("3.8"));
+
+    const promptText = "Extract all text, data, and tables from this document accurately. Convert any tables into valid HTML <table> tags with borders. Format regular text with <p> tags. Maintain the original structure. Return strictly the raw HTML code without any markdown blocks like ```html.";
+
+    let lastError = "সার্ভার ব্যস্ত, কিছুক্ষণ পর চেষ্টা করুন।";
+
+    for (const model of modelsToTry) {
+      const apiUrl = `[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){model}:generateContent?key=${apiKey}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: promptText },
+              { inline_data: { mime_type: mimeType, data: base64Data } }
+            ]
+          }]
+        })
+      });
+
+      const data = await response.json();
+
+      if (!data.error && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+        let htmlResult = data.candidates[0].content.parts[0].text;
+        htmlResult = htmlResult.replace(/```html/gi, '').replace(/```/g, '').trim();
+        return res.status(200).json({ html: htmlResult });
       }
 
-      usedModel = "gemini-3.8-flash";
-      html = await generate(usedModel);
+      if (data.error) {
+        const msg = data.error.message.toLowerCase();
+        if (msg.includes("api key not valid") || msg.includes("key expired")) {
+          return res.status(400).json({ error: data.error.message });
+        }
+        if (!msg.includes("not found") && !msg.includes("no longer available")) {
+          lastError = `[${model}] ${data.error.message}`;
+        }
+      }
     }
 
-    return res.status(200).json({
-      html,
-      model: usedModel
-    });
+    return res.status(400).json({ error: lastError });
 
-  } catch (err) {
-    console.error("Gemini conversion error:", {
-      status: err.status,
-      apiStatus: err.apiStatus,
-      model: err.model,
-      message: err.message
-    });
-
-    const status = [400, 401, 403, 404, 429, 503]
-      .includes(err.status)
-      ? err.status
-      : 502;
-
-    let message = err.message;
-
-    if (err.status === 429) {
-      message =
-        "Gemini API quota/rate limit exceeded. " +
-        "AI Studio-তে এই মডেলের usage ও rate limits পরীক্ষা করুন।";
-    } else if (err.status === 503) {
-      message =
-        "Gemini সার্ভার বর্তমানে ব্যস্ত। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
-    }
-
-    return res.status(status).json({
-      error: message,
-      apiStatus: err.apiStatus || null,
-      model: err.model || null
-    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };
