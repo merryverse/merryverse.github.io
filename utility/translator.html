@@ -2,39 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI Translator & Smart Dictionary</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .container { background: #ffffff; width: 100%; max-width: 600px; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; }
-        h2 { color: #333; margin-bottom: 20px; font-weight: 600; }
-        .tabs { display: flex; margin-bottom: 25px; border-radius: 8px; overflow: hidden; background: #f1f3f5; }
-        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: 600; font-size: 15px; color: #555; cursor: pointer; transition: 0.3s; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; }
+        
+        .container { background: #ffffff; width: 100%; max-width: 600px; padding: 25px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; overflow: hidden; }
+        h2 { color: #333; margin-bottom: 20px; font-weight: 600; font-size: 22px; }
+        
+        .tabs { display: flex; margin-bottom: 20px; border-radius: 8px; overflow: hidden; background: #f1f3f5; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: 600; font-size: 14px; color: #555; cursor: pointer; transition: 0.3s; }
         .tab-btn.active { background: #007bff; color: #fff; }
         .section { display: none; text-align: left; }
         .section.active { display: block; }
         
-        .input-box { width: 100%; padding: 15px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 15px; font-family: 'Poppins', sans-serif; outline: none; transition: 0.3s; margin-bottom: 15px; resize: vertical; }
+        .input-box { width: 100%; padding: 15px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: 0.3s; margin-bottom: 15px; resize: vertical; }
         .input-box:focus { border-color: #007bff; }
-        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
-        select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; background: #fff; }
         
-        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
+        /* Responsive Flex Row */
+        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; width: 100%; }
+        select { flex: 1; min-width: 0; padding: 10px 5px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; background: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        
+        /* Swap Button */
+        .swap-btn { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; border: 1px solid #cce5ff; background: #e6f0ff; color: #007bff; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; }
+        .swap-btn:hover { background: #cce5ff; transform: scale(1.05); }
+        
+        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
         .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
         .btn:hover:not(:disabled) { opacity: 0.9; transform: scale(0.98); }
         
-        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 15px; font-size: 15px; color: #333; display: none; }
-        .output-title { font-weight: 600; font-size: 14px; color: #007bff; margin-bottom: 10px; display: block; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; }
+        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 15px; font-size: 14px; color: #333; display: none; }
+        .output-title { font-weight: 600; font-size: 13px; color: #007bff; margin-bottom: 10px; display: block; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; }
         .result-text { white-space: pre-wrap; line-height: 1.6; word-wrap: break-word; }
         
-        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .error-box { color: #d63031; font-size: 13px; margin-top: 10px; font-weight: 600; display: none; text-align: center; }
         
-        .dict-word { color: #007bff; font-size: 20px; font-weight: bold; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
+        .dict-word { color: #007bff; font-size: 18px; font-weight: bold; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
         .dict-item { margin-bottom: 8px; }
         .dict-label { font-weight: 600; color: #444; }
+
+        @media (max-width: 480px) {
+            .container { padding: 15px; }
+            h2 { font-size: 18px; }
+            .tab-btn { font-size: 13px; padding: 10px 2px; }
+            .btn { font-size: 14px; padding: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -60,18 +75,13 @@
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
                     <option value="German">German</option>
-                    <option value="Italian">Italian</option>
-                    <option value="Portuguese">Portuguese</option>
-                    <option value="Russian">Russian</option>
-                    <option value="Chinese">Chinese (Simplified)</option>
+                    <option value="Chinese">Chinese</option>
                     <option value="Japanese">Japanese</option>
-                    <option value="Korean">Korean</option>
-                    <option value="Turkish">Turkish</option>
-                    <option value="Indonesian">Indonesian</option>
-                    <option value="Thai">Thai</option>
-                    <option value="Vietnamese">Vietnamese</option>
                 </select>
-                <span style="font-weight: bold; color: #888;">&rarr;</span>
+                
+                <!-- Swap Button -->
+                <button class="swap-btn" onclick="swapLang('sourceLang', 'targetLang')" title="Swap Languages">&#x21C4;</button>
+                
                 <select id="targetLang">
                     <option value="English">English</option>
                     <option value="Bengali" selected>Bengali (বাংলা)</option>
@@ -82,16 +92,8 @@
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
                     <option value="German">German</option>
-                    <option value="Italian">Italian</option>
-                    <option value="Portuguese">Portuguese</option>
-                    <option value="Russian">Russian</option>
-                    <option value="Chinese">Chinese (Simplified)</option>
+                    <option value="Chinese">Chinese</option>
                     <option value="Japanese">Japanese</option>
-                    <option value="Korean">Korean</option>
-                    <option value="Turkish">Turkish</option>
-                    <option value="Indonesian">Indonesian</option>
-                    <option value="Thai">Thai</option>
-                    <option value="Vietnamese">Vietnamese</option>
                 </select>
             </div>
             <textarea id="sourceText" class="input-box" rows="4" placeholder="Enter text here..."></textarea>
@@ -107,23 +109,36 @@
         <!-- Dictionary Section -->
         <div id="dictionaryTab" class="section">
             <div class="flex-row">
-                <label style="color: #555; font-weight: 600; font-size: 14px; flex: 1;">Meaning & Details In:</label>
-                <select id="dictTargetLang" style="flex: 1;">
-                    <option value="Bengali" selected>Bengali (বাংলা)</option>
+                <select id="dictSourceLang">
+                    <option value="Auto Detect">Auto Detect</option>
                     <option value="English">English</option>
+                    <option value="Bengali">Bengali (বাংলা)</option>
                     <option value="Arabic">Arabic (العربية)</option>
                     <option value="Hindi">Hindi (हिन्दी)</option>
                     <option value="Urdu">Urdu (اردو)</option>
                     <option value="Persian">Persian (فارسی)</option>
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
-                    <option value="Chinese">Chinese</option>
-                    <option value="Japanese">Japanese</option>
+                </select>
+
+                <!-- Swap Button -->
+                <button class="swap-btn" onclick="swapLang('dictSourceLang', 'dictTargetLang')" title="Swap Languages">&#x21C4;</button>
+
+                <select id="dictTargetLang">
+                    <option value="English">English</option>
+                    <option value="Bengali" selected>Bengali (বাংলা)</option>
+                    <option value="Arabic">Arabic (العربية)</option>
+                    <option value="Hindi">Hindi (हिन्दी)</option>
+                    <option value="Urdu">Urdu (اردو)</option>
+                    <option value="Persian">Persian (فارسی)</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
                 </select>
             </div>
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            
+            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
                 <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0;" placeholder="Search Word / Phrase...">
-                <button class="btn" id="dictBtn" onclick="processDictionary()" style="width: auto; margin-bottom: 0; padding: 0 25px;">Search</button>
+                <button class="btn" id="dictBtn" onclick="processDictionary()" style="width: auto; margin-bottom: 0; padding: 0 20px;">Search</button>
             </div>
             <div id="dictErrorBox" class="error-box"></div>
             
@@ -156,9 +171,26 @@
             btnElement.classList.add('active');
         }
 
+        // Swap Language Logic
+        function swapLang(srcId, tgtId) {
+            const src = document.getElementById(srcId);
+            const tgt = document.getElementById(tgtId);
+            
+            let tempSrc = src.value;
+            let tempTgt = tgt.value;
+
+            // Target cannot be 'Auto Detect'. Prevent invalid swaps.
+            if (tempSrc === "Auto Detect") {
+                tempSrc = "English";
+            }
+
+            src.value = tempTgt;
+            tgt.value = tempSrc;
+        }
+
         async function fetchAI(data, btnElement, defaultBtnText, outputContainer, resultDiv, errorBox) {
             btnElement.disabled = true;
-            btnElement.innerText = "Processing...";
+            btnElement.innerText = "Wait...";
             errorBox.style.display = 'none';
             outputContainer.style.display = 'block';
             resultDiv.innerHTML = '<span style="color: #888;">AI is analyzing, please wait...</span>';
@@ -176,9 +208,8 @@
                     throw new Error(resData.error);
                 }
                 
-                // Removing any accidental extra spaces/newlines around the result to fix gap issue
                 resultDiv.innerHTML = resData.result.trim();
-                showToast("Action completed successfully!", true);
+                showToast("Action completed!", true);
                 
             } catch (error) {
                 console.error(error);
@@ -211,7 +242,8 @@
 
         function processDictionary() {
             const word = document.getElementById('wordInput').value.trim();
-            const dictLang = document.getElementById('dictTargetLang').value;
+            const srcLang = document.getElementById('dictSourceLang').value;
+            const tgtLang = document.getElementById('dictTargetLang').value;
             
             if (!word) {
                 showToast("Please enter a word!");
@@ -222,7 +254,7 @@
             const resDiv = document.getElementById('dictResult');
             const errBox = document.getElementById('dictErrorBox');
             
-            fetchAI({ mode: "dictionary", text: word, targetLang: dictLang }, btn, "Search", outputCont, resDiv, errBox);
+            fetchAI({ mode: "dictionary", text: word, sourceLang: srcLang, targetLang: tgtLang }, btn, "Search", outputCont, resDiv, errBox);
         }
     </script>
 </body>
