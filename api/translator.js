@@ -25,9 +25,10 @@ module.exports = async (req, res) => {
     let promptText = "";
     if (mode === "translate") {
       let srcText = sourceLang === "Auto Detect" ? "the auto-detected language" : sourceLang;
-      promptText = `Translate the following text from ${srcText} to ${targetLang}. Maintain natural flow, proper grammar, and context. Return strictly the translated text without markdown wrappers or quotes:\n\n${text}`;
+      promptText = `Translate the following text from ${srcText} to ${targetLang}. Maintain natural flow, proper grammar, and context. Return strictly the translated text ONLY, without markdown wrappers, quotes, or introductory newlines:\n\n${text}`;
     } else if (mode === "dictionary") {
-      promptText = `Act as an expert dictionary. Provide detailed information for the word/phrase "${text}" in the following HTML format strictly without any markdown code blocks (like \`\`\`html):\n\n<div class='dict-word'>${text}</div>\n<div class='dict-item'><span class='dict-label'>Pronunciation:</span> [IPA or Phonetic]</div>\n<div class='dict-item'><span class='dict-label'>Part of Speech:</span> [Noun/Verb/Adjective etc.]</div>\n<div class='dict-item'><span class='dict-label'>Meaning:</span> [Primary Meaning]</div>\n<div class='dict-item'><span class='dict-label'>Synonyms:</span> [2-3 words]</div>\n<div class='dict-item'><span class='dict-label'>Example:</span> [An example sentence]</div>`;
+      let outLang = targetLang || "Bengali";
+      promptText = `Act as an expert dictionary. Provide detailed information for the word/phrase "${text}" in the following HTML format strictly without any markdown code blocks, backticks, or extra spaces at the beginning:\n\n<div class='dict-word'>${text}</div>\n<div class='dict-item'><span class='dict-label'>Pronunciation:</span> [IPA or Phonetic]</div>\n<div class='dict-item'><span class='dict-label'>Part of Speech:</span> [Noun/Verb/Adjective etc.]</div>\n<div class='dict-item'><span class='dict-label'>Meaning (in ${outLang}):</span> [Primary Meaning in ${outLang}]</div>\n<div class='dict-item'><span class='dict-label'>Synonyms:</span> [2-3 words]</div>\n<div class='dict-item'><span class='dict-label'>Example:</span> [An English sentence] <br><span style='color:#666; font-size:13px;'>[Translation of the sentence in ${outLang}]</span></div>`;
     } else {
       return res.status(400).json({ error: "Invalid mode." });
     }
@@ -61,7 +62,10 @@ module.exports = async (req, res) => {
 
       if (!data.error && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
         let aiResult = data.candidates[0].content.parts[0].text;
+        // Strip out markdown, code blocks, and aggressive white spaces
         aiResult = aiResult.replace(/```html/gi, '').replace(/```/g, '').trim();
+        // Remove leading empty newlines caused by AI generation habits
+        aiResult = aiResult.replace(/^[\r\n]+/, '');
         return res.status(200).json({ result: aiResult });
       }
 
