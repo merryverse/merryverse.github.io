@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translator & Smart Dictionary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Hind Siliguri', 'Poppins', sans-serif; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: #ffffff; width: 100%; max-width: 600px; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; font-family: 'Poppins', sans-serif; }
+        .tabs { display: flex; margin-bottom: 25px; border-radius: 8px; overflow: hidden; background: #f1f3f5; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-weight: 600; font-size: 15px; color: #555; cursor: pointer; transition: 0.3s; }
+        .tab-btn.active { background: #007bff; color: #fff; }
+        .section { display: none; text-align: left; }
+        .section.active { display: block; }
+        
+        .input-box { width: 100%; padding: 15px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 15px; font-family: 'Hind Siliguri', sans-serif; outline: none; transition: 0.3s; margin-bottom: 15px; resize: vertical; }
+        .input-box:focus { border-color: #007bff; }
+        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Hind Siliguri', sans-serif; font-weight: 600; }
+        
+        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
+        .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        .btn:hover:not(:disabled) { opacity: 0.9; transform: scale(0.98); }
+        
+        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 20px; min-height: 120px; font-size: 15px; color: #333; white-space: pre-wrap; line-height: 1.6; display: none; }
+        .output-title { font-weight: 600; font-size: 14px; color: #666; margin-bottom: 10px; display: block; }
+        
+        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .error-box { color: #d63031; font-size: 13px; margin-top: 10px; font-weight: 600; display: none; text-align: center; }
+        
+        /* Dictionary output styles */
+        .dict-word { color: #007bff; font-size: 20px; font-weight: bold; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
+        .dict-item { margin-bottom: 8px; }
+        .dict-label { font-weight: 600; color: #444; }
+    </style>
+</head>
+<body>
+    <div id="custom-toast"></div>
+    <div class="container">
+        <h2>AI Translator & Dictionary</h2>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('translatorTab', this)">এআই অনুবাদক</button>
+            <button class="tab-btn" onclick="switchTab('dictionaryTab', this)">স্মার্ট ডিকশনারি</button>
+        </div>
+
+        <!-- Translator Section -->
+        <div id="translatorTab" class="section active">
+            <div class="flex-row">
+                <label style="color: #555; font-weight: 600; font-size: 14px;">মূল লেখা (Source Text)</label>
+                <select id="targetLang">
+                    <option value="Bengali">বাংলায় অনুবাদ</option>
+                    <option value="English">English</option>
+                    <option value="Arabic">العربية</option>
+                    <option value="Hindi">हिन्दी</option>
+                </select>
+            </div>
+            <textarea id="sourceText" class="input-box" rows="4" placeholder="এখানে ইংরেজি বা যেকোনো ভাষায় লিখুন..."></textarea>
+            <button class="btn" id="translateBtn" onclick="processTranslate()">অনুবাদ করুন</button>
+            <div id="transErrorBox" class="error-box"></div>
+            
+            <div id="transOutputContainer" class="output-box">
+                <span class="output-title">অনূদিত ফলাফল:</span>
+                <div id="transResult"></div>
+            </div>
+        </div>
+
+        <!-- Dictionary Section -->
+        <div id="dictionaryTab" class="section">
+            <label style="color: #555; font-weight: 600; font-size: 14px; display: block; margin-bottom: 10px;">শব্দ সার্চ করুন</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0;" placeholder="যেমন: Resilience, Elaborate...">
+                <button class="btn" id="dictBtn" onclick="processDictionary()" style="width: auto; margin-bottom: 0; padding: 0 25px;">খুঁজুন</button>
+            </div>
+            <div id="dictErrorBox" class="error-box"></div>
+            
+            <div id="dictOutputContainer" class="output-box">
+                <span class="output-title">শব্দের বিস্তারিত বিবরণ:</span>
+                <div id="dictResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const VERCEL_API_URL = "https://merryversegithubio.vercel.app/api/translator";
+
+        function showToast(message, isSuccess = false) {
+            const toast = document.getElementById('custom-toast');
+            toast.innerText = message;
+            toast.style.background = isSuccess ? "#2ed573" : "#ff4757";
+            toast.style.display = "block";
+            setTimeout(() => { toast.style.opacity = "1"; }, 10);
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => { toast.style.display = "none"; }, 300);
+            }, 4000);
+        }
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        async function fetchAI(data, btnElement, defaultBtnText, outputContainer, resultDiv, errorBox) {
+            btnElement.disabled = true;
+            btnElement.innerText = "প্রসেস হচ্ছে...";
+            errorBox.style.display = 'none';
+            outputContainer.style.display = 'block';
+            resultDiv.innerHTML = '<span style="color: #888;">AI বিশ্লেষণ করছে, অপেক্ষা করুন...</span>';
+
+            try {
+                const response = await fetch(VERCEL_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const resData = await response.json();
+                
+                if (resData.error) {
+                    throw new Error(resData.error);
+                }
+                
+                resultDiv.innerHTML = resData.result;
+                showToast("সফলভাবে সম্পন্ন হয়েছে!", true);
+                
+            } catch (error) {
+                console.error(error);
+                errorBox.innerText = "ব্যর্থতার কারণ: " + (error.message || "সার্ভারে কানেক্ট করা যাচ্ছে না");
+                errorBox.style.display = 'block';
+                resultDiv.innerHTML = "";
+                outputContainer.style.display = 'none';
+            } finally {
+                btnElement.innerText = defaultBtnText;
+                btnElement.disabled = false;
+            }
+        }
+
+        function processTranslate() {
+            const text = document.getElementById('sourceText').value.trim();
+            const lang = document.getElementById('targetLang').value;
+            if (!text) {
+                showToast("দয়া করে কিছু লিখুন!");
+                return;
+            }
+            const btn = document.getElementById('translateBtn');
+            const outputCont = document.getElementById('transOutputContainer');
+            const resDiv = document.getElementById('transResult');
+            const errBox = document.getElementById('transErrorBox');
+            
+            fetchAI({ mode: "translate", text: text, targetLang: lang }, btn, "অনুবাদ করুন", outputCont, resDiv, errBox);
+        }
+
+        function processDictionary() {
+            const word = document.getElementById('wordInput').value.trim();
+            if (!word) {
+                showToast("দয়া করে একটি শব্দ লিখুন!");
+                return;
+            }
+            const btn = document.getElementById('dictBtn');
+            const outputCont = document.getElementById('dictOutputContainer');
+            const resDiv = document.getElementById('dictResult');
+            const errBox = document.getElementById('dictErrorBox');
+            
+            fetchAI({ mode: "dictionary", text: word }, btn, "খুঁজুন", outputCont, resDiv, errBox);
+        }
+    </script>
+</body>
+</html>
