@@ -19,7 +19,9 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "API Key পাওয়া যাচ্ছে না।" });
     }
 
-    const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    const baseHost = "https://" + "generativelanguage.googleapis.com/v1beta/models";
+
+    const listRes = await fetch(baseHost + "?key=" + apiKey);
     const listData = await listRes.json();
 
     let availableModels = [];
@@ -54,7 +56,7 @@ module.exports = async (req, res) => {
     let lastError = "সার্ভার ব্যস্ত, কিছুক্ষণ পর চেষ্টা করুন।";
 
     for (const model of modelsToTry) {
-      const apiUrl = `[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){model}:generateContent?key=${apiKey}`;
+      const apiUrl = baseHost + "/" + model + ":generateContent?key=" + apiKey;
 
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -83,7 +85,7 @@ module.exports = async (req, res) => {
           return res.status(400).json({ error: data.error.message });
         }
         if (!msg.includes("not found") && !msg.includes("no longer available")) {
-          lastError = `[${model}] ${data.error.message}`;
+          lastError = "[" + model + "] " + data.error.message;
         }
       }
     }
