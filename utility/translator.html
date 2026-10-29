@@ -18,37 +18,35 @@
         .section { display: none; text-align: left; }
         .section.active { display: block; }
         
-        .input-box { width: 100%; padding: 15px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: 0.3s; margin-bottom: 15px; resize: vertical; }
-        .input-box:focus { border-color: #007bff; }
+        .box-container { position: relative; width: 100%; margin-bottom: 10px; }
+        .input-box { width: 100%; padding: 15px; padding-right: 40px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: 0.3s; resize: vertical; min-height: 100px; background: #fff; color: #333; }
+        .input-box:focus { border-color: #007bff; background: #f8fbff; }
         
-        /* Responsive Flex Row */
         .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; width: 100%; }
         select { flex: 1; min-width: 0; padding: 10px 5px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; background: #fff; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
         
-        /* Swap Button */
         .swap-btn { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; border: 1px solid #cce5ff; background: #e6f0ff; color: #007bff; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; }
         .swap-btn:hover { background: #cce5ff; transform: scale(1.05); }
         
-        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
+        .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 12px 15px; width: 100%; font-size: 14px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
+        .btn-alt { background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); }
         .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
         .btn:hover:not(:disabled) { opacity: 0.9; transform: scale(0.98); }
         
-        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 15px; font-size: 14px; color: #333; display: none; }
-        .output-title { font-weight: 600; font-size: 13px; color: #007bff; margin-bottom: 10px; display: block; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; }
-        .result-text { white-space: pre-wrap; line-height: 1.6; word-wrap: break-word; }
-        
-        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
-        .error-box { color: #d63031; font-size: 13px; margin-top: 10px; font-weight: 600; display: none; text-align: center; }
-        
-        .dict-word { color: #007bff; font-size: 18px; font-weight: bold; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
-        .dict-item { margin-bottom: 8px; }
-        .dict-label { font-weight: 600; color: #444; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: #e6f0ff; border: 1px solid #cce5ff; color: #007bff; border-radius: 6px; padding: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
+        .copy-btn:hover { background: #cce5ff; transform: scale(1.05); }
 
+        .output-box { position: relative; background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 15px; font-size: 14px; color: #333; display: none; }
+        .output-title { font-weight: 600; font-size: 13px; color: #007bff; margin-bottom: 10px; display: block; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; padding-right: 40px; }
+        .result-text { white-space: pre-wrap; line-height: 1.6; word-wrap: break-word; }
+
+        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .error-box { color: #d63031; font-size: 13px; margin-top: -5px; margin-bottom: 15px; font-weight: 600; display: none; text-align: center; }
+        
         @media (max-width: 480px) {
             .container { padding: 15px; }
             h2 { font-size: 18px; }
             .tab-btn { font-size: 13px; padding: 10px 2px; }
-            .btn { font-size: 14px; padding: 12px; }
         }
     </style>
 </head>
@@ -61,10 +59,10 @@
             <button class="tab-btn" onclick="switchTab('dictionaryTab', this)">Smart Dictionary</button>
         </div>
 
-        <!-- Translator Section -->
+        <!-- Translator Section (Bidirectional) -->
         <div id="translatorTab" class="section active">
             <div class="flex-row">
-                <select id="sourceLang">
+                <select id="lang1" onchange="updateButtonTexts()">
                     <option value="Auto Detect">Auto Detect</option>
                     <option value="English">English</option>
                     <option value="Bengali">Bengali (বাংলা)</option>
@@ -79,10 +77,9 @@
                     <option value="Japanese">Japanese</option>
                 </select>
                 
-                <!-- Swap Button -->
-                <button class="swap-btn" onclick="swapLang('sourceLang', 'targetLang')" title="Swap Languages">&#x21C4;</button>
+                <button class="swap-btn" onclick="swapTranslator()" title="Swap Languages & Text">&#x21C4;</button>
                 
-                <select id="targetLang">
+                <select id="lang2" onchange="updateButtonTexts()">
                     <option value="English">English</option>
                     <option value="Bengali" selected>Bengali (বাংলা)</option>
                     <option value="Arabic">Arabic (العربية)</option>
@@ -96,14 +93,26 @@
                     <option value="Japanese">Japanese</option>
                 </select>
             </div>
-            <textarea id="sourceText" class="input-box" rows="4" placeholder="Enter text here..."></textarea>
-            <button class="btn" id="translateBtn" onclick="processTranslate()">Translate</button>
-            <div id="transErrorBox" class="error-box"></div>
             
-            <div id="transOutputContainer" class="output-box">
-                <span class="output-title">Translation Result:</span>
-                <div id="transResult" class="result-text"></div>
+            <!-- Box 1 -->
+            <div class="box-container">
+                <textarea id="text1" class="input-box" rows="3" placeholder="Type text here..."></textarea>
+                <button class="copy-btn" onclick="copyContent('text1')" title="Copy Text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
             </div>
+            <button class="btn" id="btnForward" onclick="translateForward()">Translate to Bengali</button>
+            
+            <!-- Box 2 -->
+            <div class="box-container">
+                <textarea id="text2" class="input-box" rows="3" placeholder="Translation will appear here... (You can also type here)"></textarea>
+                <button class="copy-btn" onclick="copyContent('text2')" title="Copy Text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+            </div>
+            <button class="btn btn-alt" id="btnReverse" onclick="translateReverse()">Translate to Auto Detect</button>
+            
+            <div id="transErrorBox" class="error-box"></div>
         </div>
 
         <!-- Dictionary Section -->
@@ -121,8 +130,7 @@
                     <option value="French">French</option>
                 </select>
 
-                <!-- Swap Button -->
-                <button class="swap-btn" onclick="swapLang('dictSourceLang', 'dictTargetLang')" title="Swap Languages">&#x21C4;</button>
+                <button class="swap-btn" onclick="swapDictionaryLangs()" title="Swap Languages">&#x21C4;</button>
 
                 <select id="dictTargetLang">
                     <option value="English">English</option>
@@ -137,12 +145,15 @@
             </div>
             
             <div style="display: flex; gap: 8px; margin-bottom: 15px;">
-                <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0;" placeholder="Search Word / Phrase...">
+                <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0; min-height: unset; padding-right: 15px;" placeholder="Search Word / Phrase...">
                 <button class="btn" id="dictBtn" onclick="processDictionary()" style="width: auto; margin-bottom: 0; padding: 0 20px;">Search</button>
             </div>
             <div id="dictErrorBox" class="error-box"></div>
             
             <div id="dictOutputContainer" class="output-box">
+                <button class="copy-btn" onclick="copyContent('dictResult')" title="Copy Text" style="top: 12px; right: 12px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
                 <span class="output-title">Word Details:</span>
                 <div id="dictResult" class="result-text"></div>
             </div>
@@ -151,6 +162,10 @@
 
     <script>
         const VERCEL_API_URL = "https://merryversegithubio.vercel.app/api/translator";
+
+        window.onload = function() {
+            updateButtonTexts();
+        };
 
         function showToast(message, isSuccess = false) {
             const toast = document.getElementById('custom-toast');
@@ -171,29 +186,63 @@
             btnElement.classList.add('active');
         }
 
-        // Swap Language Logic
-        function swapLang(srcId, tgtId) {
-            const src = document.getElementById(srcId);
-            const tgt = document.getElementById(tgtId);
+        function updateButtonTexts() {
+            const l1 = document.getElementById('lang1');
+            const l2 = document.getElementById('lang2');
             
-            let tempSrc = src.value;
-            let tempTgt = tgt.value;
-
-            // Target cannot be 'Auto Detect'. Prevent invalid swaps.
-            if (tempSrc === "Auto Detect") {
-                tempSrc = "English";
-            }
-
-            src.value = tempTgt;
-            tgt.value = tempSrc;
+            let name1 = l1.options[l1.selectedIndex].text.split(' (')[0];
+            let name2 = l2.options[l2.selectedIndex].text.split(' (')[0];
+            
+            document.getElementById('btnForward').innerText = `Translate to ${name2}`;
+            document.getElementById('btnReverse').innerText = `Translate to ${name1}`;
         }
 
-        async function fetchAI(data, btnElement, defaultBtnText, outputContainer, resultDiv, errorBox) {
+        function swapTranslator() {
+            const l1 = document.getElementById('lang1');
+            const l2 = document.getElementById('lang2');
+            const t1 = document.getElementById('text1');
+            const t2 = document.getElementById('text2');
+            
+            let tempLang = l1.value;
+            if (tempLang === "Auto Detect") tempLang = "English";
+            l1.value = l2.value;
+            l2.value = tempLang;
+
+            let tempText = t1.value;
+            t1.value = t2.value;
+            t2.value = tempText;
+
+            updateButtonTexts();
+        }
+
+        function swapDictionaryLangs() {
+            const src = document.getElementById('dictSourceLang');
+            const tgt = document.getElementById('dictTargetLang');
+            let temp = src.value;
+            if (temp === "Auto Detect") temp = "English";
+            src.value = tgt.value;
+            tgt.value = temp;
+        }
+
+        function copyContent(elementId) {
+            const el = document.getElementById(elementId);
+            const textToCopy = el.tagName === "TEXTAREA" ? el.value : el.innerText;
+            
+            if (!textToCopy) return;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Copied to clipboard!", true);
+            }).catch(err => {
+                showToast("Failed to copy text!");
+            });
+        }
+
+        async function fetchAITextArea(data, btnElement, targetTextArea, errorBox) {
+            const defaultText = btnElement.innerText;
             btnElement.disabled = true;
-            btnElement.innerText = "Wait...";
+            btnElement.innerText = "Translating...";
             errorBox.style.display = 'none';
-            outputContainer.style.display = 'block';
-            resultDiv.innerHTML = '<span style="color: #888;">AI is analyzing, please wait...</span>';
+            targetTextArea.value = "AI is analyzing, please wait...";
 
             try {
                 const response = await fetch(VERCEL_API_URL, {
@@ -201,60 +250,90 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                
                 const resData = await response.json();
                 
-                if (resData.error) {
-                    throw new Error(resData.error);
-                }
+                if (resData.error) throw new Error(resData.error);
                 
-                resultDiv.innerHTML = resData.result.trim();
-                showToast("Action completed!", true);
-                
+                targetTextArea.value = resData.result.trim();
             } catch (error) {
                 console.error(error);
                 errorBox.innerText = "Error: " + (error.message || "Failed to connect to server.");
                 errorBox.style.display = 'block';
-                resultDiv.innerHTML = "";
-                outputContainer.style.display = 'none';
+                targetTextArea.value = "";
             } finally {
-                btnElement.innerText = defaultBtnText;
+                btnElement.innerText = defaultText;
                 btnElement.disabled = false;
             }
         }
 
-        function processTranslate() {
-            const text = document.getElementById('sourceText').value.trim();
-            const srcLang = document.getElementById('sourceLang').value;
-            const targetLang = document.getElementById('targetLang').value;
+        function translateForward() {
+            const text = document.getElementById('text1').value.trim();
+            const srcLang = document.getElementById('lang1').value;
+            const targetLang = document.getElementById('lang2').value;
             
-            if (!text) {
-                showToast("Please enter some text!");
-                return;
-            }
-            const btn = document.getElementById('translateBtn');
-            const outputCont = document.getElementById('transOutputContainer');
-            const resDiv = document.getElementById('transResult');
-            const errBox = document.getElementById('transErrorBox');
+            if (!text) return showToast("Please enter text in the top box!");
             
-            fetchAI({ mode: "translate", text: text, sourceLang: srcLang, targetLang: targetLang }, btn, "Translate", outputCont, resDiv, errBox);
+            fetchAITextArea(
+                { mode: "translate", text: text, sourceLang: srcLang, targetLang: targetLang }, 
+                document.getElementById('btnForward'), 
+                document.getElementById('text2'), 
+                document.getElementById('transErrorBox')
+            );
         }
 
-        function processDictionary() {
+        function translateReverse() {
+            const text = document.getElementById('text2').value.trim();
+            const srcLang = document.getElementById('lang2').value;
+            const targetLang = document.getElementById('lang1').value;
+            
+            if (!text) return showToast("Please enter text in the bottom box!");
+            
+            fetchAITextArea(
+                { mode: "translate", text: text, sourceLang: srcLang, targetLang: targetLang }, 
+                document.getElementById('btnReverse'), 
+                document.getElementById('text1'), 
+                document.getElementById('transErrorBox')
+            );
+        }
+
+        async function processDictionary() {
             const word = document.getElementById('wordInput').value.trim();
             const srcLang = document.getElementById('dictSourceLang').value;
             const tgtLang = document.getElementById('dictTargetLang').value;
             
-            if (!word) {
-                showToast("Please enter a word!");
-                return;
-            }
+            if (!word) return showToast("Please enter a word!");
+            
             const btn = document.getElementById('dictBtn');
             const outputCont = document.getElementById('dictOutputContainer');
             const resDiv = document.getElementById('dictResult');
             const errBox = document.getElementById('dictErrorBox');
             
-            fetchAI({ mode: "dictionary", text: word, sourceLang: srcLang, targetLang: tgtLang }, btn, "Search", outputCont, resDiv, errBox);
+            btn.disabled = true;
+            btn.innerText = "Wait...";
+            errBox.style.display = 'none';
+            outputCont.style.display = 'block';
+            resDiv.innerHTML = '<span style="color: #888;">AI is analyzing, please wait...</span>';
+
+            try {
+                const response = await fetch(VERCEL_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: "dictionary", text: word, sourceLang: srcLang, targetLang: tgtLang })
+                });
+                const resData = await response.json();
+                
+                if (resData.error) throw new Error(resData.error);
+                
+                resDiv.innerHTML = resData.result.trim();
+            } catch (error) {
+                errBox.innerText = "Error: " + (error.message || "Failed to connect to server.");
+                errBox.style.display = 'block';
+                resDiv.innerHTML = "";
+                outputCont.style.display = 'none';
+            } finally {
+                btn.innerText = "Search";
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
