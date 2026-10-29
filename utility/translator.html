@@ -19,14 +19,15 @@
         .input-box { width: 100%; padding: 15px; border: 2px solid #e1e8ed; border-radius: 10px; font-size: 15px; font-family: 'Poppins', sans-serif; outline: none; transition: 0.3s; margin-bottom: 15px; resize: vertical; }
         .input-box:focus { border-color: #007bff; }
         .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
-        select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; }
+        select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; background: #fff; }
         
         .btn { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; padding: 14px 20px; width: 100%; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
         .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
         .btn:hover:not(:disabled) { opacity: 0.9; transform: scale(0.98); }
         
-        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 20px; min-height: 120px; font-size: 15px; color: #333; white-space: pre-wrap; line-height: 1.6; display: none; }
-        .output-title { font-weight: 600; font-size: 14px; color: #666; margin-bottom: 10px; display: block; }
+        .output-box { background: #f8fbff; border: 1px solid #cce5ff; border-radius: 10px; padding: 15px; font-size: 15px; color: #333; display: none; }
+        .output-title { font-weight: 600; font-size: 14px; color: #007bff; margin-bottom: 10px; display: block; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; }
+        .result-text { white-space: pre-wrap; line-height: 1.6; word-wrap: break-word; }
         
         #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff4757; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .error-box { color: #d63031; font-size: 13px; margin-top: 10px; font-weight: 600; display: none; text-align: center; }
@@ -51,24 +52,46 @@
                 <select id="sourceLang">
                     <option value="Auto Detect">Auto Detect</option>
                     <option value="English">English</option>
-                    <option value="Bengali">Bengali</option>
-                    <option value="Arabic">Arabic</option>
-                    <option value="Persian">Persian</option>
-                    <option value="Hindi">Hindi</option>
+                    <option value="Bengali">Bengali (বাংলা)</option>
+                    <option value="Arabic">Arabic (العربية)</option>
+                    <option value="Hindi">Hindi (हिन्दी)</option>
+                    <option value="Urdu">Urdu (اردو)</option>
+                    <option value="Persian">Persian (فارسی)</option>
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
-                    <option value="Urdu">Urdu</option>
+                    <option value="German">German</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Portuguese">Portuguese</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Chinese">Chinese (Simplified)</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Korean">Korean</option>
+                    <option value="Turkish">Turkish</option>
+                    <option value="Indonesian">Indonesian</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Vietnamese">Vietnamese</option>
                 </select>
                 <span style="font-weight: bold; color: #888;">&rarr;</span>
                 <select id="targetLang">
-                    <option value="Bengali">Bengali</option>
                     <option value="English">English</option>
-                    <option value="Arabic">Arabic</option>
-                    <option value="Persian">Persian</option>
-                    <option value="Hindi">Hindi</option>
+                    <option value="Bengali" selected>Bengali (বাংলা)</option>
+                    <option value="Arabic">Arabic (العربية)</option>
+                    <option value="Hindi">Hindi (हिन्दी)</option>
+                    <option value="Urdu">Urdu (اردو)</option>
+                    <option value="Persian">Persian (فارسی)</option>
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
-                    <option value="Urdu">Urdu</option>
+                    <option value="German">German</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Portuguese">Portuguese</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Chinese">Chinese (Simplified)</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Korean">Korean</option>
+                    <option value="Turkish">Turkish</option>
+                    <option value="Indonesian">Indonesian</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Vietnamese">Vietnamese</option>
                 </select>
             </div>
             <textarea id="sourceText" class="input-box" rows="4" placeholder="Enter text here..."></textarea>
@@ -77,22 +100,36 @@
             
             <div id="transOutputContainer" class="output-box">
                 <span class="output-title">Translation Result:</span>
-                <div id="transResult"></div>
+                <div id="transResult" class="result-text"></div>
             </div>
         </div>
 
         <!-- Dictionary Section -->
         <div id="dictionaryTab" class="section">
-            <label style="color: #555; font-weight: 600; font-size: 14px; display: block; margin-bottom: 10px;">Search Word / Phrase</label>
+            <div class="flex-row">
+                <label style="color: #555; font-weight: 600; font-size: 14px; flex: 1;">Meaning & Details In:</label>
+                <select id="dictTargetLang" style="flex: 1;">
+                    <option value="Bengali" selected>Bengali (বাংলা)</option>
+                    <option value="English">English</option>
+                    <option value="Arabic">Arabic (العربية)</option>
+                    <option value="Hindi">Hindi (हिन्दी)</option>
+                    <option value="Urdu">Urdu (اردو)</option>
+                    <option value="Persian">Persian (فارسی)</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Japanese">Japanese</option>
+                </select>
+            </div>
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0;" placeholder="e.g. Resilience, Elaborate...">
+                <input type="text" id="wordInput" class="input-box" style="margin-bottom: 0;" placeholder="Search Word / Phrase...">
                 <button class="btn" id="dictBtn" onclick="processDictionary()" style="width: auto; margin-bottom: 0; padding: 0 25px;">Search</button>
             </div>
             <div id="dictErrorBox" class="error-box"></div>
             
             <div id="dictOutputContainer" class="output-box">
                 <span class="output-title">Word Details:</span>
-                <div id="dictResult"></div>
+                <div id="dictResult" class="result-text"></div>
             </div>
         </div>
     </div>
@@ -139,7 +176,8 @@
                     throw new Error(resData.error);
                 }
                 
-                resultDiv.innerHTML = resData.result;
+                // Removing any accidental extra spaces/newlines around the result to fix gap issue
+                resultDiv.innerHTML = resData.result.trim();
                 showToast("Action completed successfully!", true);
                 
             } catch (error) {
@@ -173,6 +211,8 @@
 
         function processDictionary() {
             const word = document.getElementById('wordInput').value.trim();
+            const dictLang = document.getElementById('dictTargetLang').value;
+            
             if (!word) {
                 showToast("Please enter a word!");
                 return;
@@ -182,7 +222,7 @@
             const resDiv = document.getElementById('dictResult');
             const errBox = document.getElementById('dictErrorBox');
             
-            fetchAI({ mode: "dictionary", text: word }, btn, "Search", outputCont, resDiv, errBox);
+            fetchAI({ mode: "dictionary", text: word, targetLang: dictLang }, btn, "Search", outputCont, resDiv, errBox);
         }
     </script>
 </body>
