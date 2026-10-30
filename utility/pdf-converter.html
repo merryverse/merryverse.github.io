@@ -116,6 +116,12 @@
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
         }
 
+        function getBaseName(filename) {
+            const lastDotIndex = filename.lastIndexOf('.');
+            if (lastDotIndex === -1) return filename;
+            return filename.substring(0, lastDotIndex);
+        }
+
         const MAX_FILES = 100;
         let selectedImages = [];
 
@@ -164,7 +170,8 @@
                         const { imgData, width, height, orientation } = await getImageData(selectedImages[i]);
                         const doc = new jsPDF({ orientation: orientation, unit: 'px', format: [width, height] });
                         doc.addImage(imgData, 'JPEG', 0, 0, width, height);
-                        doc.save(selectedImages[i].name.replace(/\.[^/.]+$/, "") + '.pdf');
+                        const originalName = getBaseName(selectedImages[i].name);
+                        doc.save(originalName + '.pdf');
                         statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
                         await new Promise(r => setTimeout(r, 400)); 
                     }
@@ -184,7 +191,8 @@
                         statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done";
                         await new Promise(r => setTimeout(r, 200)); 
                     }
-                    doc.save(selectedImages[0].name.replace(/\.[^/.]+$/, "") + '.pdf'); 
+                    const originalName = getBaseName(selectedImages[0].name);
+                    doc.save(originalName + '.pdf'); 
                 }
                 showToast("সম্পন্ন হয়েছে!", true);
             } catch (err) {
@@ -215,7 +223,8 @@
             const arrayBuffer = await selectedPdf.arrayBuffer();
             try {
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                const originalName = selectedPdf.name.replace(/\.[^/.]+$/, "");
+                const originalName = getBaseName(selectedPdf.name);
+                
                 if (mode === 'pages') {
                     for (let i = 1; i <= pdf.numPages; i++) {
                         statusEl.innerText = `পেইজ ${i}/${pdf.numPages}...`;
@@ -224,7 +233,7 @@
                         const canvas = document.createElement('canvas');
                         canvas.height = viewport.height; canvas.width = viewport.width;
                         await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
-                        downloadDataUrl(canvas.toDataURL('image/jpeg', 0.9), `${originalName}_page_${i}.jpg`);
+                        downloadDataUrl(canvas.toDataURL('image/jpeg', 0.9), `${originalName}_${i}.jpg`);
                         await new Promise(r => setTimeout(r, 600)); 
                     }
                 } else {
@@ -249,7 +258,7 @@
                         giantCtx.drawImage(tempCanvas, 0, currentY);
                         currentY += viewport.height;
                     }
-                    downloadDataUrl(giantCanvas.toDataURL('image/jpeg', 0.9), `${originalName}_long_image.jpg`);
+                    downloadDataUrl(giantCanvas.toDataURL('image/jpeg', 0.9), `${originalName}.jpg`);
                 }
                 statusEl.innerText = "সম্পন্ন"; statusEl.className = "status done"; btn.innerText = "সম্পন্ন হয়েছে!";
                 showToast("সফলভাবে ডাউনলোড হয়েছে!", true);
@@ -302,7 +311,7 @@
             const errorBox = document.getElementById('wordErrorBox');
             btn.disabled = true; 
             errorBox.style.display = 'none';
-            const originalName = selectedWordFile.name.replace(/\.[^/.]+$/, "");
+            const originalName = getBaseName(selectedWordFile.name);
             let mimeType = selectedWordFile.type;
             if (!mimeType || mimeType === "") {
                 mimeType = originalName.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
