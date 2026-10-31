@@ -405,10 +405,13 @@
             btn.disabled = true; 
             errorBox.style.display = 'none';
             const originalName = getBaseName(selectedWordFile.name);
+            
+            // Fixed logic: Check original file name for extension, not the truncated base name
             let mimeType = selectedWordFile.type;
             if (!mimeType || mimeType === "") {
-                mimeType = originalName.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
+                mimeType = selectedWordFile.name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
             }
+
             try {
                 statusEl.innerText = "AI এনালাইজ করছে..."; 
                 statusEl.className = "status processing";
