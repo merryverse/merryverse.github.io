@@ -1,270 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101323">
-<title>Utility Tools</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100vh;
-    background: linear-gradient(150deg, #191a36, #101323 60%, #102b30);
-    color: #f8f8ff;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-.container {
-    width: 100%;
-    max-width: 480px;
-    margin: auto;
-    padding: 28px 18px;
-}
-
-/* Header */
-.header {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin-bottom: 52px;
-}
-
-.logo {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #927aff, #39d9c5);
-    color: #101323;
-    font-size: 23px;
-    font-weight: 800;
-}
-
-.brand {
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.brand span {
-    color: #70eddb;
-}
-
-/* Intro */
-.eyebrow {
-    color: #a99aff;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 13px;
-}
-
-h1 {
-    font-size: 39px;
-    line-height: 1.12;
-    letter-spacing: -1.8px;
-    margin-bottom: 13px;
-}
-
-.description {
-    color: #aeb3ca;
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-/* Tools */
-.tools {
-    margin-top: 38px;
-}
-
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.section-title h2 {
-    font-size: 16px;
-}
-
-.count {
-    font-size: 11px;
-    color: #c3c7dc;
-    border: 1px solid #ffffff20;
-    padding: 5px 10px;
-    border-radius: 20px;
-}
-
-.tool-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 14px;
-    min-height: 100px;
-    margin-bottom: 13px;
-    border: 1px solid #ffffff18;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.055);
-    color: inherit;
-    text-decoration: none;
-    transition: transform 0.2s, background 0.2s;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.tool-card:active {
-    transform: scale(0.98);
-    background: rgba(255, 255, 255, 0.10);
-}
-
-.tool-icon {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    font-size: 25px;
-}
-
-.pdf-icon {
-    color: #b7a8ff;
-    background: #9b83ff20;
-    border: 1px solid #9b83ff30;
-}
-
-.translate-icon {
-    color: #70eddb;
-    background: #42dfca18;
-    border: 1px solid #42dfca30;
-}
-
-.tool-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.tool-info h3 {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    letter-spacing: -0.3px;
-}
-
-.tool-info p {
-    font-size: 12px;
-    line-height: 1.5;
-    color: #aeb3ca;
-}
-
-.arrow {
-    color: #e5e5f7;
-    font-size: 22px;
-    flex-shrink: 0;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    color: #777e9d;
-    font-size: 11px;
-    margin-top: 38px;
-    padding-bottom: 15px;
-}
-
-/* Larger screens */
-@media (min-width: 600px) {
-    .container {
-        padding-top: 40px;
-    }
-
-    .header {
-        margin-bottom: 60px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-<body>
-
-<div class="container">
-
-    <header class="header">
-        <div class="logo">✦</div>
-        <div class="brand">
-            UTILITY <span>TOOLS</span>
+    <!-- Header -->
+    <header class="w-full py-6 px-8 max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span class="font-semibold text-lg tracking-tight text-slate-800">UtilityHub</span>
         </div>
+        <span class="text-xs text-slate-500 font-medium bg-slate-200/60 px-3 py-1 rounded-full">Online Toolkit</span>
     </header>
 
-    <section>
-        <p class="eyebrow">YOUR EVERYDAY TOOLKIT</p>
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-12 w-full flex flex-col justify-center">
 
-        <h1>
-            Useful tools.<br>
-            Made simple.
-        </h1>
+        <!-- Cards Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
+            
+            <!-- PDF Converter Card -->
+            <a href="pdf-converter.html" class="group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-500/40 transition-all duration-200 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-xl mb-4 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold text-slate-800 mb-1 group-hover:text-indigo-600 transition-colors">PDF Converter</h2>
+                    <p class="text-slate-500 text-xs md:text-sm leading-relaxed">
+                        Convert, merge, and manage documents seamlessly in your browser.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-indigo-600">
+                    <span>Open tool</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
 
-        <p class="description">
-            Choose a tool below to get started.
-        </p>
-    </section>
+            <!-- AI Translator Card -->
+            <a href="translator.html" class="group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-500/40 transition-all duration-200 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl mb-4 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold text-slate-800 mb-1 group-hover:text-indigo-600 transition-colors">AI Translator</h2>
+                    <p class="text-slate-500 text-xs md:text-sm leading-relaxed">
+                        Translate text accurately across multiple languages using modern AI.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-indigo-600">
+                    <span>Open tool</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
 
-    <section class="tools">
-
-        <div class="section-title">
-            <h2>Your tools</h2>
-            <span class="count">2 TOOLS</span>
         </div>
 
-        <!-- Image to PDF Converter -->
-        <a href="pdf-converter.html" class="tool-card">
+    </main>
 
-            <div class="tool-icon pdf-icon">
-                📄
-            </div>
-
-            <div class="tool-info">
-                <h3>Image to PDF Converter</h3>
-                <p>Convert your images into a PDF file.</p>
-            </div>
-
-            <span class="arrow">›</span>
-
-        </a>
-
-        <!-- AI Translator -->
-        <a href="translator.html" class="tool-card">
-
-            <div class="tool-icon translate-icon">
-                🌐
-            </div>
-
-            <div class="tool-info">
-                <h3>AI Translator</h3>
-                <p>Translate text into another language.</p>
-            </div>
-
-            <span class="arrow">›</span>
-
-        </a>
-
-    </section>
-
-    <footer class="footer">
-        Simple tools for everyday tasks
+    <!-- Footer -->
+    <footer class="w-full py-6 px-8 max-w-5xl mx-auto text-center text-xs text-slate-400 border-t border-slate-200/60">
+        &copy; 2026 UtilityHub. All rights reserved.
     </footer>
-
-</div>
 
 </body>
 </html>
