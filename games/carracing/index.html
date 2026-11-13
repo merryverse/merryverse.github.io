@@ -43,6 +43,9 @@ canvas{display:block;position:fixed;inset:0}
 #prog{flex-basis:100%;height:8px;border-radius:6px;background:rgba(255,255,255,.2);overflow:hidden;position:relative}
 #prog-bar{height:100%;width:0;background:linear-gradient(90deg,#69f0ae,#ffeb3b)}
 .btns{display:flex;gap:6px}
+.wide{display:block;width:100%;margin-top:10px}
+.btn:disabled{opacity:.6}
+#online-info{opacity:.85;margin:4px 0 2px}
 .ib{pointer-events:auto;font-size:1.25rem;background:rgba(8,12,30,.7);border:2px solid rgba(255,255,255,.25);border-radius:14px;width:44px;height:44px;color:#fff;cursor:pointer}
 @media (max-width:600px){.chip{padding:2px 8px;border-radius:12px}.chip b{font-size:1.05rem}.chip small{font-size:.62rem}#nitro-wrap{width:78px;height:9px}.panel{padding:14px}.panel h1{font-size:1.4rem}.big{font-size:2rem}.btn{font-size:1.05rem;padding:8px 18px;margin-top:8px}.tb{width:58px;height:58px}.tb.side{width:70px;height:70px}.lb li{padding:3px 8px}}
 @media (pointer:coarse){#touch{display:flex}}
@@ -56,6 +59,7 @@ canvas{display:block;position:fixed;inset:0}
   <div class="chip"><small>স্কোর</small><b id="score">0</b></div>
   <div class="chip"><small>গতি km/h</small><b id="speed">0</b><div id="nitro-wrap"><div id="nitro-bar"></div></div></div>
   <div class="chip"><small>হাই স্কোর</small><b id="high">0</b></div>
+  <div class="chip" id="rank-chip" style="display:none"><small>র‍্যাঙ্ক</small><b id="rank">-</b></div>
   <div class="btns"><button id="lb-btn" class="ib" aria-label="লিডারবোর্ড">🏆</button><button id="pause-btn" class="ib" aria-label="পজ">⏸️</button><button id="hq-btn" class="ib" aria-label="বের হও">🚪</button></div>
   <div id="prog"><div id="prog-bar"></div></div>
 </div>
@@ -63,8 +67,10 @@ canvas{display:block;position:fixed;inset:0}
 <div id="start" class="overlay show">
   <div class="panel">
     <h1>3D রেসিং 🏎️</h1>
-    <p>← → বা A/D দিয়ে লেন বদলাও · স্পেস = নাইট্রো · S/↓ = ব্রেক<br>৫ কিমি পার করে ফিনিশ লাইনে পৌঁছাও! 🏁</p>
-    <button class="btn" id="start-btn">রেস শুরু করো! 🏁</button>
+    <p id="online-info">🟢 অনলাইন: ...</p>
+    <button class="btn wide" id="start-btn">🏎️ একক মোড</button>
+    <button class="btn btn2 wide" id="multi-btn">🌐 মাল্টিপ্লেয়ার (সর্বোচ্চ ১০ জন)</button>
+    <p style="font-size:.85rem;opacity:.8;margin-top:10px">← → / A D = লেন · Space = নাইট্রো · S/↓ = ব্রেক (ব্রেক চেপে টার্ন = ড্রিফট) · ৫ কিমি রেস 🏁</p>
     <h2>🏆 রেসিং চ্যাম্পিয়ন (সেরা ৫) 🏆</h2>
     <ul class="lb" id="lb-start"></ul>
   </div>
@@ -76,11 +82,14 @@ canvas{display:block;position:fixed;inset:0}
     <p>তোমার স্কোর</p>
     <div class="big" id="final-score">0</div>
     <div id="save-status">সেভ হচ্ছে...</div>
+    <h2 id="rr-h" style="display:none">🏁 রেসের ফলাফল</h2><ul class="lb" id="race-res" style="display:none"></ul>
     <h2>🏆 রেসিং চ্যাম্পিয়ন (সেরা ৫) 🏆</h2>
     <ul class="lb" id="lb-over"></ul>
     <button class="btn" id="again-btn">আবার খেলো 🔄</button><br><button class="btn btn2" id="quit-btn">বের হও 🚪</button>
   </div>
 </div>
+
+<div id="lobby" class="overlay"><div class="panel"><h1>🌐 রেস রুম</h1><p>অন্য খেলোয়াড়রা যোগ দিলে এখানে দেখা যাবে। কাউন্টডাউন শেষে রেস শুরু হবে।</p><div class="big" id="lobby-count">--</div><p id="lobby-n"></p><ul class="lb" id="lb-room"></ul><button class="btn btn2" id="lobby-leave">বের হও 🚪</button></div></div>
 
 <div id="pause-screen" class="overlay"><div class="panel"><h1>বিরতি ⏸️</h1><button class="btn" id="resume-btn">চালিয়ে যাও ▶️</button><br><button class="btn btn2" id="end-btn">খেলা শেষ করো 🚪</button></div></div>
 
@@ -97,6 +106,7 @@ canvas{display:block;position:fixed;inset:0}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getDatabase, ref as rr, set as rs, update as ru, remove as rm, onValue, onDisconnect, push as rp, get as rg, runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -106,7 +116,8 @@ const firebaseConfig = {
   storageBucket: "merryverse-official.firebasestorage.app",
   messagingSenderId: "583720884212",
   appId: "1:583720884212:web:7d944f26b621d24c0d4ba1",
-  measurementId: "G-T8T99CH1ZG"
+  measurementId: "G-T8T99CH1ZG",
+  databaseURL: "https://merryverse-official-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -133,13 +144,60 @@ onSnapshot(query(collection(db, "racing_scores"), orderBy("score", "desc"), limi
 
 onAuthStateChanged(auth, async user => {
   if (user) {
-    currentUser = user;
+    currentUser = user; startRealtime(user);
     try { const s = await getDoc(doc(db, "racing_scores", user.uid)); if (s.exists()) window.setHigh(s.data().score || 0); } catch (e) {}
     document.getElementById("loading-message").style.display = "none";
   } else {
     signInWithRedirect(auth, provider);
   }
 });
+
+// ---------- Multiplayer (Realtime Database) ----------
+const rdb = getDatabase(app, firebaseConfig.databaseURL), mp = window.mp;
+let offset = 0, roomId = null, myRef = null, offRoom = null, rtOn = false;
+onValue(rr(rdb, ".info/serverTimeOffset"), s => offset = s.val() || 0);
+const snow = () => Date.now() + offset;
+mp.now = snow; mp.uid = () => currentUser && currentUser.uid;
+function startRealtime(user) {
+  if (rtOn) return; rtOn = true;
+  onValue(rr(rdb, ".info/connected"), s => { if (s.val()) { const me = rr(rdb, "online/" + user.uid); rs(me, 1); onDisconnect(me).remove(); } });
+  onValue(rr(rdb, "online"), s => mp.onOnline && mp.onOnline(s.numChildren()), () => {});
+  onValue(rr(rdb, "rooms"), snap => {
+    let open = null;
+    snap.forEach(c => {
+      const v = c.val(), n = v.players ? Object.keys(v.players).length : 0;
+      if (!n && v.startAt < snow() - 60000) rm(c.ref).catch(() => {});
+      else if (!open && n && n < 10 && v.startAt > snow() + 4000) open = c.key;
+    });
+    if (open && !roomId && mp.onInvite) mp.onInvite(open);
+  }, () => {});
+}
+function joined(rid) {
+  roomId = rid; myRef = rr(rdb, `rooms/${rid}/players/${currentUser.uid}`); onDisconnect(myRef).remove();
+  offRoom = onValue(rr(rdb, `rooms/${rid}`), s => { const v = s.val(); if (v && v.players && mp.onRoom) mp.onRoom(v.players, v.startAt, currentUser.uid); });
+  return { ok: true, rid };
+}
+mp.join = async color => {
+  if (!currentUser) throw new Error("login");
+  if (roomId) await mp.leave();
+  const u = currentUser, me = { n: u.displayName || "রেসার", p: u.photoURL || "", c: color, x: 0, d: 0, v: 0, s: 0, f: 0 };
+  const snap = await rg(rr(rdb, "rooms")), cands = [];
+  snap.forEach(c => { const v = c.val(), n = v.players ? Object.keys(v.players).length : 0; if (n && n < 10 && v.startAt > snow() + 3000) cands.push(c.key); });
+  for (const rid of cands) {
+    const res = await runTransaction(rr(rdb, `rooms/${rid}/players`), cur => { cur = cur || {}; if (!cur[u.uid] && Object.keys(cur).length >= 10) return; cur[u.uid] = me; return cur; });
+    if (res.committed) return joined(rid);
+  }
+  const rid = rp(rr(rdb, "rooms")).key;
+  await rs(rr(rdb, `rooms/${rid}`), { startAt: snow() + 25000, players: { [u.uid]: me } });
+  return joined(rid);
+};
+mp.send = st => { if (myRef) ru(myRef, st).catch(() => {}); };
+mp.finish = () => { if (myRef) ru(myRef, { f: snow() }).catch(() => {}); };
+mp.leave = async () => {
+  if (!roomId) return;
+  const rid = roomId, ref0 = myRef; roomId = null; myRef = null; if (offRoom) offRoom(); offRoom = null;
+  try { await onDisconnect(ref0).cancel(); await rm(ref0); const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
+};
 
 window.saveScore = async score => {
   if (!currentUser) return "guest";
@@ -294,7 +352,7 @@ function burst(x, z) {
 const slMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 }), lines = [];
 for (let i = 0; i < 26; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(.04, .04, 4), slMat); m.position.set((Math.random() < .5 ? -1 : 1) * (3 + Math.random() * 7), .4 + Math.random() * 5, -60 + Math.random() * 70); scene.add(m); lines.push(m); }
 
-let actx, eng, eng2, engGain, lpf, nGain;
+let actx, eng, eng2, engGain, lpf, nGain, nbp;
 function initAudio() {
   if (actx) return;
   try {
@@ -305,17 +363,17 @@ function initAudio() {
     eng.connect(lpf); eng2.connect(lpf); lpf.connect(engGain); engGain.connect(actx.destination); eng.start(); eng2.start();
     const buf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
     const ns = actx.createBufferSource(); ns.buffer = buf; ns.loop = true;
-    const bp = actx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 700;
-    nGain = actx.createGain(); nGain.gain.value = 0; ns.connect(bp); bp.connect(nGain); nGain.connect(actx.destination); ns.start();
+    nbp = actx.createBiquadFilter(); nbp.type = "bandpass"; nbp.frequency.value = 700;
+    nGain = actx.createGain(); nGain.gain.value = 0; ns.connect(nbp); nbp.connect(nGain); nGain.connect(actx.destination); ns.start();
   } catch (e) {}
 }
 const GEARS = [30, 52, 75, 100, 140];
-function engineUpdate(v, boost) {
+function engineUpdate(v, boost, dr) {
   if (!engGain) return;
   let g = 0; while (g < 4 && v > GEARS[g]) g++;
   const lo = g ? GEARS[g - 1] : 0, rpm = Math.min(1, Math.max(0, (v - lo) / (GEARS[g] - lo))), f = 48 + rpm * 95 + g * 4;
   eng.frequency.value = f; eng2.frequency.value = f / 2; lpf.frequency.value = 350 + rpm * 1100;
-  engGain.gain.value = .05 + rpm * .05 + (boost ? .02 : 0); nGain.gain.value = Math.min(.12, v / 1100);
+  engGain.gain.value = .05 + rpm * .05 + (boost ? .02 : 0); nbp.frequency.value = dr ? 1800 : 700; nGain.gain.value = dr ? .16 : Math.min(.12, v / 1100);
 }
 function engineOff() { if (engGain) engGain.gain.value = 0; if (nGain) nGain.gain.value = 0; }
 function beep(f1, f2) {
@@ -329,7 +387,7 @@ const crashSnd = new Audio("https://madinamanjeel.github.io/kids/game/sounds/gam
 
 // ---------- State ----------
 let state = "menu", speed = 0, score = 0, high = +localStorage.getItem("race_high") || 0, nitro = 100, lane = 1, px = LANES[1];
-const GOAL = 5000; let dist = 0, sparks = [];
+const GOAL = 5000; let dist = 0, sparks = [], puffs = [], driftT = 0, driftDir = 1, driftAng = 0, mode = "single", lastSend = 0;
 let traffic = [], coins = [], spawnT = 0, coinT = 0, shake = 0, t0 = 0;
 window.setHigh = v => { if (v > high) { high = v; $("high").textContent = high; } };
 $("high").textContent = high;
@@ -340,14 +398,24 @@ const colors = [0x1e88e5, 0x43a047, 0xfdd835, 0x8e24aa, 0xfb8c00, 0x00acc1, 0xf5
 function reset() {
   traffic.forEach(c => scene.remove(c)); coins.forEach(c => scene.remove(c)); traffic = []; coins = [];
   sparks.forEach(x => scene.remove(x)); sparks = []; dist = 0; $("prog-bar").style.width = "0%";
-  speed = 45; score = 0; nitro = 100; lane = 1; px = LANES[1]; spawnT = 0; coinT = 2; shake = 0;
+  speed = 0; driftT = 0; driftAng = 0; puffs.forEach(x => scene.remove(x)); puffs = []; score = 0; nitro = 100; lane = 1; px = LANES[1]; spawnT = 0; coinT = 2; shake = 0;
 }
-function steer(d) { if (state === "play") lane = Math.max(0, Math.min(3, lane + d)); }
+function steer(d) {
+  if (state !== "play") return;
+  const nl = Math.max(0, Math.min(3, lane + d));
+  if (nl !== lane && keys.brake && speed > 35) { driftT = 1.1; driftDir = d; }
+  lane = nl;
+}
+const puffGeo = new THREE.SphereGeometry(.4, 6, 5);
+function puff(x, z) {
+  const m = new THREE.Mesh(puffGeo, new THREE.MeshBasicMaterial({ color: 0xdddddd, transparent: true, opacity: .45, depthWrite: false }));
+  m.position.set(x, .3, z); m.userData = { life: .7 }; scene.add(m); puffs.push(m);
+}
 function spawnTraffic() {
   const l = Math.floor(Math.random() * 4);
   if (traffic.some(c => c.userData.lane === l && c.position.z < -140)) return;
   const truck = Math.random() < .25, c = makeCar(colors[Math.floor(Math.random() * colors.length)], truck ? "truck" : "sport");
-  c.userData.lane = l; c.userData.v = truck ? 14 + Math.random() * 6 : 18 + Math.random() * 14; c.userData.passed = false;
+  c.userData.lane = l; c.userData.v0 = c.userData.v = truck ? 24 + Math.random() * 8 : 30 + Math.random() * 18; c.userData.sx = 0; c.userData.hitT = 0; c.userData.passed = false;
   c.position.set(LANES[l], 0, -210); scene.add(c); traffic.push(c);
 }
 function spawnCoin() {
@@ -364,10 +432,11 @@ function gameOver(why) {
   const s = Math.floor(score); $("final-score").textContent = s; $("save-status").textContent = "সেভ হচ্ছে...";
   if (s > high) { high = s; localStorage.setItem("race_high", s); $("high").textContent = s; }
   $("over").classList.add("show");
+  const mm = mode === "multi"; $("rr-h").style.display = $("race-res").style.display = mm ? "" : "none"; if (mm) renderRace();
   const p = window.saveScore ? window.saveScore(s) : Promise.resolve("guest");
   p.then(r => $("save-status").textContent = r === "guest" ? "লগইন ছাড়া খেলছ, অনলাইনে সেভ হয়নি" : "স্কোর সেভ হয়েছে!").catch(() => $("save-status").textContent = "সেভ করা যায়নি 😢");
 }
-function startGame() { initAudio(); if (actx && actx.state === "suspended") actx.resume(); reset(); state = "play"; $("pause-btn").textContent = "⏸️"; $("start").classList.remove("show"); $("over").classList.remove("show"); }
+function startGame() { initAudio(); if (actx && actx.state === "suspended") actx.resume(); reset(); state = "play"; $("pause-btn").textContent = "⏸️"; ["start", "over", "lobby"].forEach(i => $(i).classList.remove("show")); $("rank-chip").style.display = mode === "multi" ? "" : "none"; }
 function setPause(p) {
   if (p && state === "play") { state = "pause"; $("pause-btn").textContent = "▶️"; $("pause-screen").classList.add("show"); if (engGain) engGain.gain.value = 0; }
   else if (!p && state === "pause") { state = "play"; $("pause-btn").textContent = "⏸️"; $("pause-screen").classList.remove("show"); }
@@ -395,16 +464,79 @@ function hold(id, fn) {
 }
 hold("t-left", d => d && steer(-1)); hold("t-right", d => d && steer(1));
 hold("t-brake", d => keys.brake = d); hold("t-nitro", d => keys.nitro = d);
-$("start-btn").onclick = startGame; $("again-btn").onclick = startGame;
+$("start-btn").onclick = () => { mode = "single"; startGame(); };
+$("multi-btn").onclick = () => startMulti();
+$("again-btn").onclick = () => { if (mode === "multi") { leaveRoom(); startMulti(); } else startGame(); };
+$("lobby-leave").onclick = () => { leaveRoom(); showHome(); };
 $("pause-btn").onclick = () => setPause(state !== "pause");
 $("end-btn").onclick = () => gameOver();
 $("hq-btn").onclick = () => { if ((state === "play" || state === "pause") && confirm("খেলা শেষ করবে?")) gameOver(); };
-$("quit-btn").onclick = () => { $("over").classList.remove("show"); $("start").classList.add("show"); state = "menu"; };
+$("quit-btn").onclick = () => { leaveRoom(); showHome(); };
 let lbPaused = false;
 $("lb-btn").onclick = () => { lbPaused = state === "play"; if (lbPaused) setPause(true); $("lb-screen").classList.add("show"); };
 $("lb-close").onclick = () => { $("lb-screen").classList.remove("show"); if (lbPaused) setPause(false); lbPaused = false; };
 document.addEventListener("visibilitychange", () => { if (document.hidden) setPause(true); });
 $("resume-btn").onclick = () => setPause(false);
+
+// ---------- Multiplayer glue ----------
+const mp = window.mp = {}; let room = {}, roomStart = 0, ghosts = {}, myColor = 0, skipUntil = 0, joining = false;
+function fillList(ul, arr, fmt) {
+  ul.textContent = "";
+  arr.forEach((p, i) => {
+    const li = document.createElement("li"), r = document.createElement("span"), img = document.createElement("img"), n = document.createElement("span"), sc = document.createElement("span");
+    r.textContent = (i + 1) + "."; img.src = p.p || ""; img.alt = ""; img.referrerPolicy = "no-referrer";
+    n.className = "n"; n.textContent = p.n || "রেসার"; sc.className = "s"; sc.textContent = fmt ? fmt(p) : "";
+    li.append(r, img, n, sc); ul.append(li);
+  });
+}
+function standings() {
+  const me = mp.uid && mp.uid(), arr = Object.entries(room).map(([u, p]) => Object.assign({ u }, p));
+  arr.forEach(p => { if (p.u === me && state === "play") p.d = dist; });
+  return arr.sort((a, b) => (a.f && b.f) ? a.f - b.f : a.f ? -1 : b.f ? 1 : b.d - a.d);
+}
+function renderRace() { fillList($("race-res"), standings(), p => p.f ? "🏁 শেষ" : Math.round(p.d) + " মি"); }
+function labelSprite(t) {
+  const c = document.createElement("canvas"); c.width = 256; c.height = 64; const g = c.getContext("2d");
+  g.fillStyle = "rgba(0,0,0,.55)"; g.fillRect(0, 8, 256, 48); g.fillStyle = "#fff"; g.font = "bold 32px sans-serif"; g.textAlign = "center"; g.fillText(t.slice(0, 14), 128, 44);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false, fog: false })); sp.scale.set(5, 1.25, 1); sp.position.y = 3.2; return sp;
+}
+function clearGhosts() { for (const k in ghosts) { scene.remove(ghosts[k].mesh); delete ghosts[k]; } }
+function updateGhosts() {
+  const me = mp.uid && mp.uid();
+  for (const [uid, p] of Object.entries(room)) {
+    if (uid === me) continue;
+    let g = ghosts[uid];
+    if (!g) { const mesh = makeCar(colors[(p.c || 0) % colors.length], "sport"); mesh.add(labelSprite(p.n || "রেসার")); mesh.visible = false; scene.add(mesh); g = ghosts[uid] = { mesh, x: p.x || 0, d: p.d || 0 }; }
+    g.tx = p.x || 0; g.td = p.d || 0; g.v = p.v || 0; g.t = performance.now();
+  }
+  for (const uid in ghosts) if (!room[uid]) { scene.remove(ghosts[uid].mesh); delete ghosts[uid]; }
+}
+mp.onRoom = (players, startAt) => {
+  room = players; roomStart = startAt; updateGhosts();
+  const list = Object.entries(players).map(([u, p]) => Object.assign({ u }, p));
+  fillList($("lb-room"), list); $("lobby-n").textContent = list.length + "/10 জন";
+  if (state === "over" && mode === "multi") renderRace();
+};
+mp.onOnline = n => { $("online-info").textContent = "🟢 অনলাইন: " + n + " জন"; };
+mp.onInvite = () => { if (state === "menu" && $("start").classList.contains("show") && !$("lb-screen").classList.contains("show") && Date.now() > skipUntil) startMulti(true); };
+async function startMulti(auto) {
+  if (joining) return;
+  if (!mp.join) { if (!auto) alert("অনলাইন সার্ভার লোড হয়নি বা লগইন হয়নি।"); return; }
+  joining = true; initAudio();
+  try {
+    myColor = Math.floor(Math.random() * colors.length); await mp.join(myColor);
+    mode = "multi"; state = "lobby"; room = {}; $("start").classList.remove("show"); $("over").classList.remove("show"); $("lobby").classList.add("show");
+  } catch (e) { console.error(e); skipUntil = Date.now() + 20000; if (!auto) alert("রুমে যোগ দেওয়া যায়নি। Realtime Database চালু আছে কিনা এবং rules/databaseURL ঠিক আছে কিনা দেখো।"); }
+  joining = false;
+}
+function leaveRoom() { if (mp.leave) mp.leave(); skipUntil = Date.now() + 20000; clearGhosts(); room = {}; }
+function showHome() { ["over", "lobby", "pause-screen"].forEach(i => $(i).classList.remove("show")); $("start").classList.add("show"); state = "menu"; mode = "single"; $("rank-chip").style.display = "none"; }
+setInterval(() => {
+  if (state !== "lobby" || !mp.now || !roomStart) return;
+  const r = Math.ceil((roomStart - mp.now()) / 1000); $("lobby-count").textContent = Math.max(0, r);
+  if (r <= 0) startGame();
+}, 200);
+addEventListener("pointerdown", () => { initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
 
 // ---------- Loop ----------
 let last = performance.now();
@@ -414,14 +546,19 @@ function loop(now) {
   const play = state === "play", moving = state !== "pause";
 
   if (play) {
-    const boosting = keys.nitro && nitro > 0;
-    const target = Math.min(70, 28 + (now - t0) / 1000 * .8 + (t0 ? 0 : 0));
-    if (!t0) t0 = now;
-    const base = 45 + Math.min(1, dist / GOAL) * 50;
-    speed += ((keys.brake ? 22 : base) - speed) * Math.min(1, dt * (keys.brake ? 2.5 : 1));
-    const eff = speed + (boosting ? 35 : 0);
-    if (boosting) nitro = Math.max(0, nitro - 28 * dt); else nitro = Math.min(100, nitro + 4 * dt);
-    px += (LANES[lane] - px) * Math.min(1, dt * 9);
+    const boosting = keys.nitro && nitro > 0 && speed > 15;
+    driftT = Math.max(0, driftT - dt); const drifting = driftT > 0;
+    const cruise = 62 + Math.min(1, dist / GOAL) * 33;
+    let tgt, acc;
+    if (boosting) { tgt = cruise + 42; acc = 26; }
+    else if (keys.brake) { tgt = speed > 14 ? 14 : 0; acc = drifting ? 20 : 42; }
+    else { tgt = cruise; acc = speed > cruise ? 9 : speed < 25 ? 15 : 12; }
+    speed += Math.sign(tgt - speed) * Math.min(Math.abs(tgt - speed), acc * dt);
+    const eff = speed;
+    if (boosting) nitro = Math.max(0, nitro - 22 * dt); else nitro = Math.min(100, nitro + 4 * dt);
+    px += (LANES[lane] - px) * Math.min(1, dt * (drifting ? 5.5 : 9));
+    driftAng += ((drifting ? -driftDir * .38 : 0) - driftAng) * Math.min(1, dt * 6);
+    if (drifting) { score += dt * 8; if (Math.random() < .35) puff(px - .95, 1.7); if (Math.random() < .35) puff(px + .95, 1.7); }
     const dz = eff * dt;
     score += eff * dt * .1; dist += dz;
 
@@ -432,20 +569,28 @@ function loop(now) {
       m.scale.setScalar(Math.max(.01, u.life / .55));
       if (u.life <= 0) { scene.remove(m); sparks.splice(i, 1); }
     }
+    for (let i = puffs.length - 1; i >= 0; i--) {
+      const m = puffs[i], u = m.userData; u.life -= dt; m.position.z += dz; m.position.y += dt * .8;
+      m.scale.setScalar(1 + (.7 - u.life) * 2.5); m.material.opacity = Math.max(0, u.life / .7 * .45);
+      if (u.life <= 0) { scene.remove(m); m.material.dispose(); puffs.splice(i, 1); }
+    }
     scenery.forEach(g => { g.position.z += dz; if (g.position.z > 20) g.position.z -= 308; });
 
     spawnT -= dt; if (spawnT <= 0) { spawnTraffic(); spawnT = Math.max(.45, 1.3 - speed / 90) * (.7 + Math.random() * .6); }
     coinT -= dt; if (coinT <= 0) { spawnCoin(); coinT = 4 + Math.random() * 4; }
 
     for (let i = traffic.length - 1; i >= 0; i--) {
-      const c = traffic[i]; c.position.z += (eff - c.userData.v) * dt;
-      c.userData.wheels.forEach(w => w.rotation.x -= c.userData.v * dt * 2);
+      const c = traffic[i], u = c.userData; c.position.z += (eff - u.v) * dt;
+      u.hitT -= dt; u.v += Math.sign(u.v0 - u.v) * Math.min(Math.abs(u.v0 - u.v), 7 * dt);
+      u.sx -= u.sx * Math.min(1, dt * 3); c.position.x = LANES[u.lane] + u.sx;
+      u.wheels.forEach(w => w.rotation.x -= u.v * dt * 2);
       const ddz = Math.abs(c.position.z), dx = Math.abs(c.position.x - px);
-      if (ddz < c.userData.hl + 2 && dx < 1.9) {
-        score = Math.max(0, score - 15); speed *= .6; shake = 1.2; crashSnd.currentTime = 0; crashSnd.play().catch(() => {});
+      if (u.hitT <= 0 && ddz < u.hl + 2 && dx < 1.9) {
+        const dir = c.position.x >= px ? 1 : -1;
+        score = Math.max(0, score - 15); speed = Math.max(12, speed * .55); u.v = u.v0 * .4; u.hitT = 1.3; u.sx += dir * 2.4; px -= dir * .6; shake = 1.2;
+        crashSnd.currentTime = 0; crashSnd.play().catch(() => {});
         burst((px + c.position.x) / 2, c.position.z * .5);
         const h = $("hit"); h.classList.add("on"); setTimeout(() => h.classList.remove("on"), 300);
-        scene.remove(c); traffic.splice(i, 1); continue;
       }
       if (!c.userData.passed && c.position.z > 2.5) {
         c.userData.passed = true;
@@ -460,27 +605,38 @@ function loop(now) {
       } else if (c.position.z > 15) { scene.remove(c); coins.splice(i, 1); }
     }
     player.userData.wheels.forEach(w => w.rotation.x -= eff * dt * 2.2);
-    engineUpdate(eff, boosting);
+    engineUpdate(eff, boosting, drifting);
     player.rotation.x += ((keys.brake ? -.045 : boosting ? .035 : 0) - player.rotation.x) * Math.min(1, dt * 6);
     player.userData.tail.forEach(t => t.emissiveIntensity = keys.brake ? 5 : 1.4);
-    slMat.opacity = Math.min(.45, Math.max(0, (eff - 70) / 90));
+    slMat.opacity = Math.min(.45, Math.max(0, (eff - 80) / 70));
     lines.forEach(l => { l.position.z += dz * 1.4; if (l.position.z > 12) l.position.z -= 75; });
 
     $("score").textContent = Math.floor(score);
     $("prog-bar").style.width = Math.min(100, dist / GOAL * 100) + "%";
-    if (dist >= GOAL) { score += 100; gameOver("finish"); }
-    $("speed").textContent = Math.floor(eff * 2.6);
+    if (dist >= GOAL) { score += 100; if (mode === "multi" && mp.finish) mp.finish(); gameOver("finish"); }
+    $("speed").textContent = Math.floor(eff * 2.4);
     $("nitro-bar").style.width = nitro + "%";
+    if (mode === "multi" && now - lastSend > 120) {
+      lastSend = now; if (mp.send) mp.send({ x: +px.toFixed(2), d: Math.round(dist), v: Math.round(speed), s: Math.floor(score) });
+      const st = standings(), me = mp.uid && mp.uid(); $("rank").textContent = (st.findIndex(p => p.u === me) + 1) + "/" + st.length;
+    }
     if (score > high) { high = Math.floor(score); $("high").textContent = high; }
     shake = boosting ? .35 : shake * .9;
-    cam.fov += (62 + Math.max(0, eff - 45) * .2 + (boosting ? 6 : 0) - cam.fov) * .08; cam.updateProjectionMatrix();
+    cam.fov += (62 + Math.max(0, eff - 60) * .25 + (boosting ? 6 : 0) - cam.fov) * .08; cam.updateProjectionMatrix();
   }
 
+  if (mode === "multi") for (const g of Object.values(ghosts)) {
+    const pred = Math.min(GOAL, g.td + g.v * (performance.now() - g.t) / 1000);
+    g.d += (pred - g.d) * Math.min(1, dt * 8); g.x += (g.tx - g.x) * Math.min(1, dt * 8);
+    const z = -(g.d - dist); g.mesh.position.set(g.x, 0, z);
+    g.mesh.visible = (state === "play" || state === "pause" || state === "over") && Math.abs(z) < 260;
+    g.mesh.userData.wheels.forEach(w => w.rotation.x -= g.v * dt * 2);
+  }
   if (!play) { engineOff(); slMat.opacity = 0; }
   const off = (LANES[lane] - px);
-  player.position.x = px; player.rotation.y = off * .06; player.rotation.z = -off * .02;
+  player.position.x = px; player.rotation.y = -off * .06 + driftAng; player.rotation.z = off * .025;
   const sh = state === "pause" ? 0 : shake;
-  cam.position.set(px * .6 + (Math.random() - .5) * .15 * sh, 4.6 + (Math.random() - .5) * .15 * sh, 10.5 + Math.min(2.5, Math.max(0, speed - 45) * .04));
+  cam.position.set(px * .6 + (Math.random() - .5) * .15 * sh, 4.6 + (Math.random() - .5) * .15 * sh, 10.5 + Math.min(2.5, Math.max(0, speed - 60) * .07));
   cam.rotation.z = -off * .015;
   cam.lookAt(px * .5, 1.3, -14);
   renderer.render(scene, cam);
