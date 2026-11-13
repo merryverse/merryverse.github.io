@@ -67,7 +67,7 @@ canvas{display:block;position:fixed;inset:0}
 <div id="start" class="overlay show">
   <div class="panel">
     <h1>3D Racing 🏎️</h1>
-    <p id="online-info">🟢 Online: ...</p>
+    <p id="online-info">🟢 In multiplayer now: ...</p>
     <button class="btn wide" id="start-btn">🏎️ Single Player</button>
     <button class="btn btn2 wide" id="multi-btn">🌐 Multiplayer (up to 10 players)</button>
     <p style="font-size:.85rem;opacity:.8;margin-top:10px">← → / A D = change lane · Space = nitro · S/↓ = brake (brake + turn = drift) · 8 km race 🏁</p>
@@ -160,20 +160,18 @@ const snow = () => Date.now() + offset;
 mp.now = snow; mp.uid = () => currentUser && currentUser.uid;
 function startRealtime(user) {
   if (rtOn) return; rtOn = true;
-  onValue(rr(rdb, ".info/connected"), s => { if (s.val()) { const me = rr(rdb, "online/" + user.uid); rs(me, 1); onDisconnect(me).remove(); } });
   onValue(rr(rdb, "online"), s => mp.onOnline && mp.onOnline(s.numChildren()), () => {});
   onValue(rr(rdb, "rooms"), snap => {
     let open = null;
     snap.forEach(c => {
       const v = c.val(), n = v.players ? Object.keys(v.players).length : 0;
       if (!n && v.startAt < snow() - 60000) rm(c.ref).catch(() => {});
-      else if (!open && n && n < 10 && v.startAt > snow() + 4000) open = c.key;
     });
-    if (open && !roomId && mp.onInvite) mp.onInvite(open);
   }, () => {});
 }
 function joined(rid) {
   roomId = rid; myRef = rr(rdb, `rooms/${rid}/players/${currentUser.uid}`); onDisconnect(myRef).remove();
+  const on = rr(rdb, "online/" + currentUser.uid); rs(on, 1); onDisconnect(on).remove();
   offRoom = onValue(rr(rdb, `rooms/${rid}`), s => { const v = s.val(); if (v && v.players && mp.onRoom) mp.onRoom(v.players, v.startAt, currentUser.uid); });
   return { ok: true, rid };
 }
@@ -193,10 +191,11 @@ mp.join = async color => {
 };
 mp.send = st => { if (myRef) ru(myRef, st).catch(() => {}); };
 mp.finish = () => { if (myRef) ru(myRef, { f: snow() }).catch(() => {}); };
+mp.extend = () => { if (roomId) ru(rr(rdb, `rooms/${roomId}`), { startAt: snow() + 10000 }).catch(() => {}); };
 mp.leave = async () => {
   if (!roomId) return;
   const rid = roomId, ref0 = myRef; roomId = null; myRef = null; if (offRoom) offRoom(); offRoom = null;
-  try { await onDisconnect(ref0).cancel(); await rm(ref0); const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
+  try { await onDisconnect(ref0).cancel(); await rm(ref0); if (!roomId) { const on = rr(rdb, "online/" + currentUser.uid); await onDisconnect(on).cancel(); await rm(on); } const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
 };
 
 window.saveScore = async score => {
@@ -429,18 +428,17 @@ function tone(type, f, t0, dur, vol) {
 }
 function vibeSound(k) {
   if (k === "rickshaw") [0, .16, .5, .66].forEach(t => { tone("sine", 2600, t, .14, .07); tone("sine", 3900, t, .1, .03); });
-  else if (k === "auto") { tone("square", 330, 0, .18, .05); tone("square", 330, .26, .3, .05); }
-  else if (k === "truck") { tone("sawtooth", 150, 0, .7, .07); tone("sawtooth", 190, 0, .7, .05); }
 }
-const bnWords = ["আরে ভাই!", "সাবধান!", "ধুর!", "ওই ওই!"];
-function bnSay() {
-  try {
-    if (!window.speechSynthesis) return;
-    const u = new SpeechSynthesisUtterance(bnWords[Math.floor(Math.random() * bnWords.length)]);
-    u.lang = "bn-BD"; u.rate = 1.1; speechSynthesis.cancel(); speechSynthesis.speak(u);
-  } catch (e) {}
+const SFX = "https://github.com/merryverse/merryverse.github.io/releases/download/assets/";
+const crashSnd = new Audio(SFX + "collision.mp3"), brakeSnd = new Audio(SFX + "break.mp3"), hornSnd = new Audio(SFX + "horn.mp3"), shoutSnd = new Audio(SFX + "shout.mp3");
+const allSfx = [crashSnd, brakeSnd, hornSnd, shoutSnd]; allSfx.forEach(a => a.preload = "auto");
+let shoutDone = false, shoutPending = false, hornT = 8, wasBrake = false, sfxUnlocked = false;
+function playSfx(a) { try { a.currentTime = 0; a.play().catch(() => {}); } catch (e) {} }
+crashSnd.addEventListener("ended", () => { if (shoutPending) { shoutPending = false; playSfx(shoutSnd); } });
+function unlockSfx() {
+  if (sfxUnlocked) return; sfxUnlocked = true;
+  allSfx.forEach(a => { a.muted = true; a.play().then(() => { a.pause(); a.currentTime = 0; a.muted = false; }).catch(() => { a.muted = false; }); });
 }
-const crashSnd = new Audio("https://madinamanjeel.github.io/kids/game/sounds/gameover.mp3");
 
 // ---------- Radio (single player only) ----------
 const radio = new Audio("https://github.com/merryverse/merryverse.github.io/releases/download/assets/abcsong.mp3");
@@ -469,7 +467,7 @@ function applyMode() {
 }
 function reset() {
   traffic.forEach(c => scene.remove(c)); coins.forEach(c => scene.remove(c)); traffic = []; coins = [];
-  sparks.forEach(x => scene.remove(x)); sparks = []; dist = 0; myFin = 0; $("prog-bar").style.width = "0%";
+  sparks.forEach(x => scene.remove(x)); sparks = []; dist = 0; myFin = 0; shoutDone = false; shoutPending = false; hornT = 6 + Math.random() * 6; $("prog-bar").style.width = "0%";
   speed = 0; driftT = 0; driftAng = 0; puffs.forEach(x => scene.remove(x)); puffs = []; score = 0; nitro = 100; lane = 1; px = LANES[1]; spawnT = 0; coinT = 2; shake = 0;
 }
 function steer(d) {
@@ -598,11 +596,10 @@ function updateGhosts() {
 mp.onRoom = (players, startAt) => {
   room = players; roomStart = startAt; updateGhosts();
   const list = Object.entries(players).map(([u, p]) => Object.assign({ u }, p));
-  fillList($("lb-room"), list); $("lobby-n").textContent = list.length + "/10 players";
+  fillList($("lb-room"), list); 
   if (state === "over" && mode === "multi") renderRace();
 };
-mp.onOnline = n => { $("online-info").textContent = "🟢 Online: " + n + " players"; };
-mp.onInvite = () => { if (state === "menu" && $("start").classList.contains("show") && !$("lb-screen").classList.contains("show") && Date.now() > skipUntil) startMulti(true); };
+mp.onOnline = n => { $("online-info").textContent = "🟢 In multiplayer now: " + n; };
 async function startMulti(auto) {
   if (joining) return;
   if (!mp.join) { if (!auto) alert("Online server not loaded or you are not logged in."); return; }
@@ -618,9 +615,11 @@ function showHome() { ["over", "lobby", "pause-screen"].forEach(i => $(i).classL
 setInterval(() => {
   if (state !== "lobby" || !mp.now || !roomStart) return;
   const r = Math.ceil((roomStart - mp.now()) / 1000); $("lobby-count").textContent = Math.max(0, r);
-  if (r <= 0) startGame();
+  const n = Object.keys(room).length;
+  $("lobby-n").textContent = n < 2 ? "Waiting for another player to join..." : n + "/10 players";
+  if (r <= 0) { if (n < 2) { if (Date.now() - (mp.lastExt || 0) > 2000) { mp.lastExt = Date.now(); if (mp.extend) mp.extend(); } } else startGame(); }
 }, 200);
-addEventListener("pointerdown", () => { initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
+addEventListener("pointerdown", () => { unlockSfx(); initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
 
 // ---------- Loop ----------
 let last = performance.now();
@@ -639,6 +638,10 @@ function loop(now) {
     else { tgt = cruise; acc = speed > cruise ? 16 : speed < 40 ? 40 : 26; }
     speed += Math.sign(tgt - speed) * Math.min(Math.abs(tgt - speed), acc * dt);
     const eff = speed;
+    if (keys.brake && !wasBrake && speed > 30) playSfx(brakeSnd);
+    if (!keys.brake && wasBrake) brakeSnd.pause();
+    wasBrake = keys.brake;
+    hornT -= dt; if (hornT <= 0) { hornT = 8 + Math.random() * 10; playSfx(hornSnd); }
     if (boosting) nitro = Math.max(0, nitro - 22 * dt); else nitro = Math.min(100, nitro + 4 * dt);
     px += (LANES[lane] - px) * Math.min(1, dt * (drifting ? 5.5 : 9));
     driftAng += ((drifting ? -driftDir * .38 : 0) - driftAng) * Math.min(1, dt * 6);
@@ -674,8 +677,7 @@ function loop(now) {
       if (u.hitT <= 0 && ddz < u.hl + 2 && dx < 1.9) {
         const dir = lx >= px ? 1 : -1;
         score = Math.max(0, score - 15); speed = Math.max(25, speed * .6); u.v = u.v0 * .4; u.hitT = 1.3; u.sx += dir * 2.4; px -= dir * .6; shake = 1.2;
-        crashSnd.currentTime = 0; crashSnd.play().catch(() => {});
-        vibeSound(u.kind); if (Math.random() < .5) bnSay();
+        playSfx(crashSnd); if (!shoutDone && Math.random() < .5) { shoutDone = true; shoutPending = true; }
         burst((px + c.position.x) / 2, c.position.z * .5);
         const h = $("hit"); h.textContent = mode === "multi" ? "💥 Crash!" : "💥 -15"; h.classList.add("on"); setTimeout(() => h.classList.remove("on"), 300);
       }
@@ -726,7 +728,7 @@ function loop(now) {
     g.mesh.visible = (state === "play" || state === "pause" || state === "over") && Math.abs(z) < 340;
     g.mesh.userData.wheels.forEach(w => w.rotation.x -= g.v * dt * 2);
   }
-  if (!play) { engineOff(); slMat.opacity = 0; }
+  if (!play) { engineOff(); slMat.opacity = 0; brakeSnd.pause(); wasBrake = false; }
   const offL = (LANES[lane] - px);
   player.position.x = px; player.rotation.y = -offL * .06 + driftAng; player.rotation.z = offL * .025;
   const sh = state === "pause" ? 0 : shake;
