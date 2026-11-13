@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>3D রেসিং গেম 🏎️</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;700;800&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<title>3D Racing Game 🏎️</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:#0b1020;font-family:'Baloo Da 2','Fredoka',sans-serif;color:#fff;user-select:none;-webkit-user-select:none}
+html,body{height:100%;overflow:hidden;background:#0b1020;font-family:'Fredoka',sans-serif;color:#fff;user-select:none;-webkit-user-select:none}
 canvas{display:block;position:fixed;inset:0}
 #loading-message{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:#0b1020;font-size:1.5rem;font-weight:700}
 #hud{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;padding:max(8px,env(safe-area-inset-top)) 8px 0;z-index:5;pointer-events:none;gap:6px}
@@ -52,48 +52,49 @@ canvas{display:block;position:fixed;inset:0}
 </style>
 </head>
 <body>
-<div id="loading-message">ভেরিফাই করা হচ্ছে... একটু অপেক্ষা করো 🏎️</div>
+<div id="loading-message">Verifying... please wait 🏎️</div>
 
-<div id="hit">💥 -১৫</div>
+<div id="toast" style="display:none;position:fixed;left:50%;top:70px;transform:translateX(-50%);z-index:60;background:#b71c1c;color:#fff;padding:8px 16px;border-radius:12px;font-weight:700;max-width:90%;text-align:center"></div>
+<div id="hit">💥 -15</div>
 <div id="hud">
-  <div class="chip"><small>স্কোর</small><b id="score">0</b></div>
-  <div class="chip"><small>গতি km/h</small><b id="speed">0</b><div id="nitro-wrap"><div id="nitro-bar"></div></div></div>
-  <div class="chip"><small>হাই স্কোর</small><b id="high">0</b></div>
-  <div class="chip" id="rank-chip" style="display:none"><small>র‍্যাঙ্ক</small><b id="rank">-</b></div>
-  <div class="btns"><button id="lb-btn" class="ib" aria-label="লিডারবোর্ড">🏆</button><button id="pause-btn" class="ib" aria-label="পজ">⏸️</button><button id="hq-btn" class="ib" aria-label="বের হও">🚪</button></div>
+  <div class="chip" id="score-chip"><small>Score</small><b id="score">0</b></div>
+  <div class="chip"><small>Speed km/h</small><b id="speed">0</b><div id="nitro-wrap"><div id="nitro-bar"></div></div></div>
+  <div class="chip" id="high-chip"><small>High Score</small><b id="high">0</b></div>
+  <div class="chip" id="rank-chip" style="display:none"><small>Position</small><b id="rank">-</b></div>
+  <div class="btns"><button id="radio-btn" class="ib" aria-label="Radio">📻</button><button id="lb-btn" class="ib" aria-label="Leaderboard">🏆</button><button id="pause-btn" class="ib" aria-label="Pause">⏸️</button><button id="hq-btn" class="ib" aria-label="Exit">🚪</button></div>
   <div id="prog"><div id="prog-bar"></div></div>
 </div>
 
 <div id="start" class="overlay show">
   <div class="panel">
-    <h1>3D রেসিং 🏎️</h1>
-    <p id="online-info">🟢 অনলাইন: ...</p>
-    <button class="btn wide" id="start-btn">🏎️ একক মোড</button>
-    <button class="btn btn2 wide" id="multi-btn">🌐 মাল্টিপ্লেয়ার (সর্বোচ্চ ১০ জন)</button>
-    <p style="font-size:.85rem;opacity:.8;margin-top:10px">← → / A D = লেন · Space = নাইট্রো · S/↓ = ব্রেক (ব্রেক চেপে টার্ন = ড্রিফট) · ৫ কিমি রেস 🏁</p>
-    <h2>🏆 রেসিং চ্যাম্পিয়ন (সেরা ৫) 🏆</h2>
+    <h1>3D Racing 🏎️</h1>
+    <p id="online-info">🟢 In multiplayer now: ...</p>
+    <button class="btn wide" id="start-btn">🏎️ Single Player</button>
+    <button class="btn btn2 wide" id="multi-btn">🌐 Multiplayer (up to 10 players)</button>
+    <p style="font-size:.85rem;opacity:.8;margin-top:10px">← → / A D = change lane · Space = nitro · S/↓ = brake (brake + turn = drift) · 8 km race 🏁</p>
+    <h2>🏆 Racing Champions (Top 5) 🏆</h2>
     <ul class="lb" id="lb-start"></ul>
   </div>
 </div>
 
 <div id="over" class="overlay">
   <div class="panel">
-    <h1 id="over-title">খেলা শেষ 🏁</h1>
-    <p>তোমার স্কোর</p>
+    <h1 id="over-title">Game Over 🏁</h1>
+    <p id="score-lbl">Your Score</p>
     <div class="big" id="final-score">0</div>
-    <div id="save-status">সেভ হচ্ছে...</div>
-    <h2 id="rr-h" style="display:none">🏁 রেসের ফলাফল</h2><ul class="lb" id="race-res" style="display:none"></ul>
-    <h2>🏆 রেসিং চ্যাম্পিয়ন (সেরা ৫) 🏆</h2>
+    <div id="save-status">Saving...</div>
+    <h2 id="rr-h" style="display:none">🏁 Race Results</h2><ul class="lb" id="race-res" style="display:none"></ul>
+    <h2 id="champ-h">🏆 Racing Champions (Top 5) 🏆</h2>
     <ul class="lb" id="lb-over"></ul>
-    <button class="btn" id="again-btn">আবার খেলো 🔄</button><br><button class="btn btn2" id="quit-btn">বের হও 🚪</button>
+    <button class="btn" id="again-btn">Play Again 🔄</button><br><button class="btn btn2" id="quit-btn">Exit 🚪</button>
   </div>
 </div>
 
-<div id="lobby" class="overlay"><div class="panel"><h1>🌐 রেস রুম</h1><p>অন্য খেলোয়াড়রা যোগ দিলে এখানে দেখা যাবে। কাউন্টডাউন শেষে রেস শুরু হবে।</p><div class="big" id="lobby-count">--</div><p id="lobby-n"></p><ul class="lb" id="lb-room"></ul><button class="btn btn2" id="lobby-leave">বের হও 🚪</button></div></div>
+<div id="lobby" class="overlay"><div class="panel"><h1>🌐 Race Room</h1><p>Waiting for other players to join. The race starts when the countdown ends.</p><div class="big" id="lobby-count">--</div><p id="lobby-n"></p><ul class="lb" id="lb-room"></ul><button class="btn btn2" id="lobby-leave">Exit 🚪</button></div></div>
 
-<div id="pause-screen" class="overlay"><div class="panel"><h1>বিরতি ⏸️</h1><button class="btn" id="resume-btn">চালিয়ে যাও ▶️</button><br><button class="btn btn2" id="end-btn">খেলা শেষ করো 🚪</button></div></div>
+<div id="pause-screen" class="overlay"><div class="panel"><h1>Paused ⏸️</h1><button class="btn" id="resume-btn">Resume ▶️</button><br><button class="btn btn2" id="end-btn">End Game 🚪</button></div></div>
 
-<div id="lb-screen" class="overlay"><div class="panel"><h2>🏆 রেসিং চ্যাম্পিয়ন (সেরা ৫) 🏆</h2><ul class="lb" id="lb-view"></ul><button class="btn" id="lb-close">বন্ধ করো ✖️</button></div></div>
+<div id="lb-screen" class="overlay"><div class="panel"><h2>🏆 Racing Champions (Top 5) 🏆</h2><ul class="lb" id="lb-view"></ul><button class="btn" id="lb-close">Close ✖️</button></div></div>
 
 <div id="touch">
   <button class="tb side" id="t-left">◀</button>
@@ -134,7 +135,7 @@ function renderLB(snap){
       const v = d.data(), li = document.createElement("li");
       const r = document.createElement("span"); r.textContent = rank++ + ".";
       const img = document.createElement("img"); img.src = v.photoURL || ""; img.alt = ""; img.referrerPolicy = "no-referrer";
-      const n = document.createElement("span"); n.className = "n"; n.textContent = v.name || "অজানা";
+      const n = document.createElement("span"); n.className = "n"; n.textContent = v.name || "Unknown";
       const s = document.createElement("span"); s.className = "s"; s.textContent = v.score;
       li.append(r, img, n, s); ul.append(li);
     });
@@ -160,27 +161,25 @@ const snow = () => Date.now() + offset;
 mp.now = snow; mp.uid = () => currentUser && currentUser.uid;
 function startRealtime(user) {
   if (rtOn) return; rtOn = true;
-  onValue(rr(rdb, ".info/connected"), s => { if (s.val()) { const me = rr(rdb, "online/" + user.uid); rs(me, 1); onDisconnect(me).remove(); } });
   onValue(rr(rdb, "online"), s => mp.onOnline && mp.onOnline(s.numChildren()), () => {});
   onValue(rr(rdb, "rooms"), snap => {
     let open = null;
     snap.forEach(c => {
       const v = c.val(), n = v.players ? Object.keys(v.players).length : 0;
       if (!n && v.startAt < snow() - 60000) rm(c.ref).catch(() => {});
-      else if (!open && n && n < 10 && v.startAt > snow() + 4000) open = c.key;
     });
-    if (open && !roomId && mp.onInvite) mp.onInvite(open);
   }, () => {});
 }
 function joined(rid) {
   roomId = rid; myRef = rr(rdb, `rooms/${rid}/players/${currentUser.uid}`); onDisconnect(myRef).remove();
+  const on = rr(rdb, "online/" + currentUser.uid); rs(on, 1); onDisconnect(on).remove();
   offRoom = onValue(rr(rdb, `rooms/${rid}`), s => { const v = s.val(); if (v && v.players && mp.onRoom) mp.onRoom(v.players, v.startAt, currentUser.uid); });
   return { ok: true, rid };
 }
 mp.join = async color => {
   if (!currentUser) throw new Error("login");
   if (roomId) await mp.leave();
-  const u = currentUser, me = { n: u.displayName || "রেসার", p: u.photoURL || "", c: color, x: 0, d: 0, v: 0, s: 0, f: 0 };
+  const u = currentUser, me = { n: u.displayName || "Racer", p: u.photoURL || "", c: color, x: 0, d: 0, v: 0, s: 0, f: 0 };
   const snap = await rg(rr(rdb, "rooms")), cands = [];
   snap.forEach(c => { const v = c.val(), n = v.players ? Object.keys(v.players).length : 0; if (n && n < 10 && v.startAt > snow() + 3000) cands.push(c.key); });
   for (const rid of cands) {
@@ -188,15 +187,16 @@ mp.join = async color => {
     if (res.committed) return joined(rid);
   }
   const rid = rp(rr(rdb, "rooms")).key;
-  await rs(rr(rdb, `rooms/${rid}`), { startAt: snow() + 25000, players: { [u.uid]: me } });
+  await rs(rr(rdb, `rooms/${rid}`), { startAt: snow() + 10000, players: { [u.uid]: me } });
   return joined(rid);
 };
 mp.send = st => { if (myRef) ru(myRef, st).catch(() => {}); };
 mp.finish = () => { if (myRef) ru(myRef, { f: snow() }).catch(() => {}); };
+mp.extend = () => { if (roomId) ru(rr(rdb, `rooms/${roomId}`), { startAt: snow() + 10000 }).catch(() => {}); };
 mp.leave = async () => {
   if (!roomId) return;
   const rid = roomId, ref0 = myRef; roomId = null; myRef = null; if (offRoom) offRoom(); offRoom = null;
-  try { await onDisconnect(ref0).cancel(); await rm(ref0); const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
+  try { await onDisconnect(ref0).cancel(); await rm(ref0); if (!roomId) { const on = rr(rdb, "online/" + currentUser.uid); await onDisconnect(on).cancel(); await rm(on); } const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
 };
 
 window.saveScore = async score => {
@@ -204,7 +204,7 @@ window.saveScore = async score => {
   const ref = doc(db, "racing_scores", currentUser.uid);
   const snap = await getDoc(ref);
   if (!snap.exists() || (snap.data().score || 0) < score) {
-    await setDoc(ref, { uid: currentUser.uid, name: currentUser.displayName || "রেসার", photoURL: currentUser.photoURL || "", score, updatedAt: Date.now() });
+    await setDoc(ref, { uid: currentUser.uid, name: currentUser.displayName || "Racer", photoURL: currentUser.photoURL || "", score, updatedAt: Date.now() });
   }
   return "ok";
 };
@@ -228,8 +228,8 @@ const scene = new THREE.Scene();
   const gr = g.createLinearGradient(0, 0, 0, 256); gr.addColorStop(0, "#2f6fc4"); gr.addColorStop(.6, "#8fc1ec"); gr.addColorStop(1, "#d9ebf7");
   g.fillStyle = gr; g.fillRect(0, 0, 16, 256); scene.background = new THREE.CanvasTexture(c);
 }
-scene.fog = new THREE.Fog(0xcfe4f4, 100, 300);
-const cam = new THREE.PerspectiveCamera(62, 1, .1, 400);
+scene.fog = new THREE.Fog(0xcfe4f4, 140, 400);
+const cam = new THREE.PerspectiveCamera(62, 1, .1, 560);
 function resize() { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); }
 addEventListener("resize", resize); resize();
 
@@ -240,8 +240,22 @@ sun.shadow.mapSize.set(1024, 1024);
 Object.assign(sun.shadow.camera, { left: -22, right: 22, top: 30, bottom: -30, near: 1, far: 80 });
 scene.add(sun, sun.target);
 
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 500), new THREE.MeshStandardMaterial({ color: 0x3f7a3a, roughness: 1 }));
-ground.rotation.x = -Math.PI / 2; ground.position.set(0, -.02, -150); ground.receiveShadow = true; scene.add(ground);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(700, 700), new THREE.MeshStandardMaterial({ color: 0x3f7a3a, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2; ground.position.set(0, -.02, -250); ground.receiveShadow = true; scene.add(ground);
+
+// ---------- Road bends ----------
+// off(z): sideways shift of the road at relative depth z (z<0 = ahead), based on distance travelled.
+const bend = d => Math.sin(d / 230) * 17 + Math.sin(d / 97 + 1.3) * 6;
+const off = z => bend(dist - z) - bend(dist);
+const bendMeshes = [];
+function mkBend(mesh) {
+  const a = mesh.geometry.attributes.position, ox = new Float32Array(a.count);
+  for (let i = 0; i < a.count; i++) ox[i] = a.getX(i);
+  bendMeshes.push({ a, ox, zc: mesh.position.z });
+}
+function bendRoad() {
+  for (const b of bendMeshes) { for (let i = 0; i < b.a.count; i++) b.a.setX(i, b.ox[i] + off(b.zc - b.a.getY(i))); b.a.needsUpdate = true; }
+}
 
 function canvasTex(draw, w, h, rx, ry) {
   const c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d"), w, h);
@@ -253,13 +267,13 @@ const roadTex = canvasTex((g, w, h) => {
   g.fillStyle = "#fff";
   for (let i = 1; i < 4; i++) g.fillRect(w * i / 4 - 3, 0, 6, h * .5);
   g.fillStyle = "#e8e8e8"; g.fillRect(4, 0, 5, h); g.fillRect(w - 9, 0, 5, h);
-}, 256, 256, 1, 40);
-const curbTex = canvasTex((g, w, h) => { g.fillStyle = "#d32f2f"; g.fillRect(0, 0, w, h); g.fillStyle = "#fff"; g.fillRect(0, h / 2, w, h / 2); }, 32, 64, 1, 100);
-const road = new THREE.Mesh(new THREE.PlaneGeometry(12, 400), new THREE.MeshStandardMaterial({ map: roadTex, roughness: .9 }));
-road.rotation.x = -Math.PI / 2; road.position.set(0, 0, -150); road.receiveShadow = true; scene.add(road);
+}, 256, 256, 1, 52);
+const curbTex = canvasTex((g, w, h) => { g.fillStyle = "#d32f2f"; g.fillRect(0, 0, w, h); g.fillStyle = "#fff"; g.fillRect(0, h / 2, w, h / 2); }, 32, 64, 1, 130);
+const road = new THREE.Mesh(new THREE.PlaneGeometry(12, 520, 1, 130), new THREE.MeshStandardMaterial({ map: roadTex, roughness: .9 }));
+road.rotation.x = -Math.PI / 2; road.position.set(0, 0, -190); road.receiveShadow = true; scene.add(road); mkBend(road);
 for (const s of [-1, 1]) {
-  const c = new THREE.Mesh(new THREE.PlaneGeometry(.9, 400), new THREE.MeshStandardMaterial({ map: curbTex }));
-  c.rotation.x = -Math.PI / 2; c.position.set(s * 6.45, .01, -150); scene.add(c);
+  const c = new THREE.Mesh(new THREE.PlaneGeometry(.9, 520, 1, 130), new THREE.MeshStandardMaterial({ map: curbTex }));
+  c.rotation.x = -Math.PI / 2; c.position.set(s * 6.45, .01, -190); scene.add(c); mkBend(c);
 }
 
 // ---------- Scenery ----------
@@ -270,8 +284,8 @@ const winTex = [0, 1].map(k => canvasTex((g, w, h) => {
   for (let y = 6; y < h; y += 22) for (let x = 8; x < w; x += 20) { g.fillStyle = Math.random() < .35 ? "#ffe9a8" : "#2b3648"; g.fillRect(x, y, 11, 13); }
 }, 128, 256, 1, 1));
 const metal = mat(0xb9c0cc), poleM = mat(0x555a66), lampM = mat(0xfff3b0, { emissive: 0xffe082, emissiveIntensity: 1.2 });
-const scenery = [];
-for (let i = 0; i < 22; i++) for (const s of [-1, 1]) {
+const scenery = [], SC_N = 28, SC_LEN = SC_N * 14;
+for (let i = 0; i < SC_N; i++) for (const s of [-1, 1]) {
   const g = new THREE.Group();
   box(.25, 7, .25, poleM, s * 7.6, 3.5, 0, g); box(1.9, .2, .3, poleM, s * 6.7, 7, 0, g); box(.7, .15, .4, lampM, s * 5.9, 6.9, 0, g);
   box(.1, .35, 13.6, metal, s * 7.0, .62, 0, g);
@@ -282,9 +296,9 @@ for (let i = 0; i < 22; i++) for (const s of [-1, 1]) {
   if (i % 3 === 0) { const h = 8 + Math.random() * 16; const b = new THREE.Mesh(new THREE.BoxGeometry(7, h, 7), new THREE.MeshStandardMaterial({ map: winTex[i % 2], roughness: .8 })); b.position.set(s * 20, h / 2, 3); b.castShadow = true; g.add(b); }
   g.position.z = -i * 14; scene.add(g); scenery.push(g);
 }
-for (let i = 0; i < 12; i++) { const h = 50 + Math.random() * 50, m = new THREE.Mesh(new THREE.ConeGeometry(45, h, 6), new THREE.MeshStandardMaterial({ color: 0x7a8fa6, flatShading: true, fog: true })); m.position.set(-220 + i * 40, h / 2 - 2, -290); scene.add(m); }
+for (let i = 0; i < 12; i++) { const h = 50 + Math.random() * 50, m = new THREE.Mesh(new THREE.ConeGeometry(45, h, 6), new THREE.MeshStandardMaterial({ color: 0x7a8fa6, flatShading: true, fog: true })); m.position.set(-220 + i * 40, h / 2 - 2, -420); scene.add(m); }
 const cloudM = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .85, fog: false });
-for (let i = 0; i < 7; i++) { const c = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), cloudM); c.scale.set(18 + Math.random() * 14, 3, 6); c.position.set(-150 + Math.random() * 300, 55 + Math.random() * 25, -250 - Math.random() * 40); scene.add(c); }
+for (let i = 0; i < 7; i++) { const c = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), cloudM); c.scale.set(18 + Math.random() * 14, 3, 6); c.position.set(-150 + Math.random() * 300, 55 + Math.random() * 25, -300 - Math.random() * 60); scene.add(c); }
 
 // ---------- Cars ----------
 const tireM = mat(0x0e0e0e, { metalness: 0, roughness: .9 }), rimM = mat(0xd0d4da, { metalness: .9, roughness: .25 });
@@ -309,7 +323,30 @@ function makeCar(color, kind) {
   g.userData.wheels = []; g.userData.tail = [];
   const lamp = (c, x, y, z, tail) => { const lm = mat(c, { emissive: c, emissiveIntensity: tail ? 1.4 : 2 }); if (tail) g.userData.tail.push(lm); return box(.5, .2, .08, lm, x, y, z, g); };
   let L;
-  if (kind === "truck") {
+  if (kind === "rickshaw") {
+    g.userData.hl = 1.8; L = 3.6;
+    const body = mat(color, { metalness: .1, roughness: .6 }), hood = mat(0xd32f2f, { metalness: 0, roughness: .8 }), skin = mat(0xc68642, { metalness: 0, roughness: .9 });
+    box(1.2, .18, 1.5, body, 0, .8, .7, g);
+    box(1.1, .55, .18, body, 0, 1.15, 1.4, g);
+    box(1.4, .14, 1.7, hood, 0, 2.05, .75, g).rotation.x = .12;
+    for (const x of [-.6, .6]) box(.07, 1.2, .07, darkM, x, 1.45, 1.35, g);
+    box(.5, .7, .3, mat(0x1565c0, { metalness: 0 }), 0, 1.5, -.75, g);
+    const hd = new THREE.Mesh(new THREE.SphereGeometry(.2, 8, 8), skin); hd.position.set(0, 2.05, -.75); g.add(hd);
+    box(.08, .9, .08, darkM, 0, 1.0, -1.05, g); box(.6, .06, .06, darkM, 0, 1.45, -1.25, g);
+    g.userData.wheels.push(wheel(g, 0, -1.4, .38), wheel(g, -.62, 1.0, .45), wheel(g, .62, 1.0, .45));
+    lamp(0xff1a1a, 0, .9, 1.52, true);
+  } else if (kind === "auto") {
+    g.userData.hl = 1.9; L = 3.8;
+    const ag = mat(0x2e7d32, { metalness: .3, roughness: .5 }), roof = mat(0x1b5e20, { metalness: .2, roughness: .6 });
+    box(1.6, .85, 2.4, ag, 0, .95, .55, g);
+    box(1.15, .75, .95, ag, 0, .9, -1.25, g);
+    box(1.3, .7, .06, glassM, 0, 1.55, -.78, g);
+    box(1.8, .12, 2.7, roof, 0, 2.1, .35, g);
+    for (const x of [-.78, .78]) for (const z of [-.7, 1.55]) box(.07, .95, .07, darkM, x, 1.6, z, g);
+    box(1.4, .5, .1, mat(0xffd600, { metalness: 0 }), 0, 1.45, 1.78, g);
+    g.userData.wheels.push(wheel(g, 0, -1.4, .38), wheel(g, -.8, 1.1, .4), wheel(g, .8, 1.1, .4));
+    lamp(0xffffcc, 0, .85, -1.75); lamp(0xff1a1a, -.55, .8, 1.78, true); lamp(0xff1a1a, .55, .8, 1.78, true);
+  } else if (kind === "truck") {
     g.userData.hl = 3.6; L = 7.4;
     box(2.3, 2.7, 5.4, mat(0xe6e6e6, { metalness: .1, roughness: .6 }), 0, 2.0, .9, g);
     g.add(extr([[-3.5, .5], [-3.5, 1.9], [-3.1, 2.7], [-1.9, 2.85], [-1.7, .5]], 2.2, m, .05));
@@ -367,13 +404,13 @@ function initAudio() {
     nGain = actx.createGain(); nGain.gain.value = 0; ns.connect(nbp); nbp.connect(nGain); nGain.connect(actx.destination); ns.start();
   } catch (e) {}
 }
-const GEARS = [30, 52, 75, 100, 140];
+const GEARS = [55, 95, 135, 175, 230];
 function engineUpdate(v, boost, dr) {
   if (!engGain) return;
   let g = 0; while (g < 4 && v > GEARS[g]) g++;
   const lo = g ? GEARS[g - 1] : 0, rpm = Math.min(1, Math.max(0, (v - lo) / (GEARS[g] - lo))), f = 48 + rpm * 95 + g * 4;
   eng.frequency.value = f; eng2.frequency.value = f / 2; lpf.frequency.value = 350 + rpm * 1100;
-  engGain.gain.value = .05 + rpm * .05 + (boost ? .02 : 0); nbp.frequency.value = dr ? 1800 : 700; nGain.gain.value = dr ? .16 : Math.min(.12, v / 1100);
+  engGain.gain.value = .05 + rpm * .05 + (boost ? .02 : 0); nbp.frequency.value = dr ? 1800 : 700; nGain.gain.value = dr ? .16 : Math.min(.12, v / 1700);
 }
 function engineOff() { if (engGain) engGain.gain.value = 0; if (nGain) nGain.gain.value = 0; }
 function beep(f1, f2) {
@@ -383,11 +420,40 @@ function beep(f1, f2) {
   g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .2);
   o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + .22);
 }
-const crashSnd = new Audio("https://madinamanjeel.github.io/kids/game/sounds/gameover.mp3");
+// Bangladeshi street sounds: rickshaw bell, CNG auto horn, truck/bus horn, plus occasional Bangla shout
+function tone(type, f, t0, dur, vol) {
+  if (!actx) return;
+  const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + t0;
+  o.type = type; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + dur);
+  o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + dur + .02);
+}
+function vibeSound(k) {
+  if (k === "rickshaw") [0, .16, .5, .66].forEach(t => { tone("sine", 2600, t, .14, .07); tone("sine", 3900, t, .1, .03); });
+}
+const SFX = "https://github.com/merryverse/merryverse.github.io/releases/download/assets/";
+const crashSnd = new Audio(SFX + "collision.mp3"), brakeSnd = new Audio(SFX + "break.mp3"), hornSnd = new Audio(SFX + "horn.mp3"), shoutSnd = new Audio(SFX + "shout.mp3");
+const allSfx = [crashSnd, brakeSnd, hornSnd, shoutSnd]; allSfx.forEach(a => a.preload = "auto");
+let shoutDone = false, shoutPending = false, hornT = 8, wasBrake = false, sfxUnlocked = false;
+function playSfx(a) { try { a.currentTime = 0; a.play().catch(() => {}); } catch (e) {} }
+crashSnd.addEventListener("ended", () => { if (shoutPending) { shoutPending = false; playSfx(shoutSnd); } });
+function unlockSfx() {
+  if (sfxUnlocked) return; sfxUnlocked = true;
+  allSfx.forEach(a => { a.muted = true; a.play().then(() => { a.pause(); a.currentTime = 0; a.muted = false; }).catch(() => { a.muted = false; }); });
+}
+
+// ---------- Radio (single player only) ----------
+const radio = new Audio("https://github.com/merryverse/merryverse.github.io/releases/download/assets/abcsong.mp3");
+radio.loop = true; radio.volume = .5; radio.preload = "auto";
+let radioOn = true;
+function radioSync() {
+  $("radio-btn").textContent = radioOn ? "📻" : "🔇";
+  if (mode === "single" && state === "play" && radioOn) radio.play().catch(() => {}); else radio.pause();
+}
+$("radio-btn").onclick = () => { radioOn = !radioOn; radioSync(); };
 
 // ---------- State ----------
 let state = "menu", speed = 0, score = 0, high = +localStorage.getItem("race_high") || 0, nitro = 100, lane = 1, px = LANES[1];
-const GOAL = 5000; let dist = 0, sparks = [], puffs = [], driftT = 0, driftDir = 1, driftAng = 0, mode = "single", lastSend = 0;
+const GOAL = 8000; let dist = 0, sparks = [], puffs = [], driftT = 0, driftDir = 1, driftAng = 0, mode = "single", lastSend = 0, myFin = 0;
 let traffic = [], coins = [], spawnT = 0, coinT = 0, shake = 0, t0 = 0;
 window.setHigh = v => { if (v > high) { high = v; $("high").textContent = high; } };
 $("high").textContent = high;
@@ -395,15 +461,20 @@ const keys = { brake: false, nitro: false };
 const cMat = mat(0xffd54f, { emissive: 0xffa000, emissiveIntensity: 1.2 });
 const colors = [0x1e88e5, 0x43a047, 0xfdd835, 0x8e24aa, 0xfb8c00, 0x00acc1, 0xf5f5f5, 0x6d4c41];
 
+function applyMode() {
+  const mm = mode === "multi";
+  $("score-chip").style.display = $("high-chip").style.display = $("lb-btn").style.display = $("radio-btn").style.display = mm ? "none" : "";
+  $("rank-chip").style.display = mm ? "" : "none";
+}
 function reset() {
   traffic.forEach(c => scene.remove(c)); coins.forEach(c => scene.remove(c)); traffic = []; coins = [];
-  sparks.forEach(x => scene.remove(x)); sparks = []; dist = 0; $("prog-bar").style.width = "0%";
+  sparks.forEach(x => scene.remove(x)); sparks = []; dist = 0; myFin = 0; shoutDone = false; shoutPending = false; hornT = 6 + Math.random() * 6; $("prog-bar").style.width = "0%";
   speed = 0; driftT = 0; driftAng = 0; puffs.forEach(x => scene.remove(x)); puffs = []; score = 0; nitro = 100; lane = 1; px = LANES[1]; spawnT = 0; coinT = 2; shake = 0;
 }
 function steer(d) {
   if (state !== "play") return;
   const nl = Math.max(0, Math.min(3, lane + d));
-  if (nl !== lane && keys.brake && speed > 35) { driftT = 1.1; driftDir = d; }
+  if (nl !== lane && keys.brake && speed > 50) { driftT = 1.1; driftDir = d; }
   lane = nl;
 }
 const puffGeo = new THREE.SphereGeometry(.4, 6, 5);
@@ -413,31 +484,42 @@ function puff(x, z) {
 }
 function spawnTraffic() {
   const l = Math.floor(Math.random() * 4);
-  if (traffic.some(c => c.userData.lane === l && c.position.z < -140)) return;
-  const truck = Math.random() < .25, c = makeCar(colors[Math.floor(Math.random() * colors.length)], truck ? "truck" : "sport");
-  c.userData.lane = l; c.userData.v0 = c.userData.v = truck ? 24 + Math.random() * 8 : 30 + Math.random() * 18; c.userData.sx = 0; c.userData.hitT = 0; c.userData.passed = false;
-  c.position.set(LANES[l], 0, -210); scene.add(c); traffic.push(c);
+  if (traffic.some(c => c.userData.lane === l && c.position.z < -240)) return;
+  const r = Math.random(), kind = r < .14 ? "truck" : r < .36 ? "rickshaw" : r < .56 ? "auto" : "sport";
+  const c = makeCar(colors[Math.floor(Math.random() * colors.length)], kind), u = c.userData;
+  u.kind = kind; u.lane = l; u.sx = 0; u.hitT = 0; u.passed = false; u.snd = false;
+  u.v0 = u.v = kind === "truck" ? 30 + Math.random() * 10 : kind === "rickshaw" ? 14 + Math.random() * 8 : kind === "auto" ? 26 + Math.random() * 10 : 45 + Math.random() * 25;
+  c.position.set(LANES[l], 0, -300); scene.add(c); traffic.push(c);
 }
 function spawnCoin() {
   const l = Math.floor(Math.random() * 4);
   for (let i = 0; i < 4; i++) {
-    const m = new THREE.Mesh(new THREE.OctahedronGeometry(.55), cMat); m.position.set(LANES[l], 1.1, -200 - i * 5); scene.add(m); coins.push(m);
+    const m = new THREE.Mesh(new THREE.OctahedronGeometry(.55), cMat); m.userData.lx = LANES[l]; m.position.set(LANES[l], 1.1, -290 - i * 8); scene.add(m); coins.push(m);
   }
 }
 function gameOver(why) {
   if (state === "over" || state === "menu") return;
-  $("over-title").textContent = why === "finish" ? "রেস শেষ! 🏁 অভিনন্দন!" : "খেলা শেষ 🏁";
+  $("over-title").textContent = why === "finish" ? "Race Finished! 🏁 Congratulations!" : "Game Over 🏁";
   $("pause-screen").classList.remove("show"); $("pause-btn").textContent = "⏸️";
-  state = "over"; if (engGain) engGain.gain.value = 0;
-  const s = Math.floor(score); $("final-score").textContent = s; $("save-status").textContent = "সেভ হচ্ছে...";
-  if (s > high) { high = s; localStorage.setItem("race_high", s); $("high").textContent = s; }
+  state = "over"; if (engGain) engGain.gain.value = 0; radioSync();
+  const s = Math.floor(score); $("final-score").textContent = s; $("save-status").textContent = "Saving...";
+  const mm = mode === "multi";
+  if (!mm && s > high) { high = s; localStorage.setItem("race_high", s); $("high").textContent = s; }
   $("over").classList.add("show");
-  const mm = mode === "multi"; $("rr-h").style.display = $("race-res").style.display = mm ? "" : "none"; if (mm) renderRace();
+  $("rr-h").style.display = $("race-res").style.display = mm ? "" : "none";
+  ["score-lbl", "final-score", "save-status", "champ-h", "lb-over"].forEach(i => $(i).style.display = mm ? "none" : "");
+  if (mm) {
+    renderRace();
+    const st = standings(), i = st.findIndex(p => p.u === (mp.uid && mp.uid()));
+    $("over-title").textContent = why === "finish" ? "You finished #" + (i + 1) + " 🏁" : "Race Over 🏁";
+    return;
+  }
   const p = window.saveScore ? window.saveScore(s) : Promise.resolve("guest");
-  p.then(r => $("save-status").textContent = r === "guest" ? "লগইন ছাড়া খেলছ, অনলাইনে সেভ হয়নি" : "স্কোর সেভ হয়েছে!").catch(() => $("save-status").textContent = "সেভ করা যায়নি 😢");
+  p.then(r => $("save-status").textContent = r === "guest" ? "Playing as guest, score not saved online" : "Score saved!").catch(() => $("save-status").textContent = "Could not save 😢");
 }
-function startGame() { initAudio(); if (actx && actx.state === "suspended") actx.resume(); reset(); state = "play"; $("pause-btn").textContent = "⏸️"; ["start", "over", "lobby"].forEach(i => $(i).classList.remove("show")); $("rank-chip").style.display = mode === "multi" ? "" : "none"; }
-function setPause(p) {
+function startGame() { initAudio(); if (actx && actx.state === "suspended") actx.resume(); reset(); state = "play"; $("pause-btn").textContent = "⏸️"; ["start", "over", "lobby"].forEach(i => $(i).classList.remove("show")); applyMode(); try { radio.currentTime = 0; } catch (e) {} radioSync(); }
+function setPause(p) { setPause0(p); radioSync(); }
+function setPause0(p) {
   if (p && state === "play") { state = "pause"; $("pause-btn").textContent = "▶️"; $("pause-screen").classList.add("show"); if (engGain) engGain.gain.value = 0; }
   else if (!p && state === "pause") { state = "play"; $("pause-btn").textContent = "⏸️"; $("pause-screen").classList.remove("show"); }
 }
@@ -470,7 +552,7 @@ $("again-btn").onclick = () => { if (mode === "multi") { leaveRoom(); startMulti
 $("lobby-leave").onclick = () => { leaveRoom(); showHome(); };
 $("pause-btn").onclick = () => setPause(state !== "pause");
 $("end-btn").onclick = () => gameOver();
-$("hq-btn").onclick = () => { if ((state === "play" || state === "pause") && confirm("খেলা শেষ করবে?")) gameOver(); };
+$("hq-btn").onclick = () => { if ((state === "play" || state === "pause") && confirm("End the game?")) gameOver(); };
 $("quit-btn").onclick = () => { leaveRoom(); showHome(); };
 let lbPaused = false;
 $("lb-btn").onclick = () => { lbPaused = state === "play"; if (lbPaused) setPause(true); $("lb-screen").classList.add("show"); };
@@ -485,16 +567,17 @@ function fillList(ul, arr, fmt) {
   arr.forEach((p, i) => {
     const li = document.createElement("li"), r = document.createElement("span"), img = document.createElement("img"), n = document.createElement("span"), sc = document.createElement("span");
     r.textContent = (i + 1) + "."; img.src = p.p || ""; img.alt = ""; img.referrerPolicy = "no-referrer";
-    n.className = "n"; n.textContent = p.n || "রেসার"; sc.className = "s"; sc.textContent = fmt ? fmt(p) : "";
+    n.className = "n"; n.textContent = p.n || "Racer"; sc.className = "s"; sc.textContent = fmt ? fmt(p) : "";
     li.append(r, img, n, sc); ul.append(li);
   });
 }
+// Multiplayer ranking: finishers first (by finish time), then everyone else by distance covered.
 function standings() {
   const me = mp.uid && mp.uid(), arr = Object.entries(room).map(([u, p]) => Object.assign({ u }, p));
-  arr.forEach(p => { if (p.u === me && state === "play") p.d = dist; });
+  arr.forEach(p => { if (p.u === me) { if (state === "play" || state === "over") p.d = dist; if (myFin) p.f = p.f || myFin; } });
   return arr.sort((a, b) => (a.f && b.f) ? a.f - b.f : a.f ? -1 : b.f ? 1 : b.d - a.d);
 }
-function renderRace() { fillList($("race-res"), standings(), p => p.f ? "🏁 শেষ" : Math.round(p.d) + " মি"); }
+function renderRace() { fillList($("race-res"), standings(), p => p.f ? "🏁 " + ((p.f - roomStart) / 1000).toFixed(1) + "s" : Math.round(p.d) + " m"); }
 function labelSprite(t) {
   const c = document.createElement("canvas"); c.width = 256; c.height = 64; const g = c.getContext("2d");
   g.fillStyle = "rgba(0,0,0,.55)"; g.fillRect(0, 8, 256, 48); g.fillStyle = "#fff"; g.font = "bold 32px sans-serif"; g.textAlign = "center"; g.fillText(t.slice(0, 14), 128, 44);
@@ -506,7 +589,7 @@ function updateGhosts() {
   for (const [uid, p] of Object.entries(room)) {
     if (uid === me) continue;
     let g = ghosts[uid];
-    if (!g) { const mesh = makeCar(colors[(p.c || 0) % colors.length], "sport"); mesh.add(labelSprite(p.n || "রেসার")); mesh.visible = false; scene.add(mesh); g = ghosts[uid] = { mesh, x: p.x || 0, d: p.d || 0 }; }
+    if (!g) { const mesh = makeCar(colors[(p.c || 0) % colors.length], "sport"); mesh.add(labelSprite(p.n || "Racer")); mesh.visible = false; scene.add(mesh); g = ghosts[uid] = { mesh, x: p.x || 0, d: p.d || 0 }; }
     g.tx = p.x || 0; g.td = p.d || 0; g.v = p.v || 0; g.t = performance.now();
   }
   for (const uid in ghosts) if (!room[uid]) { scene.remove(ghosts[uid].mesh); delete ghosts[uid]; }
@@ -514,29 +597,39 @@ function updateGhosts() {
 mp.onRoom = (players, startAt) => {
   room = players; roomStart = startAt; updateGhosts();
   const list = Object.entries(players).map(([u, p]) => Object.assign({ u }, p));
-  fillList($("lb-room"), list); $("lobby-n").textContent = list.length + "/10 জন";
+  fillList($("lb-room"), list); 
   if (state === "over" && mode === "multi") renderRace();
 };
-mp.onOnline = n => { $("online-info").textContent = "🟢 অনলাইন: " + n + " জন"; };
-mp.onInvite = () => { if (state === "menu" && $("start").classList.contains("show") && !$("lb-screen").classList.contains("show") && Date.now() > skipUntil) startMulti(true); };
+mp.onOnline = n => { $("online-info").textContent = "🟢 In multiplayer now: " + n; };
+let joinStart = 0;
+function toast(t) { const e = $("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = "none", 6000); }
 async function startMulti(auto) {
-  if (joining) return;
-  if (!mp.join) { if (!auto) alert("অনলাইন সার্ভার লোড হয়নি বা লগইন হয়নি।"); return; }
-  joining = true; initAudio();
+  if (joining && Date.now() - joinStart < 12000) return;
+  joining = true; joinStart = Date.now(); initAudio();
+  const btn = $("multi-btn"), label = "🌐 Multiplayer (up to 10 players)";
+  if (!mp.join) { joining = false; toast("Online server not loaded or you are not logged in."); return; }
+  btn.textContent = "⏳ Connecting...";
   try {
-    myColor = Math.floor(Math.random() * colors.length); await mp.join(myColor);
-    mode = "multi"; state = "lobby"; room = {}; $("start").classList.remove("show"); $("over").classList.remove("show"); $("lobby").classList.add("show");
-  } catch (e) { console.error(e); skipUntil = Date.now() + 20000; if (!auto) alert("রুমে যোগ দেওয়া যায়নি। Realtime Database চালু আছে কিনা এবং rules/databaseURL ঠিক আছে কিনা দেখো।"); }
-  joining = false;
+    myColor = Math.floor(Math.random() * colors.length);
+    await Promise.race([mp.join(myColor), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 10000))]);
+    mode = "multi"; state = "lobby"; room = {}; radioSync(); applyMode();
+    ["start", "over", "lb-screen"].forEach(i => $(i).classList.remove("show")); $("lobby").classList.add("show");
+  } catch (e) {
+    console.error(e); if (mp.leave) mp.leave();
+    toast("Could not join a room (" + (e && e.message || e) + "). Tap Multiplayer to try again.");
+  }
+  btn.textContent = label; joining = false;
 }
 function leaveRoom() { if (mp.leave) mp.leave(); skipUntil = Date.now() + 20000; clearGhosts(); room = {}; }
-function showHome() { ["over", "lobby", "pause-screen"].forEach(i => $(i).classList.remove("show")); $("start").classList.add("show"); state = "menu"; mode = "single"; $("rank-chip").style.display = "none"; }
+function showHome() { joining = false; $("multi-btn").textContent = "🌐 Multiplayer (up to 10 players)"; ["over", "lobby", "pause-screen", "lb-screen"].forEach(i => $(i).classList.remove("show")); $("start").classList.add("show"); state = "menu"; mode = "single"; applyMode(); radioSync(); }
 setInterval(() => {
   if (state !== "lobby" || !mp.now || !roomStart) return;
   const r = Math.ceil((roomStart - mp.now()) / 1000); $("lobby-count").textContent = Math.max(0, r);
-  if (r <= 0) startGame();
+  const n = Object.keys(room).length;
+  $("lobby-n").textContent = n < 2 ? "Waiting for another player to join..." : n + "/10 players";
+  if (r <= 0) { if (n < 2) { if (Date.now() - (mp.lastExt || 0) > 2000) { mp.lastExt = Date.now(); if (mp.extend) mp.extend(); } } else startGame(); }
 }, 200);
-addEventListener("pointerdown", () => { initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
+addEventListener("pointerdown", () => { unlockSfx(); initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
 
 // ---------- Loop ----------
 let last = performance.now();
@@ -546,15 +639,19 @@ function loop(now) {
   const play = state === "play", moving = state !== "pause";
 
   if (play) {
-    const boosting = keys.nitro && nitro > 0 && speed > 15;
+    const boosting = keys.nitro && nitro > 0 && speed > 30;
     driftT = Math.max(0, driftT - dt); const drifting = driftT > 0;
-    const cruise = 62 + Math.min(1, dist / GOAL) * 33;
+    const cruise = 110 + Math.min(1, dist / GOAL) * 45;
     let tgt, acc;
-    if (boosting) { tgt = cruise + 42; acc = 26; }
-    else if (keys.brake) { tgt = speed > 14 ? 14 : 0; acc = drifting ? 20 : 42; }
-    else { tgt = cruise; acc = speed > cruise ? 9 : speed < 25 ? 15 : 12; }
+    if (boosting) { tgt = cruise + 60; acc = 40; }
+    else if (keys.brake) { tgt = speed > 20 ? 20 : 0; acc = drifting ? 40 : 90; }
+    else { tgt = cruise; acc = speed > cruise ? 16 : speed < 40 ? 40 : 26; }
     speed += Math.sign(tgt - speed) * Math.min(Math.abs(tgt - speed), acc * dt);
     const eff = speed;
+    if (keys.brake && !wasBrake && speed > 30) playSfx(brakeSnd);
+    if (!keys.brake && wasBrake) brakeSnd.pause();
+    wasBrake = keys.brake;
+    hornT -= dt; if (hornT <= 0) { hornT = 8 + Math.random() * 10; playSfx(hornSnd); }
     if (boosting) nitro = Math.max(0, nitro - 22 * dt); else nitro = Math.min(100, nitro + 4 * dt);
     px += (LANES[lane] - px) * Math.min(1, dt * (drifting ? 5.5 : 9));
     driftAng += ((drifting ? -driftDir * .38 : 0) - driftAng) * Math.min(1, dt * 6);
@@ -574,33 +671,35 @@ function loop(now) {
       m.scale.setScalar(1 + (.7 - u.life) * 2.5); m.material.opacity = Math.max(0, u.life / .7 * .45);
       if (u.life <= 0) { scene.remove(m); m.material.dispose(); puffs.splice(i, 1); }
     }
-    scenery.forEach(g => { g.position.z += dz; if (g.position.z > 20) g.position.z -= 308; });
+    scenery.forEach(g => { g.position.z += dz; if (g.position.z > 20) g.position.z -= SC_LEN; });
 
-    spawnT -= dt; if (spawnT <= 0) { spawnTraffic(); spawnT = Math.max(.45, 1.3 - speed / 90) * (.7 + Math.random() * .6); }
-    coinT -= dt; if (coinT <= 0) { spawnCoin(); coinT = 4 + Math.random() * 4; }
+    spawnT -= dt; if (spawnT <= 0) { spawnTraffic(); spawnT = Math.max(.35, 1.4 - speed / 130) * (.7 + Math.random() * .6); }
+    coinT -= dt; if (coinT <= 0) { if (mode !== "multi") spawnCoin(); coinT = 4 + Math.random() * 4; }
 
     for (let i = traffic.length - 1; i >= 0; i--) {
       const c = traffic[i], u = c.userData; c.position.z += (eff - u.v) * dt;
       u.hitT -= dt; u.v += Math.sign(u.v0 - u.v) * Math.min(Math.abs(u.v0 - u.v), 7 * dt);
-      u.sx -= u.sx * Math.min(1, dt * 3); c.position.x = LANES[u.lane] + u.sx;
+      u.sx -= u.sx * Math.min(1, dt * 3);
+      const lx = LANES[u.lane] + u.sx; c.position.x = lx + off(c.position.z);
       u.wheels.forEach(w => w.rotation.x -= u.v * dt * 2);
-      const ddz = Math.abs(c.position.z), dx = Math.abs(c.position.x - px);
+      if (!u.snd && c.position.z > -110) { u.snd = true; if (Math.random() < .55) vibeSound(u.kind); }
+      const ddz = Math.abs(c.position.z), dx = Math.abs(lx - px);
       if (u.hitT <= 0 && ddz < u.hl + 2 && dx < 1.9) {
-        const dir = c.position.x >= px ? 1 : -1;
-        score = Math.max(0, score - 15); speed = Math.max(12, speed * .55); u.v = u.v0 * .4; u.hitT = 1.3; u.sx += dir * 2.4; px -= dir * .6; shake = 1.2;
-        crashSnd.currentTime = 0; crashSnd.play().catch(() => {});
+        const dir = lx >= px ? 1 : -1;
+        score = Math.max(0, score - 15); speed = Math.max(25, speed * .6); u.v = u.v0 * .4; u.hitT = 1.3; u.sx += dir * 2.4; px -= dir * .6; shake = 1.2;
+        playSfx(crashSnd); if (!shoutDone && Math.random() < .5) { shoutDone = true; shoutPending = true; }
         burst((px + c.position.x) / 2, c.position.z * .5);
-        const h = $("hit"); h.classList.add("on"); setTimeout(() => h.classList.remove("on"), 300);
+        const h = $("hit"); h.textContent = mode === "multi" ? "💥 Crash!" : "💥 -15"; h.classList.add("on"); setTimeout(() => h.classList.remove("on"), 300);
       }
-      if (!c.userData.passed && c.position.z > 2.5) {
-        c.userData.passed = true;
+      if (!u.passed && c.position.z > 2.5) {
+        u.passed = true;
         if (dx < 3.3 && dx > 1.9) { score += 25; beep(900, 1300); }
       }
-      if (c.position.z > 25 || c.position.z < -280) { scene.remove(c); traffic.splice(i, 1); }
+      if (c.position.z > 25 || c.position.z < -340) { scene.remove(c); traffic.splice(i, 1); }
     }
     for (let i = coins.length - 1; i >= 0; i--) {
-      const c = coins[i]; c.position.z += dz; c.rotation.y += dt * 4;
-      if (Math.abs(c.position.z) < 1.8 && Math.abs(c.position.x - px) < 1.6) {
+      const c = coins[i]; c.position.z += dz; c.rotation.y += dt * 4; c.position.x = c.userData.lx + off(c.position.z);
+      if (Math.abs(c.position.z) < 1.8 && Math.abs(c.userData.lx - px) < 1.6) {
         score += 10; nitro = Math.min(100, nitro + 12); beep(700, 1500); scene.remove(c); coins.splice(i, 1);
       } else if (c.position.z > 15) { scene.remove(c); coins.splice(i, 1); }
     }
@@ -608,37 +707,44 @@ function loop(now) {
     engineUpdate(eff, boosting, drifting);
     player.rotation.x += ((keys.brake ? -.045 : boosting ? .035 : 0) - player.rotation.x) * Math.min(1, dt * 6);
     player.userData.tail.forEach(t => t.emissiveIntensity = keys.brake ? 5 : 1.4);
-    slMat.opacity = Math.min(.45, Math.max(0, (eff - 80) / 70));
+    slMat.opacity = Math.min(.45, Math.max(0, (eff - 110) / 90));
     lines.forEach(l => { l.position.z += dz * 1.4; if (l.position.z > 12) l.position.z -= 75; });
 
     $("score").textContent = Math.floor(score);
     $("prog-bar").style.width = Math.min(100, dist / GOAL * 100) + "%";
-    if (dist >= GOAL) { score += 100; if (mode === "multi" && mp.finish) mp.finish(); gameOver("finish"); }
+    if (dist >= GOAL) {
+      score += 100;
+      if (mode === "multi") { myFin = mp.now ? mp.now() : Date.now(); if (mp.finish) mp.finish(); }
+      gameOver("finish");
+    }
     $("speed").textContent = Math.floor(eff * 2.4);
     $("nitro-bar").style.width = nitro + "%";
     if (mode === "multi" && now - lastSend > 120) {
       lastSend = now; if (mp.send) mp.send({ x: +px.toFixed(2), d: Math.round(dist), v: Math.round(speed), s: Math.floor(score) });
       const st = standings(), me = mp.uid && mp.uid(); $("rank").textContent = (st.findIndex(p => p.u === me) + 1) + "/" + st.length;
     }
-    if (score > high) { high = Math.floor(score); $("high").textContent = high; }
+    if (mode !== "multi" && score > high) { high = Math.floor(score); $("high").textContent = high; }
     shake = boosting ? .35 : shake * .9;
-    cam.fov += (62 + Math.max(0, eff - 60) * .25 + (boosting ? 6 : 0) - cam.fov) * .08; cam.updateProjectionMatrix();
+    cam.fov += (62 + Math.max(0, eff - 100) * .2 + (boosting ? 6 : 0) - cam.fov) * .08; cam.updateProjectionMatrix();
   }
+
+  // road bends: reshape road + move roadside scenery
+  bendRoad(); scenery.forEach(g => g.position.x = off(g.position.z));
 
   if (mode === "multi") for (const g of Object.values(ghosts)) {
     const pred = Math.min(GOAL, g.td + g.v * (performance.now() - g.t) / 1000);
     g.d += (pred - g.d) * Math.min(1, dt * 8); g.x += (g.tx - g.x) * Math.min(1, dt * 8);
-    const z = -(g.d - dist); g.mesh.position.set(g.x, 0, z);
-    g.mesh.visible = (state === "play" || state === "pause" || state === "over") && Math.abs(z) < 260;
+    const z = -(g.d - dist); g.mesh.position.set(g.x + off(z), 0, z);
+    g.mesh.visible = (state === "play" || state === "pause" || state === "over") && Math.abs(z) < 340;
     g.mesh.userData.wheels.forEach(w => w.rotation.x -= g.v * dt * 2);
   }
-  if (!play) { engineOff(); slMat.opacity = 0; }
-  const off = (LANES[lane] - px);
-  player.position.x = px; player.rotation.y = -off * .06 + driftAng; player.rotation.z = off * .025;
+  if (!play) { engineOff(); slMat.opacity = 0; brakeSnd.pause(); wasBrake = false; }
+  const offL = (LANES[lane] - px);
+  player.position.x = px; player.rotation.y = -offL * .06 + driftAng; player.rotation.z = offL * .025;
   const sh = state === "pause" ? 0 : shake;
-  cam.position.set(px * .6 + (Math.random() - .5) * .15 * sh, 4.6 + (Math.random() - .5) * .15 * sh, 10.5 + Math.min(2.5, Math.max(0, speed - 60) * .07));
-  cam.rotation.z = -off * .015;
-  cam.lookAt(px * .5, 1.3, -14);
+  cam.position.set(px * .6 + (Math.random() - .5) * .15 * sh, 4.6 + (Math.random() - .5) * .15 * sh, 10.5 + Math.min(2.5, Math.max(0, speed - 100) * .05));
+  cam.rotation.z = -offL * .015;
+  cam.lookAt(px * .5 + off(-30) * .5, 1.3, -14);
   renderer.render(scene, cam);
 }
 requestAnimationFrame(loop);
