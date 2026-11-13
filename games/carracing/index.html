@@ -10,16 +10,16 @@
 html,body{height:100%;overflow:hidden;background:#0b1020;font-family:'Baloo Da 2','Fredoka',sans-serif;color:#fff;user-select:none;-webkit-user-select:none}
 canvas{display:block;position:fixed;inset:0}
 #loading-message{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:#0b1020;font-size:1.5rem;font-weight:700}
-#hud{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;z-index:5;pointer-events:none;gap:8px}
+#hud{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;padding:max(8px,env(safe-area-inset-top)) 8px 0;z-index:5;pointer-events:none;gap:6px}
 .chip{background:rgba(8,12,30,.62);border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:4px 12px;font-weight:800;line-height:1.2}
 .chip small{display:block;font-size:.7rem;font-weight:500;opacity:.75}
 .chip b{font-size:1.35rem;font-variant-numeric:tabular-nums}
 #nitro-wrap{width:130px;height:12px;border-radius:8px;background:rgba(255,255,255,.18);overflow:hidden;margin-top:4px}
 #nitro-bar{height:100%;width:100%;background:linear-gradient(90deg,#00e5ff,#7c4dff)}
 #pause-btn{pointer-events:auto;font-size:1.4rem;background:rgba(8,12,30,.62);border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:4px 12px;color:#fff;cursor:pointer}
-.overlay{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(5,8,22,.72);padding:12px;overflow:auto}
+.overlay{position:fixed;inset:0;z-index:20;display:none;background:rgba(5,8,22,.72);padding:12px;overflow:auto}
 .overlay.show{display:flex}
-.panel{width:min(440px,100%);background:#141b3a;border:2px solid #ffb300;border-radius:22px;padding:20px;text-align:center;box-shadow:0 0 40px rgba(255,179,0,.25)}
+.panel{margin:auto;width:min(440px,100%);background:#141b3a;border:2px solid #ffb300;border-radius:22px;padding:20px;text-align:center;box-shadow:0 0 40px rgba(255,179,0,.25)}
 .panel h1{font-size:1.8rem;color:#ffb300}
 .panel h2{font-size:1.15rem;margin:10px 0 6px}
 .big{font-size:2.6rem;font-weight:800;color:#00e5ff}
