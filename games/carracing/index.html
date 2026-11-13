@@ -107,7 +107,7 @@ canvas{display:block;position:fixed;inset:0}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { getDatabase, ref as rr, set as rs, update as ru, remove as rm, onValue, onDisconnect, push as rp, get as rg, runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+import { getDatabase, ref as rr, set as rs, update as ru, remove as rm, onValue, onDisconnect, push as rp, get as rg, runTransaction, goOffline, goOnline } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -190,6 +190,14 @@ mp.join = async color => {
   await rs(rr(rdb, `rooms/${rid}`), { startAt: snow() + 10000, players: { [u.uid]: me } });
   return joined(rid);
 };
+// Force a fresh Realtime Database connection (the old socket can go stale after a long single-player session)
+mp.connect = () => new Promise(res => {
+  let done = false, off = null, wentOff = false;
+  const fin = v => { if (done) return; done = true; if (off) off(); res(v); };
+  off = onValue(rr(rdb, ".info/connected"), s => { if (s.val() === true && wentOff) fin(true); });
+  try { goOffline(rdb); wentOff = true; goOnline(rdb); } catch (e) { wentOff = true; }
+  setTimeout(() => fin(false), 8000);
+});
 mp.send = st => { if (myRef) ru(myRef, st).catch(() => {}); };
 mp.finish = () => { if (myRef) ru(myRef, { f: snow() }).catch(() => {}); };
 mp.extend = () => { if (roomId) ru(rr(rdb, `rooms/${roomId}`), { startAt: snow() + 10000 }).catch(() => {}); };
@@ -604,14 +612,14 @@ mp.onOnline = n => { $("online-info").textContent = "🟢 In multiplayer now: " 
 let joinStart = 0;
 function toast(t) { const e = $("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = "none", 6000); }
 async function startMulti(auto) {
-  if (joining && Date.now() - joinStart < 12000) return;
+  if (joining && Date.now() - joinStart < 17000) return;
   joining = true; joinStart = Date.now(); initAudio();
   const btn = $("multi-btn"), label = "🌐 Multiplayer (up to 10 players)";
   if (!mp.join) { joining = false; toast("Online server not loaded or you are not logged in."); return; }
   btn.textContent = "⏳ Connecting...";
   try {
     myColor = Math.floor(Math.random() * colors.length);
-    await Promise.race([mp.join(myColor), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 10000))]);
+    await Promise.race([(async () => { if (mp.connect) await mp.connect(); return mp.join(myColor); })(), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 16000))]);
     mode = "multi"; state = "lobby"; room = {}; radioSync(); applyMode();
     ["start", "over", "lb-screen"].forEach(i => $(i).classList.remove("show")); $("lobby").classList.add("show");
   } catch (e) {
