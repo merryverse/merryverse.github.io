@@ -106,7 +106,7 @@ canvas{display:block;position:fixed;inset:0}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, setPersistence, browserLocalPersistence, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getDatabase, ref as rr, set as rs, update as ru, remove as rm, onValue, onDisconnect, push as rp, get as rg, runTransaction, goOffline, goOnline } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
@@ -126,6 +126,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 let currentUser = null;
+// Keep the login saved in the browser (survives closing the page/app)
+setPersistence(auth, browserLocalPersistence).catch(() => {});
+// If this browser was logged in before, don't block the screen while the saved login is restored
+if (localStorage.getItem("rg_login") === "1") document.getElementById("loading-message").style.display = "none";
 
 function renderLB(snap){
   for (const id of ["lb-start","lb-over","lb-view"]) {
@@ -143,13 +147,24 @@ function renderLB(snap){
 }
 onSnapshot(query(collection(db, "racing_scores"), orderBy("score", "desc"), limit(5)), renderLB, e => console.error(e));
 
+function showLoginButton() {
+  const l = document.getElementById("loading-message"); l.style.display = "flex"; l.textContent = "";
+  const b = document.createElement("button"); b.className = "btn"; b.textContent = "Sign in with Google";
+  b.onclick = () => { sessionStorage.removeItem("rg_redir"); signInWithRedirect(auth, provider); };
+  l.append(b);
+}
 onAuthStateChanged(auth, async user => {
   if (user) {
-    currentUser = user; startRealtime(user);
+    currentUser = user; localStorage.setItem("rg_login", "1"); sessionStorage.removeItem("rg_redir"); startRealtime(user);
     try { const s = await getDoc(doc(db, "racing_scores", user.uid)); if (s.exists()) window.setHigh(s.data().score || 0); } catch (e) {}
     document.getElementById("loading-message").style.display = "none";
   } else {
-    signInWithRedirect(auth, provider);
+    try { const r = await getRedirectResult(auth); if (r && r.user) return; } catch (e) { console.error(e); }
+    if (auth.currentUser) return;
+    localStorage.removeItem("rg_login");
+    // only redirect once per session; if it didn't work, show a button instead of looping
+    if (sessionStorage.getItem("rg_redir")) { showLoginButton(); return; }
+    sessionStorage.setItem("rg_redir", "1"); signInWithRedirect(auth, provider);
   }
 });
 
@@ -247,7 +262,7 @@ window.saveScore = async score => {
 const $ = id => document.getElementById(id);
 const LANES = [-4.5, -1.5, 1.5, 4.5];
 
-setTimeout(() => { const l = $("loading-message"); if (l.style.display !== "none") l.style.display = "none"; }, 7000);
+setTimeout(() => { const l = $("loading-message"); if (l.style.display !== "none" && !l.querySelector("button")) l.style.display = "none"; }, 7000);
 // ---------- Scene ----------
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
