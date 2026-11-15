@@ -155,7 +155,7 @@ onAuthStateChanged(auth, async user => {
 
 // ---------- Multiplayer (Realtime Database) ----------
 const rdb = getDatabase(app, firebaseConfig.databaseURL), mp = window.mp;
-let offset = 0, roomId = null, myRef = null, offRoom = null, rtOn = false;
+let offset = 0, roomId = null, myRef = null, offRoom = null, offConn = null, rtOn = false;
 onValue(rr(rdb, ".info/serverTimeOffset"), s => offset = s.val() || 0);
 const snow = () => Date.now() + offset;
 mp.now = snow; mp.uid = () => currentUser && currentUser.uid;
@@ -171,24 +171,30 @@ function startRealtime(user) {
   }, () => {});
 }
 function joined(rid) {
-  roomId = rid; myRef = rr(rdb, `rooms/${rid}/players/${currentUser.uid}`); onDisconnect(myRef).remove();
-  const on = rr(rdb, "online/" + currentUser.uid); rs(on, 1); onDisconnect(on).remove();
+  roomId = rid; myRef = rr(rdb, `rooms/${rid}/players/${currentUser.uid}`);
+  const on = rr(rdb, "online/" + currentUser.uid);
+  // (re)arm presence on every (re)connect, and restore my entry if a connection blip removed it
+  offConn = onValue(rr(rdb, ".info/connected"), s => {
+    if (s.val() === true && myRef) { onDisconnect(myRef).remove(); rs(on, 1); onDisconnect(on).remove(); if (mp.me) ru(myRef, mp.me).catch(() => {}); }
+  });
   offRoom = onValue(rr(rdb, `rooms/${rid}`), s => { const v = s.val(); if (v && v.players && mp.onRoom) mp.onRoom(v.players, v.startAt, currentUser.uid); });
   return { ok: true, rid };
 }
+// Everyone who taps Multiplayer is put in the SAME open room (atomic transaction on rooms/_lobby),
+// so simultaneous players can never end up in separate rooms.
 mp.join = async color => {
   if (!currentUser) throw new Error("login");
   if (roomId) await mp.leave();
   const u = currentUser, me = { n: u.displayName || "Racer", p: u.photoURL || "", c: color, x: 0, d: 0, v: 0, s: 0, f: 0 };
-  const snap = await rg(rr(rdb, "rooms")), cands = [];
-  snap.forEach(c => { const v = c.val(), n = v.players ? Object.keys(v.players).length : 0; if (n && n < 10 && v.startAt > snow() + 3000) cands.push(c.key); });
-  for (const rid of cands) {
-    const res = await runTransaction(rr(rdb, `rooms/${rid}/players`), cur => { cur = cur || {}; if (!cur[u.uid] && Object.keys(cur).length >= 10) return; cur[u.uid] = me; return cur; });
-    if (res.committed) return joined(rid);
-  }
-  const rid = rp(rr(rdb, "rooms")).key;
-  await rs(rr(rdb, `rooms/${rid}`), { startAt: snow() + 10000, players: { [u.uid]: me } });
-  return joined(rid);
+  mp.me = me;
+  const t = await runTransaction(rr(rdb, "rooms/_lobby"), cur => {
+    const now = snow();
+    if (cur && cur.startAt > now + 2000 && (cur.n || 0) < 10) { cur.n = (cur.n || 0) + 1; return cur; }
+    return { rid: rp(rr(rdb, "rooms")).key, startAt: now + 10000, n: 1 };
+  });
+  const L = t.snapshot.val();
+  await ru(rr(rdb, `rooms/${L.rid}`), { startAt: L.startAt, ["players/" + u.uid]: me });
+  return joined(L.rid);
 };
 // Force a fresh Realtime Database connection (the old socket can go stale after a long single-player session)
 mp.connect = () => new Promise(res => {
@@ -198,13 +204,32 @@ mp.connect = () => new Promise(res => {
   try { goOffline(rdb); wentOff = true; goOnline(rdb); } catch (e) { wentOff = true; }
   setTimeout(() => fin(false), 8000);
 });
-mp.send = st => { if (myRef) ru(myRef, st).catch(() => {}); };
-mp.finish = () => { if (myRef) ru(myRef, { f: snow() }).catch(() => {}); };
-mp.extend = () => { if (roomId) ru(rr(rdb, `rooms/${roomId}`), { startAt: snow() + 10000 }).catch(() => {}); };
+mp.send = st => { if (myRef && mp.me) { Object.assign(mp.me, st); ru(myRef, mp.me).catch(() => {}); } };
+mp.finish = () => { if (myRef && mp.me) { mp.me.f = snow(); ru(myRef, { f: mp.me.f }).catch(() => {}); } };
+// Push the start time back (only when alone). Returns false if the shared lobby has moved on to another room.
+mp.extend = async force => {
+  if (!roomId) return true;
+  const rid = roomId;
+  try {
+    const t = await runTransaction(rr(rdb, "rooms/_lobby"), cur => {
+      if (!cur) return { rid, startAt: snow() + 10000, n: 1 };
+      if (cur.rid === rid && (force || (cur.n || 0) < 2)) { cur.startAt = snow() + 10000; return cur; }
+      return cur;
+    });
+    const L = t.snapshot.val();
+    if (L && L.rid === rid) { await ru(rr(rdb, `rooms/${rid}`), { startAt: L.startAt }); return true; }
+    return false;
+  } catch (e) { return true; }
+};
 mp.leave = async () => {
   if (!roomId) return;
-  const rid = roomId, ref0 = myRef; roomId = null; myRef = null; if (offRoom) offRoom(); offRoom = null;
-  try { await onDisconnect(ref0).cancel(); await rm(ref0); if (!roomId) { const on = rr(rdb, "online/" + currentUser.uid); await onDisconnect(on).cancel(); await rm(on); } const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`)); } catch (e) {}
+  const rid = roomId, ref0 = myRef; roomId = null; myRef = null; if (offRoom) offRoom(); offRoom = null; if (offConn) offConn(); offConn = null;
+  try {
+    await onDisconnect(ref0).cancel(); await rm(ref0);
+    try { await runTransaction(rr(rdb, "rooms/_lobby"), cur => { if (cur && cur.rid === rid && cur.n > 0) cur.n--; return cur; }); } catch (e) {}
+    if (!roomId) { const on = rr(rdb, "online/" + currentUser.uid); await onDisconnect(on).cancel(); await rm(on); }
+    const s = await rg(rr(rdb, `rooms/${rid}/players`)); if (!s.exists()) await rm(rr(rdb, `rooms/${rid}`));
+  } catch (e) {}
 };
 
 window.saveScore = async score => {
@@ -473,6 +498,7 @@ function applyMode() {
   const mm = mode === "multi";
   $("score-chip").style.display = $("high-chip").style.display = $("lb-btn").style.display = $("radio-btn").style.display = mm ? "none" : "";
   $("rank-chip").style.display = mm ? "" : "none";
+  $("pause-btn").style.display = mm ? "none" : "";
 }
 function reset() {
   traffic.forEach(c => scene.remove(c)); coins.forEach(c => scene.remove(c)); traffic = []; coins = [];
@@ -526,7 +552,7 @@ function gameOver(why) {
   p.then(r => $("save-status").textContent = r === "guest" ? "Playing as guest, score not saved online" : "Score saved!").catch(() => $("save-status").textContent = "Could not save 😢");
 }
 function startGame() { initAudio(); if (actx && actx.state === "suspended") actx.resume(); reset(); state = "play"; $("pause-btn").textContent = "⏸️"; ["start", "over", "lobby"].forEach(i => $(i).classList.remove("show")); applyMode(); try { radio.currentTime = 0; } catch (e) {} radioSync(); }
-function setPause(p) { setPause0(p); radioSync(); }
+function setPause(p) { if (mode === "multi" && p) return; setPause0(p); radioSync(); }
 function setPause0(p) {
   if (p && state === "play") { state = "pause"; $("pause-btn").textContent = "▶️"; $("pause-screen").classList.add("show"); if (engGain) engGain.gain.value = 0; }
   else if (!p && state === "pause") { state = "play"; $("pause-btn").textContent = "⏸️"; $("pause-screen").classList.remove("show"); }
@@ -635,7 +661,16 @@ setInterval(() => {
   const r = Math.ceil((roomStart - mp.now()) / 1000); $("lobby-count").textContent = Math.max(0, r);
   const n = Object.keys(room).length;
   $("lobby-n").textContent = n < 2 ? "Waiting for another player to join..." : n + "/10 players";
-  if (r <= 0) { if (n < 2) { if (Date.now() - (mp.lastExt || 0) > 2000) { mp.lastExt = Date.now(); if (mp.extend) mp.extend(); } } else startGame(); }
+  if (r <= 0) {
+    if (n < 2) {
+      if (Date.now() - (mp.lastExt || 0) > 2000) {
+        mp.lastExt = Date.now();
+        mp.extend(r < -4).then(ok => {
+          if (ok === false && !mp.rejoining) { mp.rejoining = true; room = {}; roomStart = 0; clearGhosts(); mp.join(myColor).catch(() => {}).then(() => { mp.rejoining = false; }); }
+        });
+      }
+    } else startGame();
+  }
 }, 200);
 addEventListener("pointerdown", () => { unlockSfx(); initAudio(); if (actx && actx.state === "suspended") actx.resume(); });
 
