@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAME ZONE | Your Ultimate Gaming Destination</title>
+  <meta name="description" content="Play. Compete. Conquer. Discover and launch instant browser games in the Game Zone portal." />
+  
+  <!-- Modern Gaming Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       ISOLATED CSS ARCHITECTURE (#gz-portal-root)
+       Scoped to prevent conflicts with existing website styles
+       ========================================================================== */
+    :root {
+      --gz-bg-deep: #05070e;
+      --gz-bg-navy: #0a0f24;
+      --gz-surface: rgba(16, 23, 46, 0.72);
+      --gz-surface-hover: rgba(24, 34, 68, 0.88);
+      --gz-border: rgba(99, 102, 241, 0.22);
+      --gz-border-glow: rgba(0, 242, 254, 0.65);
+      --gz-neon-purple: #a855f7;
+      --gz-electric-blue: #3b82f6;
+      --gz-neon-cyan: #00f2fe;
+      --gz-accent-pink: #ec4899;
+      --gz-success: #10b981;
+      --gz-warning: #f59e0b;
+      --gz-text-main: #f8fafc;
+      --gz-text-muted: #94a3b8;
+      --gz-font-display: 'Orbitron', sans-serif;
+      --gz-font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --gz-transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--gz-bg-deep);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--gz-bg-deep);
+      color: var(--gz-text-main);
+      font-family: var(--gz-font-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #gz-portal-root *,
+    #gz-portal-root *::before,
+    #gz-portal-root *::after {
+      box-sizing: border-box;
+    }
+
+    #gz-portal-root {
+      position: relative;
+      min-height: 100vh;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(0, 242, 254, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, var(--gz-bg-deep) 0%, var(--gz-bg-navy) 55%, var(--gz-bg-deep) 100%);
+      z-index: 1;
+    }
+
+    /* Interactive Particle Canvas */
+    #gz-particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Subtle Cyber Grid Overlay */
+    .gz-cyber-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+      -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Layout Container */
+    .gz-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       INITIAL LOADING OVERLAY & ENTRANCE ANIMATIONS
+       ========================================================================== */
+    #gz-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--gz-bg-deep);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.55s ease, visibility 0.55s ease;
+    }
+
+    #gz-loader.gz-loader-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gz-spinner-ring {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 3px solid rgba(0, 242, 254, 0.15);
+      border-top-color: var(--gz-neon-cyan);
+      border-right-color: var(--gz-neon-purple);
+      animation: gz-spin 0.9s linear infinite;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
+    }
+
+    .gz-loader-text {
+      margin-top: 18px;
+      font-family: var(--gz-font-display);
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: var(--gz-neon-cyan);
+      text-transform: uppercase;
+      animation: gz-pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes gz-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gz-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+
+    @keyframes gz-fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gz-animate-in {
+      animation: gz-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    .gz-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(5, 7, 14, 0.82);
+      border-bottom: 1px solid var(--gz-border);
+      transition: var(--gz-transition);
+    }
+
+    .gz-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 82px;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 12px 0;
+    }
+
+    /* Brand Logo + Titles */
+    .gz-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--gz-text-main);
+      group: true;
+    }
+
+    .gz-logo-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(0, 242, 254, 0.25));
+      border: 1px solid rgba(0, 242, 254, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+      transition: var(--gz-transition);
+      flex-shrink: 0;
+    }
+
+    .gz-brand:hover .gz-logo-box {
+      transform: scale(1.06) rotate(-4deg);
+      box-shadow: 0 0 28px rgba(168, 85, 247, 0.6);
+      border-color: var(--gz-neon-purple);
+    }
+
+    .gz-logo-svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: url(#gz-logo-grad);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .gz-brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gz-brand-title {
+      font-family: var(--gz-font-display);
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin: 0;
+      background: linear-gradient(90deg, #ffffff 0%, var(--gz-neon-cyan) 55%, var(--gz-neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.15;
+    }
+
+    .gz-brand-subtitle {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+      color: var(--gz-text-muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Navigation Actions & Live Counter */
+    .gz-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .gz-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.12);
+    }
+
+    .gz-live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gz-success);
+      box-shadow: 0 0 10px var(--gz-success);
+      animation: gz-pulse 1.6s infinite;
+    }
+
+    .gz-live-count-num {
+      font-family: var(--gz-font-display);
+      font-weight: 800;
+      color: var(--gz-neon-cyan);
+    }
+
+    .gz-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--gz-border);
+      color: var(--gz-text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--gz-transition);
+    }
+
+    .gz-nav-link:hover {
+      background: rgba(0, 242, 254, 0.12);
+      border-color: var(--gz-neon-cyan);
+      color: var(--gz-neon-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.2);
+    }
+
+    .gz-nav-link svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .gz-hero {
+      position: relative;
+      margin: 32px 0 44px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      background: 
+        linear-gradient(125deg, rgba(5, 7, 14, 0.92) 0%, rgba(10, 15, 36, 0.78) 55%, rgba(168, 85, 247, 0.22) 100%),
+        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      box-shadow: 
+        0 25px 60px -15px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(0, 242, 254, 0.12);
+    }
+
+    /* Animated Lighting Glow inside Hero */
+    .gz-hero-glow-1 {
+      position: absolute;
+      top: -120px;
+      right: -120px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.35) 0%, transparent 70%);
+      filter: blur(45px);
+      animation: gz-float-glow 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .gz-hero-glow-2 {
+      position: absolute;
+      bottom: -140px;
+      left: 10%;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%);
+      filter: blur(55px);
+      animation: gz-float-glow 10s ease-in-out infinite alternate-reverse;
+      pointer-events: none;
+    }
+
+    @keyframes gz-float-glow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-35px, 25px) scale(1.18); }
+    }
+
+    .gz-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 72px 48px;
+      max-width: 780px;
+    }
+
+    .gz-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #e9d5ff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .gz-hero-title {
+      font-family: var(--gz-font-display);
+      font-size: clamp(2.1rem, 5vw, 3.75rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: 1.5px;
+      margin: 0 0 18px;
+      text-transform: uppercase;
+      background: linear-gradient(95deg, #ffffff 15%, var(--gz-neon-cyan) 60%, var(--gz-neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 30px rgba(0, 242, 254, 0.18);
+    }
+
+    .gz-hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.22rem);
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin: 0 0 34px;
+      max-width: 600px;
+    }
+
+    .gz-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .gz-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      padding: 15px 32px;
+      border-radius: 14px;
+      font-family: var(--gz-font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #05070e;
+      background: linear-gradient(90deg, var(--gz-neon-cyan) 0%, #38bdf8 50%, var(--gz-neon-purple) 100%);
+      background-size: 200% auto;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 28px rgba(0, 242, 254, 0.45);
+      transition: var(--gz-transition);
+    }
+
+    .gz-btn-primary:hover {
+      background-position: right center;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.75), 0 0 20px rgba(168, 85, 247, 0.5);
+    }
+
+    .gz-btn-primary svg {
+      width: 19px;
+      height: 19px;
+      transition: transform 0.3s ease;
+    }
+
+    .gz-btn-primary:hover svg {
+      transform: translateX(4px);
+    }
+
+    .gz-hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: 40px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+    }
+
+    .gz-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gz-stat-val {
+      font-family: var(--gz-font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gz-neon-cyan);
+    }
+
+    .gz-stat-lbl {
+      font-size: 0.78rem;
+      color: var(--gz-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       SECTION HEADINGS
+       ========================================================================== */
+    .gz-section {
+      margin-bottom: 56px;
+    }
+
+    .gz-section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .gz-section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gz-section-accent {
+      width: 6px;
+      height: 28px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--gz-neon-cyan), var(--gz-neon-purple));
+      box-shadow: 0 0 12px var(--gz-neon-cyan);
+    }
+
+    .gz-section-title {
+      font-family: var(--gz-font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      margin: 0;
+      text-transform: uppercase;
+      color: var(--gz-text-main);
+    }
+
+    .gz-section-sub {
+      font-size: 0.9rem;
+      color: var(--gz-text-muted);
+      margin: 0;
+    }
+
+    /* ==========================================================================
+       FEATURED SPOTLIGHT BANNER
+       ========================================================================== */
+    .gz-featured-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--gz-surface);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.12);
+      text-decoration: none;
+      color: inherit;
+      transition: var(--gz-transition);
+    }
+
+    .gz-featured-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gz-neon-cyan);
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), 0 0 38px rgba(0, 242, 254, 0.28);
+    }
+
+    .gz-featured-media {
+      position: relative;
+      min-height: 320px;
+      overflow: hidden;
+      background: #090d1d;
+    }
+
+    .gz-featured-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gz-featured-card:hover .gz-featured-media img {
+      transform: scale(1.07);
+    }
+
+    .gz-featured-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 50%, rgba(16, 23, 46, 0.98) 100%);
+    }
+
+    .gz-featured-info {
+      padding: 38px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gz-featured-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .gz-badge-spotlight {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gz-neon-purple), var(--gz-accent-pink));
+      font-family: var(--gz-font-display);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.45);
+    }
+
+    .gz-badge-cat {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      color: var(--gz-neon-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .gz-featured-title {
+      font-family: var(--gz-font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 900;
+      margin: 0 0 12px;
+      color: #fff;
+    }
+
+    .gz-featured-desc {
+      font-size: 1rem;
+      color: var(--gz-text-muted);
+      line-height: 1.65;
+      margin: 0 0 26px;
+    }
+
+    /* ==========================================================================
+       SEARCH & CATEGORY FILTER CONTROLS
+       ========================================================================== */
+    .gz-controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 24px;
+      border-radius: 20px;
+      background: var(--gz-surface);
+      border: 1px solid var(--gz-border);
+      backdrop-filter: blur(12px);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    /* Category Filter Pills */
+    .gz-category-tabs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .gz-cat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--gz-text-muted);
+      font-family: var(--gz-font-body);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--gz-transition);
+    }
+
+    .gz-cat-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--gz-text-main);
+      border-color: rgba(0, 242, 254, 0.3);
+    }
+
+    .gz-cat-btn.gz-active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(168, 85, 247, 0.25));
+      border-color: var(--gz-neon-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.22);
+    }
+
+    .gz-cat-count {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gz-neon-cyan);
+    }
+
+    /* Search Input Box */
+    .gz-search-wrap {
+      position: relative;
+      min-width: 280px;
+      flex-shrink: 0;
+    }
+
+    .gz-search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--gz-text-muted);
+      pointer-events: none;
+    }
+
+    .gz-search-input {
+      width: 100%;
+      padding: 12px 38px 12px 44px;
+      border-radius: 13px;
+      background: rgba(5, 7, 14, 0.75);
+      border: 1px solid var(--gz-border);
+      color: var(--gz-text-main);
+      font-family: var(--gz-font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--gz-transition);
+    }
+
+    .gz-search-input::placeholder {
+      color: #64748b;
+    }
+
+    .gz-search-input:focus {
+      border-color: var(--gz-neon-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.15);
+    }
+
+    .gz-search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--gz-text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: none;
+      line-height: 1;
+    }
+
+    .gz-search-clear.gz-visible {
+      display: block;
+    }
+
+    .gz-search-clear:hover {
+      color: var(--gz-neon-cyan);
+    }
+
+    /* ==========================================================================
+       GAME LIBRARY GRID & CLICKABLE GAME CARDS
+       ========================================================================== */
+    .gz-games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 28px;
+    }
+
+    /* Entire Card is an <a> Element for Full Clickability */
+    .gz-game-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: 22px;
+      background: var(--gz-surface);
+      border: 1px solid var(--gz-border);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.65);
+      transition: var(--gz-transition);
+      cursor: pointer;
+    }
+
+    .gz-game-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      padding: 1.5px;
+      background: linear-gradient(135deg, var(--gz-neon-cyan), transparent 45%, var(--gz-neon-purple));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .gz-game-card:hover {
+      transform: translateY(-8px);
+      background: var(--gz-surface-hover);
+      border-color: rgba(0, 242, 254, 0.5);
+      box-shadow: 
+        0 24px 48px -12px rgba(0, 0, 0, 0.85),
+        0 0 32px rgba(0, 242, 254, 0.22),
+        0 0 18px rgba(168, 85, 247, 0.18);
+    }
+
+    .gz-game-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Card Cover Image Wrapper */
+    .gz-card-media {
+      position: relative;
+      width: 100%;
+      height: 215px;
+      overflow: hidden;
+      background: #080c1a;
+    }
+
+    .gz-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gz-game-card:hover .gz-card-media img {
+      transform: scale(1.09);
+    }
+
+    .gz-card-media-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 7, 14, 0.15) 0%, transparent 45%, rgba(10, 15, 36, 0.95) 100%);
+    }
+
+    /* Top Badges on Card Cover */
+    .gz-card-top-badges {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .gz-card-category {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(5, 7, 14, 0.78);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      color: var(--gz-neon-cyan);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .gz-card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(5, 7, 14, 0.78);
+      backdrop-filter: blur(8px);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .gz-status-online {
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .gz-status-soon {
+      color: var(--gz-warning);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    /* Card Content Body */
+    .gz-card-body {
+      padding: 22px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .gz-card-title {
+      font-family: var(--gz-font-display);
+      font-size: 1.28rem;
+      font-weight: 800;
+      margin: 0 0 10px;
+      color: #ffffff;
+      letter-spacing: 0.6px;
+      transition: color 0.25s ease;
+    }
+
+    .gz-game-card:hover .gz-card-title {
+      color: var(--gz-neon-cyan);
+    }
+
+    .gz-card-desc {
+      font-size: 0.92rem;
+      color: var(--gz-text-muted);
+      line-height: 1.6;
+      margin: 0 0 22px;
+      flex: 1;
+    }
+
+    /* Card Footer & Play Now Button */
+    .gz-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .gz-play-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 20px;
+      border-radius: 13px;
+      background: linear-gradient(90deg, rgba(0, 242, 254, 0.16), rgba(168, 85, 247, 0.22));
+      border: 1px solid rgba(0, 242, 254, 0.45);
+      color: #ffffff;
+      font-family: var(--gz-font-display);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: var(--gz-transition);
+    }
+
+    .gz-game-card:hover .gz-play-btn {
+      background: linear-gradient(90deg, var(--gz-neon-cyan), var(--gz-electric-blue), var(--gz-neon-purple));
+      color: #05070e;
+      border-color: transparent;
+      box-shadow: 0 0 24px rgba(0, 242, 254, 0.55);
+    }
+
+    .gz-play-btn svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 0.25s ease;
+    }
+
+    .gz-game-card:hover .gz-play-btn svg {
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       RECENTLY ADDED STRIP
+       ========================================================================== */
+    .gz-recent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .gz-recent-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--gz-surface);
+      border: 1px solid var(--gz-border);
+      text-decoration: none;
+      color: inherit;
+      transition: var(--gz-transition);
+    }
+
+    .gz-recent-item:hover {
+      transform: translateY(-4px);
+      border-color: var(--gz-neon-purple);
+      background: var(--gz-surface-hover);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.2);
+    }
+
+    .gz-recent-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #080c1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gz-recent-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gz-recent-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .gz-recent-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gz-neon-purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+
+    .gz-recent-name {
+      font-family: var(--gz-font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gz-recent-cat {
+      font-size: 0.78rem;
+      color: var(--gz-text-muted);
+    }
+
+    /* ==========================================================================
+       EMPTY SEARCH / CATEGORY STATE
+       ========================================================================== */
+    .gz-empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      border-radius: 22px;
+      background: var(--gz-surface);
+      border: 1px dashed rgba(99, 102, 241, 0.35);
+      display: none;
+    }
+
+    .gz-empty-state.gz-visible {
+      display: block;
+    }
+
+    .gz-empty-title {
+      font-family: var(--gz-font-display);
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 14px 0 8px;
+    }
+
+    .gz-empty-desc {
+      color: var(--gz-text-muted);
+      font-size: 0.95rem;
+      margin: 0 0 22px;
+    }
+
+    .gz-reset-btn {
+      padding: 10px 22px;
+      border-radius: 11px;
+      background: rgba(0, 242, 254, 0.15);
+      border: 1px solid var(--gz-neon-cyan);
+      color: var(--gz-neon-cyan);
+      font-family: var(--gz-font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--gz-transition);
+    }
+
+    .gz-reset-btn:hover {
+      background: var(--gz-neon-cyan);
+      color: #05070e;
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .gz-footer {
+      margin-top: 80px;
+      border-top: 1px solid var(--gz-border);
+      background: rgba(5, 7, 14, 0.9);
+      padding: 40px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gz-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .gz-footer-copy {
+      font-size: 0.88rem;
+      color: var(--gz-text-muted);
+      margin: 0;
+    }
+
+    .gz-footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .gz-footer-links a {
+      color: var(--gz-text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      transition: color 0.2s ease;
+    }
+
+    .gz-footer-links a:hover {
+      color: var(--gz-neon-cyan);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (ANDROID, IPHONE, TABLET, DESKTOP)
+       ========================================================================== */
+    @media (max-width: 960px) {
+      .gz-featured-card {
+        grid-template-columns: 1fr;
+      }
+      .gz-featured-media {
+        min-height: 230px;
+      }
+      .gz-featured-media::after {
+        background: linear-gradient(180deg, transparent 40%, rgba(16, 23, 46, 0.98) 100%);
+      }
+      .gz-featured-info {
+        padding: 26px 24px 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gz-container {
+        padding: 0 16px;
+      }
+      .gz-header-inner {
+        justify-content: space-between;
+      }
+      .gz-brand-subtitle {
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
+      }
+      .gz-hero-content {
+        padding: 46px 24px;
+      }
+      .gz-controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+      }
+      .gz-search-wrap {
+        width: 100%;
+        min-width: 0;
+      }
+      .gz-category-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .gz-cat-btn {
+        white-space: nowrap;
+      }
+      .gz-games-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gz-brand-title {
+        font-size: 1.2rem;
+      }
+      .gz-logo-box {
+        width: 42px;
+        height: 42px;
+      }
+      .gz-nav-actions {
+        width: 100%;
+        justify-content: space-between;
+        padding-top: 6px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .gz-btn-primary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="gz-loader" aria-hidden="true">
+    <div class="gz-spinner-ring"></div>
+    <div class="gz-loader-text">Initializing Game Zone...</div>
+  </div>
+
+  <!-- Isolated Root Wrapper -->
+  <div id="gz-portal-root">
+    <!-- Subtle Background Particles & Cyber Grid -->
+    <canvas id="gz-particles-canvas"></canvas>
+    <div class="gz-cyber-grid"></div>
+
+    <!-- ========================================================================
+         PAGE HEADER
+         ======================================================================== -->
+    <header class="gz-header">
+      <div class="gz-container gz-header-inner">
+        <!-- Brand Logo & Title -->
+        <a href="/" class="gz-brand" aria-label="Game Zone Home">
+          <div class="gz-logo-box">
+            <svg class="gz-logo-svg" viewBox="0 0 24 24">
+              <defs>
+                <linearGradient id="gz-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00f2fe" />
+                  <stop offset="100%" stop-color="#a855f7" />
+                </linearGradient>
+              </defs>
+              <rect x="2" y="6" width="20" height="12" rx="6" />
+              <path d="M6 12h4M8 10v4" />
+              <circle cx="15" cy="11" r="1" fill="#00f2fe" />
+              <circle cx="17" cy="13" r="1" fill="#a855f7" />
+            </svg>
+          </div>
+          <div class="gz-brand-titles">
+            <h1 class="gz-brand-title">GAME ZONE</h1>
+            <span class="gz-brand-subtitle">YOUR ULTIMATE GAMING DESTINATION</span>
+          </div>
+        </a>
+
+        <!-- Live Game Count & Home Navigation Link -->
+        <nav class="gz-nav-actions" aria-label="Portal Navigation">
+          <div class="gz-live-badge" title="Total Available Games Ready to Play">
+            <span class="gz-live-dot"></span>
+            <span>LIVE GAMES: <strong id="gz-header-count" class="gz-live-count-num">0</strong></span>
+          </div>
+
+          <a href="/" class="gz-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ========================================================================
+         MAIN CONTENT CONTAINER
+         ======================================================================== -->
+    <main class="gz-container">
+
+      <!-- HERO SECTION -->
+      <section class="gz-hero gz-animate-in">
+        <div class="gz-hero-glow-1"></div>
+        <div class="gz-hero-glow-2"></div>
+        <div class="gz-hero-content">
+          <div class="gz-hero-eyebrow">
+            <span>⚡ INSTANT BROWSER GAMING PORTAL</span>
+          </div>
+          <h2 class="gz-hero-title">ENTER THE GAME WORLD</h2>
+          <p class="gz-hero-subtitle">
+            Play. Compete. Conquer. Your next adventure starts here. Experience zero-download, instant-launch games crafted for high-octane fun across all your devices.
+          </p>
+          <div class="gz-hero-actions">
+            <a href="#gz-game-library" class="gz-btn-primary">
+              <span>EXPLORE GAMES</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="gz-hero-stats">
+            <div class="gz-stat-item">
+              <span id="gz-hero-total-games" class="gz-stat-val">3</span>
+              <span class="gz-stat-lbl">Available Titles</span>
+            </div>
+            <div class="gz-stat-item">
+              <span class="gz-stat-val">100%</span>
+              <span class="gz-stat-lbl">Instant Play</span>
+            </div>
+            <div class="gz-stat-item">
+              <span class="gz-stat-val">60 FPS</span>
+              <span class="gz-stat-lbl">Smooth Performance</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED GAME SPOTLIGHT -->
+      <section class="gz-section gz-animate-in" aria-labelledby="gz-featured-heading">
+        <div class="gz-section-header">
+          <div class="gz-section-title-wrap">
+            <span class="gz-section-accent"></span>
+            <h3 id="gz-featured-heading" class="gz-section-title">Featured Spotlight</h3>
+          </div>
+          <p class="gz-section-sub">Hand-picked top experience in the arena</p>
+        </div>
+        <div id="gz-featured-container"></div>
+      </section>
+
+      <!-- MAIN GAME LIBRARY -->
+      <section id="gz-game-library" class="gz-section gz-animate-in" aria-labelledby="gz-library-heading">
+        <div class="gz-section-header">
+          <div class="gz-section-title-wrap">
+            <span class="gz-section-accent"></span>
+            <h3 id="gz-library-heading" class="gz-section-title">Game Library</h3>
+          </div>
+          <p class="gz-section-sub">
+            Showing <strong id="gz-showing-count" style="color: var(--gz-neon-cyan);">0</strong> of <span id="gz-total-count">0</span> games
+          </p>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="gz-controls-bar">
+          <div id="gz-category-filters" class="gz-category-tabs" role="tablist" aria-label="Game Categories">
+            <!-- Dynamically populated by JS -->
+          </div>
+
+          <div class="gz-search-wrap">
+            <svg class="gz-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="search" 
+              id="gz-search-input" 
+              class="gz-search-input" 
+              placeholder="Search games by name..." 
+              aria-label="Search games by name"
+              autocomplete="off"
+            />
+            <button type="button" id="gz-search-clear" class="gz-search-clear" aria-label="Clear search">✕</button>
+          </div>
+        </div>
+
+        <!-- Responsive Game Cards Grid -->
+        <div id="gz-games-grid" class="gz-games-grid">
+          <!-- Dynamically populated from GAMES_CONFIG -->
+        </div>
+
+        <!-- Empty State when no search/filter matches -->
+        <div id="gz-empty-state" class="gz-empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="1.5" style="margin: 0 auto;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h4 class="gz-empty-title">No Matching Games Found</h4>
+          <p class="gz-empty-desc">We couldn't find any games matching your current filter or search query.</p>
+          <button type="button" id="gz-reset-filters-btn" class="gz-reset-btn">SHOW ALL GAMES</button>
+        </div>
+      </section>
+
+      <!-- RECENTLY ADDED SECTION -->
+      <section class="gz-section gz-animate-in" aria-labelledby="gz-recent-heading">
+        <div class="gz-section-header">
+          <div class="gz-section-title-wrap">
+            <span class="gz-section-accent"></span>
+            <h3 id="gz-recent-heading" class="gz-section-title">Recently Added</h3>
+          </div>
+          <p class="gz-section-sub">Latest releases added to Game Zone</p>
+        </div>
+        <div id="gz-recent-grid" class="gz-recent-grid">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========================================================================
+         FOOTER
+         ======================================================================== -->
+    <footer class="gz-footer">
+      <div class="gz-container gz-footer-inner">
+        <p class="gz-footer-copy">
+          &copy; <span id="gz-year"></span> <strong>GAME ZONE</strong>. All rights reserved. Your Ultimate Gaming Destination.
+        </p>
+        <div class="gz-footer-links">
+          <a href="/">Home</a>
+          <a href="#gz-game-library">All Games</a>
+          <a href="#gz-portal-root">Back to Top ↑</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       ISOLATED JAVASCRIPT ENGINE & CENTRALIZED GAME CONFIGURATION
+       ========================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /**
+       * ========================================================================
+       * CENTRALIZED GAME CONFIGURATION (FUTURE GAME EXPANSION)
+       * ========================================================================
+       * To add a new game in the future, simply add a new object to GAMES_CONFIG.
+       * Required fields:
+       *   - name: Game title
+       *   - url: Exact relative path (e.g., '/my-new-game')
+       *   - category: 'Racing' | 'Board Game' | 'Space Shooter' | 'Action' | 'Arcade' (or any custom category)
+       *   - description: Short summary of the game
+       *   - coverImage: High-res cover image URL
+       *   - status: 'available' | 'coming-soon'
+       *   - featured: true (optional, marks spotlight game)
+       *   - recentlyAdded: true (optional, includes in Recently Added strip)
+       */
+      const GAMES_CONFIG = [
+        {
+          id: 'arcade-car-racing',
+          name: 'Arcade Car Racing',
+          url: '/carracing',
+          category: 'Racing',
+          description: 'Experience high-speed racing, dodge traffic, and push your driving skills to the limit.',
+          coverImage: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=80',
+          status: 'available',
+          featured: true,
+          recentlyAdded: true
+        },
+        {
+          id: 'ludo',
+          name: 'Ludo',
+          url: '/ludu',
+          category: 'Board Game',
+          description: 'Roll the dice, move your tokens, and challenge your friends in an exciting Ludo match.',
+          coverImage: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=1000&q=80',
+          status: 'available',
+          featured: false,
+          recentlyAdded: true
+        },
+        {
+          id: 'space-impact',
+          name: 'Space Impact',
+          url: '/space-impact',
+          category: 'Space Shooter',
+          description: 'Defend the galaxy, destroy alien enemies, and defeat powerful space bosses.',
+          coverImage: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=1000&q=80',
+          status: 'available',
+          featured: false,
+          recentlyAdded: true
+        }
+      ];
+
+      /**
+       * Predefined Category Order (Automatically hides empty categories
+       * so visitors never click dead filters, while automatically showing
+       * 'Action', 'Arcade', or custom categories as soon as a game uses them).
+       */
+      const STANDARD_CATEGORIES = [
+        'All Games',
+        'Racing',
+        'Board Game',
+        'Space Shooter',
+        'Action',
+        'Arcade'
+      ];
+
+      /**
+       * Generates a sleek SVG Neon Fallback Image Data URI if an image fails to load
+       */
+      function createFallbackImage(title, category) {
+        const safeTitle = String(title || 'GAME ZONE').replace(/[<>&"']/g, '');
+        const safeCat = String(category || 'ARCADE').replace(/[<>&"']/g, '');
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+          <defs>
+            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#05070e"/>
+              <stop offset="50%" stop-color="#101838"/>
+              <stop offset="100%" stop-color="#2e1065"/>
+            </linearGradient>
+            <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00f2fe"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="500" fill="url(#bg)"/>
+          <circle cx="680" cy="90" r="180" fill="#00f2fe" fill-opacity="0.08"/>
+          <circle cx="120" cy="420" r="210" fill="#a855f7" fill-opacity="0.1"/>
+          <rect x="60" y="60" width="680" height="380" rx="24" fill="none" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.4"/>
+          <text x="400" y="220" text-anchor="middle" fill="#00f2fe" font-family="Orbitron, sans-serif" font-size="18" font-weight="700" letter-spacing="4">${safeCat.toUpperCase()}</text>
+          <text x="400" y="275" text-anchor="middle" fill="#ffffff" font-family="Orbitron, sans-serif" font-size="36" font-weight="900" letter-spacing="2">${safeTitle}</text>
+        </svg>`;
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      }
+
+      // Expose fallback handler to image onerror securely
+      window.__gzHandleImgError = function (imgElement, title, category) {
+        imgElement.onerror = null;
+        imgElement.src = createFallbackImage(title, category);
+      };
+
+      // State Management
+      let activeCategory = 'All Games';
+      let searchQuery = '';
+
+      // DOM Elements
+      const headerCountEl = document.getElementById('gz-header-count');
+      const heroTotalGamesEl = document.getElementById('gz-hero-total-games');
+      const showingCountEl = document.getElementById('gz-showing-count');
+      const totalCountEl = document.getElementById('gz-total-count');
+      const featuredContainerEl = document.getElementById('gz-featured-container');
+      const categoryFiltersEl = document.getElementById('gz-category-filters');
+      const gamesGridEl = document.getElementById('gz-games-grid');
+      const recentGridEl = document.getElementById('gz-recent-grid');
+      const emptyStateEl = document.getElementById('gz-empty-state');
+      const searchInputEl = document.getElementById('gz-search-input');
+      const searchClearBtn = document.getElementById('gz-search-clear');
+      const resetFiltersBtn = document.getElementById('gz-reset-filters-btn');
+      const yearEl = document.getElementById('gz-year');
+
+      // Escape HTML helper
+      function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      /**
+       * Update Live Counters
+       */
+      function updateCounters(filteredLength) {
+        const availableGames = GAMES_CONFIG.filter(g => g.status === 'available').length;
+        headerCountEl.textContent = availableGames;
+        heroTotalGamesEl.textContent = availableGames;
+        totalCountEl.textContent = GAMES_CONFIG.length;
+        showingCountEl.textContent = filteredLength;
+      }
+
+      /**
+       * Render Featured Spotlight Game
+       */
+      function renderFeaturedGame() {
+        const featured = GAMES_CONFIG.find(g => g.featured) || GAMES_CONFIG[0];
+        if (!featured) return;
+
+        featuredContainerEl.innerHTML = `
+          <a href="${escapeHTML(featured.url)}" class="gz-featured-card" aria-label="Play ${escapeHTML(featured.name)}">
+            <div class="gz-featured-media">
+              <img 
+                src="${escapeHTML(featured.coverImage)}" 
+                alt="${escapeHTML(featured.name)}" 
+                loading="eager"
+                onerror="window.__gzHandleImgError(this, '${escapeHTML(featured.name)}', '${escapeHTML(featured.category)}')"
+              />
+            </div>
+            <div class="gz-featured-info">
+              <div class="gz-featured-badges">
+                <span class="gz-badge-spotlight">★ FEATURED GAME</span>
+                <span class="gz-badge-cat">${escapeHTML(featured.category)}</span>
+              </div>
+              <h4 class="gz-featured-title">${escapeHTML(featured.name)}</h4>
+              <p class="gz-featured-desc">${escapeHTML(featured.description)}</p>
+              <div>
+                <span class="gz-btn-primary">
+                  <span>LAUNCH GAME NOW</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+
+      /**
+       * Render Dynamic Category Filter Tabs
+       * Automatically includes only categories that have games so there are no empty dead tabs.
+       */
+      function renderCategoryTabs() {
+        const gameCategories = new Set(GAMES_CONFIG.map(g => g.category));
+        const activeCategoriesList = ['All Games'];
+
+        STANDARD_CATEGORIES.forEach(cat => {
+          if (cat !== 'All Games' && gameCategories.has(cat)) {
+            activeCategoriesList.push(cat);
+          }
+        });
+
+        // Also include any new custom category added to GAMES_CONFIG
+        gameCategories.forEach(cat => {
+          if (!activeCategoriesList.includes(cat)) {
+            activeCategoriesList.push(cat);
+          }
+        });
+
+        categoryFiltersEl.innerHTML = activeCategoriesList.map(cat => {
+          const count = cat === 'All Games'
+            ? GAMES_CONFIG.length
+            : GAMES_CONFIG.filter(g => g.category === cat).length;
+
+          const isActive = activeCategory === cat ? 'gz-active' : '';
+          const displayLabel = cat === 'Board Game' ? 'Board Games' : cat;
+
+          return `
+            <button 
+              type="button" 
+              class="gz-cat-btn ${isActive}" 
+              data-category="${escapeHTML(cat)}"
+              role="tab"
+              aria-selected="${activeCategory === cat}"
+            >
+              <span>${escapeHTML(displayLabel)}</span>
+              <span class="gz-cat-count">${count}</span>
+            </button>
+          `;
+        }).join('');
+
+        // Attach click listeners
+        const buttons = categoryFiltersEl.querySelectorAll('.gz-cat-btn');
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeCategory = btn.getAttribute('data-category');
+            renderCategoryTabs();
+            renderGamesGrid();
+          });
+        });
+      }
+
+      /**
+       * Render Main Clickable Game Cards Grid
+       */
+      function renderGamesGrid() {
+        const query = searchQuery.trim().toLowerCase();
+
+        const filtered = GAMES_CONFIG.filter(game => {
+          const matchesCategory = activeCategory === 'All Games' || game.category === activeCategory;
+          const matchesSearch = !query || 
+            game.name.toLowerCase().includes(query) ||
+            game.category.toLowerCase().includes(query) ||
+            game.description.toLowerCase().includes(query);
+          return matchesCategory && matchesSearch;
+        });
+
+        updateCounters(filtered.length);
+
+        if (filtered.length === 0) {
+          gamesGridEl.innerHTML = '';
+          emptyStateEl.classList.add('gz-visible');
+          return;
+        }
+
+        emptyStateEl.classList.remove('gz-visible');
+
+        gamesGridEl.innerHTML = filtered.map(game => {
+          const isOnline = game.status === 'available';
+          const statusClass = isOnline ? 'gz-status-online' : 'gz-status-soon';
+          const statusText = isOnline ? '● READY TO PLAY' : '◌ COMING SOON';
+
+          return `
+            <a 
+              href="${escapeHTML(game.url)}" 
+              class="gz-game-card" 
+              aria-label="Play ${escapeHTML(game.name)} - ${escapeHTML(game.category)}"
+            >
+              <div class="gz-card-media">
+                <img 
+                  src="${escapeHTML(game.coverImage)}" 
+                  alt="${escapeHTML(game.name)} Cover" 
+                  loading="lazy"
+                  onerror="window.__gzHandleImgError(this, '${escapeHTML(game.name)}', '${escapeHTML(game.category)}')"
+                />
+                <div class="gz-card-media-overlay"></div>
+                <div class="gz-card-top-badges">
+                  <span class="gz-card-category">${escapeHTML(game.category)}</span>
+                  <span class="gz-card-status ${statusClass}">${statusText}</span>
+                </div>
+              </div>
+              <div class="gz-card-body">
+                <h4 class="gz-card-title">${escapeHTML(game.name)}</h4>
+                <p class="gz-card-desc">${escapeHTML(game.description)}</p>
+                <div class="gz-card-footer">
+                  <span class="gz-play-btn">
+                    <span>PLAY NOW</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      }
+
+      /**
+       * Render Recently Added Strip
+       */
+      function renderRecentlyAdded() {
+        const recentGames = GAMES_CONFIG.filter(g => g.recentlyAdded).slice(0, 4);
+        recentGridEl.innerHTML = recentGames.map(game => `
+          <a href="${escapeHTML(game.url)}" class="gz-recent-item" aria-label="Launch ${escapeHTML(game.name)}">
+            <div class="gz-recent-thumb">
+              <img 
+                src="${escapeHTML(game.coverImage)}" 
+                alt="${escapeHTML(game.name)}" 
+                loading="lazy"
+                onerror="window.__gzHandleImgError(this, '${escapeHTML(game.name)}', '${escapeHTML(game.category)}')"
+              />
+            </div>
+            <div class="gz-recent-meta">
+              <span class="gz-recent-tag">NEW RELEASE</span>
+              <h5 class="gz-recent-name">${escapeHTML(game.name)}</h5>
+              <span class="gz-recent-cat">${escapeHTML(game.category)} • Instant Launch →</span>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      /**
+       * Search & Filter Event Listeners
+       */
+      searchInputEl.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        if (searchQuery.length > 0) {
+          searchClearBtn.classList.add('gz-visible');
+        } else {
+          searchClearBtn.classList.remove('gz-visible');
+        }
+        renderGamesGrid();
+      });
+
+      searchClearBtn.addEventListener('click', () => {
+        searchInputEl.value = '';
+        searchQuery = '';
+        searchClearBtn.classList.remove('gz-visible');
+        searchInputEl.focus();
+        renderGamesGrid();
+      });
+
+      resetFiltersBtn.addEventListener('click', () => {
+        activeCategory = 'All Games';
+        searchQuery = '';
+        searchInputEl.value = '';
+        searchClearBtn.classList.remove('gz-visible');
+        renderCategoryTabs();
+        renderGamesGrid();
+      });
+
+      /**
+       * Subtle Performance-Aware Background Particles
+       */
+      function initParticles() {
+        const canvas = document.getElementById('gz-particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        // Reduce particle count on mobile for buttery-smooth 60fps performance
+        const isMobile = window.innerWidth < 768;
+        const particleCount = isMobile ? 18 : 38;
+        const particles = [];
+
+        const colors = ['rgba(0, 242, 254, 0.45)', 'rgba(168, 85, 247, 0.45)', 'rgba(59, 130, 246, 0.4)'];
+
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 2.2 + 0.8,
+            dx: (Math.random() - 0.5) * 0.35,
+            dy: (Math.random() - 0.5) * 0.35,
+            color: colors[i % colors.length]
+          });
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+          }
+          requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        });
+      }
+
+      /**
+       * Initialize Portal
+       */
+      function initPortal() {
+        yearEl.textContent = new Date().getFullYear();
+        renderFeaturedGame();
+        renderCategoryTabs();
+        renderGamesGrid();
+        renderRecentlyAdded();
+        initParticles();
+
+        // Hide initial loader smoothly
+        const loader = document.getElementById('gz-loader');
+        setTimeout(() => {
+          if (loader) loader.classList.add('gz-loader-hidden');
+        }, 320);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPortal);
+      } else {
+        initPortal();
+      }
+    })();
+  </script>
+</body>
+</html>
