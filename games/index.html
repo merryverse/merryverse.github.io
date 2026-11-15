@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>GAME ZONE | Your Ultimate Gaming Destination</title>
   <meta name="description" content="Play. Compete. Conquer. Discover and launch instant browser games in the Game Zone portal." />
   
@@ -13,16 +13,14 @@
 
   <style>
     /* ==========================================================================
-       ISOLATED CSS ARCHITECTURE (#gz-portal-root)
-       Scoped to prevent conflicts with existing website styles
+       ISOLATED & MOBILE-FIRST RESPONSIVE CSS ARCHITECTURE (#gz-portal-root)
        ========================================================================== */
     :root {
       --gz-bg-deep: #05070e;
       --gz-bg-navy: #0a0f24;
-      --gz-surface: rgba(16, 23, 46, 0.72);
-      --gz-surface-hover: rgba(24, 34, 68, 0.88);
-      --gz-border: rgba(99, 102, 241, 0.22);
-      --gz-border-glow: rgba(0, 242, 254, 0.65);
+      --gz-surface: rgba(16, 23, 46, 0.78);
+      --gz-surface-hover: rgba(24, 34, 68, 0.92);
+      --gz-border: rgba(99, 102, 241, 0.24);
       --gz-neon-purple: #a855f7;
       --gz-electric-blue: #3b82f6;
       --gz-neon-cyan: #00f2fe;
@@ -33,17 +31,20 @@
       --gz-text-muted: #94a3b8;
       --gz-font-display: 'Orbitron', sans-serif;
       --gz-font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --gz-transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      --gz-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     html {
       scroll-behavior: smooth;
       background-color: var(--gz-bg-deep);
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      min-height: 100vh;
       background-color: var(--gz-bg-deep);
       color: var(--gz-text-main);
       font-family: var(--gz-font-body);
@@ -59,9 +60,11 @@
 
     #gz-portal-root {
       position: relative;
+      width: 100%;
       min-height: 100vh;
+      overflow-x: hidden;
       background: 
-        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.14) 0%, transparent 40%),
         radial-gradient(circle at 85% 25%, rgba(0, 242, 254, 0.12) 0%, transparent 45%),
         radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
         linear-gradient(180deg, var(--gz-bg-deep) 0%, var(--gz-bg-navy) 55%, var(--gz-bg-deep) 100%);
@@ -71,8 +74,7 @@
     /* Interactive Particle Canvas */
     #gz-particles-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -86,24 +88,25 @@
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
+      background-size: 40px 40px;
       mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
       -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Layout Container */
+    /* Fluid Container */
     .gz-container {
       position: relative;
       z-index: 2;
-      max-width: 1320px;
+      width: 100%;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 clamp(14px, 4vw, 28px);
     }
 
     /* ==========================================================================
-       INITIAL LOADING OVERLAY & ENTRANCE ANIMATIONS
+       INITIAL LOADING OVERLAY
        ========================================================================== */
     #gz-loader {
       position: fixed;
@@ -114,7 +117,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.55s ease, visibility 0.55s ease;
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
     }
 
     #gz-loader.gz-loader-hidden {
@@ -124,21 +129,21 @@
     }
 
     .gz-spinner-ring {
-      width: 68px;
-      height: 68px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       border: 3px solid rgba(0, 242, 254, 0.15);
       border-top-color: var(--gz-neon-cyan);
       border-right-color: var(--gz-neon-purple);
-      animation: gz-spin 0.9s linear infinite;
+      animation: gz-spin 0.85s linear infinite;
       box-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
     }
 
     .gz-loader-text {
-      margin-top: 18px;
+      margin-top: 16px;
       font-family: var(--gz-font-display);
-      font-size: 0.85rem;
-      letter-spacing: 4px;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
       color: var(--gz-neon-cyan);
       text-transform: uppercase;
       animation: gz-pulse 1.5s ease-in-out infinite;
@@ -156,7 +161,7 @@
     @keyframes gz-fade-up {
       from {
         opacity: 0;
-        transform: translateY(24px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -165,7 +170,7 @@
     }
 
     .gz-animate-in {
-      animation: gz-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: gz-fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* ==========================================================================
@@ -177,54 +182,51 @@
       z-index: 100;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      background: rgba(5, 7, 14, 0.82);
+      background: rgba(5, 7, 14, 0.88);
       border-bottom: 1px solid var(--gz-border);
-      transition: var(--gz-transition);
+      width: 100%;
     }
 
     .gz-header-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 82px;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap: 12px;
       padding: 12px 0;
+      flex-wrap: wrap;
     }
 
-    /* Brand Logo + Titles */
     .gz-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       text-decoration: none;
       color: var(--gz-text-main);
-      group: true;
+      min-width: 0;
     }
 
     .gz-logo-box {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(0, 242, 254, 0.25));
       border: 1px solid rgba(0, 242, 254, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.22);
       transition: var(--gz-transition);
       flex-shrink: 0;
     }
 
     .gz-brand:hover .gz-logo-box {
-      transform: scale(1.06) rotate(-4deg);
-      box-shadow: 0 0 28px rgba(168, 85, 247, 0.6);
+      transform: scale(1.05);
       border-color: var(--gz-neon-purple);
     }
 
     .gz-logo-svg {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       fill: none;
       stroke: url(#gz-logo-grad);
       stroke-width: 2;
@@ -235,58 +237,63 @@
     .gz-brand-titles {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .gz-brand-title {
       font-family: var(--gz-font-display);
-      font-size: 1.45rem;
+      font-size: clamp(1.1rem, 3.5vw, 1.45rem);
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       margin: 0;
       background: linear-gradient(90deg, #ffffff 0%, var(--gz-neon-cyan) 55%, var(--gz-neon-purple) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1.15;
+      white-space: nowrap;
     }
 
     .gz-brand-subtitle {
-      font-size: 0.68rem;
+      font-size: clamp(0.55rem, 1.8vw, 0.68rem);
       font-weight: 700;
-      letter-spacing: 2.2px;
+      letter-spacing: 1.4px;
       color: var(--gz-text-muted);
       text-transform: uppercase;
       margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Navigation Actions & Live Counter */
     .gz-nav-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
     .gz-live-badge {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      padding: 8px 15px;
+      gap: 7px;
+      padding: 7px 12px;
       border-radius: 999px;
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.35);
-      font-size: 0.82rem;
+      font-size: 0.76rem;
       font-weight: 600;
       color: #e2e8f0;
-      box-shadow: 0 0 18px rgba(16, 185, 129, 0.12);
+      white-space: nowrap;
     }
 
     .gz-live-dot {
-      width: 9px;
-      height: 9px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--gz-success);
-      box-shadow: 0 0 10px var(--gz-success);
+      box-shadow: 0 0 8px var(--gz-success);
       animation: gz-pulse 1.6s infinite;
+      flex-shrink: 0;
     }
 
     .gz-live-count-num {
@@ -298,29 +305,29 @@
     .gz-nav-link {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 18px;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, 0.05);
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--gz-border);
       color: var(--gz-text-main);
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       font-weight: 600;
       text-decoration: none;
       transition: var(--gz-transition);
+      white-space: nowrap;
     }
 
     .gz-nav-link:hover {
       background: rgba(0, 242, 254, 0.12);
       border-color: var(--gz-neon-cyan);
       color: var(--gz-neon-cyan);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.2);
     }
 
     .gz-nav-link svg {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
     }
 
     /* ==========================================================================
@@ -328,97 +335,89 @@
        ========================================================================== */
     .gz-hero {
       position: relative;
-      margin: 32px 0 44px;
-      border-radius: 28px;
+      margin: clamp(18px, 3vw, 32px) 0 clamp(32px, 5vw, 48px);
+      border-radius: clamp(18px, 3vw, 28px);
       overflow: hidden;
       border: 1px solid rgba(0, 242, 254, 0.3);
       background: 
-        linear-gradient(125deg, rgba(5, 7, 14, 0.92) 0%, rgba(10, 15, 36, 0.78) 55%, rgba(168, 85, 247, 0.22) 100%),
-        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+        linear-gradient(125deg, rgba(5, 7, 14, 0.94) 0%, rgba(10, 15, 36, 0.82) 55%, rgba(168, 85, 247, 0.25) 100%),
+        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
       box-shadow: 
-        0 25px 60px -15px rgba(0, 0, 0, 0.85),
-        0 0 40px rgba(0, 242, 254, 0.12);
+        0 20px 50px -15px rgba(0, 0, 0, 0.85),
+        0 0 35px rgba(0, 242, 254, 0.12);
     }
 
-    /* Animated Lighting Glow inside Hero */
     .gz-hero-glow-1 {
       position: absolute;
-      top: -120px;
-      right: -120px;
-      width: 380px;
-      height: 380px;
-      background: radial-gradient(circle, rgba(0, 242, 254, 0.35) 0%, transparent 70%);
-      filter: blur(45px);
-      animation: gz-float-glow 8s ease-in-out infinite alternate;
+      top: -100px;
+      right: -100px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.3) 0%, transparent 70%);
+      filter: blur(40px);
       pointer-events: none;
     }
 
     .gz-hero-glow-2 {
       position: absolute;
-      bottom: -140px;
-      left: 10%;
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%);
-      filter: blur(55px);
-      animation: gz-float-glow 10s ease-in-out infinite alternate-reverse;
+      bottom: -100px;
+      left: 5%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+      filter: blur(45px);
       pointer-events: none;
-    }
-
-    @keyframes gz-float-glow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-35px, 25px) scale(1.18); }
     }
 
     .gz-hero-content {
       position: relative;
       z-index: 2;
-      padding: 72px 48px;
+      padding: clamp(28px, 6vw, 68px) clamp(18px, 5vw, 48px);
       max-width: 780px;
     }
 
     .gz-hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      gap: 6px;
+      padding: 5px 12px;
       border-radius: 999px;
-      background: rgba(168, 85, 247, 0.18);
+      background: rgba(168, 85, 247, 0.2);
       border: 1px solid rgba(168, 85, 247, 0.45);
       color: #e9d5ff;
-      font-size: 0.76rem;
+      font-size: clamp(0.66rem, 2vw, 0.76rem);
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .gz-hero-title {
       font-family: var(--gz-font-display);
-      font-size: clamp(2.1rem, 5vw, 3.75rem);
+      font-size: clamp(1.65rem, 6vw, 3.6rem);
       font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: 1.5px;
-      margin: 0 0 18px;
+      line-height: 1.12;
+      letter-spacing: 1px;
+      margin: 0 0 14px;
       text-transform: uppercase;
       background: linear-gradient(95deg, #ffffff 15%, var(--gz-neon-cyan) 60%, var(--gz-neon-purple) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 10px 30px rgba(0, 242, 254, 0.18);
+      word-break: break-word;
     }
 
     .gz-hero-subtitle {
-      font-size: clamp(1rem, 2vw, 1.22rem);
+      font-size: clamp(0.92rem, 2.5vw, 1.18rem);
       color: #cbd5e1;
       line-height: 1.6;
-      margin: 0 0 34px;
+      margin: 0 0 26px;
       max-width: 600px;
     }
 
     .gz-hero-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
@@ -426,13 +425,13 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 11px;
-      padding: 15px 32px;
-      border-radius: 14px;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: 12px;
       font-family: var(--gz-font-display);
-      font-size: 0.92rem;
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
       font-weight: 700;
-      letter-spacing: 1.6px;
+      letter-spacing: 1.4px;
       text-transform: uppercase;
       text-decoration: none;
       color: #05070e;
@@ -440,19 +439,21 @@
       background-size: 200% auto;
       border: none;
       cursor: pointer;
-      box-shadow: 0 0 28px rgba(0, 242, 254, 0.45);
+      box-shadow: 0 0 24px rgba(0, 242, 254, 0.4);
       transition: var(--gz-transition);
+      text-align: center;
     }
 
     .gz-btn-primary:hover {
       background-position: right center;
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 40px rgba(0, 242, 254, 0.75), 0 0 20px rgba(168, 85, 247, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
     }
 
     .gz-btn-primary svg {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
       transition: transform 0.3s ease;
     }
 
@@ -461,13 +462,13 @@
     }
 
     .gz-hero-stats {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      margin-top: 40px;
-      padding-top: 26px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      max-width: 480px;
     }
 
     .gz-stat-item {
@@ -477,16 +478,16 @@
 
     .gz-stat-val {
       font-family: var(--gz-font-display);
-      font-size: 1.25rem;
+      font-size: clamp(1rem, 3vw, 1.25rem);
       font-weight: 800;
       color: var(--gz-neon-cyan);
     }
 
     .gz-stat-lbl {
-      font-size: 0.78rem;
+      font-size: clamp(0.65rem, 1.8vw, 0.76rem);
       color: var(--gz-text-muted);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       margin-top: 2px;
     }
 
@@ -494,44 +495,45 @@
        SECTION HEADINGS
        ========================================================================== */
     .gz-section {
-      margin-bottom: 56px;
+      margin-bottom: clamp(36px, 6vw, 56px);
     }
 
     .gz-section-header {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
     .gz-section-title-wrap {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .gz-section-accent {
-      width: 6px;
-      height: 28px;
+      width: 5px;
+      height: 24px;
       border-radius: 4px;
       background: linear-gradient(180deg, var(--gz-neon-cyan), var(--gz-neon-purple));
-      box-shadow: 0 0 12px var(--gz-neon-cyan);
+      box-shadow: 0 0 10px var(--gz-neon-cyan);
+      flex-shrink: 0;
     }
 
     .gz-section-title {
       font-family: var(--gz-font-display);
-      font-size: 1.45rem;
+      font-size: clamp(1.15rem, 3.5vw, 1.45rem);
       font-weight: 800;
-      letter-spacing: 1.4px;
+      letter-spacing: 1.2px;
       margin: 0;
       text-transform: uppercase;
       color: var(--gz-text-main);
     }
 
     .gz-section-sub {
-      font-size: 0.9rem;
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
       color: var(--gz-text-muted);
       margin: 0;
     }
@@ -543,25 +545,27 @@
       position: relative;
       display: grid;
       grid-template-columns: 1.15fr 1fr;
-      border-radius: 24px;
+      border-radius: clamp(16px, 2.5vw, 24px);
       overflow: hidden;
       background: var(--gz-surface);
       border: 1px solid rgba(168, 85, 247, 0.35);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.12);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
       text-decoration: none;
       color: inherit;
       transition: var(--gz-transition);
+      width: 100%;
     }
 
     .gz-featured-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
       border-color: var(--gz-neon-cyan);
-      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), 0 0 38px rgba(0, 242, 254, 0.28);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.75), 0 0 32px rgba(0, 242, 254, 0.25);
     }
 
     .gz-featured-media {
       position: relative;
-      min-height: 320px;
+      min-height: 280px;
+      max-height: 380px;
       overflow: hidden;
       background: #090d1d;
     }
@@ -570,22 +574,23 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+      transition: transform 0.6s ease;
     }
 
     .gz-featured-card:hover .gz-featured-media img {
-      transform: scale(1.07);
+      transform: scale(1.06);
     }
 
     .gz-featured-media::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent 50%, rgba(16, 23, 46, 0.98) 100%);
+      background: linear-gradient(90deg, transparent 50%, rgba(16, 23, 46, 0.96) 100%);
     }
 
     .gz-featured-info {
-      padding: 38px 40px;
+      padding: clamp(20px, 4vw, 38px);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -596,31 +601,30 @@
     .gz-featured-badges {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .gz-badge-spotlight {
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--gz-neon-purple), var(--gz-accent-pink));
       font-family: var(--gz-font-display);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       color: #fff;
-      box-shadow: 0 0 15px rgba(236, 72, 153, 0.45);
     }
 
     .gz-badge-cat {
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 999px;
       background: rgba(0, 242, 254, 0.12);
       border: 1px solid rgba(0, 242, 254, 0.35);
       color: var(--gz-neon-cyan);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -628,17 +632,17 @@
 
     .gz-featured-title {
       font-family: var(--gz-font-display);
-      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-size: clamp(1.35rem, 3.5vw, 2.1rem);
       font-weight: 900;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       color: #fff;
     }
 
     .gz-featured-desc {
-      font-size: 1rem;
+      font-size: clamp(0.88rem, 2.2vw, 1rem);
       color: var(--gz-text-muted);
-      line-height: 1.65;
-      margin: 0 0 26px;
+      line-height: 1.6;
+      margin: 0 0 22px;
     }
 
     /* ==========================================================================
@@ -648,39 +652,42 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 20px 24px;
-      border-radius: 20px;
+      gap: 16px;
+      padding: clamp(14px, 2.5vw, 20px);
+      border-radius: 18px;
       background: var(--gz-surface);
       border: 1px solid var(--gz-border);
       backdrop-filter: blur(12px);
-      margin-bottom: 32px;
+      margin-bottom: 26px;
       flex-wrap: wrap;
+      width: 100%;
     }
 
-    /* Category Filter Pills */
     .gz-category-tabs {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      flex: 1;
+      flex: 1 1 300px;
+      min-width: 0;
     }
 
     .gz-cat-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: 12px;
+      gap: 7px;
+      padding: 9px 15px;
+      border-radius: 11px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--gz-text-muted);
       font-family: var(--gz-font-body);
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       transition: var(--gz-transition);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .gz-cat-btn:hover {
@@ -690,48 +697,48 @@
     }
 
     .gz-cat-btn.gz-active {
-      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(168, 85, 247, 0.25));
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.22), rgba(168, 85, 247, 0.28));
       border-color: var(--gz-neon-cyan);
       color: #ffffff;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.22);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.22);
     }
 
     .gz-cat-count {
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.35);
-      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.4);
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--gz-neon-cyan);
     }
 
-    /* Search Input Box */
     .gz-search-wrap {
       position: relative;
-      min-width: 280px;
-      flex-shrink: 0;
+      flex: 1 1 240px;
+      max-width: 340px;
+      width: 100%;
     }
 
     .gz-search-icon {
       position: absolute;
-      left: 15px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       color: var(--gz-text-muted);
       pointer-events: none;
     }
 
     .gz-search-input {
       width: 100%;
-      padding: 12px 38px 12px 44px;
-      border-radius: 13px;
-      background: rgba(5, 7, 14, 0.75);
+      padding: 11px 36px 11px 40px;
+      border-radius: 12px;
+      background: rgba(5, 7, 14, 0.8);
       border: 1px solid var(--gz-border);
       color: var(--gz-text-main);
       font-family: var(--gz-font-body);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
       transition: var(--gz-transition);
     }
@@ -763,70 +770,49 @@
       display: block;
     }
 
-    .gz-search-clear:hover {
-      color: var(--gz-neon-cyan);
-    }
-
     /* ==========================================================================
-       GAME LIBRARY GRID & CLICKABLE GAME CARDS
+       GAME LIBRARY GRID & CLICKABLE GAME CARDS (100% FLUID RESPONSIVE)
        ========================================================================== */
     .gz-games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 28px;
+      /* min(100%, 290px) guarantees zero horizontal overflow on any mobile screen */
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+      gap: clamp(18px, 3vw, 28px);
+      width: 100%;
     }
 
-    /* Entire Card is an <a> Element for Full Clickability */
     .gz-game-card {
       position: relative;
       display: flex;
       flex-direction: column;
-      border-radius: 22px;
+      border-radius: 20px;
       background: var(--gz-surface);
       border: 1px solid var(--gz-border);
       overflow: hidden;
       text-decoration: none;
       color: inherit;
       backdrop-filter: blur(12px);
-      box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.65);
       transition: var(--gz-transition);
       cursor: pointer;
-    }
-
-    .gz-game-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 22px;
-      padding: 1.5px;
-      background: linear-gradient(135deg, var(--gz-neon-cyan), transparent 45%, var(--gz-neon-purple));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      pointer-events: none;
+      width: 100%;
+      min-width: 0;
     }
 
     .gz-game-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-6px);
       background: var(--gz-surface-hover);
-      border-color: rgba(0, 242, 254, 0.5);
+      border-color: rgba(0, 242, 254, 0.55);
       box-shadow: 
-        0 24px 48px -12px rgba(0, 0, 0, 0.85),
-        0 0 32px rgba(0, 242, 254, 0.22),
-        0 0 18px rgba(168, 85, 247, 0.18);
+        0 20px 42px -10px rgba(0, 0, 0, 0.85),
+        0 0 28px rgba(0, 242, 254, 0.22);
     }
 
-    .gz-game-card:hover::before {
-      opacity: 1;
-    }
-
-    /* Card Cover Image Wrapper */
     .gz-card-media {
       position: relative;
       width: 100%;
-      height: 215px;
+      aspect-ratio: 16 / 10;
+      max-height: 220px;
       overflow: hidden;
       background: #080c1a;
     }
@@ -835,56 +821,57 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+      transition: transform 0.55s ease;
     }
 
     .gz-game-card:hover .gz-card-media img {
-      transform: scale(1.09);
+      transform: scale(1.08);
     }
 
     .gz-card-media-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(5, 7, 14, 0.15) 0%, transparent 45%, rgba(10, 15, 36, 0.95) 100%);
+      background: linear-gradient(180deg, rgba(5, 7, 14, 0.2) 0%, transparent 45%, rgba(10, 15, 36, 0.95) 100%);
     }
 
-    /* Top Badges on Card Cover */
     .gz-card-top-badges {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
+      top: 12px;
+      left: 12px;
+      right: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
       z-index: 2;
+      flex-wrap: wrap;
     }
 
     .gz-card-category {
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(5, 7, 14, 0.78);
+      background: rgba(5, 7, 14, 0.82);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(0, 242, 254, 0.4);
       color: var(--gz-neon-cyan);
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
     }
 
     .gz-card-status {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 11px;
+      gap: 5px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(5, 7, 14, 0.78);
+      background: rgba(5, 7, 14, 0.82);
       backdrop-filter: blur(8px);
-      font-size: 0.7rem;
+      font-size: 0.66rem;
       font-weight: 700;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
     }
 
@@ -898,9 +885,8 @@
       border: 1px solid rgba(245, 158, 11, 0.4);
     }
 
-    /* Card Content Body */
     .gz-card-body {
-      padding: 22px 24px 24px;
+      padding: clamp(16px, 3vw, 22px);
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -908,11 +894,11 @@
 
     .gz-card-title {
       font-family: var(--gz-font-display);
-      font-size: 1.28rem;
+      font-size: clamp(1.1rem, 2.8vw, 1.25rem);
       font-weight: 800;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       color: #ffffff;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       transition: color 0.25s ease;
     }
 
@@ -921,19 +907,14 @@
     }
 
     .gz-card-desc {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--gz-text-muted);
-      line-height: 1.6;
-      margin: 0 0 22px;
+      line-height: 1.55;
+      margin: 0 0 18px;
       flex: 1;
     }
 
-    /* Card Footer & Play Now Button */
     .gz-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
       margin-top: auto;
     }
 
@@ -942,16 +923,16 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 13px 20px;
-      border-radius: 13px;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 12px;
       background: linear-gradient(90deg, rgba(0, 242, 254, 0.16), rgba(168, 85, 247, 0.22));
       border: 1px solid rgba(0, 242, 254, 0.45);
       color: #ffffff;
       font-family: var(--gz-font-display);
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.4px;
       text-transform: uppercase;
       transition: var(--gz-transition);
     }
@@ -960,12 +941,13 @@
       background: linear-gradient(90deg, var(--gz-neon-cyan), var(--gz-electric-blue), var(--gz-neon-purple));
       color: #05070e;
       border-color: transparent;
-      box-shadow: 0 0 24px rgba(0, 242, 254, 0.55);
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
     }
 
     .gz-play-btn svg {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
       transition: transform 0.25s ease;
     }
 
@@ -978,34 +960,35 @@
        ========================================================================== */
     .gz-recent-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+      gap: 16px;
+      width: 100%;
     }
 
     .gz-recent-item {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 14px;
-      border-radius: 16px;
+      gap: 14px;
+      padding: 12px;
+      border-radius: 15px;
       background: var(--gz-surface);
       border: 1px solid var(--gz-border);
       text-decoration: none;
       color: inherit;
       transition: var(--gz-transition);
+      min-width: 0;
     }
 
     .gz-recent-item:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: var(--gz-neon-purple);
       background: var(--gz-surface-hover);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.2);
     }
 
     .gz-recent-thumb {
-      width: 72px;
-      height: 72px;
-      border-radius: 12px;
+      width: 64px;
+      height: 64px;
+      border-radius: 11px;
       overflow: hidden;
       flex-shrink: 0;
       background: #080c1a;
@@ -1016,6 +999,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     .gz-recent-meta {
@@ -1025,28 +1009,32 @@
 
     .gz-recent-tag {
       display: inline-block;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
       color: var(--gz-neon-purple);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .gz-recent-name {
       font-family: var(--gz-font-display);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #fff;
-      margin: 0 0 4px;
+      margin: 0 0 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .gz-recent-cat {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--gz-text-muted);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* ==========================================================================
@@ -1054,8 +1042,8 @@
        ========================================================================== */
     .gz-empty-state {
       text-align: center;
-      padding: 64px 24px;
-      border-radius: 22px;
+      padding: 48px 20px;
+      border-radius: 20px;
       background: var(--gz-surface);
       border: 1px dashed rgba(99, 102, 241, 0.35);
       display: none;
@@ -1067,25 +1055,25 @@
 
     .gz-empty-title {
       font-family: var(--gz-font-display);
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       color: #fff;
-      margin: 14px 0 8px;
+      margin: 12px 0 8px;
     }
 
     .gz-empty-desc {
       color: var(--gz-text-muted);
-      font-size: 0.95rem;
-      margin: 0 0 22px;
+      font-size: 0.9rem;
+      margin: 0 0 20px;
     }
 
     .gz-reset-btn {
-      padding: 10px 22px;
-      border-radius: 11px;
+      padding: 10px 20px;
+      border-radius: 10px;
       background: rgba(0, 242, 254, 0.15);
       border: 1px solid var(--gz-neon-cyan);
       color: var(--gz-neon-cyan);
       font-family: var(--gz-font-display);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       transition: var(--gz-transition);
@@ -1100,10 +1088,10 @@
        FOOTER
        ========================================================================== */
     .gz-footer {
-      margin-top: 80px;
+      margin-top: clamp(48px, 8vw, 80px);
       border-top: 1px solid var(--gz-border);
-      background: rgba(5, 7, 14, 0.9);
-      padding: 40px 0;
+      background: rgba(5, 7, 14, 0.92);
+      padding: 32px 0;
       position: relative;
       z-index: 2;
     }
@@ -1112,12 +1100,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .gz-footer-copy {
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       color: var(--gz-text-muted);
       margin: 0;
     }
@@ -1125,13 +1113,14 @@
     .gz-footer-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
+      flex-wrap: wrap;
     }
 
     .gz-footer-links a {
       color: var(--gz-text-muted);
       text-decoration: none;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       transition: color 0.2s ease;
     }
 
@@ -1140,76 +1129,73 @@
     }
 
     /* ==========================================================================
-       RESPONSIVE BREAKPOINTS (ANDROID, IPHONE, TABLET, DESKTOP)
+       TABLET & MOBILE MEDIA QUERIES
        ========================================================================== */
-    @media (max-width: 960px) {
+    @media (max-width: 900px) {
       .gz-featured-card {
         grid-template-columns: 1fr;
       }
       .gz-featured-media {
-        min-height: 230px;
+        min-height: 200px;
+        max-height: 240px;
       }
       .gz-featured-media::after {
-        background: linear-gradient(180deg, transparent 40%, rgba(16, 23, 46, 0.98) 100%);
-      }
-      .gz-featured-info {
-        padding: 26px 24px 30px;
+        background: linear-gradient(180deg, transparent 35%, rgba(16, 23, 46, 0.98) 100%);
       }
     }
 
-    @media (max-width: 768px) {
-      .gz-container {
-        padding: 0 16px;
-      }
+    @media (max-width: 680px) {
       .gz-header-inner {
-        justify-content: space-between;
+        gap: 10px;
       }
       .gz-brand-subtitle {
-        font-size: 0.6rem;
-        letter-spacing: 1.5px;
-      }
-      .gz-hero-content {
-        padding: 46px 24px;
+        display: none;
       }
       .gz-controls-bar {
         flex-direction: column;
         align-items: stretch;
-        padding: 16px;
+        gap: 12px;
       }
       .gz-search-wrap {
-        width: 100%;
-        min-width: 0;
+        max-width: 100%;
+        flex: 1 1 auto;
       }
       .gz-category-tabs {
+        flex: 1 1 auto;
         overflow-x: auto;
         flex-wrap: nowrap;
-        padding-bottom: 6px;
+        padding-bottom: 4px;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
       }
-      .gz-cat-btn {
-        white-space: nowrap;
-      }
-      .gz-games-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .gz-brand-title {
-        font-size: 1.2rem;
-      }
-      .gz-logo-box {
-        width: 42px;
-        height: 42px;
-      }
-      .gz-nav-actions {
-        width: 100%;
-        justify-content: space-between;
-        padding-top: 6px;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      .gz-category-tabs::-webkit-scrollbar {
+        display: none;
       }
       .gz-btn-primary {
         width: 100%;
+      }
+      .gz-footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .gz-footer-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .gz-live-badge span:last-child {
+        font-size: 0.7rem;
+      }
+      .gz-nav-link span {
+        display: none;
+      }
+      .gz-nav-link {
+        padding: 8px 10px;
+      }
+      .gz-hero-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
       }
     }
   </style>
@@ -1259,10 +1245,10 @@
         <nav class="gz-nav-actions" aria-label="Portal Navigation">
           <div class="gz-live-badge" title="Total Available Games Ready to Play">
             <span class="gz-live-dot"></span>
-            <span>LIVE GAMES: <strong id="gz-header-count" class="gz-live-count-num">0</strong></span>
+            <span>GAMES: <strong id="gz-header-count" class="gz-live-count-num">3</strong></span>
           </div>
 
-          <a href="/" class="gz-nav-link">
+          <a href="/" class="gz-nav-link" title="Home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -1284,11 +1270,11 @@
         <div class="gz-hero-glow-2"></div>
         <div class="gz-hero-content">
           <div class="gz-hero-eyebrow">
-            <span>⚡ INSTANT BROWSER GAMING PORTAL</span>
+            <span>⚡ YOUR ULTIMATE GAMING DESTINATION</span>
           </div>
           <h2 class="gz-hero-title">ENTER THE GAME WORLD</h2>
           <p class="gz-hero-subtitle">
-            Play. Compete. Conquer. Your next adventure starts here. Experience zero-download, instant-launch games crafted for high-octane fun across all your devices.
+            Play. Compete. Conquer. Your next adventure starts here. Experience zero-download, instant-launch browser games across all your devices.
           </p>
           <div class="gz-hero-actions">
             <a href="#gz-game-library" class="gz-btn-primary">
@@ -1303,7 +1289,7 @@
           <div class="gz-hero-stats">
             <div class="gz-stat-item">
               <span id="gz-hero-total-games" class="gz-stat-val">3</span>
-              <span class="gz-stat-lbl">Available Titles</span>
+              <span class="gz-stat-lbl">Live Games</span>
             </div>
             <div class="gz-stat-item">
               <span class="gz-stat-val">100%</span>
@@ -1311,7 +1297,7 @@
             </div>
             <div class="gz-stat-item">
               <span class="gz-stat-val">60 FPS</span>
-              <span class="gz-stat-lbl">Smooth Performance</span>
+              <span class="gz-stat-lbl">Smooth Speed</span>
             </div>
           </div>
         </div>
@@ -1324,7 +1310,7 @@
             <span class="gz-section-accent"></span>
             <h3 id="gz-featured-heading" class="gz-section-title">Featured Spotlight</h3>
           </div>
-          <p class="gz-section-sub">Hand-picked top experience in the arena</p>
+          <p class="gz-section-sub">Top experience in the arena</p>
         </div>
         <div id="gz-featured-container"></div>
       </section>
@@ -1343,9 +1329,7 @@
 
         <!-- Filter & Search Controls -->
         <div class="gz-controls-bar">
-          <div id="gz-category-filters" class="gz-category-tabs" role="tablist" aria-label="Game Categories">
-            <!-- Dynamically populated by JS -->
-          </div>
+          <div id="gz-category-filters" class="gz-category-tabs" role="tablist" aria-label="Game Categories"></div>
 
           <div class="gz-search-wrap">
             <svg class="gz-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1365,18 +1349,16 @@
         </div>
 
         <!-- Responsive Game Cards Grid -->
-        <div id="gz-games-grid" class="gz-games-grid">
-          <!-- Dynamically populated from GAMES_CONFIG -->
-        </div>
+        <div id="gz-games-grid" class="gz-games-grid"></div>
 
-        <!-- Empty State when no search/filter matches -->
+        <!-- Empty State -->
         <div id="gz-empty-state" class="gz-empty-state">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="1.5" style="margin: 0 auto;">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="1.5" style="margin: 0 auto;">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <h4 class="gz-empty-title">No Matching Games Found</h4>
-          <p class="gz-empty-desc">We couldn't find any games matching your current filter or search query.</p>
+          <p class="gz-empty-desc">We couldn't find any games matching your search or filter.</p>
           <button type="button" id="gz-reset-filters-btn" class="gz-reset-btn">SHOW ALL GAMES</button>
         </div>
       </section>
@@ -1388,11 +1370,9 @@
             <span class="gz-section-accent"></span>
             <h3 id="gz-recent-heading" class="gz-section-title">Recently Added</h3>
           </div>
-          <p class="gz-section-sub">Latest releases added to Game Zone</p>
+          <p class="gz-section-sub">Latest releases ready to play</p>
         </div>
-        <div id="gz-recent-grid" class="gz-recent-grid">
-          <!-- Dynamically populated by JS -->
-        </div>
+        <div id="gz-recent-grid" class="gz-recent-grid"></div>
       </section>
 
     </main>
@@ -1403,7 +1383,7 @@
     <footer class="gz-footer">
       <div class="gz-container gz-footer-inner">
         <p class="gz-footer-copy">
-          &copy; <span id="gz-year"></span> <strong>GAME ZONE</strong>. All rights reserved. Your Ultimate Gaming Destination.
+          &copy; <span id="gz-year"></span> <strong>GAME ZONE</strong>. All rights reserved.
         </p>
         <div class="gz-footer-links">
           <a href="/">Home</a>
@@ -1415,7 +1395,7 @@
   </div>
 
   <!-- ==========================================================================
-       ISOLATED JAVASCRIPT ENGINE & CENTRALIZED GAME CONFIGURATION
+       ISOLATED JAVASCRIPT ENGINE & EXACT GAME URL CONFIGURATION
        ========================================================================== -->
   <script>
     (function () {
@@ -1423,24 +1403,17 @@
 
       /**
        * ========================================================================
-       * CENTRALIZED GAME CONFIGURATION (FUTURE GAME EXPANSION)
+       * CENTRALIZED GAME CONFIGURATION (EXACT URL PATHS)
        * ========================================================================
-       * To add a new game in the future, simply add a new object to GAMES_CONFIG.
-       * Required fields:
-       *   - name: Game title
-       *   - url: Exact relative path (e.g., '/my-new-game')
-       *   - category: 'Racing' | 'Board Game' | 'Space Shooter' | 'Action' | 'Arcade' (or any custom category)
-       *   - description: Short summary of the game
-       *   - coverImage: High-res cover image URL
-       *   - status: 'available' | 'coming-soon'
-       *   - featured: true (optional, marks spotlight game)
-       *   - recentlyAdded: true (optional, includes in Recently Added strip)
+       * Arcade Car Racing -> /carracing/index.html
+       * Ludu              -> /ludu/index.html
+       * Space Impact      -> /space-impact/index.html
        */
       const GAMES_CONFIG = [
         {
           id: 'arcade-car-racing',
           name: 'Arcade Car Racing',
-          url: '/carracing',
+          url: '/carracing/index.html',
           category: 'Racing',
           description: 'Experience high-speed racing, dodge traffic, and push your driving skills to the limit.',
           coverImage: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=80',
@@ -1449,9 +1422,9 @@
           recentlyAdded: true
         },
         {
-          id: 'ludo',
-          name: 'Ludo',
-          url: '/ludu',
+          id: 'ludu',
+          name: 'Ludu',
+          url: '/ludu/index.html',
           category: 'Board Game',
           description: 'Roll the dice, move your tokens, and challenge your friends in an exciting Ludo match.',
           coverImage: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=1000&q=80',
@@ -1462,7 +1435,7 @@
         {
           id: 'space-impact',
           name: 'Space Impact',
-          url: '/space-impact',
+          url: '/space-impact/index.html',
           category: 'Space Shooter',
           description: 'Defend the galaxy, destroy alien enemies, and defeat powerful space bosses.',
           coverImage: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=1000&q=80',
@@ -1472,11 +1445,6 @@
         }
       ];
 
-      /**
-       * Predefined Category Order (Automatically hides empty categories
-       * so visitors never click dead filters, while automatically showing
-       * 'Action', 'Arcade', or custom categories as soon as a game uses them).
-       */
       const STANDARD_CATEGORIES = [
         'All Games',
         'Racing',
@@ -1487,7 +1455,7 @@
       ];
 
       /**
-       * Generates a sleek SVG Neon Fallback Image Data URI if an image fails to load
+       * Generates an inline SVG fallback image if an external cover fails to load
        */
       function createFallbackImage(title, category) {
         const safeTitle = String(title || 'GAME ZONE').replace(/[<>&"']/g, '');
@@ -1514,17 +1482,14 @@
         return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
       }
 
-      // Expose fallback handler to image onerror securely
       window.__gzHandleImgError = function (imgElement, title, category) {
         imgElement.onerror = null;
         imgElement.src = createFallbackImage(title, category);
       };
 
-      // State Management
       let activeCategory = 'All Games';
       let searchQuery = '';
 
-      // DOM Elements
       const headerCountEl = document.getElementById('gz-header-count');
       const heroTotalGamesEl = document.getElementById('gz-hero-total-games');
       const showingCountEl = document.getElementById('gz-showing-count');
@@ -1539,16 +1504,12 @@
       const resetFiltersBtn = document.getElementById('gz-reset-filters-btn');
       const yearEl = document.getElementById('gz-year');
 
-      // Escape HTML helper
       function escapeHTML(str) {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
       }
 
-      /**
-       * Update Live Counters
-       */
       function updateCounters(filteredLength) {
         const availableGames = GAMES_CONFIG.filter(g => g.status === 'available').length;
         headerCountEl.textContent = availableGames;
@@ -1557,9 +1518,6 @@
         showingCountEl.textContent = filteredLength;
       }
 
-      /**
-       * Render Featured Spotlight Game
-       */
       function renderFeaturedGame() {
         const featured = GAMES_CONFIG.find(g => g.featured) || GAMES_CONFIG[0];
         if (!featured) return;
@@ -1583,7 +1541,7 @@
               <p class="gz-featured-desc">${escapeHTML(featured.description)}</p>
               <div>
                 <span class="gz-btn-primary">
-                  <span>LAUNCH GAME NOW</span>
+                  <span>PLAY NOW</span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                   </svg>
@@ -1594,10 +1552,6 @@
         `;
       }
 
-      /**
-       * Render Dynamic Category Filter Tabs
-       * Automatically includes only categories that have games so there are no empty dead tabs.
-       */
       function renderCategoryTabs() {
         const gameCategories = new Set(GAMES_CONFIG.map(g => g.category));
         const activeCategoriesList = ['All Games'];
@@ -1608,7 +1562,6 @@
           }
         });
 
-        // Also include any new custom category added to GAMES_CONFIG
         gameCategories.forEach(cat => {
           if (!activeCategoriesList.includes(cat)) {
             activeCategoriesList.push(cat);
@@ -1637,7 +1590,6 @@
           `;
         }).join('');
 
-        // Attach click listeners
         const buttons = categoryFiltersEl.querySelectorAll('.gz-cat-btn');
         buttons.forEach(btn => {
           btn.addEventListener('click', () => {
@@ -1648,9 +1600,6 @@
         });
       }
 
-      /**
-       * Render Main Clickable Game Cards Grid
-       */
       function renderGamesGrid() {
         const query = searchQuery.trim().toLowerCase();
 
@@ -1682,7 +1631,7 @@
             <a 
               href="${escapeHTML(game.url)}" 
               class="gz-game-card" 
-              aria-label="Play ${escapeHTML(game.name)} - ${escapeHTML(game.category)}"
+              aria-label="Play ${escapeHTML(game.name)}"
             >
               <div class="gz-card-media">
                 <img 
@@ -1714,9 +1663,6 @@
         }).join('');
       }
 
-      /**
-       * Render Recently Added Strip
-       */
       function renderRecentlyAdded() {
         const recentGames = GAMES_CONFIG.filter(g => g.recentlyAdded).slice(0, 4);
         recentGridEl.innerHTML = recentGames.map(game => `
@@ -1732,15 +1678,12 @@
             <div class="gz-recent-meta">
               <span class="gz-recent-tag">NEW RELEASE</span>
               <h5 class="gz-recent-name">${escapeHTML(game.name)}</h5>
-              <span class="gz-recent-cat">${escapeHTML(game.category)} • Instant Launch →</span>
+              <span class="gz-recent-cat">${escapeHTML(game.category)} • Play Now →</span>
             </div>
           </a>
         `).join('');
       }
 
-      /**
-       * Search & Filter Event Listeners
-       */
       searchInputEl.addEventListener('input', (e) => {
         searchQuery = e.target.value;
         if (searchQuery.length > 0) {
@@ -1768,9 +1711,6 @@
         renderGamesGrid();
       });
 
-      /**
-       * Subtle Performance-Aware Background Particles
-       */
       function initParticles() {
         const canvas = document.getElementById('gz-particles-canvas');
         if (!canvas) return;
@@ -1778,20 +1718,18 @@
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
-        // Reduce particle count on mobile for buttery-smooth 60fps performance
         const isMobile = window.innerWidth < 768;
-        const particleCount = isMobile ? 18 : 38;
+        const particleCount = isMobile ? 14 : 32;
         const particles = [];
-
-        const colors = ['rgba(0, 242, 254, 0.45)', 'rgba(168, 85, 247, 0.45)', 'rgba(59, 130, 246, 0.4)'];
+        const colors = ['rgba(0, 242, 254, 0.4)', 'rgba(168, 85, 247, 0.4)', 'rgba(59, 130, 246, 0.35)'];
 
         for (let i = 0; i < particleCount; i++) {
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            r: Math.random() * 2.2 + 0.8,
-            dx: (Math.random() - 0.5) * 0.35,
-            dy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 2 + 0.8,
+            dx: (Math.random() - 0.5) * 0.3,
+            dy: (Math.random() - 0.5) * 0.3,
             color: colors[i % colors.length]
           });
         }
@@ -1824,9 +1762,6 @@
         });
       }
 
-      /**
-       * Initialize Portal
-       */
       function initPortal() {
         yearEl.textContent = new Date().getFullYear();
         renderFeaturedGame();
@@ -1835,11 +1770,10 @@
         renderRecentlyAdded();
         initParticles();
 
-        // Hide initial loader smoothly
         const loader = document.getElementById('gz-loader');
         setTimeout(() => {
           if (loader) loader.classList.add('gz-loader-hidden');
-        }, 320);
+        }, 250);
       }
 
       if (document.readyState === 'loading') {
