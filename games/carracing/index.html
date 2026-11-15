@@ -48,6 +48,8 @@ canvas{display:block;position:fixed;inset:0}
 #online-info{opacity:.85;margin:4px 0 2px}
 .ib{pointer-events:auto;font-size:1.25rem;background:rgba(8,12,30,.7);border:2px solid rgba(255,255,255,.25);border-radius:14px;width:44px;height:44px;color:#fff;cursor:pointer}
 @media (max-width:600px){.chip{padding:2px 8px;border-radius:12px}.chip b{font-size:1.05rem}.chip small{font-size:.62rem}#nitro-wrap{width:78px;height:9px}.panel{padding:14px}.panel h1{font-size:1.4rem}.big{font-size:2rem}.btn{font-size:1.05rem;padding:8px 18px;margin-top:8px}.tb{width:58px;height:58px}.tb.side{width:70px;height:70px}.lb li{padding:3px 8px}}
+.lb.top{min-height:225px}.lb li.sk{height:40px;background:rgba(255,255,255,.04)}
+@media (max-width:600px){.lb.top{min-height:205px}.lb li.sk{height:36px}}
 @media (pointer:coarse){#touch{display:flex}}
 </style>
 </head>
@@ -131,13 +133,13 @@ setPersistence(auth, browserLocalPersistence).catch(() => {});
 // If this browser was logged in before, don't block the screen while the saved login is restored
 if (localStorage.getItem("rg_login") === "1") document.getElementById("loading-message").style.display = "none";
 
-function renderLB(snap){
-  for (const id of ["lb-start","lb-over","lb-view"]) {
-    const ul = document.getElementById(id); ul.textContent = "";
-    let rank = 1;
-    snap.forEach(d => {
-      const v = d.data(), li = document.createElement("li");
-      const r = document.createElement("span"); r.textContent = rank++ + ".";
+const LB_IDS = ["lb-start", "lb-over", "lb-view"];
+function drawLB(rows) {
+  for (const id of LB_IDS) {
+    const ul = document.getElementById(id); ul.classList.add("top"); ul.textContent = "";
+    rows.forEach((v, i) => {
+      const li = document.createElement("li");
+      const r = document.createElement("span"); r.textContent = (i + 1) + ".";
       const img = document.createElement("img"); img.src = v.photoURL || ""; img.alt = ""; img.referrerPolicy = "no-referrer";
       const n = document.createElement("span"); n.className = "n"; n.textContent = v.name || "Unknown";
       const s = document.createElement("span"); s.className = "s"; s.textContent = v.score;
@@ -145,6 +147,19 @@ function renderLB(snap){
     });
   }
 }
+function skeletonLB() {
+  for (const id of LB_IDS) {
+    const ul = document.getElementById(id); ul.classList.add("top"); ul.textContent = "";
+    for (let i = 0; i < 5; i++) { const li = document.createElement("li"); li.className = "sk"; ul.append(li); }
+  }
+}
+function renderLB(snap) {
+  const rows = []; snap.forEach(d => { const v = d.data(); rows.push({ name: v.name, photoURL: v.photoURL, score: v.score }); });
+  try { localStorage.setItem("rg_lb", JSON.stringify(rows)); } catch (e) {}
+  drawLB(rows);
+}
+// show the last known leaderboard instantly (or a placeholder) so the menu never jumps when live data arrives
+try { const c = JSON.parse(localStorage.getItem("rg_lb") || "null"); if (c && c.length) drawLB(c); else skeletonLB(); } catch (e) { skeletonLB(); }
 onSnapshot(query(collection(db, "racing_scores"), orderBy("score", "desc"), limit(5)), renderLB, e => console.error(e));
 
 function showLoginButton() {
