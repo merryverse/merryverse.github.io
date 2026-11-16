@@ -46,9 +46,9 @@ function fit(){const s=M.min((innerWidth-16)/W,(innerHeight-16)/H*(root.classLis
 if(matchMedia('(pointer:coarse)').matches||'ontouchstart' in window)root.classList.add('t');
 addEventListener('resize',fit);fit();
 document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
-let S={hi:0,mode:0,lvl:3,mute:0};
-try{Object.assign(S,JSON.parse(localStorage.getItem('snake1')||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem('snake1',JSON.stringify(S))}catch(e){}};
+let S={hi:0,mode:1,lvl:1,mute:0};
+try{Object.assign(S,JSON.parse(localStorage.getItem('snake2')||'{}'));if(localStorage.getItem('snake2')===null){const o=JSON.parse(localStorage.getItem('snake1')||'{}');S.hi=o.hi||0;S.mute=o.mute||0}}catch(e){}
+const save=()=>{try{localStorage.setItem('snake2',JSON.stringify(S))}catch(e){}};
 const MODES=['CLASSIC','WRAP'];
 // ---------- account + leaderboard (Firestore: snake_scores) ----------
 let U=null,lbRows=[];
