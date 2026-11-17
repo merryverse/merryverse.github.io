@@ -3,56 +3,173 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Verse Cricket Championship</title>
 <style>
-html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-behavior:none}
-#cr{position:fixed;inset:0;background:#040b14;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#eef6ff;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-weight:700}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#050b14;overscroll-behavior:none;font-family:"Segoe UI",Roboto,system-ui,sans-serif}
+#cr{position:fixed;inset:0;background:#050b14;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#eef6ff;font-weight:700}
 #cr canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
-#cr .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;background:linear-gradient(180deg,rgba(4,12,24,.96),rgba(6,24,18,.97));text-align:center;padding:14px 10px 28px;overflow-y:auto;box-sizing:border-box;z-index:5}
-#cr .ov.center{justify-content:center}
+
+#cr .ov{
+ position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+ gap:10px;padding:max(12px,env(safe-area-inset-top)) 12px max(24px,env(safe-area-inset-bottom));
+ overflow-y:auto;overflow-x:hidden;z-index:5;touch-action:pan-y;-webkit-overflow-scrolling:touch;
+ background:
+  radial-gradient(circle at 50% 0%,rgba(0,230,118,.18),transparent 55%),
+  radial-gradient(circle at 85% 90%,rgba(41,182,246,.16),transparent 50%),
+  linear-gradient(180deg,rgba(5,12,24,.96) 0%,rgba(4,18,16,.98) 100%);
+}
+#cr .ov>*{flex-shrink:0;max-width:100%}
+#cr .ov.center>:first-child{margin-top:auto}
+#cr .ov.center>:last-child{margin-bottom:auto}
 #cr .ov[hidden]{display:none}
-#cr #ld{background:#040b14;z-index:12;justify-content:center;font-size:20px;letter-spacing:.1em}
-#cr h1{margin:4px 0;font-size:clamp(22px,5.6vmin,44px);letter-spacing:.05em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
-#cr h2{margin:3px 0;font-size:clamp(17px,4.2vmin,26px);letter-spacing:.03em;color:#ffd54f;text-shadow:0 2px 4px #000}
-#cr h3{margin:3px 0;font-size:clamp(13.5px,3.1vmin,18px);color:#4fc3f7}
-#cr p{margin:0;max-width:640px;font-size:clamp(12.5px,2.7vmin,15.5px);line-height:1.42;color:#b8d8e8}
-.top-wallet{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:30px;font-size:clamp(12px,2.5vmin,15px)}
-.top-wallet span{color:#ffd54f}
-.top-wallet .cash{color:#00e676;font-size:clamp(14px,3vmin,18px)}
-.grid-menu{display:flex;flex-direction:column;gap:9px;width:min(92vw,420px)}
-#cr .b{font:inherit;font-size:clamp(13.5px,2.9vmin,16.5px);letter-spacing:.03em;color:#fff;background:linear-gradient(135deg,#0f4c81,#092b4c);border:2px solid #29b6f6;border-radius:8px;padding:10px 16px;width:100%;max-width:440px;cursor:pointer;box-shadow:0 4px 0 #041526;transition:transform .1s,background .15s;box-sizing:border-box}
-#cr .b.green{background:linear-gradient(135deg,#1b7a3d,#0c4721);border-color:#00e676}
-#cr .b.gold{background:linear-gradient(135deg,#b26a00,#6e3f00);border-color:#ffd54f}
-#cr .b.red{background:linear-gradient(135deg,#9b1c1c,#5c0e0e);border-color:#ff5252}
-#cr .b:hover,#cr .b:focus,#cr .b:focus-visible{background:#1e88e5;outline:2px solid #ffd54f;transform:translateY(-1px)}
-#cr .b:disabled{opacity:.42;cursor:not-allowed;transform:none}
-.card-list{display:flex;flex-direction:column;gap:8px;width:min(95vw,520px);max-height:46vh;overflow-y:auto;padding:4px;box-sizing:border-box}
-.pcard{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(14,34,56,.9);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;padding:9px 12px;text-align:left;font-size:clamp(12.5px,2.5vmin,15px);box-sizing:border-box}
-.pcard.sel{border:2px solid #00e676;background:rgba(0,230,118,.16)}
-.pcard-info{flex:1;min-width:0}
-.pcard-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:clamp(13.5px,2.7vmin,15.5px);color:#fff;margin-bottom:2px}
-.pcard-sub{font-size:clamp(11.5px,2.2vmin,13px);color:#a6c8e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard .b{width:auto;min-width:96px;padding:7px 12px;font-size:clamp(11.5px,2.3vmin,13.5px);white-space:nowrap;flex-shrink:0}
-/* Pure Icon Badges for Roles & Bowling Styles */
-.ico-role{display:inline-flex;align-items:center;justify-content:center;gap:2px;padding:2px 6px;border-radius:6px;font-size:13px;line-height:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);vertical-align:middle}
-.ico-role.BAT{background:rgba(79,195,247,.22);border-color:#4fc3f7}
-.ico-role.BWL{background:rgba(255,138,101,.22);border-color:#ff8a65}
-.ico-role.AR{background:rgba(255,213,79,.22);border-color:#ffd54f}
-.ico-role.WK{background:rgba(206,147,216,.22);border-color:#ce93d8}
-/* Responsive Mobile-Friendly Scorecard Table */
-.sc-wrap{width:min(96vw,680px);overflow-x:auto;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.14)}
-.sc-table{width:100%;border-collapse:collapse;font-size:clamp(11px,2.2vmin,13.5px);table-layout:fixed}
-.sc-table th,.sc-table td{padding:6px 5px;text-align:left;border-bottom:1px solid rgba(255,255,255,.09);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sc-table th{background:rgba(41,182,246,.24);color:#ffd54f;font-size:clamp(10.5px,2.1vmin,13px)}
-.sc-table td.num,.sc-table th.num{text-align:right;width:10%}
-.sc-table td.col-name,.sc-table th.col-name{width:38%}
-.sc-table td.col-stat,.sc-table th.col-stat{width:22%;font-size:clamp(10px,2vmin,12px);color:#b0bec5}
-#cr .lbx{width:min(92vw,500px)}
-#cr .lr{display:flex;align-items:center;gap:10px;height:34px;padding:0 12px;margin-top:5px;background:#ffffff12;border-radius:6px;font-size:14px;text-align:left}
-#cr .lr b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cr #ld{background:#050b14;z-index:12;justify-content:center;font-size:20px;letter-spacing:.12em;color:#00e676}
+
+.g-header{
+ width:100%;max-width:540px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+ background:linear-gradient(90deg,rgba(12,28,48,.95),rgba(8,40,34,.95));
+ border:1.5px solid rgba(41,182,246,.35);border-radius:14px;padding:8px 12px;
+ box-shadow:0 6px 20px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.g-user{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 150px}
+.g-user>div:last-child{min-width:0}
+.g-avatar{
+ width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#00e676,#00897b);
+ display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 10px rgba(0,230,118,.4);flex-shrink:0
+}
+.g-uname{font-size:13.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.g-ulvl{font-size:10.5px;color:#80d8ff;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-stats{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.g-pill{
+ display:inline-flex;align-items:center;gap:4px;background:rgba(0,0,0,.45);
+ border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:4px 9px;font-size:12px;color:#fff;white-space:nowrap
+}
+.g-pill.cash{border-color:#00e676;color:#00e676;background:rgba(0,230,118,.1);font-weight:800}
+.g-pill.gold{border-color:#ffd54f;color:#ffd54f;background:rgba(255,213,79,.1)}
+
+.g-logo{text-align:center;margin:2px 0 4px;max-width:100%}
+.g-logo-main{
+ display:block;font-size:clamp(21px,7vw,34px);font-weight:900;letter-spacing:.07em;text-transform:uppercase;
+ background:linear-gradient(180deg,#ffffff 0%,#69f0ae 55%,#00bfa5 100%);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 3px 0 #052e24) drop-shadow(0 6px 14px rgba(0,0,0,.7));
+}
+.g-logo-sub{
+ display:inline-block;font-size:10.5px;letter-spacing:.26em;color:#ffd54f;
+ background:rgba(255,213,79,.12);border:1px solid rgba(255,213,79,.35);
+ padding:2px 12px;border-radius:12px;margin-top:2px
+}
+
+.g-board{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.g-hero-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:540px}
+.g-tile{
+ position:relative;overflow:hidden;border-radius:14px;padding:14px 12px;text-align:left;cursor:pointer;min-width:0;
+ border:1.5px solid rgba(255,255,255,.2);transition:transform .12s,box-shadow .15s,border-color .15s;
+ display:flex;flex-direction:column;justify-content:space-between;min-height:92px;color:#fff;
+ box-shadow:0 6px 16px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.g-tile:active{transform:scale(.96)}
+.g-tile.quick{background:linear-gradient(135deg,#00897b 0%,#004d40 100%);border-color:#00e676}
+.g-tile.mp{background:linear-gradient(135deg,#e65100 0%,#8c2d00 100%);border-color:#ffb74d}
+.g-tile.auc{background:linear-gradient(135deg,#1565c0 0%,#0a2e5c 100%);border-color:#4fc3f7;min-height:76px;flex-direction:row;align-items:center;gap:8px}
+.g-tile.mode{background:linear-gradient(145deg,#10253e 0%,#091626 100%);border-color:rgba(41,182,246,.35);min-height:74px;padding:10px 8px}
+.g-tile.cont{background:linear-gradient(135deg,#6a1b9a 0%,#38006b 100%);border-color:#ea80fc;min-height:66px;flex-direction:row;align-items:center;gap:8px}
+.g-tile-ico{font-size:26px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.g-tile-title{font-size:clamp(13px,4vw,17px);font-weight:900;letter-spacing:.03em;text-transform:uppercase;color:#fff;overflow-wrap:anywhere}
+.g-tile-desc{font-size:11px;color:rgba(255,255,255,.78);font-weight:600;margin-top:2px;overflow-wrap:anywhere}
+.g-modes-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.g-modes-grid .g-tile{align-items:center;text-align:center;justify-content:center;gap:4px}
+.g-modes-grid .g-tile-ico{font-size:22px;margin:0}
+.g-modes-grid .g-tile-title{font-size:clamp(11px,3.3vw,13.5px)}
+
+.g-dock{
+ width:100%;max-width:540px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;
+ background:rgba(8,20,36,.9);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:7px;
+}
+.g-dock-btn{
+ background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;min-width:0;
+ padding:7px 2px;color:#b8d8e8;font:inherit;font-size:clamp(9.5px,2.9vw,11px);display:flex;flex-direction:column;
+ align-items:center;gap:3px;cursor:pointer;transition:background .12s,color .12s;white-space:nowrap
+}
+.g-dock-btn span{font-size:17px}
+.g-dock-btn:active,.g-dock-btn:hover{background:rgba(41,182,246,.2);color:#fff;border-color:#29b6f6}
+
+#cr h2{margin:2px 0;font-size:clamp(16px,5vw,24px);letter-spacing:.04em;color:#ffd54f;text-transform:uppercase;text-shadow:0 2px 6px #000;text-align:center;overflow-wrap:anywhere}
+#cr h3{margin:2px 0;font-size:clamp(13px,3.8vw,16px);color:#4fc3f7;letter-spacing:.03em;text-align:center;overflow-wrap:anywhere}
+#cr p{margin:0;width:100%;max-width:540px;font-size:clamp(12px,3.5vw,14.5px);line-height:1.4;color:#b8d8e8;text-align:center;overflow-wrap:anywhere}
+#cr pre{width:100%;max-width:540px;margin:0;overflow-x:auto;font-size:12px;text-align:left}
+
+.menu-list{display:flex;flex-direction:column;gap:8px;width:100%;max-width:440px}
+.b{
+ font:inherit;font-size:clamp(13px,3.9vw,16px);letter-spacing:.04em;color:#fff;
+ background:linear-gradient(135deg,#123d6b,#0a223d);border:1.5px solid #29b6f6;border-radius:10px;
+ padding:11px 14px;width:100%;max-width:440px;cursor:pointer;overflow-wrap:anywhere;
+ box-shadow:0 4px 0 #04101e,0 6px 14px rgba(0,0,0,.4);transition:transform .1s;text-transform:uppercase
+}
+.b.green{background:linear-gradient(135deg,#00a152,#006030);border-color:#00e676}
+.b.gold{background:linear-gradient(135deg,#c67c00,#7a4900);border-color:#ffd54f}
+.b.red{background:linear-gradient(135deg,#b71c1c,#680d0d);border-color:#ff5252}
+.b:active{transform:translateY(2px)}
+.b:disabled{opacity:.4;cursor:not-allowed}
+
+.card-list{
+ display:flex;flex-direction:column;gap:7px;width:100%;max-width:520px;
+ max-height:52vh;max-height:52dvh;min-height:90px;overflow-y:auto;overflow-x:hidden;padding:4px 2px;
+ touch-action:pan-y;-webkit-overflow-scrolling:touch
+}
+.card-list>*{flex-shrink:0}
+.pcard{
+ display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:8px 10px;
+ background:linear-gradient(90deg,rgba(14,32,56,.95),rgba(10,24,42,.95));
+ border:1.5px solid rgba(255,255,255,.15);border-radius:11px;padding:8px 10px;text-align:left;width:100%;
+ box-shadow:0 3px 10px rgba(0,0,0,.35)
+}
+.pcard.sel{border-color:#00e676;background:linear-gradient(90deg,rgba(0,120,64,.38),rgba(10,32,48,.95));box-shadow:0 0 12px rgba(0,230,118,.25)}
+.pcard-info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.pcard-name{font-size:clamp(13px,3.9vw,15.5px);font-weight:800;color:#ffffff;line-height:1.2;overflow-wrap:anywhere}
+.pcard-meta{font-size:clamp(11px,3vw,12.5px);color:#90caf9;display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap}
+.pcard-acts{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-shrink:0}
+
+.cbtn{
+ font:inherit;font-size:11.5px;font-weight:800;letter-spacing:.03em;color:#fff;
+ background:linear-gradient(135deg,#1565c0,#0d3c75);border:1.5px solid #4fc3f7;
+ border-radius:8px;padding:8px 10px;cursor:pointer;white-space:nowrap;width:auto;
+ box-shadow:0 2px 0 #05162b;transition:transform .1s
+}
+.cbtn.green{background:linear-gradient(135deg,#00b248,#006927);border-color:#00e676}
+.cbtn.gold{background:linear-gradient(135deg,#d68600,#854f00);border-color:#ffd54f}
+.cbtn:active{transform:scale(.95)}
+.cbtn:disabled{opacity:.38;cursor:not-allowed}
+
+.ico-role{
+ width:36px;height:36px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;
+ font-size:15px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);flex-shrink:0;line-height:1;white-space:nowrap
+}
+.ico-role.BAT{background:rgba(41,182,246,.2);border-color:#4fc3f7}
+.ico-role.BWL{background:rgba(255,112,67,.2);border-color:#ff8a65}
+.ico-role.AR{background:rgba(255,213,79,.2);border-color:#ffd54f;font-size:12px}
+.ico-role.WK{background:rgba(186,104,200,.2);border-color:#ce93d8}
+.ico-sm{display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:3px}
+
+.sc-wrap{width:100%;max-width:540px;border-radius:10px;background:rgba(6,16,30,.9);border:1px solid rgba(41,182,246,.28);overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.sc-table{width:100%;min-width:300px;border-collapse:collapse;font-size:clamp(11px,3.2vw,13.5px)}
+.sc-table th,.sc-table td{padding:6px 5px;text-align:left;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle}
+.sc-table th{background:rgba(21,101,192,.35);color:#ffd54f;font-size:11px;letter-spacing:.04em;white-space:nowrap}
+.sc-table td.num,.sc-table th.num{text-align:right;font-variant-numeric:tabular-nums;padding-left:3px;padding-right:5px;white-space:nowrap}
+.sc-table td:first-child{min-width:110px}
+.sc-name{font-weight:800;color:#fff;display:block;line-height:1.2;overflow-wrap:anywhere}
+.sc-how{font-size:10.5px;color:#80cbc4;display:block;font-weight:600;overflow-wrap:anywhere}
+
+#cr .lbx{width:100%;max-width:500px}
+#cr .lr{display:flex;align-items:center;gap:10px;min-height:36px;padding:4px 12px;margin-top:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-size:13.5px;text-align:left}
+#cr .lr b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #cr .lr img,#cr .lr i{width:24px;height:24px;border-radius:50%;background:#1e3c58;object-fit:cover;flex:none}
-#cr .lr em{font-style:normal;color:#ffd54f}
+#cr .lr em{font-style:normal;color:#ffd54f;white-space:nowrap;font-size:12px}
+
+#rot{display:none;position:absolute;inset:0;z-index:8;background:rgba(5,11,20,.97);flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;font-size:18px;color:#ffd54f;letter-spacing:.06em;touch-action:none}
+#rot span{font-size:56px}
+
 #pad{display:none;position:absolute;inset:0;pointer-events:none;z-index:3}
 #cr.t.pl #pad{display:block}
-#pad button{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2.5px solid #29b6f6;background:rgba(8,26,46,.84);color:#fff;font:inherit;font-size:4vmin;width:12vmin;height:12vmin;box-shadow:0 4px 12px #000b}
+#pad button{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2.5px solid #29b6f6;background:rgba(8,26,46,.84);color:#fff;font:inherit;font-size:4vmin;width:12vmin;height:12vmin;box-shadow:0 4px 12px #000b;padding:0}
 #pad button:active,#pad button.act{background:#00c853;transform:scale(.93);border-color:#ffd54f}
 #cl{left:2vmin;bottom:14vmin}#cu{left:14vmin;bottom:25vmin}#cd{left:14vmin;bottom:3vmin}#cR{left:26vmin;bottom:14vmin}
 #pad #ok{right:3vmin;bottom:9vmin;width:20vmin;height:20vmin;font-size:3.5vmin;background:radial-gradient(#00e676,#00796b);border-color:#ffd54f}
@@ -60,6 +177,26 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
 #pad #varb{right:3vmin;bottom:31vmin;width:19vmin;height:7.5vmin;border-radius:18px;font-size:2.2vmin;background:linear-gradient(135deg,#6a1b9a,#38006b);border-color:#ffd54f;display:none}
 #pad #pp{right:2.5vmin;top:1.8vmin;width:8.5vmin;height:8.5vmin;font-size:2.6vmin}
 #pad #scb{right:12.5vmin;top:1.8vmin;width:14vmin;height:6.5vmin;border-radius:16px;font-size:2.2vmin}
+
+@media (orientation:portrait){#cr.pl #rot{display:flex}}
+
+@media (max-width:480px){
+ .pcard{grid-template-columns:38px minmax(0,1fr)}
+ .pcard-acts{grid-column:1/-1;width:100%}
+ .pcard-acts .cbtn{flex:1 1 0;min-width:0;padding:9px 6px}
+ .pcard-acts>span{flex:1;text-align:right}
+ .g-tile{padding:12px 10px}
+ .g-pill{font-size:11px;padding:4px 8px}
+}
+@media (max-width:340px){
+ .g-hero-row{grid-template-columns:1fr}
+ .g-modes-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-height:480px){
+ #cr .ov{gap:6px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(14px,env(safe-area-inset-bottom))}
+ .card-list{max-height:44vh;max-height:44dvh}
+ .g-tile{min-height:64px}
+}
 </style></head><body>
 <div id="cr">
  <canvas id="cv"></canvas>
@@ -75,6 +212,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
   <button id="scb">SCORE</button>
   <button id="pp">II</button>
  </div>
+ <div id="rot"><span>📱↻</span>ROTATE YOUR PHONE<br>TO LANDSCAPE TO PLAY</div>
  <div id="ld" class="ov">CONNECTING...</div>
 </div>
 <script type="module">
@@ -99,6 +237,7 @@ setPersistence(auth,browserLocalPersistence).catch(()=>{});
 (()=>{
 const $=s=>document.querySelector(s),M=Math,rnd=Math.random,cl=(v,a,b)=>v<a?a:v>b?b:v,lerp=(a,b,t)=>a+(b-a)*t;
 const C=$('#cv'),X=C.getContext('2d'),root=$('#cr'),ui=$('#ui'),ld=$('#ld'),W=960,H=540;
+const portrait=matchMedia('(orientation:portrait)');
 C.width=W;C.height=H;
 
 function fit(){const s=M.min(innerWidth/W,innerHeight/H);C.style.width=W*s+'px';C.style.height=H*s+'px'}
@@ -106,12 +245,17 @@ addEventListener('resize',fit);fit();
 if(matchMedia('(pointer:coarse)').matches||'ontouchstart' in window)root.classList.add('t');
 document.addEventListener('touchmove',e=>{if(!e.target.closest('.ov'))e.preventDefault()},{passive:false});
 
-// ---------- Pure Visual Role & Style Icons ----------
 function roleIcon(r,st){
- if(r==='WK')return `<span class="ico-role WK" title="Wicketkeeper">🧤</span>`;
- if(r==='BAT')return `<span class="ico-role BAT" title="Batsman">🏏</span>`;
- if(r==='AR')return `<span class="ico-role AR" title="All-Rounder">🏏${st==='FAST'?'⚡':'🌀'}</span>`;
- return `<span class="ico-role BWL" title="${st==='FAST'?'Fast Bowler':'Spin Bowler'}">${st==='FAST'?'⚡':'🌀'}</span>`;
+ if(r==='WK')return `<div class="ico-role WK" title="Wicketkeeper">🧤</div>`;
+ if(r==='BAT')return `<div class="ico-role BAT" title="Batsman">🏏</div>`;
+ if(r==='AR')return `<div class="ico-role AR" title="All-Rounder">🏏${st==='FAST'?'⚡':'🌀'}</div>`;
+ return `<div class="ico-role BWL" title="${st==='FAST'?'Fast Bowler':'Spin Bowler'}">${st==='FAST'?'⚡':'🌀'}</div>`;
+}
+function roleInlineIcon(r,st){
+ if(r==='WK')return `<span class="ico-sm">🧤</span>`;
+ if(r==='BAT')return `<span class="ico-sm">🏏</span>`;
+ if(r==='AR')return `<span class="ico-sm">🏏${st==='FAST'?'⚡':'🌀'}</span>`;
+ return `<span class="ico-sm">${st==='FAST'?'⚡':'🌀'}</span>`;
 }
 function roleCanvasIcon(p){
  if(!p)return '🏏';
@@ -121,7 +265,6 @@ function roleCanvasIcon(p){
  return p.st==='FAST'?'⚡':'🌀';
 }
 
-// ---------- Authentic 8 National Team Rosters ----------
 const TEAMS=[
  {n:'Bangladesh',c:'BAN',col:'#006a4e',acc:'#f42a41',pants:'#004432',roster:[
   ['Tamim Iqbal','BAT',84,20,'SPIN'],['Liton Das','WK',82,15,'SPIN'],['Najmul Shanto','BAT',80,25,'SPIN'],
@@ -196,7 +339,7 @@ const MARKET_POOL=[
 ];
 
 let S={team:0,pts:0,wins:0,tr:0,played:0,mute:0,cash:500,league:'BPL',franName:'Dhaka Dominators',owned:['m_tamim','m_liton','m_taskin'],comp:null};
-try{Object.assign(S,JSON.parse(localStorage.getItem('verse_cricket_v2')||'{}'))}catch(e){}
+try{Object.assign(S,JSON.parse(localStorage.getItem('verse_cricket_v2')||localStorage.getItem('wcc_cricket_v2')||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem('verse_cricket_v2',JSON.stringify(S))}catch(e){}};
 
 function getRoster(tIdx,useFranchise=false){
@@ -212,7 +355,6 @@ function getRoster(tIdx,useFranchise=false){
  return base;
 }
 
-// ---------- Mobile Back Button Navigation Guard ----------
 let historyGuardActive=false;
 function pushBackGuard(){
  try{
@@ -231,7 +373,9 @@ function handleInGameBack(){
  }else if(st==='pause'){
   st='play';hideUI();root.classList.add('pl');
  }else if(st==='sel'){
-  // Stay on active selection screen
+  if(ui.querySelector('[data-a="back_to_over"]')){
+   showEndOfOverModal();
+  }
  }else{
   menu();
  }
@@ -245,7 +389,6 @@ window.addEventListener('popstate',()=>{
  }
 });
 
-// ---------- Account, Firestore Sync & Leaderboard ----------
 let U=null,lbRows=[];
 try{lbRows=JSON.parse(localStorage.getItem('cr_lb')||'[]')}catch(e){}
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -328,7 +471,6 @@ onAuthStateChanged(auth,async user=>{
  }
 });
 
-// ---------- Sound Effects ----------
 let AC;
 function au(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state=='suspended')AC.resume()}
 function tone(f,d,ty='square',v=.07,sl=0,w=0){
@@ -343,7 +485,7 @@ function noise(d,v){
  if(!AC||S.mute)return;
  const b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),a=b.getChannelData(0);
  for(let i=0;i<a.length;i++)a[i]=(rnd()*2-1)*(1-i/a.length);
- const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=v;s.buffer=b;s.connect(g);s.connect(AC.destination);s.start();
+ const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=v;s.buffer=b;s.connect(g);g.connect(AC.destination);s.start();
 }
 const sfx={
  tap:()=>tone(190,.03,'triangle',.04,-40),
@@ -362,7 +504,6 @@ const sfx={
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const ovs=b=>(b/6|0)+'.'+b%6,FMT={T20:'T20',ODI:'ONE DAY',TEST:'TEST',M2:'2-OVER CLASH'};
 
-// ---------- Match Engine ----------
 function newMatch(a,b,fmt,first,useFran=false){
  const o=first==a?b:a;
  const maxB={T20:120,ODI:300,TEST:0,M2:12}[fmt]||120;
@@ -485,7 +626,6 @@ function simMatch(a,b,fmt){
  return m;
 }
 
-// ---------- Verse Cricket Tricky Bowling Logic ----------
 const BOWL_VARS_FAST=['⚡ IN-SWING','⚡ OUT-SWING','🐢 SLOWER','🔥 YORKER/BOUNCE'];
 const BOWL_VARS_SPIN=['🌀 OFF BREAK','🌀 LEG BREAK','🎭 DOOSRA','🚀 ARM BALL'];
 
@@ -552,7 +692,6 @@ const TB={
  G0:[28, 28, 12, 0, 14, 0, 18]
 };
 
-// User Batting with 2D Footwork Effectiveness
 function userBat(m,L){
  const n=m.inn[m.cur];
  const batP=m.rosters[n.bt][n.st],bwlP=m.rosters[n.bw][n.bwlIdx];
@@ -600,7 +739,6 @@ function userBat(m,L){
  return o;
 }
 
-// ---------- Competitions ----------
 function newComp(type,fmt){
  const oth=shuf(TEAMS.map((_,i)=>i).filter(i=>i!=S.team));let groups;
  if(type=='tour')groups=[[S.team,...oth.slice(0,5)]];
@@ -631,7 +769,6 @@ function compAdv(c){
  }
 }
 
-// ---------- UI & Single-Column Menus ----------
 let st='menu',fl={},cur=null,cb=null,mpUnsub=null;
 const B=(a,t,v='',cls='')=>`<button class="b ${cls}" data-a="${a}" data-v="${v}">${t}</button>`;
 function hideUI(){ui.hidden=true;if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}
@@ -639,34 +776,94 @@ function panel(h,f,center=false){
  ui.hidden=false;
  ui.className='ov'+(center?' center':'');
  ui.innerHTML=h;
+ ui.scrollTop=0;
  if(!(st==='menu'&&ui.querySelector('[data-a="single"]')))pushBackGuard();
- setTimeout(()=>{const b=ui.querySelector(f?`[data-a=${f}]`:'.b');if(b)b.focus()},0);
+ setTimeout(()=>{const b=ui.querySelector(f?`[data-a=${f}]`:'button');if(b)b.focus({preventScroll:true})},0);
 }
 
 function menu(){
  if(mpUnsub){mpUnsub();mpUnsub=null}
  st='menu';lv=null;root.classList.remove('pl');
- const c=S.comp,lab=c?(c.kind=='series'?'SERIES':c.type=='wc'?'WORLD CUP':'TOURNAMENT'):'';
+ const c=S.comp,lab=c?(c.kind=='series'?'SERIES':c.type=='wc'?'WORLD CUP':'CHAMPIONSHIP'):'';
  panel(`
-  <h1>VERSE CRICKET CHAMPIONSHIP</h1>
-  <div class="top-wallet">
-   <div>👤 ${U?esc(U.displayName||'Player'):'Guest'}</div>
-   <div class="cash">💵 $${S.cash}</div>
-   <div>⭐ ${S.pts} Pts</div>
-   <div>🏆 ${S.tr} Trophies</div>
+  <div class="g-header">
+   <div class="g-user">
+    <div class="g-avatar">🏏</div>
+    <div>
+     <div class="g-uname">${U?esc(U.displayName||'Player'):'Pro Gamer'}</div>
+     <div class="g-ulvl">TEAM: ${TEAMS[S.team].c} · ${esc(S.franName)}</div>
+    </div>
+   </div>
+   <div class="g-stats">
+    <div class="g-pill cash">💵 $${S.cash}</div>
+    <div class="g-pill gold">⭐ ${S.pts}</div>
+    <div class="g-pill">🏆 ${S.tr}</div>
+   </div>
   </div>
-  <div class="grid-menu">
-   ${c?B('cont','▶ CONTINUE '+lab,'','gold'):''}
-   ${B('single','🏏 QUICK MATCH','','green')}
-   ${B('mp_hub','🌐 ONLINE MULTIPLAYER','','gold')}
-   ${B('market','💰 BPL / IPL AUCTION ($'+S.cash+')','','green')}
-   ${B('squad','👕 VIEW TEAM ROSTER ('+TEAMS[S.team].c+')')}
-   ${B('series','📅 BILATERAL SERIES')}
-   ${B('tour','🏆 CHAMPIONSHIP')}
-   ${B('wc','🌍 WORLD CUP')}
-   ${B('lb','📊 GLOBAL LEADERBOARD')}
-   ${B('how','❓ CONTROLS & GUIDE')}
-   ${B('snd','🔊 SOUND: '+(S.mute?'OFF':'ON'))}
+
+  <div class="g-logo">
+   <span class="g-logo-main">VERSE CRICKET</span>
+   <span class="g-logo-sub">CHAMPIONSHIP PRO</span>
+  </div>
+
+  <div class="g-board">
+   ${c?`<div class="g-tile cont" data-a="cont">
+    <div>
+     <div class="g-tile-title">▶ CONTINUE ${lab}</div>
+     <div class="g-tile-desc">Resume your active tournament campaign</div>
+    </div>
+    <span style="font-size:24px">🏆</span>
+   </div>`:''}
+
+   <div class="g-hero-row">
+    <div class="g-tile quick" data-a="single">
+     <div class="g-tile-ico">🏏</div>
+     <div>
+      <div class="g-tile-title">QUICK PLAY</div>
+      <div class="g-tile-desc">T20 · 2-Over · ODI · Test</div>
+     </div>
+    </div>
+    <div class="g-tile mp" data-a="mp_hub">
+     <div class="g-tile-ico">🌐</div>
+     <div>
+      <div class="g-tile-title">MULTIPLAYER</div>
+      <div class="g-tile-desc">Online 1v1 & BPL/IPL Clash</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="g-tile auc" data-a="market">
+    <div style="min-width:0">
+     <div class="g-tile-title">💰 BPL / IPL AUCTION HOUSE</div>
+     <div class="g-tile-desc">Sign Superstar Players · Wallet: $${S.cash}</div>
+    </div>
+    <div class="cbtn gold" style="flex-shrink:0">OPEN ▶</div>
+   </div>
+
+   <div class="g-modes-grid">
+    <div class="g-tile mode" data-a="wc">
+     <div class="g-tile-ico">🌍</div>
+     <div class="g-tile-title">WORLD CUP</div>
+     <div class="g-tile-desc">+$600 Prize</div>
+    </div>
+    <div class="g-tile mode" data-a="tour">
+     <div class="g-tile-ico">🏆</div>
+     <div class="g-tile-title">LEAGUE CUP</div>
+     <div class="g-tile-desc">+$350 Prize</div>
+    </div>
+    <div class="g-tile mode" data-a="series">
+     <div class="g-tile-ico">📅</div>
+     <div class="g-tile-title">SERIES</div>
+     <div class="g-tile-desc">Best of 3 / 5</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="g-dock">
+   <button class="g-dock-btn" data-a="squad"><span>👕</span>MY SQUAD</button>
+   <button class="g-dock-btn" data-a="lb"><span>📊</span>RANKINGS</button>
+   <button class="g-dock-btn" data-a="how"><span>🎮</span>CONTROLS</button>
+   <button class="g-dock-btn" data-a="snd"><span>${S.mute?'🔇':'🔊'}</span>AUDIO ${S.mute?'OFF':'ON'}</button>
   </div>
  `,null,true);
 }
@@ -676,25 +873,26 @@ ui.addEventListener('click',e=>{
  if(btn){au();act(btn.dataset.a,btn.dataset.v)}
 });
 
-// Full Batting & Bowling Scorecard HTML Builder
-function renderScorecardHTML(m,backAction='sc_close',overEndSection=''){
+function renderScorecardHTML(m,backAction='sc_close',topBanner=''){
  const n=m.inn[m.cur];
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
  const crr=n.b?(n.r/n.b*6).toFixed(2):'0.00';
- let h=`<h2>${TEAMS[n.bt].n} — ${n.r}/${n.w} (${ovs(n.b)} Overs · CRR ${crr})</h2>`;
- if(overEndSection)h+=overEndSection;
+ let h=`<h2>${TEAMS[n.bt].n} — ${n.r}/${n.w} (${ovs(n.b)} Ov · CRR ${crr})</h2>`;
+ if(topBanner)h+=topBanner;
 
  h+=`<div class="sc-wrap"><table class="sc-table">
-  <tr><th class="col-name">BATSMAN</th><th class="col-stat">STATUS</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr>`;
+  <tr><th>BATSMAN</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr>`;
  n.bat.forEach((b,i)=>{
   const p=btRos[i];
   const active=(i===n.st||i===n.ns)&&!b.o;
-  const stTxt=b.o?esc(b.how):active?(i===n.st?'batting *':'not out'):'';
+  const stTxt=b.o?esc(b.how):active?(i===n.st?'Batting *':'Not out'):'';
   const sr=b.b?((b.r/b.b)*100).toFixed(0):'0';
   if(b.b>0||b.o||active){
-   h+=`<tr style="${active?'background:rgba(0,230,118,.15)':''}">
-    <td class="col-name">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></td>
-    <td class="col-stat">${stTxt}</td>
+   h+=`<tr style="${active?'background:rgba(0,230,118,.14)':''}">
+    <td>
+     <span class="sc-name">${roleInlineIcon(p.r,p.st)}${esc(p.n)}${i===n.st&&active?' *':''}</span>
+     <span class="sc-how">${stTxt}</span>
+    </td>
     <td class="num"><b>${b.r}</b></td><td class="num">${b.b}</td><td class="num">${b.f4}</td><td class="num">${b.s6}</td><td class="num">${sr}</td>
    </tr>`;
   }
@@ -703,23 +901,22 @@ function renderScorecardHTML(m,backAction='sc_close',overEndSection=''){
 
  h+=`<h3>BOWLING (${TEAMS[n.bw].n})</h3>`;
  h+=`<div class="sc-wrap"><table class="sc-table">
-  <tr><th class="col-name">BOWLER</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">ECON</th></tr>`;
+  <tr><th>BOWLER</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">ECO</th></tr>`;
  n.bowl.forEach((bw,i)=>{
   if(bw.b>0||i===n.bwlIdx){
    const p=bwRos[i];
    const econ=bw.b?(bw.r/(bw.b/6)).toFixed(1):'0.0';
    h+=`<tr style="${i===n.bwlIdx?'background:rgba(41,182,246,.16)':''}">
-    <td class="col-name">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b> ${i===n.bwlIdx?'🥎':''}</td>
+    <td><span class="sc-name">${roleInlineIcon(p.r,p.st)}${esc(p.n)} ${i===n.bwlIdx?'🥎':''}</span></td>
     <td class="num">${ovs(bw.b)}</td><td class="num">${bw.mdn}</td><td class="num">${bw.r}</td><td class="num"><b>${bw.w}</b></td><td class="num">${econ}</td>
    </tr>`;
   }
  });
  h+=`</table></div>`;
- if(backAction)h+=B(backAction,'▶ RESUME MATCH','','green');
+ if(backAction)h+=B(backAction,'▶ CONTINUE MATCH','','green');
  return h;
 }
 
-// ---------- Single-Column Player Selection Modals ----------
 let selState={st:0,ns:1,bwl:8};
 function showInningsSetupSelection(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
@@ -730,18 +927,19 @@ function showInningsSetupSelection(){
 
  if(userIsBatting){
   n.bwlIdx=bChoices[0];
-  let h=`<h2>🏏 YOUR BATTING INNINGS (${TEAMS[n.bt].n})</h2>`;
+  let h=`<h2>🏏 YOUR BATTING (${TEAMS[n.bt].n})</h2>`;
   h+=`<p>Select Your Opening Striker & Non-Striker:</p><div class="card-list">`;
   btRos.forEach((p,i)=>{
    const isSt=selState.st===i,isNs=selState.ns===i;
    h+=`<div class="pcard ${isSt||isNs?'sel':''}">
+    ${roleIcon(p.r,p.st)}
     <div class="pcard-info">
-     <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
-     <div class="pcard-sub">🏏 ${p.ba} · ⚡ ${p.bo}</div>
+     <div class="pcard-name">${esc(p.n)}</div>
+     <div class="pcard-meta"><span>🏏 BAT ${p.ba}</span><span>⚡ BWL ${p.bo}</span></div>
     </div>
-    <div style="display:flex;gap:6px">
-     <button class="b ${isSt?'green':''}" style="min-width:82px;padding:7px 10px" data-a="set_st" data-v="${i}">${isSt?'✔ STRIKER':'STRIKER'}</button>
-     <button class="b ${isNs?'gold':''}" style="min-width:82px;padding:7px 10px" data-a="set_ns" data-v="${i}">${isNs?'✔ NON-STR':'NON-STR'}</button>
+    <div class="pcard-acts">
+     <button class="cbtn ${isSt?'green':''}" data-a="set_st" data-v="${i}">${isSt?'✔ STRIKER':'STRIKER'}</button>
+     <button class="cbtn ${isNs?'gold':''}" data-a="set_ns" data-v="${i}">${isNs?'✔ NON-STR':'NON-STR'}</button>
     </div>
    </div>`;
   });
@@ -749,18 +947,21 @@ function showInningsSetupSelection(){
   panel(h,'confirm_openers');
  }else{
   n.st=0;n.ns=1;
-  let h=`<h2>🥎 YOUR BOWLING INNINGS (${TEAMS[n.bw].n})</h2>`;
+  let h=`<h2>🥎 YOUR BOWLING (${TEAMS[n.bw].n})</h2>`;
   h+=`<p>Opponent Openers: <b>${esc(btRos[0].n)}</b> & <b>${esc(btRos[1].n)}</b></p>`;
   h+=`<h3>SELECT OPENING BOWLER (${TEAMS[n.bw].n})</h3><div class="card-list">`;
   bwRos.forEach((p,i)=>{
    if(p.r==='BWL'||p.r==='AR'||p.bo>=50){
     const isB=selState.bwl===i;
     h+=`<div class="pcard ${isB?'sel':''}">
+     ${roleIcon(p.r,p.st)}
      <div class="pcard-info">
-      <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
-      <div class="pcard-sub">🥎 ${p.bo} · 🏏 ${p.ba}</div>
+      <div class="pcard-name">${esc(p.n)}</div>
+      <div class="pcard-meta"><span>🥎 BWL ${p.bo}</span><span>🏏 BAT ${p.ba}</span></div>
      </div>
-     <button class="b ${isB?'green':''}" data-a="set_bwl" data-v="${i}">${isB?'✔ SELECTED':'SELECT'}</button>
+     <div class="pcard-acts">
+      <button class="cbtn ${isB?'green':''}" data-a="set_bwl" data-v="${i}">${isB?'✔ SELECTED':'BOWL'}</button>
+     </div>
     </div>`;
    }
   });
@@ -772,16 +973,19 @@ function showInningsSetupSelection(){
 function showNextBatsmanModal(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt];
  st='sel';root.classList.remove('pl');
- let h=`<h2>WICKET FALLEN! (${n.r}/${n.w})</h2><p>Select Your Next Batsman (${TEAMS[n.bt].n}):</p><div class="card-list">`;
+ let h=`<h2>WICKET FALLEN! (${n.r}/${n.w})</h2><p>Select Next Batsman (${TEAMS[n.bt].n}):</p><div class="card-list">`;
  btRos.forEach((p,i)=>{
   const b=n.bat[i];
   if(i!==n.ns&&!b.o&&b.b===0){
    h+=`<div class="pcard">
+    ${roleIcon(p.r,p.st)}
     <div class="pcard-info">
-     <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
-     <div class="pcard-sub">🏏 ${p.ba} · ⚡ ${p.bo}</div>
+     <div class="pcard-name">${esc(p.n)}</div>
+     <div class="pcard-meta"><span>🏏 BAT ${p.ba}</span><span>⚡ BWL ${p.bo}</span></div>
     </div>
-    <button class="b green" data-a="pick_next_bat" data-v="${i}">SEND IN ▶</button>
+    <div class="pcard-acts">
+     <button class="cbtn green" data-a="pick_next_bat" data-v="${i}">SEND IN ▶</button>
+    </div>
    </div>`;
   }
  });
@@ -789,7 +993,6 @@ function showNextBatsmanModal(){
  panel(h);
 }
 
-// End of Over -> Directly Shows the FULL SCORECARD + Next Over Action
 function showEndOfOverModal(){
  const m=lv.m,n=m.inn[m.cur],bwRos=m.rosters[n.bw];
  const userIsBowling=(n.bw===lv.u);
@@ -797,86 +1000,110 @@ function showEndOfOverModal(){
  const ovNum=n.b/6;
  const ovBalls=(n.lastOv&&n.lastOv.length?n.lastOv:n.ov).join('  ');
 
- let topCtrl=`<p>End of Over ${ovNum} · Balls: <b>${ovBalls}</b></p>`;
  if(userIsBowling){
-  topCtrl+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n})</h3><div class="card-list" style="max-height:26vh">`;
+  let h=`<h2>END OF OVER ${ovNum} · ${TEAMS[n.bt].c} ${n.r}/${n.w}</h2>`;
+  h+=`<p>This Over: <b>${ovBalls}</b></p>`;
+  h+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n})</h3><div class="card-list">`;
   bwRos.forEach((p,i)=>{
    if((p.r==='BWL'||p.r==='AR'||p.bo>=50)&&i!==n.lastBwl){
     const stB=n.bowl[i];
-    topCtrl+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
+    h+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
+     ${roleIcon(p.r,p.st)}
      <div class="pcard-info">
-      <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
-      <div class="pcard-sub">🥎 ${p.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
+      <div class="pcard-name">${esc(p.n)}</div>
+      <div class="pcard-meta"><span>🥎 ${p.bo}</span><span>Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</span></div>
      </div>
-     <button class="b green" data-a="pick_next_bwl" data-v="${i}">BOWL OVER</button>
+     <div class="pcard-acts">
+      <button class="cbtn green" data-a="pick_next_bwl" data-v="${i}">BOWL ▶</button>
+     </div>
     </div>`;
    }
   });
-  topCtrl+=`</div>`;
-  panel(renderScorecardHTML(m,null,topCtrl));
+  h+=`</div>`+B('view_full_sc','📊 VIEW FULL SCORECARD');
+  panel(h);
  }else{
   const nextBwl=bwRos[n.bwlIdx];
   const stB=n.bowl[n.bwlIdx];
-  topCtrl+=`<div class="pcard sel" style="width:min(95vw,520px)">
-   <div class="pcard-info">
-    <div class="pcard-title">Next Bowler (${TEAMS[n.bw].c}): ${roleIcon(nextBwl.r,nextBwl.st)} <b>${esc(nextBwl.n)}</b></div>
-    <div class="pcard-sub">🥎 ${nextBwl.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
-   </div>
-   <button class="b green" data-a="cont_next_over">OVER ${ovNum+1} ▶</button>
-  </div>`;
-  panel(renderScorecardHTML(m,'cont_next_over',topCtrl));
+  const topBanner=`
+   <p>Over ${ovNum} Balls: <b>${ovBalls}</b></p>
+   <div class="pcard sel" style="max-width:540px">
+    ${roleIcon(nextBwl.r,nextBwl.st)}
+    <div class="pcard-info">
+     <div class="pcard-name">Next Bowler: ${esc(nextBwl.n)} (${TEAMS[n.bw].c})</div>
+     <div class="pcard-meta"><span>🥎 ${nextBwl.bo}</span><span>Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</span></div>
+    </div>
+    <div class="pcard-acts">
+     <button class="cbtn green" data-a="cont_next_over">OVER ${ovNum+1} ▶</button>
+    </div>
+   </div>`;
+  panel(renderScorecardHTML(m,'cont_next_over',topBanner));
  }
 }
 
 function showMarket(){
  let h=`<h2>💰 BPL / IPL FRANCHISE AUCTION</h2>`;
- h+=`<div class="top-wallet"><div class="cash">Balance: $${S.cash}</div><div>Franchise: <b>${esc(S.franName)} (${S.league})</b></div></div>`;
- h+=B('set_lg','🔄 Switch League: BPL / IPL','','gold');
+ h+=`<div class="g-header">
+  <div class="g-uname" style="flex:1 1 140px">Franchise: <b>${esc(S.franName)} (${S.league})</b></div>
+  <div class="g-pill cash">💵 $${S.cash}</div>
+  <button class="cbtn gold" data-a="set_lg" style="flex:1 1 100%">🔄 SWITCH LEAGUE: BPL / IPL</button>
+ </div>`;
  h+=`<div class="card-list">`;
  MARKET_POOL.forEach(m=>{
   const isOwned=S.owned.includes(m.id);
   h+=`<div class="pcard ${isOwned?'sel':''}">
+   ${roleIcon(m.r,m.st)}
    <div class="pcard-info">
-    <div class="pcard-title">${roleIcon(m.r,m.st)} <b>${esc(m.n)}</b> <small>[${m.lg}]</small></div>
-    <div class="pcard-sub">🏏 ${m.ba} · 🥎 ${m.bo}</div>
+    <div class="pcard-name">${esc(m.n)} <small style="color:#ffd54f">[${m.lg}]</small></div>
+    <div class="pcard-meta"><span>🏏 BAT ${m.ba}</span><span>🥎 BWL ${m.bo}</span></div>
    </div>
-   ${isOwned?`<span style="color:#00e676;font-weight:800">✔ OWNED</span>`:`<button class="b ${S.cash>=m.price?'green':''}" data-a="buy_p" data-v="${m.id}" ${S.cash<m.price?'disabled':''}>BUY $${m.price}</button>`}
+   <div class="pcard-acts">
+    ${isOwned?`<span style="color:#00e676;font-size:12px;font-weight:900">✔ OWNED</span>`:`<button class="cbtn ${S.cash>=m.price?'green':''}" data-a="buy_p" data-v="${m.id}" ${S.cash<m.price?'disabled':''}>BUY $${m.price}</button>`}
+   </div>
   </div>`;
  });
- h+=`</div>`+B('menu','⬅ BACK TO MENU');
+ h+=`</div>`+B('menu','⬅ BACK TO LOBBY');
  panel(h);
 }
 
 function showSquadScreen(){
  const t=TEAMS[S.team],ros=getRoster(S.team,true);
  let h=`<h2>👕 ${t.n.toUpperCase()} & FRANCHISE XI</h2>`;
- h+=`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:500px">`;
+ h+=`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%;max-width:520px">`;
  TEAMS.forEach((tm,i)=>{
-  h+=`<button class="b ${i===S.team?'green':''}" style="width:auto;min-width:56px;padding:6px 12px" data-a="pick" data-v="${i}">${tm.c}</button>`;
+  h+=`<button class="cbtn ${i===S.team?'green':''}" data-a="pick" data-v="${i}">${tm.c}</button>`;
  });
  h+=`</div><div class="card-list">`;
  ros.forEach((p,i)=>{
   h+=`<div class="pcard">
-   <div class="pcard-info">
-    <div class="pcard-title"><b>${i+1}. ${esc(p.n)}</b></div>
-    <div class="pcard-sub">🏏 ${p.ba} · 🥎 ${p.bo}</div>
-   </div>
    ${roleIcon(p.r,p.st)}
+   <div class="pcard-info">
+    <div class="pcard-name">${i+1}. ${esc(p.n)}</div>
+    <div class="pcard-meta"><span>🏏 BAT ${p.ba}</span><span>🥎 BWL ${p.bo}</span></div>
+   </div>
   </div>`;
  });
- h+=`</div>`+B('menu','⬅ BACK TO MENU');
+ h+=`</div>`+B('menu','⬅ BACK TO LOBBY');
  panel(h);
 }
 
 function showMultiplayerHub(){
- let h=`<h2>🌐 ONLINE MULTIPLAYER (BPL / IPL CLASH)</h2>`;
- h+=`<div class="top-wallet"><div class="cash">💵 $${S.cash}</div><div>Win Prize: <b>+$200 & +25 Pts</b></div></div>`;
- h+=`<div class="grid-menu">
-  ${B('mp_create','➕ CREATE ONLINE ROOM','','green')}
-  ${B('mp_bot','⚡ PLAY INSTANT BPL/IPL CLASH','','gold')}
+ let h=`<h2>🌐 ONLINE MULTIPLAYER ARENA</h2>`;
+ h+=`<div class="g-header">
+  <div class="g-uname" style="flex:1 1 140px">Prize Pool: <b>+$200 & +25 Pts</b></div>
+  <div class="g-pill cash">💵 $${S.cash}</div>
  </div>`;
- h+=`<h3>ONLINE PLAYERS (${onlineUsers.length}) & OPEN ROOMS</h3><div id="mp_rooms_box" class="card-list"><p>Loading rooms...</p></div>`;
- h+=B('menu','⬅ BACK TO MENU');
+ h+=`<div class="g-hero-row" style="max-width:520px">
+  <div class="g-tile quick" data-a="mp_create">
+   <div class="g-tile-ico">➕</div>
+   <div><div class="g-tile-title">CREATE ROOM</div><div class="g-tile-desc">Host 2-Over Live Clash</div></div>
+  </div>
+  <div class="g-tile mp" data-a="mp_bot">
+   <div class="g-tile-ico">⚡</div>
+   <div><div class="g-tile-title">INSTANT CLASH</div><div class="g-tile-desc">Fast Franchise Match</div></div>
+  </div>
+ </div>`;
+ h+=`<h3>ONLINE PLAYERS (${onlineUsers.length}) & OPEN ROOMS</h3><div id="mp_rooms_box" class="card-list"><p>Scanning active rooms...</p></div>`;
+ h+=B('menu','⬅ BACK TO LOBBY');
  panel(h);
 
  if(mpUnsub)mpUnsub();
@@ -885,36 +1112,46 @@ function showMultiplayerHub(){
   const val=snap.val()||{};
   const list=Object.entries(val).filter(([k,v])=>v&&v.status==='open'&&v.hostUid!==(U&&U.uid));
   if(!list.length){
-   box.innerHTML=`<div class="pcard"><div class="pcard-info">No open rooms right now. Click <b>CREATE ONLINE ROOM</b> or <b>PLAY INSTANT BPL/IPL CLASH</b>!</div></div>`;
+   box.innerHTML=`<div class="pcard"><div class="ico-role BAT">🌐</div><div class="pcard-info"><div class="pcard-name">No open rooms right now</div><div class="pcard-meta">Tap CREATE ROOM or INSTANT CLASH above!</div></div></div>`;
    return;
   }
   box.innerHTML=list.map(([id,r])=>`
    <div class="pcard">
+    <div class="ico-role AR">⚔️</div>
     <div class="pcard-info">
-     <div class="pcard-title"><b>Host: ${esc(r.hostName)} (${esc(r.hostTeam)})</b></div>
-     <div class="pcard-sub">Target Score: ${r.hostScore!=null?r.hostScore+' runs':'Playing 1st Inn...'}</div>
+     <div class="pcard-name">Host: ${esc(r.hostName)} (${esc(r.hostTeam)})</div>
+     <div class="pcard-meta">Target: ${r.hostScore!=null?r.hostScore+' runs':'Playing 1st Inn...'}</div>
     </div>
-    <button class="b green" data-a="mp_join" data-v="${id}">JOIN</button>
+    <div class="pcard-acts"><button class="cbtn green" data-a="mp_join" data-v="${id}">JOIN ▶</button></div>
    </div>
   `).join('');
  });
 }
 
 function pickFmt(all){
- panel(`<h2>CHOOSE MATCH FORMAT</h2><div class="grid-menu">
-  ${B('fmt','T20 · 20 Overs (Win +$120)','T20','green')}
-  ${B('fmt','2-OVER SUPER CLASH (Win +$80)','M2','gold')}
-  ${B('fmt','ONE DAY · 50 Overs (Win +$180)','ODI')}
-  ${all?B('fmt','TEST · 2 Innings (Win +$250)','TEST'):''}
-  ${B('menu','⬅ BACK')}
+ panel(`<h2>SELECT MATCH FORMAT</h2><div class="menu-list">
+  ${B('fmt','⚡ 2-OVER SUPER CLASH (Win +$80)','M2','gold')}
+  ${B('fmt','🏏 T20 · 20 OVERS (Win +$120)','T20','green')}
+  ${B('fmt','🏆 ONE DAY · 50 OVERS (Win +$180)','ODI')}
+  ${all?B('fmt','🛡️ TEST · 2 INNINGS (Win +$250)','TEST'):''}
+  ${B('menu','⬅ BACK TO LOBBY')}
  </div>`,null,true);
 }
 function pickOpp(){
- panel(`<h2>CHOOSE OPPONENT TEAM</h2><div class="grid-menu">
-  ${TEAMS.map((t,i)=>i==S.team?'':B('opp',`${t.n} (${t.c})`,i)).join('')}
-  ${B('opp','🎲 RANDOM TEAM','r','gold')}
-  ${B('menu','⬅ BACK')}
- </div>`,null,true);
+ panel(`<h2>SELECT OPPONENT TEAM</h2><div class="card-list">
+  ${TEAMS.map((t,i)=>i==S.team?'':`
+   <div class="pcard" data-a="opp" data-v="${i}" style="cursor:pointer">
+    <div class="ico-role BAT" style="background:${t.col};border-color:${t.acc};font-size:11px">${t.c}</div>
+    <div class="pcard-info">
+     <div class="pcard-name">${t.n}</div>
+     <div class="pcard-meta"><span>🏏 BAT ${t.ba}</span><span>🥎 BWL ${t.bo}</span></div>
+    </div>
+    <div class="pcard-acts"><button class="cbtn green" data-a="opp" data-v="${i}">PLAY ▶</button></div>
+   </div>
+  `).join('')}
+ </div>
+ ${B('opp','🎲 RANDOM OPPONENT','r','gold')}
+ ${B('menu','⬅ BACK TO LOBBY')}`,null,true);
 }
 
 function sctx(){const c=S.comp;return{a:S.team,b:c.opp,fmt:c.fmt,done:m=>{c.played++;const w=m.res.w;if(w==S.team)c.w[0]++;else if(w==c.opp)c.w[1]++;else c.d++;c.log.push('M'+c.played+': '+m.res.t);save()},next:hub}}
@@ -924,27 +1161,27 @@ function hub(){const c=S.comp;if(!c)return menu();st='menu';root.classList.remov
 function seriesHub(c){
  const u=TEAMS[S.team],o=TEAMS[c.opp],need=M.floor(c.n/2)+1,fin=c.w[0]>=need||c.w[1]>=need||c.played>=c.n;
  let h=`<h2>${u.c} vs ${o.c}</h2><p>${FMT[c.fmt]} series · best of ${c.n}<br>${u.c} ${c.w[0]} – ${c.w[1]} ${o.c}${c.d?' · '+c.d+' drawn/tied':''}</p><p>${c.log.join('<br>')}</p>`;
- if(fin){const won=c.w[0]>c.w[1];if(!c.aw){c.aw=1;if(won)award(30,0,1,250);save()}h+=`<h2>${won?'SERIES WON! 🏆 +$250':c.w[0]==c.w[1]?'SERIES DRAWN':'SERIES LOST'}</h2>${B('endc','MAIN MENU')}`}
- else h+=`<div class="grid-menu">`+B('play','PLAY MATCH '+(c.played+1),'','green')+B('sim','SIM MATCH')+B('menu','MENU')+`</div>`;
+ if(fin){const won=c.w[0]>c.w[1];if(!c.aw){c.aw=1;if(won)award(30,0,1,250);save()}h+=`<h2>${won?'SERIES WON! 🏆 +$250':c.w[0]==c.w[1]?'SERIES DRAWN':'SERIES LOST'}</h2>${B('endc','MAIN LOBBY')}`}
+ else h+=`<div class="menu-list">`+B('play','PLAY MATCH '+(c.played+1),'','green')+B('sim','SIMULATE MATCH')+B('menu','LOBBY')+`</div>`;
  cur=fin?null:sctx();panel(h,fin?'endc':'play',true);
 }
 function compHub(c){
  const nx=compAdv(c),SN={L:'GROUP STAGE',S:'SEMI-FINALS',F:'FINAL',D:'COMPLETE'};save();
  let h=`<h2>${c.type=='wc'?'WORLD CUP':'CHAMPIONSHIP'} · ${FMT[c.fmt]}</h2><p>${SN[c.stage]}</p>`;
- c.groups.forEach((g,i)=>{h+='<pre>'+(c.groups.length>1?'GROUP '+'AB'[i]+'\n':'')+tbl(c,g).map((r,j)=>`${j+1}. ${TEAMS[r.t].c}${r.t==S.team?'*':' '} P${r.p} W${r.w} Pts ${r.pt}`).join('\n')+'</pre>'});
- if(c.stage!='L'&&c.ko.length)h+='<pre>'+c.ko.map(f=>`${TEAMS[f.a].c} v ${TEAMS[f.b].c}${f.w!=null?': '+f.t:''}`).join('\n')+'</pre>';
+ c.groups.forEach((g,i)=>{h+='<pre style="background:#071426;padding:10px;border-radius:8px;border:1px solid #29b6f644">'+(c.groups.length>1?'GROUP '+'AB'[i]+'\n':'')+tbl(c,g).map((r,j)=>`${j+1}. ${TEAMS[r.t].c}${r.t==S.team?'*':' '} P${r.p} W${r.w} Pts ${r.pt}`).join('\n')+'</pre>'});
+ if(c.stage!='L'&&c.ko.length)h+='<pre style="background:#071426;padding:10px;border-radius:8px">'+c.ko.map(f=>`${TEAMS[f.a].c} v ${TEAMS[f.b].c}${f.w!=null?': '+f.t:''}`).join('\n')+'</pre>';
  if(c.stage=='D'){
   const won=c.champ==S.team;if(!c.aw){c.aw=1;if(won)award(c.type=='wc'?100:50,0,1,c.type=='wc'?600:350);save()}
-  h+=`<h2>${won?'🏆 CHAMPIONS! +$'+(c.type=='wc'?600:350):'CHAMPION: '+TEAMS[c.champ].n}</h2>${B('endc','MAIN MENU')}`;cur=null;
+  h+=`<h2>${won?'🏆 CHAMPIONS! +$'+(c.type=='wc'?600:350):'CHAMPION: '+TEAMS[c.champ].n}</h2>${B('endc','MAIN LOBBY')}`;cur=null;
  }else{
-  const o=nx.a==S.team?nx.b:nx.a;h+=`<p>Next: ${TEAMS[S.team].c} vs ${TEAMS[o].c}</p><div class="grid-menu">`+B('play','PLAY MATCH','','green')+B('sim','SIM MATCH')+B('menu','MENU')+`</div>`;cur=cctx(nx);
+  const o=nx.a==S.team?nx.b:nx.a;h+=`<p>Next Match: <b>${TEAMS[S.team].n} vs ${TEAMS[o].n}</b></p><div class="menu-list">`+B('play','PLAY MATCH','','green')+B('sim','SIMULATE MATCH')+B('menu','LOBBY')+`</div>`;cur=cctx(nx);
  }
  panel(h,c.stage=='D'?'endc':'play',true);
 }
 
 function matchPrompt(ctx){
  cur=ctx;
- panel(`<h2>${TEAMS[ctx.a].n} vs ${TEAMS[ctx.b].n}</h2><p>${FMT[ctx.fmt]} Match</p><div class="grid-menu">${B('play','🪙 GO TO TOSS & PLAY','','green')}${B('sim','⚡ SIMULATE MATCH')}${B('menu','⬅ BACK')}</div>`,null,true);
+ panel(`<h2>${TEAMS[ctx.a].n} vs ${TEAMS[ctx.b].n}</h2><p>${FMT[ctx.fmt]} Match</p><div class="menu-list">${B('play','🪙 GO TO TOSS & PLAY','','green')}${B('sim','⚡ SIMULATE MATCH')}${B('menu','⬅ BACK')}</div>`,null,true);
 }
 
 function toss(ctx){
@@ -952,12 +1189,18 @@ function toss(ctx){
  panel(`
   <h2>🪙 MATCH COIN TOSS</h2>
   <p><b>${TEAMS[ctx.a].n}</b> vs <b>${TEAMS[ctx.b].n}</b> (${FMT[ctx.fmt]})</p>
-  <p>Call the coin toss:</p>
-  <div class="grid-menu">
-   ${B('toss_call','🪙 CALL HEADS','HEADS','gold')}
-   ${B('toss_call','🪙 CALL TAILS','TAILS','green')}
-   ${B('menu','⬅ BACK')}
+  <p>Select your coin call:</p>
+  <div class="g-hero-row" style="max-width:420px">
+   <div class="g-tile mp" data-a="toss_call" data-v="HEADS" style="align-items:center;text-align:center">
+    <div class="g-tile-ico">🪙</div>
+    <div class="g-tile-title">HEADS</div>
+   </div>
+   <div class="g-tile quick" data-a="toss_call" data-v="TAILS" style="align-items:center;text-align:center">
+    <div class="g-tile-ico">🪙</div>
+    <div class="g-tile-title">TAILS</div>
+   </div>
   </div>
+  ${B('menu','⬅ CANCEL')}
  `,null,true);
 }
 
@@ -968,18 +1211,24 @@ function resolveTossCall(userCall){
  if(won){
   panel(`
    <h2>🪙 IT'S ${res}! YOU WON THE TOSS!</h2>
-   <p>You called <b>${userCall}</b>. Choose whether to Bat or Bowl first:</p>
-   <div class="grid-menu">
-    ${B('tbat','🏏 BAT FIRST','','green')}
-    ${B('tbowl','🥎 BOWL FIRST','','gold')}
+   <p>You called <b>${userCall}</b>. Choose your strategy:</p>
+   <div class="g-hero-row" style="max-width:420px">
+    <div class="g-tile quick" data-a="tbat" style="align-items:center;text-align:center">
+     <div class="g-tile-ico">🏏</div>
+     <div class="g-tile-title">BAT FIRST</div>
+    </div>
+    <div class="g-tile mp" data-a="tbowl" style="align-items:center;text-align:center">
+     <div class="g-tile-ico">🥎</div>
+     <div class="g-tile-title">BOWL FIRST</div>
+    </div>
    </div>
   `,null,true);
  }else{
   const aiBat=rnd()<(cur.fmt=='TEST'?.7:.45);
   panel(`
    <h2>🪙 IT'S ${res}! ${TEAMS[cur.b].n.toUpperCase()} WON THE TOSS</h2>
-   <p>You called <b>${userCall}</b>. <b>${TEAMS[cur.b].n}</b> elected to <b>${aiBat?'BAT':'BOWL'}</b> first.</p>
-   <div class="grid-menu">
+   <p><b>${TEAMS[cur.b].n}</b> elected to <b>${aiBat?'BAT':'BOWL'}</b> first.</p>
+   <div class="menu-list">
     ${B('go','START MATCH ▶',aiBat?'opp':'me','green')}
    </div>
   `,null,true);
@@ -1001,11 +1250,11 @@ function onMatch(ctx,m){
  }
  ctx.done(m);st='brk';root.classList.remove('pl');
  let h=`<h2>${esc(m.res.t)}</h2>`;
- h+=`<div class="top-wallet"><div class="cash">🎉 Match Earnings: +$${totalCash} (Total: $${S.cash})</div></div>`;
+ h+=`<div class="g-header" style="justify-content:center"><div class="g-pill cash" style="white-space:normal;text-align:center">🎉 Match Earnings: +$${totalCash} (Wallet: $${S.cash})</div></div>`;
  m.inn.forEach(n=>{
   const ros=m.rosters[n.bt];
   const bb=n.bat.reduce((a,b,j)=>b.r>a.r?{r:b.r,b:b.b,j}:a,{r:-1,b:0,j:0});
-  h+=`<p><b>${TEAMS[n.bt].n}</b> ${n.r}/${n.w} (${ovs(n.b)}) · Top: ${esc(ros[bb.j].n)} ${bb.r}(${bb.b})</p>`;
+  h+=`<p><b>${TEAMS[n.bt].n}</b> ${n.r}/${n.w} (${ovs(n.b)}) · Best: ${esc(ros[bb.j].n)} ${bb.r}(${bb.b})</p>`;
  });
  if(won)sfx.win();else sfx.cash();
  cb=ctx.next||menu;
@@ -1015,7 +1264,7 @@ function onMatch(ctx,m){
 function act(a,v){
  const T={
   single:()=>{fl={k:'single'};pickFmt(true)},series:()=>{fl={k:'series'};pickFmt(true)},tour:()=>{fl={k:'tour'};pickFmt(false)},wc:()=>{fl={k:'wc'};pickFmt(false)},
-  fmt:()=>{fl.fmt=v;if(fl.k=='series')panel(`<h2>SERIES LENGTH</h2><div class="grid-menu">${B('len','Best of 3',3)}${B('len','Best of 5',5)}${B('menu','BACK')}</div>`,null,true);else if(fl.k=='single')pickOpp();else{S.comp=newComp(fl.k,v);save();hub()}},
+  fmt:()=>{fl.fmt=v;if(fl.k=='series')panel(`<h2>SERIES LENGTH</h2><div class="menu-list">${B('len','Best of 3',3)}${B('len','Best of 5',5)}${B('menu','BACK')}</div>`,null,true);else if(fl.k=='single')pickOpp();else{S.comp=newComp(fl.k,v);save();hub()}},
   len:()=>{fl.n=+v;pickOpp()},
   opp:()=>{const o=v=='r'?shuf(TEAMS.map((_,i)=>i).filter(i=>i!=S.team))[0]:+v;if(fl.k=='single')matchPrompt({a:S.team,b:o,fmt:fl.fmt,done:()=>{},next:menu});else{S.comp={kind:'series',opp:o,fmt:fl.fmt,n:fl.n,w:[0,0],d:0,played:0,log:[]};save();hub()}},
   cont:()=>hub(),endc:()=>{S.comp=null;save();menu()},menu:()=>{if(st=='pause')return quit();menu()},
@@ -1065,19 +1314,18 @@ function act(a,v){
   },
   pick:()=>{S.team=+v;save();showSquadScreen()},
   snd:()=>{S.mute^=1;save();menu()},
-  lb:()=>panel(`<h2>📊 GLOBAL LEADERBOARD</h2><p>Your Cash: $${S.cash} · Career Points: ${S.pts}</p>${lbH(10)}${B('menu','⬅ BACK')}`,null,true),
-  how:()=>panel(`<h2>❓ VERSE CRICKET CONTROLS & GUIDE</h2>
-   <p><b>1. 4-WAY FOOTWORK & SHOT SELECTION:</b><br>
-   • Use <b>◀ (Left)</b> & <b>▶ (Right)</b> to move across the crease & aim Leg/Off side.<br>
-   • Use <b>▲ (Up)</b> to step <b>FORWARD (Down the pitch)</b> — great for driving full/good length balls!<br>
-   • Use <b>▼ (Down)</b> to step <b>BACKWARD (Deep in crease)</b> — great for pulling/cutting short balls!<br>
-   • Toggle <b>🚀 LOFT ON / GROUND</b> button (or Key L) for aerial 6s vs grounded 4s.<br><br>
-   <b>2. PRO TRICKY BOWLING:</b><br>
-   • Tap <b>SWING / SPIN</b> to switch variations, place the Red <b>X</b>, and stop the meter in the Gold/Green zone!</p>
-   ${B('menu','⬅ BACK')}`,null,true),
-  set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;showInningsSetupSelection()},
-  set_ns:()=>{const idx=+v;if(idx===selState.st)selState.st=selState.ns;selState.ns=idx;showInningsSetupSelection()},
-  set_bwl:()=>{selState.bwl=+v;showInningsSetupSelection()},
+  lb:()=>panel(`<h2>📊 GLOBAL LEADERBOARD</h2><p>Your Cash: $${S.cash} · Career Points: ${S.pts}</p>${lbH(10)}${B('menu','⬅ BACK TO LOBBY')}`,null,true),
+  how:()=>panel(`<h2>🎮 VERSE CRICKET CONTROLS</h2>
+   <div class="card-list" style="max-height:none">
+    <div class="pcard"><div class="ico-role BAT">🦶</div><div class="pcard-info"><div class="pcard-name">4-Way Crease Movement</div><div class="pcard-meta">◀/▶ Move Left/Right & Aim Shot · ▲ Step Down Pitch (Front-Foot) · ▼ Step Back (Back-Foot)</div></div></div>
+    <div class="pcard"><div class="ico-role AR">🚀</div><div class="pcard-info"><div class="pcard-name">Loft vs Grounded Shots</div><div class="pcard-meta">Tap 🚀 LOFT ON for huge 6s, or 🌱 GROUND for safe gap 4s!</div></div></div>
+    <div class="pcard"><div class="ico-role BWL">🌀</div><div class="pcard-info"><div class="pcard-name">Pro Tricky Bowling</div><div class="pcard-meta">Switch Swing/Spin variations, move the Red [X], and stop the meter in the Gold/Green zone!</div></div></div>
+    <div class="pcard"><div class="ico-role WK">📱</div><div class="pcard-info"><div class="pcard-name">Play in Landscape</div><div class="pcard-meta">Rotate your phone sideways during a match for the full pitch view and controls.</div></div></div>
+   </div>
+   ${B('menu','⬅ BACK TO LOBBY')}`,null,true),
+  set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;const sy=ui.querySelector('.card-list');const k=sy?sy.scrollTop:0;showInningsSetupSelection();const l=ui.querySelector('.card-list');if(l)l.scrollTop=k},
+  set_ns:()=>{const idx=+v;if(idx===selState.st)selState.st=selState.ns;selState.ns=idx;const sy=ui.querySelector('.card-list');const k=sy?sy.scrollTop:0;showInningsSetupSelection();const l=ui.querySelector('.card-list');if(l)l.scrollTop=k},
+  set_bwl:()=>{selState.bwl=+v;const sy=ui.querySelector('.card-list');const k=sy?sy.scrollTop:0;showInningsSetupSelection();const l=ui.querySelector('.card-list');if(l)l.scrollTop=k},
   confirm_openers:()=>{
    const n=lv.m.inn[lv.m.cur];
    if(n.bt===lv.u){n.st=selState.st;n.ns=selState.ns}
@@ -1098,6 +1346,8 @@ function act(a,v){
    const n=lv.m.inn[lv.m.cur];n.ov=[];
    st='play';hideUI();root.classList.add('pl');beginBall();
   },
+  view_full_sc:()=>{panel(renderScorecardHTML(lv.m,'back_to_over'))},
+  back_to_over:()=>showEndOfOverModal(),
   view_sc_pause:()=>{panel(renderScorecardHTML(lv.m,'sc_close'))},
   sc_close:()=>{st='play';hideUI();root.classList.add('pl')},
   resume:()=>pause(),s1:()=>simLive('over'),s5:()=>simLive('five'),sinn:()=>simLive('inn')
@@ -1105,7 +1355,6 @@ function act(a,v){
  if(T[a])T[a]();
 }
 
-// ---------- Live Match State & 2D Crease Movement ----------
 let lv=null;
 const held={L:0,R:0,U:0,D:0};
 const FLD_ANGLES=[0.32, 0.78, 1.28, 1.86, 2.38, 2.82, 3.65, 4.55, 5.60];
@@ -1249,7 +1498,6 @@ function dirTap(k){
  }
 }
 
-// ---------- Outfield Physics & Gap-Finding ----------
 function resolveContact(){
  const L=lv,m=L.m;let o;
  L.arrivalT=L.dur*(L.batY/0.98);
@@ -1364,13 +1612,13 @@ function simLive(kind){
 function pause(){
  if(st=='play'){
   st='pause';
-  panel(`<h2>MATCH PAUSED</h2><div class="grid-menu">
+  panel(`<h2>MATCH PAUSED</h2><div class="menu-list">
    ${B('resume','▶ RESUME MATCH','','green')}
    ${B('view_sc_pause','📊 FULL SCORECARD')}
    ${B('s1','⏩ SIMULATE THIS OVER')}
    ${B('s5','⏩ SIMULATE 5 OVERS')}
    ${B('sinn','⏩ SIMULATE INNINGS')}
-   ${B('menu','🚪 QUIT TO MENU','','red')}
+   ${B('menu','🚪 QUIT TO LOBBY','','red')}
   </div>`,null,true);
  }else if(st=='pause'){st='play';hideUI();root.classList.add('pl')}
 }
@@ -1378,6 +1626,7 @@ function quit(){const L=lv;if(!L)return menu();const m={res:{w:L.ctx.b,t:'Match 
 
 function liveUpd(dt){
  const L=lv;if(!L||st!='play')return;
+ if(portrait.matches)return;
  L.t+=dt;if(L.bigT>0)L.bigT-=dt;
 
  if(bats()&&(L.ph=='stance'||L.ph=='runup'||(L.ph=='flight'&&!L.press))){
@@ -1434,7 +1683,6 @@ function liveUpd(dt){
  }
 }
 
-// ---------- Input Handlers ----------
 const DIRS={ArrowUp:'U',KeyW:'U',ArrowDown:'D',KeyS:'D',ArrowLeft:'L',KeyA:'L',ArrowRight:'R',KeyD:'R'},BACKS=[10009,461,8,27,166];
 addEventListener('keydown',e=>{
  au();
@@ -1477,7 +1725,6 @@ $('#scb').onpointerdown=e=>{
 };
 C.addEventListener('pointerdown',()=>{au();if(st=='play')okPress()});
 
-// ---------- Verse Stadium & Biomechanical Player Graphics Engine ----------
 const PY_TOP=150, PY_BOT=485;
 const PW_TOP=128, PW_BOT=320;
 const CREASE_TOP=182, CREASE_BOT=430;
@@ -1665,7 +1912,6 @@ function drawBowler(L,bw){
  X.restore();
 }
 
-// ---------- Realistic Two-Handed Grip & Shot-Matched Biomechanical Batsman ----------
 function drawBatsman(L,bt){
  const u=L?L.batX:-.16;
  const v=L?L.batY:0.98;
@@ -1797,7 +2043,6 @@ function txt(s,x,y,sz,al='left',c='#fff',stroke=true){
  X.fillStyle=c;X.fillText(s,x,y);
 }
 
-// Verse TV Broadcast HUD with Pure Icons
 function drawBroadcastHUD(L,m,n,bt,bw){
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
  const sb=n.bat[n.st],nb=n.bat[n.ns],bwSt=n.bowl[n.bwlIdx];
@@ -1858,7 +2103,6 @@ function drawBroadcastHUD(L,m,n,bt,bw){
  txt(hint,W-14,barY+32,13,'right','#00e676',false);
 }
 
-// ---------- Synchronized Outfield View ----------
 function drawOutfieldView(L,bt,bw){
  if(L.t<0.35){
   drawPitchScene(L,bt,bw);
