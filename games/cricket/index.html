@@ -6,44 +6,50 @@
 html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-behavior:none}
 #cr{position:fixed;inset:0;background:#040b14;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#eef6ff;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-weight:700}
 #cr canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
-#cr .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1.2vmin;background:linear-gradient(180deg,rgba(4,12,24,.95),rgba(6,24,18,.96));text-align:center;padding:2.5vmin;overflow-y:auto;box-sizing:border-box;z-index:5}
+#cr .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;background:linear-gradient(180deg,rgba(4,12,24,.96),rgba(6,24,18,.97));text-align:center;padding:16px 12px 28px;overflow-y:auto;box-sizing:border-box;z-index:5}
 #cr .ov.center{justify-content:center}
 #cr .ov[hidden]{display:none}
-#cr #ld{background:#040b14;z-index:12;justify-content:center;font-size:min(4vmin,24px);letter-spacing:.1em}
-#cr h1{margin:.5vmin 0;font-size:min(8.5vmin,56px);letter-spacing:.06em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
-#cr h2{margin:.4vmin 0;font-size:min(4.6vmin,30px);letter-spacing:.05em;color:#ffd54f;text-shadow:0 2px 4px #000}
-#cr h3{margin:.3vmin 0;font-size:min(3.4vmin,20px);color:#4fc3f7}
-#cr p{margin:0;max-width:720px;font-size:min(2.7vmin,16px);line-height:1.45;color:#b8d8e8}
-.top-wallet{display:flex;gap:2vmin;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:.8vmin 2.4vmin;border-radius:30px;font-size:min(2.7vmin,15px)}
+#cr #ld{background:#040b14;z-index:12;justify-content:center;font-size:20px;letter-spacing:.1em}
+#cr h1{margin:4px 0;font-size:clamp(28px,7vmin,52px);letter-spacing:.06em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
+#cr h2{margin:4px 0;font-size:clamp(18px,4.5vmin,28px);letter-spacing:.04em;color:#ffd54f;text-shadow:0 2px 4px #000}
+#cr h3{margin:4px 0;font-size:clamp(14px,3.3vmin,19px);color:#4fc3f7}
+#cr p{margin:0;max-width:640px;font-size:clamp(13px,2.8vmin,16px);line-height:1.45;color:#b8d8e8}
+.top-wallet{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:6px 16px;border-radius:30px;font-size:clamp(12px,2.6vmin,15px)}
 .top-wallet span{color:#ffd54f}
-.top-wallet .cash{color:#00e676;font-size:min(3.1vmin,18px)}
-.grid-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(40vmin,220px),1fr));gap:1.2vmin;width:min(92vmin,740px)}
-#cr .b{font:inherit;font-size:min(3vmin,17px);letter-spacing:.04em;color:#fff;background:linear-gradient(135deg,#0f4c81,#092b4c);border:2px solid #29b6f6;border-radius:8px;padding:1.1vmin 2.5vmin;min-width:min(42vmin,220px);cursor:pointer;box-shadow:0 4px 0 #041526;transition:transform .1s,background .15s}
+.top-wallet .cash{color:#00e676;font-size:clamp(14px,3vmin,18px)}
+.grid-menu{display:flex;flex-direction:column;gap:10px;width:min(92vw,420px)}
+#cr .b{font:inherit;font-size:clamp(14px,3vmin,17px);letter-spacing:.04em;color:#fff;background:linear-gradient(135deg,#0f4c81,#092b4c);border:2px solid #29b6f6;border-radius:8px;padding:10px 18px;width:100%;max-width:420px;cursor:pointer;box-shadow:0 4px 0 #041526;transition:transform .1s,background .15s;box-sizing:border-box}
 #cr .b.green{background:linear-gradient(135deg,#1b7a3d,#0c4721);border-color:#00e676}
 #cr .b.gold{background:linear-gradient(135deg,#b26a00,#6e3f00);border-color:#ffd54f}
 #cr .b.red{background:linear-gradient(135deg,#9b1c1c,#5c0e0e);border-color:#ff5252}
 #cr .b:hover,#cr .b:focus,#cr .b:focus-visible{background:#1e88e5;outline:2px solid #ffd54f;transform:translateY(-1px)}
 #cr .b:disabled{opacity:.42;cursor:not-allowed;transform:none}
-.card-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(42vmin,250px),1fr));gap:1vmin;width:min(94vmin,820px);max-height:58vh;overflow-y:auto;padding:.5vmin}
-.pcard{display:flex;align-items:center;justify-content:space-between;gap:1vmin;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:1vmin 1.5vmin;text-align:left;font-size:min(2.5vmin,14px)}
-.pcard.sel{border:2px solid #00e676;background:rgba(0,230,118,.15)}
-.badge{padding:.2vmin .8vmin;border-radius:4px;font-size:min(2.1vmin,12px);font-weight:800;color:#000}
+/* Single-Column Clean List for Bowler/Batsman/Market Cards */
+.card-list{display:flex;flex-direction:column;gap:8px;width:min(94vw,500px);max-height:54vh;overflow-y:auto;padding:4px;box-sizing:border-box}
+.pcard{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(14,34,56,.88);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 14px;text-align:left;font-size:clamp(13px,2.6vmin,15px);box-sizing:border-box}
+.pcard.sel{border:2px solid #00e676;background:rgba(0,230,118,.16)}
+.pcard-info{flex:1;min-width:0}
+.pcard-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:clamp(14px,2.8vmin,16px);color:#fff;margin-bottom:3px}
+.pcard-sub{font-size:clamp(12px,2.3vmin,13.5px);color:#a6c8e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .b{width:auto;min-width:110px;padding:8px 14px;font-size:clamp(12px,2.4vmin,14px);white-space:nowrap;flex-shrink:0}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:800;color:#000;line-height:1.2}
 .badge.BAT{background:#4fc3f7}.badge.BWL{background:#ff8a65}.badge.AR{background:#ffd54f}.badge.WK{background:#ce93d8}
-.sc-table{width:min(94vmin,780px);border-collapse:collapse;font-size:min(2.4vmin,14px);background:rgba(0,0,0,.45);border-radius:8px;overflow:hidden}
-.sc-table th,.sc-table td{padding:.7vmin 1.2vmin;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
+.sc-table{width:min(96vw,740px);border-collapse:collapse;font-size:clamp(12px,2.3vmin,14px);background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden}
+.sc-table th,.sc-table td{padding:7px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
 .sc-table th{background:rgba(41,182,246,.22);color:#ffd54f}
 .sc-table td.num,.sc-table th.num{text-align:right}
-#cr .lbx{width:min(88vmin,520px)}
-#cr .lr{display:flex;align-items:center;gap:1.4vmin;height:min(5vmin,34px);padding:0 1.6vmin;margin-top:.6vmin;background:#ffffff12;border-radius:6px;font-size:min(2.6vmin,15px);text-align:left}
+#cr .lbx{width:min(92vw,500px)}
+#cr .lr{display:flex;align-items:center;gap:10px;height:34px;padding:0 12px;margin-top:5px;background:#ffffff12;border-radius:6px;font-size:14px;text-align:left}
 #cr .lr b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#cr .lr img,#cr .lr i{width:min(3.6vmin,24px);height:min(3.6vmin,24px);border-radius:50%;background:#1e3c58;object-fit:cover;flex:none}
+#cr .lr img,#cr .lr i{width:24px;height:24px;border-radius:50%;background:#1e3c58;object-fit:cover;flex:none}
 #cr .lr em{font-style:normal;color:#ffd54f}
 #pad{display:none;position:absolute;inset:0;pointer-events:none;z-index:3}
 #cr.t.pl #pad{display:block}
-#pad button{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2.5px solid #29b6f6;background:rgba(8,26,46,.82);color:#fff;font:inherit;font-size:4vmin;width:12vmin;height:12vmin;box-shadow:0 4px 12px #000b}
+#pad button{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2.5px solid #29b6f6;background:rgba(8,26,46,.84);color:#fff;font:inherit;font-size:4vmin;width:12vmin;height:12vmin;box-shadow:0 4px 12px #000b}
 #pad button:active,#pad button.act{background:#00c853;transform:scale(.93);border-color:#ffd54f}
 #cl{left:2vmin;bottom:14vmin}#cu{left:14vmin;bottom:25vmin}#cd{left:14vmin;bottom:3vmin}#cR{left:26vmin;bottom:14vmin}
-#pad #ok{right:3vmin;bottom:10vmin;width:20vmin;height:20vmin;font-size:3.8vmin;background:radial-gradient(#00e676,#00796b);border-color:#ffd54f}
+#pad #ok{right:3vmin;bottom:10vmin;width:20vmin;height:20vmin;font-size:3.5vmin;background:radial-gradient(#00e676,#00796b);border-color:#ffd54f}
+#pad #varb{right:3vmin;bottom:32vmin;width:18vmin;height:7.5vmin;border-radius:18px;font-size:2.3vmin;background:linear-gradient(135deg,#6a1b9a,#38006b);border-color:#ffd54f;display:none}
 #pad #pp{right:2.5vmin;top:1.8vmin;width:8.5vmin;height:8.5vmin;font-size:2.6vmin}
 #pad #scb{right:12.5vmin;top:1.8vmin;width:14vmin;height:6.5vmin;border-radius:16px;font-size:2.2vmin}
 </style></head><body>
@@ -52,6 +58,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
  <div id="ui" class="ov"></div>
  <div id="pad">
   <button id="cl">◀</button><button id="cu">▲</button><button id="cR">▶</button><button id="cd">▼</button>
+  <button id="varb">SWING 1</button>
   <button id="ok">SHOT</button>
   <button id="scb">SCORE</button>
   <button id="pp">II</button>
@@ -62,7 +69,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, signInWithPopup, setPersistence, browserLocalPersistence, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { getDatabase, ref, set, get, update, onValue, remove, onDisconnect } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+import { getDatabase, ref, set, get, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 const FB={
  apiKey:"AIzaSyDuXxHJ0vnBiAn4SOvsCN-vRaOvB5DCWso",
@@ -87,8 +94,7 @@ addEventListener('resize',fit);fit();
 if(matchMedia('(pointer:coarse)').matches||'ontouchstart' in window)root.classList.add('t');
 document.addEventListener('touchmove',e=>{if(!e.target.closest('.ov'))e.preventDefault()},{passive:false});
 
-// ---------- Authentic 8 National Team Rosters + BPL/IPL Market Pool ----------
-// Format: [Name, Role ('BAT'|'BWL'|'AR'|'WK'), BatRating, BowlRating, BowlStyle ('FAST'|'SPIN')]
+// ---------- Authentic 8 National Team Rosters ----------
 const TEAMS=[
  {n:'Bangladesh',c:'BAN',col:'#006a4e',acc:'#f42a41',pants:'#004432',roster:[
   ['Tamim Iqbal','BAT',84,20,'SPIN'],['Liton Das','WK',82,15,'SPIN'],['Najmul Shanto','BAT',80,25,'SPIN'],
@@ -140,13 +146,11 @@ const TEAMS=[
  ]}
 ];
 
-// Compute overall team ba/bo for simulations
 TEAMS.forEach(t=>{
  t.ba=M.round(t.roster.slice(0,7).reduce((a,p)=>a+p[2],0)/7);
  t.bo=M.round(t.roster.slice(5,11).reduce((a,p)=>a+p[3],0)/6);
 });
 
-// BPL / IPL Transfer Market Pool (Star Players to buy with $)
 const MARKET_POOL=[
  {id:'m_sakib',n:'Shakib Al Hasan',r:'AR',ba:88,bo:90,st:'SPIN',price:350,lg:'BPL'},
  {id:'m_tamim',n:'Tamim Iqbal',r:'BAT',ba:87,bo:20,st:'SPIN',price:280,lg:'BPL'},
@@ -164,26 +168,67 @@ const MARKET_POOL=[
  {id:'m_maxwell',n:'Glenn Maxwell',r:'AR',ba:90,bo:82,st:'SPIN',price:430,lg:'IPL'}
 ];
 
-// Player Save State (includes $500 starter cash so user can immediately buy BPL/IPL stars)
 let S={team:0,pts:0,wins:0,tr:0,played:0,mute:0,cash:500,league:'BPL',franName:'Dhaka Dominators',owned:['m_tamim','m_liton','m_taskin'],comp:null};
 try{Object.assign(S,JSON.parse(localStorage.getItem('wcc_cricket_v2')||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem('wcc_cricket_v2',JSON.stringify(S))}catch(e){}};
 
-// Helper to get active roster for a team index (if user is playing Franchise/Multiplayer, merge owned stars!)
 function getRoster(tIdx,useFranchise=false){
  const base=TEAMS[tIdx].roster.map(p=>({n:p[0],r:p[1],ba:p[2],bo:p[3],st:p[4]}));
  if(!useFranchise)return base;
- // Inject owned BPL/IPL stars into user's Franchise XI
  const ownedObjs=MARKET_POOL.filter(m=>S.owned.includes(m.id));
  ownedObjs.forEach(o=>{
   if(!base.some(b=>b.n===o.n)){
-   // Replace weakest player of same role
    let repIdx=base.findIndex(b=>b.r===o.r&&(b.ba+b.bo)<(o.ba+o.bo));
    if(repIdx>=0)base[repIdx]={n:o.n,r:o.r,ba:o.ba,bo:o.bo,st:o.st};
   }
  });
  return base;
 }
+
+// ---------- Mobile Back Button Navigation Guard (History API) ----------
+let historyGuardActive=false;
+function pushBackGuard(){
+ try{
+  if(!historyGuardActive){
+   history.pushState({wccSubScreen:true},'');
+   historyGuardActive=true;
+  }
+ }catch(e){}
+}
+
+function handleInGameBack(){
+ // If on main home menu, do nothing
+ if(st==='menu'&&ui.querySelector('[data-a="single"]'))return;
+ au();
+ if(st==='play'){
+  pause();
+ }else if(st==='pause'){
+  if(ui.querySelector('[data-a="sc_close"]')){
+   // Closing full scorecard during match
+   st='play';hideUI();root.classList.add('pl');
+  }else{
+   // Resume match from pause
+   st='play';hideUI();root.classList.add('pl');
+  }
+ }else if(st==='sel'){
+  if(ui.querySelector('[data-a="back_to_over"]')){
+   showEndOfOverModal();
+  }
+  // During mandatory player/bowler selection, stay on screen or allow pause
+ }else{
+  // In any sub-menu (Market, Squad, Format, Opponent, Multiplayer, Leaderboard, How to Play) -> go back to Home Menu!
+  menu();
+ }
+}
+
+window.addEventListener('popstate',()=>{
+ historyGuardActive=false;
+ if(!(st==='menu'&&ui.querySelector('[data-a="single"]'))){
+  handleInGameBack();
+  // Re-arm guard if still not on root home menu
+  if(!(st==='menu'&&ui.querySelector('[data-a="single"]')))pushBackGuard();
+ }
+});
 
 // ---------- Account, Firestore Sync & Leaderboard ----------
 let U=null,lbRows=[];
@@ -216,7 +261,6 @@ async function push(){
 }
 function award(p,w,t,dlr=0){S.pts+=p;S.wins+=w;S.tr+=t;S.cash+=dlr;save();push()}
 
-// Online Presence (`online/{uid}`)
 let onlineUsers=[];
 function setupPresence(user){
  try{
@@ -284,7 +328,7 @@ function noise(d,v){
  if(!AC||S.mute)return;
  const b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),a=b.getChannelData(0);
  for(let i=0;i<a.length;i++)a[i]=(rnd()*2-1)*(1-i/a.length);
- const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=v;s.buffer=b;s.connect(g);g.connect(AC.destination);s.start();
+ const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=v;s.buffer=b;s.connect(g);s.connect(AC.destination);s.start();
 }
 const sfx={
  tap:()=>tone(190,.03,'triangle',.04,-40),
@@ -295,6 +339,7 @@ const sfx={
  cheer:()=>{noise(1.7,.14);[523,659,784,1047].forEach((f,i)=>tone(f,.18,'triangle',.07,0,i*.09))},
  out:()=>{[440,392,330,220].forEach((f,i)=>tone(f,.16,'sawtooth',.08,0,i*.11));noise(.4,.12)},
  tick:()=>tone(680,.035,'sine',.05),
+ coin:()=>[987,1318,1567,2093].forEach((f,i)=>tone(f,.09,'sine',.08,0,i*.06)),
  cash:()=>[880,1174,1567].forEach((f,i)=>tone(f,.12,'sine',.08,0,i*.08)),
  win:()=>[523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.22,'triangle',.1,0,i*.14))
 };
@@ -302,7 +347,7 @@ const sfx={
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const ovs=b=>(b/6|0)+'.'+b%6,FMT={T20:'T20',ODI:'ONE DAY',TEST:'TEST',M2:'2-OVER CLASH'};
 
-// ---------- Match Engine with Authentic Rosters & Bowling Figures ----------
+// ---------- Match Engine ----------
 function newMatch(a,b,fmt,first,useFran=false){
  const o=first==a?b:a;
  const maxB={T20:120,ODI:300,TEST:0,M2:12}[fmt]||120;
@@ -316,7 +361,6 @@ function newMatch(a,b,fmt,first,useFran=false){
 }
 
 function defaultBowlers(ros){
- // Pick indices of bowlers and all-rounders sorted by bowling rating
  const idx=ros.map((p,i)=>({i,bo:p.bo,r:p.r})).sort((x,y)=>y.bo-x.bo);
  return idx.slice(0,5).map(x=>x.i);
 }
@@ -333,7 +377,7 @@ function startInn(m){
   bat:[...Array(11)].map(()=>({r:0,b:0,f4:0,s6:0,o:0,how:'',bwl:''})),
   bowl:[...Array(11)].map(()=>({b:0,r:0,w:0,mdn:0,curR:0})),
   st:0,ns:1,bwlIdx:bList[0],lastBwl:-1,bList,
-  ov:[],fow:[],chosenOpeners:false
+  ov:[],lastOv:[],fow:[],chosenOpeners:false
  });
 }
 
@@ -347,10 +391,10 @@ function applyBall(m,o){
 
  let fellWicket=false;
  if(o.w){
-  n.w++;s.o=1;s.how=o.k=='b'?'b '+bwName:'c Fielder b '+bwName;
+  n.w++;s.o=1;
+  s.how=o.k=='b'?'b '+bwName:o.k=='wk'?'c WK b '+bwName:o.k=='lbw'?'lbw b '+bwName:'c Fielder b '+bwName;
   bwStat.w++;n.fow.push(n.r+'/'+n.w);
   fellWicket=true;
-  // Auto-select next un-batted player (will be overridden by modal if live match!)
   if(n.w<10){
    for(let i=0;i<11;i++){
     if(i!==n.st&&i!==n.ns&&!n.bat[i].o&&n.bat[i].b===0){n.st=i;break}
@@ -363,11 +407,11 @@ function applyBall(m,o){
  let overEnded=false;
  if(n.b%6==0){
   overEnded=true;
+  n.lastOv=n.ov.slice();
   if(bwStat.curR===0)bwStat.mdn++;
   bwStat.curR=0;
   const t=n.st;n.st=n.ns;n.ns=t;
   n.lastBwl=n.bwlIdx;
-  // Default next bowler from bowling unit
   const nextChoices=n.bList.filter(i=>i!==n.lastBwl);
   n.bwlIdx=nextChoices[(n.b/6|0)%nextChoices.length];
  }
@@ -414,7 +458,7 @@ function wts(m,adjBat=0,adjBowl=0){
  const n=m.inn[m.cur];
  const batP=m.rosters[n.bt][n.st],bwlP=m.rosters[n.bw][n.bwlIdx];
  const d=((batP?batP.ba:80)+adjBat-((bwlP?bwlP.bo:80)+adjBowl))/40,a=aggr(m);
- const b={T20:[32,32,8,1,12,6,4.2],M2:[26,28,8,1,16,10,4.5],ODI:[36,35,8,1,9,3,2.8],TEST:[58,24,4,.5,6,.8,1.6]}[m.fmt]||[32,32,8,1,12,6,4.2];
+ const b={T20:[34,30,8,1,11,5,5.0],M2:[28,26,8,1,14,8,5.5],ODI:[38,34,8,1,8,2.5,3.5],TEST:[58,24,4,.5,6,.8,2.2]}[m.fmt]||[34,30,8,1,11,5,5.0];
  return[b[0]*(1-d*.3)/M.sqrt(a),b[1],b[2],b[3],b[4]*(1+d*.9)*a,b[5]*(1+d*1.1)*a,b[6]*(1-d*.8)*(.9*a+.1)];
 }
 function pickW(w){const t=w.reduce((a,b)=>a+M.max(0,b),0);let r=rnd()*t;for(let i=0;i<w.length;i++){r-=M.max(0,w[i]);if(r<=0)return i}return 0}
@@ -426,16 +470,83 @@ function simMatch(a,b,fmt){
  return m;
 }
 
-// User Bowling & Batting calculations
-function userBowl(m,bx,by,acc){
- const goodSpot=(by>.42&&by<.68)||(by>.84);
- const adj=(acc-.45)*55+(goodSpot?8:0);
- const w=wts(m,0,adj);
- if(by>.84){w[6]*=1.35;w[4]*=1.15;if(acc<.45)w[4]*=1.45}
- else if(by<.25){w[5]*=1.25;w[6]*=1.2;if(acc<.45)w[5]*=1.5}
- if(acc<.3){w[4]*=1.5;w[5]*=1.4}
- const o=outFrom(pickW(w));
- if(o.w&&by>.76&&M.abs(bx)<.36)o.k='b';
+// ---------- WCC Tricky Bowling Logic (Realistic Wickets, Play & Miss, Edges & Traps!) ----------
+// Variations:
+// 0: In-Swing / Off-Break (curves in towards leg/stumps)
+// 1: Out-Swing / Leg-Break (curves away towards off/slips)
+// 2: Slower Cutter / Doosra (deceives timing in air, slower pace)
+// 3: Yorker / Bouncer Trap (extreme length attack)
+const BOWL_VARS_FAST=['IN-SWING','OUT-SWING','SLOWER BALL','SPEED TRAP'];
+const BOWL_VARS_SPIN=['OFF BREAK','LEG BREAK','DOOSRA/GOOGLY','ARM BALL'];
+
+function userBowl(m,L){
+ const n=m.inn[m.cur];
+ const batP=m.rosters[n.bt][n.st]||{ba:80},bwlP=m.rosters[n.bw][n.bwlIdx]||{bo:84,st:'FAST'};
+ const skillDiff=(bwlP.bo-batP.ba)/100; // -0.2 to +0.2
+
+ // 1. Meter Accuracy (acc is 0..1, where >0.86 is PERFECT GOLD, >0.65 is GREEN GOOD, <0.45 is LOOSE)
+ const acc=L.acc;
+
+ // 2. Check Tactical Deception vs AI Batsman's Expectancy (`L.aiExpect`)
+ // L.aiExpect: {zone: 'SHORT'|'FULL'|'GOOD', side: 'OFF'|'LEG', varPref: 0..3}
+ const isYorker=L.by>.82,isBouncer=L.by<.28,isGood=L.by>=.40&&L.by<=.72;
+ const inStumps=M.abs(L.endX)<.32,fourthStump=L.endX>=.18&&L.endX<=.48;
+
+ let trickScore=0;
+ // Reward varying delivery type & spot from previous ball
+ if(L.bVar!==L.lastBwlVar)trickScore+=0.25;
+ else trickScore-=0.15; // Repeating same ball makes AI read it!
+ if(M.hypot(L.bx-L.lastBx,L.by-L.lastBy)>.22)trickScore+=0.20;
+ else trickScore-=0.20;
+
+ // Reward bowling opposite to what AI batsman is waiting for!
+ if(L.aiExpect.zone==='SHORT'&&(isYorker||isGood))trickScore+=0.30;
+ if(L.aiExpect.zone==='FULL'&&(isBouncer||L.bVar===2))trickScore+=0.30;
+ if(fourthStump&&L.bVar===1)trickScore+=0.28; // Classic Out-swinger on 4th stump channel!
+ if(inStumps&&(L.bVar===0||isYorker))trickScore+=0.28; // In-swinging yorker at the stumps!
+
+ L.lastBwlVar=L.bVar;L.lastBx=L.bx;L.lastBy=L.by;
+
+ // Calculate Outcome Weights: [Dot(0), 1, 2, 3, 4, 6, Wicket]
+ let w;
+ if(acc>=0.82){
+  // PERFECT GOLD / GREEN RELEASE! Bowler dominates!
+  const wktChance=18+M.max(0,trickScore*26)+skillDiff*18; // Up to 32-36% wicket chance on a great trap!
+  w=[52, 18, 4, 0, 3, 1, wktChance];
+ }else if(acc>=0.60){
+  // GOOD RELEASE
+  const wktChance=10+M.max(0,trickScore*16)+skillDiff*12;
+  w=[42, 26, 7, 1, 8, 2, wktChance];
+ }else if(acc>=0.38){
+  // AVERAGE RELEASE
+  w=[28, 30, 9, 1, 16, 6, 5];
+ }else{
+  // POOR / MISSED METER (Loose Half-Volley or Long-Hop -> AI punishes!)
+  w=[12, 20, 8, 1, 34, 22, 2];
+ }
+
+ const pick=pickW(w);
+ const o=outFrom(pick);
+
+ if(o.w){
+  // Realistic dismissal types based on line & length!
+  if(inStumps&&(isYorker||L.bVar===0||rnd()<.55)){
+   o.k='b';o.timing='CLEAN BOWLED!';
+  }else if(fourthStump||isBouncer||rnd()<.45){
+   o.k='wk';o.timing='EDGED & TAKEN BY KEEPER!';
+  }else{
+   o.k='c';o.timing=L.bVar===2?'DECEIVED BY SLOWER BALL!':'CAUGHT IN THE DEEP!';
+  }
+ }else if(o.r===0){
+  if(acc>=0.72&&rnd()<.65){
+   o.playAndMiss=true;
+   o.timing='SWING & MISS! BEATEN!';
+  }else{
+   o.timing='SOLID BLOCK';
+  }
+ }else if(o.r>=4){
+  o.timing=acc<.45?'LOOSE BALL PUNISHED!':'CRACKING SHOT!';
+ }
  return o;
 }
 
@@ -465,7 +576,7 @@ function userBat(m,L){
  const err=(p.t-L.dur)/.30;
  if(M.abs(err)>1.22||distX>.72){
   if(hittingStumps&&rnd()<.38+dW)return{r:0,w:1,k:'b',timing:distX>.72?'MISSED LINE!':err<0?'TOO EARLY!':'TOO LATE!'};
-  return{r:0,w:0,timing:distX>.72?'TOO WIDE!':err<0?'EARLY!':'LATE!'};
+  return{r:0,w:0,playAndMiss:true,timing:distX>.72?'TOO WIDE!':err<0?'EARLY!':'LATE!'};
  }
 
  let q=1-M.abs(err)*.65-M.max(0,distX-.22)*.6;
@@ -515,14 +626,16 @@ function compAdv(c){
  }
 }
 
-// ---------- UI & Menus ----------
-let st='menu',fl={},cur=null,cb=null,mpRoomId=null,mpUnsub=null;
+// ---------- UI & Single-Column Menus ----------
+let st='menu',fl={},cur=null,cb=null,mpUnsub=null;
 const B=(a,t,v='',cls='')=>`<button class="b ${cls}" data-a="${a}" data-v="${v}">${t}</button>`;
 function hideUI(){ui.hidden=true;if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}
 function panel(h,f,center=false){
  ui.hidden=false;
  ui.className='ov'+(center?' center':'');
  ui.innerHTML=h;
+ // Arm mobile back button history guard whenever not on root home menu
+ if(!(st==='menu'&&ui.querySelector('[data-a="single"]')))pushBackGuard();
  setTimeout(()=>{const b=ui.querySelector(f?`[data-a=${f}]`:'.b');if(b)b.focus()},0);
 }
 
@@ -583,55 +696,75 @@ function renderScorecardHTML(m,backAction='sc_close'){
    h+=`<tr style="${i===n.bwlIdx?'background:rgba(41,182,246,.16)':''}"><td><b>${esc(p.n)}</b> ${i===n.bwlIdx?'🥎':''}</td><td><span class="badge ${p.r}">${p.r} · ${p.st}</span></td><td class="num">${ovs(bw.b)}</td><td class="num">${bw.mdn}</td><td class="num">${bw.r}</td><td class="num"><b>${bw.w}</b></td><td class="num">${econ}</td></tr>`;
   }
  });
- h+=`</table>`+B(backAction,'RESUME MATCH','','green');
+ h+=`</table>`+B(backAction,'⬅ BACK TO MATCH','','green');
  return h;
 }
 
-// Player Selection Modals (Openers, Next Batsman on Wicket, Next Bowler after OverSummary)
+// ---------- Fixed Single-Column Player Selection Modals (User ONLY selects for User's Own Team!) ----------
 let selState={st:0,ns:1,bwl:8};
-function showOpenerSelection(){
+function showInningsSetupSelection(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
+ const userIsBatting=(n.bt===lv.u);
  const bChoices=defaultBowlers(bwRos);
  if(!bChoices.includes(selState.bwl))selState.bwl=bChoices[0];
  st='sel';root.classList.remove('pl');
 
- let h=`<h2>SELECT YOUR PLAYERS (${TEAMS[n.bt].c} vs ${TEAMS[n.bw].c})</h2>`;
- h+=`<p>Choose Opening Batsmen (${TEAMS[n.bt].n}) & Opening Bowler (${TEAMS[n.bw].n})</p>`;
- h+=`<h3>1. OPENING STRIKER & NON-STRIKER (${TEAMS[n.bt].c})</h3><div class="card-list">`;
- btRos.forEach((p,i)=>{
-  const isSt=selState.st===i,isNs=selState.ns===i;
-  h+=`<div class="pcard ${isSt||isNs?'sel':''}">
-   <div><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span><br><small>BAT ${p.ba} · BWL ${p.bo}</small></div>
-   <div style="display:flex;gap:.5vmin">
-    <button class="b ${isSt?'green':''}" style="min-width:auto;padding:.5vmin 1.2vmin;font-size:12px" data-a="set_st" data-v="${i}">STRIKER</button>
-    <button class="b ${isNs?'gold':''}" style="min-width:auto;padding:.5vmin 1.2vmin;font-size:12px" data-a="set_ns" data-v="${i}">NON-STR</button>
-   </div>
-  </div>`;
- });
- h+=`</div><h3>2. OPENING BOWLER (${TEAMS[n.bw].c} BOWLING DEPT)</h3><div class="card-list">`;
- bwRos.forEach((p,i)=>{
-  if(p.r==='BWL'||p.r==='AR'||p.bo>=50){
-   const isB=selState.bwl===i;
-   h+=`<div class="pcard ${isB?'sel':''}">
-    <div><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} (${p.st})</span><br><small>BOWL ${p.bo} · BAT ${p.ba}</small></div>
-    <button class="b ${isB?'green':''}" style="min-width:auto;padding:.6vmin 1.5vmin;font-size:13px" data-a="set_bwl" data-v="${i}">${isB?'SELECTED':'BOWL'}</button>
+ if(userIsBatting){
+  // User is BATTING: AI automatically picks its opening bowler; User ONLY picks their own Opening Striker & Non-Striker!
+  n.bwlIdx=bChoices[0];
+  let h=`<h2>🏏 YOUR BATTING INNINGS (${TEAMS[n.bt].n})</h2>`;
+  h+=`<p>Select Your Opening Striker & Non-Striker (Single-Column View):</p><div class="card-list">`;
+  btRos.forEach((p,i)=>{
+   const isSt=selState.st===i,isNs=selState.ns===i;
+   h+=`<div class="pcard ${isSt||isNs?'sel':''}">
+    <div class="pcard-info">
+     <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span></div>
+     <div class="pcard-sub">BATTING: ${p.ba} · BOWLING: ${p.bo}</div>
+    </div>
+    <div style="display:flex;gap:6px">
+     <button class="b ${isSt?'green':''}" style="min-width:82px;padding:7px 10px" data-a="set_st" data-v="${i}">${isSt?'✔ STRIKER':'STRIKER'}</button>
+     <button class="b ${isNs?'gold':''}" style="min-width:82px;padding:7px 10px" data-a="set_ns" data-v="${i}">${isNs?'✔ NON-STR':'NON-STR'}</button>
+    </div>
    </div>`;
-  }
- });
- h+=`</div>`+B('confirm_openers','START INNINGS ▶','','green');
- panel(h,'confirm_openers');
+  });
+  h+=`</div>`+B('confirm_openers','START BATTING ▶','','green');
+  panel(h,'confirm_openers');
+ }else{
+  // User is BOWLING: AI automatically sets its own openers (0 & 1); User ONLY picks their own Opening Bowler!
+  n.st=0;n.ns=1;
+  let h=`<h2>🥎 YOUR BOWLING INNINGS (${TEAMS[n.bw].n})</h2>`;
+  h+=`<p>Opponent Openers: <b>${esc(btRos[0].n)}</b> & <b>${esc(btRos[1].n)}</b></p>`;
+  h+=`<h3>SELECT YOUR OPENING BOWLER (${TEAMS[n.bw].n} BOWLING DEPT)</h3><div class="card-list">`;
+  bwRos.forEach((p,i)=>{
+   if(p.r==='BWL'||p.r==='AR'||p.bo>=50){
+    const isB=selState.bwl===i;
+    h+=`<div class="pcard ${isB?'sel':''}">
+     <div class="pcard-info">
+      <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} · ${p.st}</span></div>
+      <div class="pcard-sub">BOWL RATING: ${p.bo} · BAT: ${p.ba}</div>
+     </div>
+     <button class="b ${isB?'green':''}" data-a="set_bwl" data-v="${i}">${isB?'✔ SELECTED':'SELECT'}</button>
+    </div>`;
+   }
+  });
+  h+=`</div>`+B('confirm_openers','START BOWLING ▶','','green');
+  panel(h,'confirm_openers');
+ }
 }
 
 function showNextBatsmanModal(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt];
  st='sel';root.classList.remove('pl');
- let h=`<h2>WICKET FALLEN! (${n.r}/${n.w})</h2><p>Select Next Batsman for ${TEAMS[n.bt].n}:</p><div class="card-list">`;
+ let h=`<h2>WICKET FALLEN! (${n.r}/${n.w})</h2><p>Select Your Next Batsman (${TEAMS[n.bt].n}):</p><div class="card-list">`;
  btRos.forEach((p,i)=>{
   const b=n.bat[i];
   if(i!==n.ns&&!b.o&&b.b===0){
    h+=`<div class="pcard">
-    <div><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span><br><small>BAT ${p.ba} · BWL ${p.bo}</small></div>
-    <button class="b green" style="min-width:auto;padding:.6vmin 1.6vmin" data-a="pick_next_bat" data-v="${i}">SEND IN</button>
+    <div class="pcard-info">
+     <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span></div>
+     <div class="pcard-sub">BATTING: ${p.ba} · BOWLING: ${p.bo}</div>
+    </div>
+    <button class="b green" data-a="pick_next_bat" data-v="${i}">SEND IN ▶</button>
    </div>`;
   }
  });
@@ -639,64 +772,85 @@ function showNextBatsmanModal(){
  panel(h);
 }
 
+// Single-Column End of Over Summary & Bowler Selection (Only asks user to pick bowler if User is Bowling!)
 function showEndOfOverModal(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
+ const userIsBowling=(n.bw===lv.u);
  st='sel';root.classList.remove('pl');
  const ovNum=n.b/6;
  const crr=n.b?(n.r/n.b*6).toFixed(2):'0.00';
  const sb=n.bat[n.st],nb=n.bat[n.ns];
+ const ovBalls=(n.lastOv&&n.lastOv.length?n.lastOv:n.ov).join('  ');
+
  let h=`<h2>END OF OVER ${ovNum} · ${TEAMS[n.bt].c} ${n.r}/${n.w} (CRR ${crr})</h2>`;
- h+=`<p>This Over: <b>${n.ov.join('  ')}</b></p>`;
+ h+=`<p>This Over: <b>${ovBalls}</b></p>`;
  h+=`<p>🏏 <b>${esc(btRos[n.st].n)}*</b> ${sb.r}(${sb.b}) &nbsp;|&nbsp; <b>${esc(btRos[n.ns].n)}</b> ${nb.r}(${nb.b})</p>`;
- h+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n} BOWLING DEPT)</h3><div class="card-list">`;
- bwRos.forEach((p,i)=>{
-  if((p.r==='BWL'||p.r==='AR'||p.bo>=50)&&i!==n.lastBwl){
-   const stB=n.bowl[i];
-   h+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
-    <div><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} · ${p.st}</span><br><small>BWL ${p.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</small></div>
-    <button class="b green" style="min-width:auto;padding:.6vmin 1.6vmin" data-a="pick_next_bwl" data-v="${i}">BOWL OVER</button>
-   </div>`;
-  }
- });
- h+=`</div>`+B('view_full_sc','📊 VIEW FULL SCORECARD');
+
+ if(userIsBowling){
+  h+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n} BOWLING DEPT)</h3><div class="card-list">`;
+  bwRos.forEach((p,i)=>{
+   if((p.r==='BWL'||p.r==='AR'||p.bo>=50)&&i!==n.lastBwl){
+    const stB=n.bowl[i];
+    h+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
+     <div class="pcard-info">
+      <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} · ${p.st}</span></div>
+      <div class="pcard-sub">BWL ${p.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
+     </div>
+     <button class="b green" data-a="pick_next_bwl" data-v="${i}">BOWL OVER</button>
+    </div>`;
+   }
+  });
+  h+=`</div>`;
+ }else{
+  // User is BATTING: AI automatically selected its next bowler (`n.bwlIdx`), just show who is bowling next!
+  const nextBwl=bwRos[n.bwlIdx];
+  const stB=n.bowl[n.bwlIdx];
+  h+=`<div class="card-list"><div class="pcard sel">
+   <div class="pcard-info">
+    <div class="pcard-title">🥎 Next Bowler (${TEAMS[n.bw].c}): <b>${esc(nextBwl.n)}</b> <span class="badge ${nextBwl.r}">${nextBwl.r} · ${nextBwl.st}</span></div>
+    <div class="pcard-sub">BWL ${nextBwl.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
+   </div>
+  </div></div>`;
+  h+=B('cont_next_over','▶ CONTINUE TO OVER '+(ovNum+1),'','green');
+ }
+ h+=B('view_full_sc','📊 VIEW FULL SCORECARD');
  panel(h);
 }
 
-// BPL / IPL Auction Market Screen
+// Single-Column BPL / IPL Auction Market
 function showMarket(){
- let h=`<h2>💰 BPL / IPL FRANCHISE AUCTION MARKET</h2>`;
- h+=`<div class="top-wallet"><div class="cash">Available Balance: $${S.cash}</div><div>Franchise: <b>${esc(S.franName)} (${S.league})</b></div></div>`;
- h+=`<div style="display:flex;gap:1vmin;flex-wrap:wrap;justify-content:center">
-  ${B('set_lg','Switch League: BPL / IPL','','gold')}
- </div>`;
+ let h=`<h2>💰 BPL / IPL FRANCHISE AUCTION</h2>`;
+ h+=`<div class="top-wallet"><div class="cash">Balance: $${S.cash}</div><div>Franchise: <b>${esc(S.franName)} (${S.league})</b></div></div>`;
+ h+=B('set_lg','🔄 Switch League: BPL / IPL','','gold');
  h+=`<div class="card-list">`;
  MARKET_POOL.forEach(m=>{
   const isOwned=S.owned.includes(m.id);
   h+=`<div class="pcard ${isOwned?'sel':''}">
-   <div>
-    <b>${esc(m.n)}</b> <span class="badge ${m.r}">${m.r}</span> <small>[${m.lg}]</small><br>
-    <small>BAT ${m.ba} · BWL ${m.bo} (${m.st})</small>
+   <div class="pcard-info">
+    <div class="pcard-title"><b>${esc(m.n)}</b> <span class="badge ${m.r}">${m.r}</span> <small>[${m.lg}]</small></div>
+    <div class="pcard-sub">BAT ${m.ba} · BWL ${m.bo} (${m.st})</div>
    </div>
-   ${isOwned?`<span style="color:#00e676">✔ IN SQUAD</span>`:`<button class="b ${S.cash>=m.price?'green':''}" style="min-width:auto;padding:.6vmin 1.5vmin" data-a="buy_p" data-v="${m.id}" ${S.cash<m.price?'disabled':''}>BUY $${m.price}</button>`}
+   ${isOwned?`<span style="color:#00e676;font-weight:800">✔ OWNED</span>`:`<button class="b ${S.cash>=m.price?'green':''}" data-a="buy_p" data-v="${m.id}" ${S.cash<m.price?'disabled':''}>BUY $${m.price}</button>`}
   </div>`;
  });
  h+=`</div>`+B('menu','⬅ BACK TO MENU');
  panel(h);
 }
 
-// View Team Roster & Choose Active National Team
 function showSquadScreen(){
  const t=TEAMS[S.team],ros=getRoster(S.team,true);
  let h=`<h2>👕 ${t.n.toUpperCase()} & FRANCHISE XI</h2>`;
- h+=`<p>Select Country or review your Playing XI with Roles (BAT, BWL, AR, WK):</p>`;
- h+=`<div style="display:flex;gap:.8vmin;flex-wrap:wrap;justify-content:center">`;
+ h+=`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:500px">`;
  TEAMS.forEach((tm,i)=>{
-  h+=`<button class="b ${i===S.team?'green':''}" style="min-width:auto;padding:.6vmin 1.6vmin" data-a="pick" data-v="${i}">${tm.c}</button>`;
+  h+=`<button class="b ${i===S.team?'green':''}" style="width:auto;min-width:56px;padding:6px 12px" data-a="pick" data-v="${i}">${tm.c}</button>`;
  });
  h+=`</div><div class="card-list">`;
  ros.forEach((p,i)=>{
   h+=`<div class="pcard">
-   <div><b>${i+1}. ${esc(p.n)}</b><br><small>BAT ${p.ba} · BWL ${p.bo} (${p.st})</small></div>
+   <div class="pcard-info">
+    <div class="pcard-title"><b>${i+1}. ${esc(p.n)}</b></div>
+    <div class="pcard-sub">BAT ${p.ba} · BWL ${p.bo} (${p.st})</div>
+   </div>
    <span class="badge ${p.r}">${p.r}</span>
   </div>`;
  });
@@ -704,12 +858,10 @@ function showSquadScreen(){
  panel(h);
 }
 
-// Online Multiplayer Hub (Realtime Database `online` & `rooms`)
 function showMultiplayerHub(){
  let h=`<h2>🌐 ONLINE MULTIPLAYER (BPL / IPL CLASH)</h2>`;
  h+=`<div class="top-wallet"><div class="cash">💵 $${S.cash}</div><div>Win Prize: <b>+$200 & +25 Pts</b></div></div>`;
- h+=`<p>Play a 2-Over High-Voltage Clash with your Franchise Squad! Create a room or join an active room below:</p>`;
- h+=`<div style="display:flex;gap:1.2vmin;flex-wrap:wrap;justify-content:center">
+ h+=`<div class="grid-menu">
   ${B('mp_create','➕ CREATE ONLINE ROOM','','green')}
   ${B('mp_bot','⚡ PLAY INSTANT BPL/IPL CLASH','','gold')}
  </div>`;
@@ -717,38 +869,42 @@ function showMultiplayerHub(){
  h+=B('menu','⬅ BACK TO MENU');
  panel(h);
 
- // Listen to `rooms` node in Firebase Realtime Database
  if(mpUnsub)mpUnsub();
  mpUnsub=onValue(ref(rtdb,'rooms'),snap=>{
   const box=$('#mp_rooms_box');if(!box)return;
   const val=snap.val()||{};
   const list=Object.entries(val).filter(([k,v])=>v&&v.status==='open'&&v.hostUid!==(U&&U.uid));
   if(!list.length){
-   box.innerHTML=`<div class="pcard"><div>No open rooms right now. Click <b>CREATE ONLINE ROOM</b> or <b>PLAY INSTANT BPL/IPL CLASH</b>!</div></div>`;
+   box.innerHTML=`<div class="pcard"><div class="pcard-info">No open rooms right now. Click <b>CREATE ONLINE ROOM</b> or <b>PLAY INSTANT BPL/IPL CLASH</b>!</div></div>`;
    return;
   }
   box.innerHTML=list.map(([id,r])=>`
    <div class="pcard">
-    <div><b>Host: ${esc(r.hostName)} (${esc(r.hostTeam)})</b><br><small>Target Score to Beat: ${r.hostScore!=null?r.hostScore+' runs':'Playing 1st Inn...'}</small></div>
-    <button class="b green" style="min-width:auto;padding:.6vmin 1.6vmin" data-a="mp_join" data-v="${id}">JOIN CHALLENGE</button>
+    <div class="pcard-info">
+     <div class="pcard-title"><b>Host: ${esc(r.hostName)} (${esc(r.hostTeam)})</b></div>
+     <div class="pcard-sub">Target Score: ${r.hostScore!=null?r.hostScore+' runs':'Playing 1st Inn...'}</div>
+    </div>
+    <button class="b green" data-a="mp_join" data-v="${id}">JOIN</button>
    </div>
   `).join('');
  });
 }
 
 function pickFmt(all){
- panel(`<h2>CHOOSE MATCH FORMAT</h2>
+ panel(`<h2>CHOOSE MATCH FORMAT</h2><div class="grid-menu">
   ${B('fmt','T20 · 20 Overs (Win +$120)','T20','green')}
   ${B('fmt','2-OVER SUPER CLASH (Win +$80)','M2','gold')}
   ${B('fmt','ONE DAY · 50 Overs (Win +$180)','ODI')}
   ${all?B('fmt','TEST · 2 Innings (Win +$250)','TEST'):''}
-  ${B('menu','⬅ BACK')}`,null,true);
+  ${B('menu','⬅ BACK')}
+ </div>`,null,true);
 }
 function pickOpp(){
  panel(`<h2>CHOOSE OPPONENT TEAM</h2><div class="grid-menu">
   ${TEAMS.map((t,i)=>i==S.team?'':B('opp',`${t.n} (${t.c})`,i)).join('')}
   ${B('opp','🎲 RANDOM TEAM','r','gold')}
- </div>${B('menu','⬅ BACK')}`,null,true);
+  ${B('menu','⬅ BACK')}
+ </div>`,null,true);
 }
 
 function sctx(){const c=S.comp;return{a:S.team,b:c.opp,fmt:c.fmt,done:m=>{c.played++;const w=m.res.w;if(w==S.team)c.w[0]++;else if(w==c.opp)c.w[1]++;else c.d++;c.log.push('M'+c.played+': '+m.res.t);save()},next:hub}}
@@ -759,7 +915,7 @@ function seriesHub(c){
  const u=TEAMS[S.team],o=TEAMS[c.opp],need=M.floor(c.n/2)+1,fin=c.w[0]>=need||c.w[1]>=need||c.played>=c.n;
  let h=`<h2>${u.c} vs ${o.c}</h2><p>${FMT[c.fmt]} series · best of ${c.n}<br>${u.c} ${c.w[0]} – ${c.w[1]} ${o.c}${c.d?' · '+c.d+' drawn/tied':''}</p><p>${c.log.join('<br>')}</p>`;
  if(fin){const won=c.w[0]>c.w[1];if(!c.aw){c.aw=1;if(won)award(30,0,1,250);save()}h+=`<h2>${won?'SERIES WON! 🏆 +$250':c.w[0]==c.w[1]?'SERIES DRAWN':'SERIES LOST'}</h2>${B('endc','MAIN MENU')}`}
- else h+=B('play','PLAY MATCH '+(c.played+1),'','green')+B('sim','SIM MATCH')+B('menu','MENU');
+ else h+=`<div class="grid-menu">`+B('play','PLAY MATCH '+(c.played+1),'','green')+B('sim','SIM MATCH')+B('menu','MENU')+`</div>`;
  cur=fin?null:sctx();panel(h,fin?'endc':'play',true);
 }
 function compHub(c){
@@ -771,25 +927,59 @@ function compHub(c){
   const won=c.champ==S.team;if(!c.aw){c.aw=1;if(won)award(c.type=='wc'?100:50,0,1,c.type=='wc'?600:350);save()}
   h+=`<h2>${won?'🏆 CHAMPIONS! +$'+(c.type=='wc'?600:350):'CHAMPION: '+TEAMS[c.champ].n}</h2>${B('endc','MAIN MENU')}`;cur=null;
  }else{
-  const o=nx.a==S.team?nx.b:nx.a;h+=`<p>Next: ${TEAMS[S.team].c} vs ${TEAMS[o].c}</p>`+B('play','PLAY MATCH','','green')+B('sim','SIM MATCH')+B('menu','MENU');cur=cctx(nx);
+  const o=nx.a==S.team?nx.b:nx.a;h+=`<p>Next: ${TEAMS[S.team].c} vs ${TEAMS[o].c}</p><div class="grid-menu">`+B('play','PLAY MATCH','','green')+B('sim','SIM MATCH')+B('menu','MENU')+`</div>`;cur=cctx(nx);
  }
  panel(h,c.stage=='D'?'endc':'play',true);
 }
 
 function matchPrompt(ctx){
  cur=ctx;
- panel(`<h2>${TEAMS[ctx.a].n} vs ${TEAMS[ctx.b].n}</h2><p>${FMT[ctx.fmt]} Match</p>${B('play','🏏 PLAY LIVE MATCH','','green')}${B('sim','⚡ SIMULATE MATCH')}${B('menu','⬅ BACK')}`,null,true);
+ panel(`<h2>${TEAMS[ctx.a].n} vs ${TEAMS[ctx.b].n}</h2><p>${FMT[ctx.fmt]} Match</p><div class="grid-menu">${B('play','🪙 GO TO TOSS & PLAY','','green')}${B('sim','⚡ SIMULATE MATCH')}${B('menu','⬅ BACK')}</div>`,null,true);
 }
+
+// Interactive Coin Toss Screen (User calls HEADS or TAILS!)
 function toss(ctx){
- const w=rnd()<.5?ctx.a:ctx.b;
- if(w==ctx.a)panel(`<h2>🪙 YOU WON THE TOSS!</h2>${B('tbat','🏏 BAT FIRST','','green')}${B('tbowl','🥎 BOWL FIRST','','gold')}`,null,true);
- else{const bat=rnd()<(ctx.fmt=='TEST'?.7:.4);panel(`<h2>🪙 ${TEAMS[w].n} WON THE TOSS</h2><p>They elected to ${bat?'bat':'bowl'} first.</p>${B('go',"START MATCH ▶",bat?'opp':'me','green')}`,null,true)}
+ cur=ctx;
+ panel(`
+  <h2>🪙 MATCH COIN TOSS</h2>
+  <p><b>${TEAMS[ctx.a].n}</b> vs <b>${TEAMS[ctx.b].n}</b> (${FMT[ctx.fmt]})</p>
+  <p>Call the coin toss:</p>
+  <div class="grid-menu">
+   ${B('toss_call','🪙 CALL HEADS','HEADS','gold')}
+   ${B('toss_call','🪙 CALL TAILS','TAILS','green')}
+   ${B('menu','⬅ BACK')}
+  </div>
+ `,null,true);
+}
+
+function resolveTossCall(userCall){
+ sfx.coin();
+ const res=rnd()<.5?'HEADS':'TAILS';
+ const won=(userCall===res);
+ if(won){
+  panel(`
+   <h2>🪙 IT'S ${res}! YOU WON THE TOSS!</h2>
+   <p>You called <b>${userCall}</b>. Choose whether to Bat or Bowl first:</p>
+   <div class="grid-menu">
+    ${B('tbat','🏏 BAT FIRST','','green')}
+    ${B('tbowl','🥎 BOWL FIRST','','gold')}
+   </div>
+  `,null,true);
+ }else{
+  const aiBat=rnd()<(cur.fmt=='TEST'?.7:.45);
+  panel(`
+   <h2>🪙 IT'S ${res}! ${TEAMS[cur.b].n.toUpperCase()} WON THE TOSS</h2>
+   <p>You called <b>${userCall}</b>. <b>${TEAMS[cur.b].n}</b> elected to <b>${aiBat?'BAT':'BOWL'}</b> first.</p>
+   <div class="grid-menu">
+    ${B('go','START MATCH ▶',aiBat?'opp':'me','green')}
+   </div>
+  `,null,true);
+ }
 }
 
 function onMatch(ctx,m){
  S.played++;
  const won=m.res.w==ctx.a;
- // Calculate match Dollar ($) reward based on performance
  const uInn=m.inn.find(x=>x.bt==ctx.a)||{r:0};
  const bInn=m.inn.find(x=>x.bw==ctx.a)||{w:0};
  const winBonus=won?(ctx.mp?200:120):40;
@@ -798,7 +988,6 @@ function onMatch(ctx,m){
 
  award(won?(ctx.mp?25:12):2,won?1:0,0,totalCash);
  if(ctx.mpRoomId&&U){
-  // Update room result in Firebase RTDB
   try{update(ref(rtdb,'rooms/'+ctx.mpRoomId),{status:'completed',lastResult:m.res.t,guestScore:uInn.r})}catch(e){}
  }
  ctx.done(m);st='brk';root.classList.remove('pl');
@@ -817,14 +1006,16 @@ function onMatch(ctx,m){
 function act(a,v){
  const T={
   single:()=>{fl={k:'single'};pickFmt(true)},series:()=>{fl={k:'series'};pickFmt(true)},tour:()=>{fl={k:'tour'};pickFmt(false)},wc:()=>{fl={k:'wc'};pickFmt(false)},
-  fmt:()=>{fl.fmt=v;if(fl.k=='series')panel(`<h2>SERIES LENGTH</h2>${B('len','Best of 3',3)}${B('len','Best of 5',5)}${B('menu','BACK')}`,null,true);else if(fl.k=='single')pickOpp();else{S.comp=newComp(fl.k,v);save();hub()}},
+  fmt:()=>{fl.fmt=v;if(fl.k=='series')panel(`<h2>SERIES LENGTH</h2><div class="grid-menu">${B('len','Best of 3',3)}${B('len','Best of 5',5)}${B('menu','BACK')}</div>`,null,true);else if(fl.k=='single')pickOpp();else{S.comp=newComp(fl.k,v);save();hub()}},
   len:()=>{fl.n=+v;pickOpp()},
   opp:()=>{const o=v=='r'?shuf(TEAMS.map((_,i)=>i).filter(i=>i!=S.team))[0]:+v;if(fl.k=='single')matchPrompt({a:S.team,b:o,fmt:fl.fmt,done:()=>{},next:menu});else{S.comp={kind:'series',opp:o,fmt:fl.fmt,n:fl.n,w:[0,0],d:0,played:0,log:[]};save();hub()}},
   cont:()=>hub(),endc:()=>{S.comp=null;save();menu()},menu:()=>{if(st=='pause')return quit();menu()},
-  play:()=>toss(cur),sim:()=>onMatch(cur,simMatch(cur.a,cur.b,cur.fmt)),
+  play:()=>toss(cur),
+  toss_call:()=>resolveTossCall(v),
+  sim:()=>onMatch(cur,simMatch(cur.a,cur.b,cur.fmt)),
   tbat:()=>startLive(cur,cur.a),tbowl:()=>startLive(cur,cur.b),go:()=>startLive(cur,v=='me'?cur.a:cur.b),
   cont2:()=>{(cb||menu)()},
-  brk:()=>{showOpenerSelection()},
+  brk:()=>{showInningsSetupSelection()},
   squad:showSquadScreen,
   market:showMarket,
   set_lg:()=>{S.league=S.league==='BPL'?'IPL':'BPL';S.franName=S.league==='BPL'?'Dhaka Dominators':'Mumbai Strikers';save();showMarket()},
@@ -838,7 +1029,7 @@ function act(a,v){
   mp_bot:()=>{
    const o=shuf(TEAMS.map((_,i)=>i).filter(i=>i!=S.team))[0];
    cur={a:S.team,b:o,fmt:'M2',useFran:true,mp:true,done:()=>{},next:showMultiplayerHub};
-   startLive(cur,cur.a);
+   toss(cur);
   },
   mp_create:async()=>{
    const o=shuf(TEAMS.map((_,i)=>i).filter(i=>i!=S.team))[0];
@@ -868,20 +1059,21 @@ function act(a,v){
   lb:()=>panel(`<h2>📊 GLOBAL LEADERBOARD</h2><p>Your Cash: $${S.cash} · Career Points: ${S.pts}</p>${lbH(10)}${B('menu','⬅ BACK')}`,null,true),
   how:()=>panel(`<h2>❓ WCC PRO CONTROLS & GUIDE</h2>
    <p><b>1. BATTING MOVEMENT & DIRECTION:</b><br>
-   • Hold or tap <b>◀ (Left)</b> or <b>▶ (Right)</b> to walk across the crease.<br>
-   • The direction you press (<b>◀ Leg Side</b>, <b>▶ Off Side</b>, or <b>▲ Straight</b>) controls both your bat swing AND where the ball goes!<br>
-   • Press <b>▲</b> for <b>LOFTED SIX/FOUR</b> or <b>▼</b> for <b>ALONG THE GROUND</b>.<br>
-   • Press <b>SHOT / Space / Enter</b> when the ball enters the green circle!<br><br>
-   <b>2. PLAYER SELECTION & DOLLARS ($):</b><br>
-   • Choose your Openers, Next Batsman, and Bowlers from the real squad.<br>
-   • Earn <b>Dollars ($)</b> in every match and buy BPL/IPL stars in the Auction Market!</p>
+   • Hold/Tap <b>◀ (Left)</b> or <b>▶ (Right)</b> to move across the crease & aim.<br>
+   • Press <b>▲</b> for <b>LOFTED (6s/4s)</b> or <b>▼</b> for <b>GROUNDED (4s)</b>.<br>
+   • Press <b>SHOT / Space</b> when the ball enters the green circle!<br><br>
+   <b>2. WCC TRICKY BOWLING SYSTEM:</b><br>
+   • Tap the purple <b>SWING / SPIN button (or Key V)</b> to switch delivery variations (In-Swing, Out-Swing, Slower Ball, Doosra).<br>
+   • Read the <b>AI Batsman Footwork Hint</b> at the top, place the Red <b>X</b> to outfox the batsman, and stop the meter in the <b>Green/Gold Zone</b> to take wickets!</p>
    ${B('menu','⬅ BACK')}`,null,true),
-  set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;showOpenerSelection()},
-  set_ns:()=>{const idx=+v;if(idx===selState.st)selState.st=selState.ns;selState.ns=idx;showOpenerSelection()},
-  set_bwl:()=>{selState.bwl=+v;showOpenerSelection()},
+  set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;showInningsSetupSelection()},
+  set_ns:()=>{const idx=+v;if(idx===selState.st)selState.st=selState.ns;selState.ns=idx;showInningsSetupSelection()},
+  set_bwl:()=>{selState.bwl=+v;showInningsSetupSelection()},
   confirm_openers:()=>{
    const n=lv.m.inn[lv.m.cur];
-   n.st=selState.st;n.ns=selState.ns;n.bwlIdx=selState.bwl;n.chosenOpeners=true;
+   if(n.bt===lv.u){n.st=selState.st;n.ns=selState.ns}
+   else{n.bwlIdx=selState.bwl}
+   n.chosenOpeners=true;
    st='play';hideUI();root.classList.add('pl');beginBall();
   },
   pick_next_bat:()=>{
@@ -893,7 +1085,12 @@ function act(a,v){
    const n=lv.m.inn[lv.m.cur];n.bwlIdx=+v;n.ov=[];
    st='play';hideUI();root.classList.add('pl');beginBall();
   },
+  cont_next_over:()=>{
+   const n=lv.m.inn[lv.m.cur];n.ov=[];
+   st='play';hideUI();root.classList.add('pl');beginBall();
+  },
   view_full_sc:()=>{panel(renderScorecardHTML(lv.m,'back_to_over'))},
+  view_sc_pause:()=>{panel(renderScorecardHTML(lv.m,'sc_close'))},
   back_to_over:()=>showEndOfOverModal(),
   sc_close:()=>{st='play';hideUI();root.classList.add('pl')},
   resume:()=>pause(),s1:()=>simLive('over'),s5:()=>simLive('five'),sinn:()=>simLive('inn')
@@ -912,25 +1109,38 @@ const FLD_BASE=[
 function startLive(ctx,first){
  const m=newMatch(ctx.a,ctx.b,ctx.fmt,first,ctx.useFran);
  if(ctx.targetOverride&&m.inn[0]){
-  // If joining a multiplayer challenge with a preset target
   m.inn[0].r=ctx.targetOverride-1;m.inn[0].b=m.maxB;
   endInn(m);
  }
  lv={
   m,ctx,u:ctx.a,ph:'stance',t:0,batX:-.18,walkPhase:0,shotDir:0,loft:true,
-  bx:0,by:.55,swing:0,spd:138,ci:0,msg:'',big:'',bigT:0,revealed:false,pendingOverEnd:false
+  bx:0,by:.55,bVar:0,lastBwlVar:-1,lastBx:0,lastBy:0,aiExpect:{zone:'GOOD',txt:'Waiting for Good Length'},
+  swing:0,spd:138,ci:0,msg:'',big:'',bigT:0,revealed:false,pendingOverEnd:false
  };
  selState={st:0,ns:1,bwl:defaultBowlers(m.rosters[m.inn[m.cur].bw])[0]};
- showOpenerSelection();
+ showInningsSetupSelection();
 }
 const bats=()=>lv.m.inn[lv.m.cur].bt==lv.u;
+
+function updateVarButton(){
+ const L=lv;if(!L)return;
+ const vb=$('#varb');
+ if(bats()){vb.style.display='none';return}
+ vb.style.display='block';
+ const n=L.m.inn[L.m.cur],bwlP=L.m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
+ const names=bwlP.st==='FAST'?BOWL_VARS_FAST:BOWL_VARS_SPIN;
+ vb.textContent=names[L.bVar%4];
+}
 
 function beginBall(){
  const L=lv,m=L.m,n=m.inn[m.cur];
  L.press=null;L.out=null;L.acc=0;L.big='';L.bounced=false;L.revealed=false;L.stepTick=0;L.tapTick=.35;
- const bwlP=m.rosters[n.bw][n.bwlIdx];
- L.spd=bwlP.st==='FAST'?136+rnd()*14:84+rnd()*11;
+ const bwlP=m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
+ const baseSpd=bwlP.st==='FAST'?138+rnd()*13:85+rnd()*10;
+ L.spd=L.bVar===2?baseSpd-16:L.bVar===3?baseSpd+5:baseSpd;
  $('#ok').textContent=bats()?'SHOT':'BOWL';
+ updateVarButton();
+
  if(bats()){
   L.ph='stance';L.t=0;
   L.bx=(rnd()-.5)*1.0;
@@ -941,22 +1151,33 @@ function beginBall(){
   L.ph='spot';L.t=0;
   L.bx=cl(L.bx,-.85,.85);L.by=cl(L.by,.18,.9);
   L.batX=-.18;
+  // Generate AI Batsman Mind-Game Expectancy so user can set a trap!
+  const zones=[
+   {zone:'SHORT',txt:'AI Batsman sitting on Back Foot (Trap with Yorker / Full Swing!)'},
+   {zone:'FULL',txt:'AI Batsman looking to Drive Full (Trap with Slower Ball / Bouncer!)'},
+   {zone:'GOOD',txt:'AI Batsman guarding Stumps (Trap on 4th Stump Out-Swing / Doosra!)'}
+  ];
+  L.aiExpect=zones[rnd()*zones.length|0];
  }
 }
 
 function startBowlRunup(){
- const L=lv;
+ const L=lv,n=L.m.inn[L.m.cur],bwlP=L.m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
  L.ph='runup';L.t=0;L.stepTick=0;
+ const baseSpd=bwlP.st==='FAST'?138+rnd()*13:85+rnd()*10;
+ L.spd=L.bVar===2?baseSpd-15:L.bVar===3?baseSpd+6:baseSpd;
  if(!bats()){
-  L.swing=(L.bx>0?-.20:.20)+(rnd()-.5)*.16;
-  L.endX=cl(L.bx+L.swing*(1-L.by*.4),-0.9,0.9);
+  // Swing/Spin curve depends on selected bowling variation (L.bVar)!
+  const curve=L.bVar===0?-0.34:L.bVar===1?0.34:L.bVar===2?0.18:0.06;
+  L.swing=curve+(rnd()-.5)*.10;
+  L.endX=cl(L.bx+L.swing*(1-L.by*.35),-0.92,0.92);
  }
 }
 
 function release(){
  const L=lv;
  L.ph='flight';L.t=0;
- L.dur=1.34+rnd()*.14+(L.by<.35?.10:0);
+ L.dur=(L.bVar===2?1.48:1.32)+rnd()*.12+(L.by<.35?.10:0);
  L.bounced=false;
  sfx.whoosh();
 }
@@ -964,7 +1185,6 @@ function release(){
 function triggerHit(){
  const L=lv;
  if(L.press)return;
- // Strictly honor the player's chosen direction so bat swing & ball go the exact same way!
  let dir=L.shotDir;
  if(held.L)dir=-1;
  else if(held.R)dir=1;
@@ -980,8 +1200,11 @@ function okPress(){
   else if((L.ph=='outfield'||L.ph=='pitch_res')&&L.revealed&&L.t>1.8)L.t=99;
  }else{
   if(L.ph=='spot'){sfx.tick();L.ph='aim';L.t=0;L.meter=.5}
-  else if(L.ph=='aim'){L.acc=1-M.abs(L.meter-.5)*2;sfx.tick();startBowlRunup()}
-  else if((L.ph=='outfield'||L.ph=='pitch_res')&&L.revealed&&L.t>1.8)L.t=99;
+  else if(L.ph=='aim'){
+   // Meter accuracy: center 0.5 is 1.0 (Perfect Gold)
+   L.acc=cl(1-M.abs(L.meter-.5)*2.1,0,1);
+   sfx.tick();startBowlRunup();
+  }else if((L.ph=='outfield'||L.ph=='pitch_res')&&L.revealed&&L.t>1.8)L.t=99;
  }
 }
 
@@ -1005,51 +1228,47 @@ function dirTap(k){
   const dx=k=='L'?-.14:k=='R'?.14:0;
   const dy=k=='U'?-.10:k=='D'?.10:0;
   L.bx=cl(L.bx+dx,-.85,.85);
-  L.by=cl(L.by+dy,.16,.92);
+  L.by=cl(L.by+dy,.14,.94);
  }
 }
 
-// Resolve contact physics WITHOUT spoiling the outcome banner until the event finishes!
 function resolveContact(){
  const L=lv,m=L.m;let o;
  if(bats())o=userBat(m,L);
  else{
-  o=userBowl(m,L.bx,L.by,L.acc);
-  if(o.r>0||(o.w&&o.k=='c')){
-   const aiDir=rnd()<.38?-1:rnd()<.76?1:0;
+  o=userBowl(m,L);
+  // AI batsman swings if it hits the ball, plays & misses, or edges to keeper/fielder!
+  if(o.r>0||o.playAndMiss||(o.w&&o.k!=='b')){
+   const aiDir=L.endX<-.1?-1:L.endX>.15?1:0;
    L.press={t:L.dur,rawT:L.dur,dir:aiDir,loft:o.r==6||(o.w&&o.k=='c')};
   }
  }
  L.out=o;L.t=0;L.revealed=false;L.big='';L.msg='';
 
- const stayedOnPitch=(o.w&&o.k=='b')||(!o.w&&o.r==0&&!L.press);
+ // Stay on Pitch View if Bowled, Keeper Catch (Edged), Play & Miss, or Defended Dot Ball!
+ const stayedOnPitch=(o.w&&(o.k=='b'||o.k=='wk'))||(!o.w&&o.r==0);
 
  if(stayedOnPitch){
   L.ph='pitch_res';
   L.resDur=2.3;
-  // Bowled or left ball happens right at the stumps (reveal after 0.28s when ball hits wickets)
-  L.revealTime=0.28;
+  L.revealTime=0.30;
+  if(o.w&&o.k=='wk')sfx.batCrack();
  }else{
-  // First show ball flying off the bat on the pitch for 0.35s, then cut to Outfield Stadium View!
   L.ph='outfield';
   L.resDur=3.3;
-  L.revealTime=1.55; // Ball reaches boundary rope or fielder at t = 1.55s!
+  L.revealTime=1.55;
   sfx.batCrack();
 
   const pDir=L.press?L.press.dir:0;
-  // Strictly match ball trajectory to shot direction:
-  // pDir === -1 (Left / Leg Side): Ball goes Left (ux < 0)
-  // pDir ===  1 (Right / Off Side): Ball goes Right (ux > 0)
-  // pDir ===  0 (Straight): Ball goes Straight down the ground (ux near 0, uy < 0)
   let ux,uy;
   if(pDir<0){
-   const ang=M.PI*(0.76+(rnd()-.5)*.28); // Left / Leg-side sector
+   const ang=M.PI*(0.76+(rnd()-.5)*.28);
    ux=M.cos(ang);uy=-M.sin(ang)*(rnd()<.25?-.4:1);
   }else if(pDir>0){
-   const ang=M.PI*(0.24+(rnd()-.5)*.28); // Right / Off-side sector
+   const ang=M.PI*(0.24+(rnd()-.5)*.28);
    ux=M.cos(ang);uy=-M.sin(ang)*(rnd()<.25?-.4:1);
   }else{
-   const ang=M.PI*(0.5+(rnd()-.5)*.18); // Straight down the ground
+   const ang=M.PI*(0.5+(rnd()-.5)*.18);
    ux=M.cos(ang);uy=-M.sin(ang);
   }
 
@@ -1065,7 +1284,6 @@ function resolveContact(){
    if(d<bestD){bestD=d;L.chaser=idx}
   });
   if(o.w&&o.k=='c'){
-   // Place catching fielder along the chosen shot direction!
    L.flds[L.chaser].x=tx+(rnd()-.5)*36;
    L.flds[L.chaser].y=ty+(rnd()-.5)*28;
   }
@@ -1074,7 +1292,6 @@ function resolveContact(){
  }
 }
 
-// Trigger the actual outcome banner & sound ONLY AFTER the ball reaches its destination!
 function triggerOutcomeReveal(){
  const L=lv,o=L.out;
  if(L.revealed||!o)return;
@@ -1082,7 +1299,7 @@ function triggerOutcomeReveal(){
  L.bigT=1.75;
  if(o.w){
   L.big='OUT!';
-  L.msg=o.k=='b'?'CLEAN BOWLED! TIMBER!':'CAUGHT OUT IN THE FIELD!';
+  L.msg=o.timing||(o.k=='b'?'CLEAN BOWLED!':o.k=='wk'?'EDGED & CAUGHT BEHIND!':'CAUGHT OUT!');
   sfx.out();
  }else if(o.r==6){
   L.big='SIX!';L.msg='MAXIMUM! OVER THE BOUNDARY ROPE!';sfx.cheer();
@@ -1099,8 +1316,9 @@ function commit(){
  const res=applyBall(m,L.out);
  if(m.done)return endLive();
  if(m.cur!=b)return inningsBreak();
- // Check if wicket fell or over ended to show interactive modals!
- if(res.fellWicket&&m.inn[m.cur].w<10){
+ const n=m.inn[m.cur];
+ // Only ask User to pick next batsman if USER is Batting!
+ if(res.fellWicket&&n.w<10&&n.bt===L.u){
   if(res.overEnded)L.pendingOverEnd=true;
   return showNextBatsmanModal();
  }
@@ -1113,7 +1331,7 @@ function commit(){
 function inningsBreak(){
  const m=lv.m,p=m.inn[m.cur-1];st='brk';root.classList.remove('pl');lv.ci=m.cur;const n=m.inn[m.cur];
  selState={st:0,ns:1,bwl:defaultBowlers(m.rosters[n.bw])[0]};
- panel(`<h2>INNINGS BREAK</h2><p><b>${TEAMS[p.bt].n}</b> scored <b>${p.r}/${p.w}</b> (${ovs(p.b)} Overs)</p>${n.target?`<h3>Target for ${TEAMS[n.bt].n}: ${n.target} runs</h3>`:''}<p>${bats()?'You bat next':'You bowl next'}</p>${B('brk','SELECT PLAYERS FOR NEXT INNINGS ▶','','green')}`,'brk',true);
+ panel(`<h2>INNINGS BREAK</h2><p><b>${TEAMS[p.bt].n}</b> scored <b>${p.r}/${p.w}</b> (${ovs(p.b)} Overs)</p>${n.target?`<h3>Target for ${TEAMS[n.bt].n}: ${n.target} runs</h3>`:''}<p>${bats()?'You bat next':'You bowl next'}</p>${B('brk','CONTINUE TO NEXT INNINGS ▶','','green')}`,'brk',true);
 }
 function endLive(){const L=lv;st='brk';onMatch(L.ctx,L.m)}
 function simLive(kind){
@@ -1125,14 +1343,15 @@ function simLive(kind){
 function pause(){
  if(st=='play'){
   st='pause';
-  panel(`<h2>MATCH PAUSED</h2>
+  panel(`<h2>MATCH PAUSED</h2><div class="grid-menu">
    ${B('resume','▶ RESUME MATCH','','green')}
    ${B('view_sc_pause','📊 FULL SCORECARD')}
    ${B('s1','⏩ SIMULATE THIS OVER')}
    ${B('s5','⏩ SIMULATE 5 OVERS')}
    ${B('sinn','⏩ SIMULATE INNINGS')}
-   ${B('menu','🚪 QUIT TO MENU','','red')}`,null,true);
- }else if(st=='pause'){st='play';hideUI()}
+   ${B('menu','🚪 QUIT TO MENU','','red')}
+  </div>`,null,true);
+ }else if(st=='pause'){st='play';hideUI();root.classList.add('pl')}
 }
 function quit(){const L=lv;if(!L)return menu();const m={res:{w:L.ctx.b,t:'Match forfeited'},inn:[],rosters:L.m.rosters};L.ctx.done(m);st='brk';(L.ctx.next||menu)()}
 
@@ -1151,7 +1370,7 @@ function liveUpd(dt){
   const mx=(held.R?1:0)-(held.L?1:0),my=(held.D?1:0)-(held.U?1:0);
   if(mx||my){
    L.bx=cl(L.bx+mx*dt*.95,-.85,.85);
-   L.by=cl(L.by+my*dt*.75,.16,.92);
+   L.by=cl(L.by+my*dt*.75,.14,.94);
   }
  }
  if(!bats()&&L.ph=='flight'){
@@ -1165,14 +1384,14 @@ function liveUpd(dt){
   if(L.t>L.stepTick){L.stepTick+=.18;sfx.step()}
   if(L.t>=1.28)release();
  }else if(L.ph=='aim'){
-  L.meter=(M.sin(L.t*3.1)+1)/2;
+  // Fast WCC challenge meter
+  L.meter=(M.sin(L.t*4.2)+1)/2;
  }else if(L.ph=='flight'){
   const p=L.t/L.dur;
   const pb=.18+L.by*.64;
   if(!L.bounced&&p>=pb){L.bounced=true;sfx.bounce()}
   if(L.t>=L.dur+.18)resolveContact();
  }else if(L.ph=='pitch_res'||L.ph=='outfield'){
-  // Trigger outcome reveal only when ball reaches boundary/fielder/stumps!
   if(!L.revealed&&L.t>=L.revealTime){
    triggerOutcomeReveal();
   }
@@ -1189,8 +1408,11 @@ function liveUpd(dt){
 const DIRS={ArrowUp:'U',KeyW:'U',ArrowDown:'D',KeyS:'D',ArrowLeft:'L',KeyA:'L',ArrowRight:'R',KeyD:'R'},BACKS=[10009,461,8,27,166];
 addEventListener('keydown',e=>{
  au();
- if(BACKS.includes(e.keyCode)||e.code=='Escape'){e.preventDefault();if(st=='play'||st=='pause')pause();return}
+ if(BACKS.includes(e.keyCode)||e.code=='Escape'){e.preventDefault();handleInGameBack();return}
  if(e.code=='KeyP'){pause();return}
+ if(e.code=='KeyV'&&st=='play'&&lv&&!bats()){
+  lv.bVar=(lv.bVar+1)%4;sfx.tick();updateVarButton();return;
+ }
  if(!ui.hidden)return;
  if(st=='play'){
   const d=DIRS[e.code];
@@ -1206,6 +1428,10 @@ for(const[id,k]of[['#cu','U'],['#cd','D'],['#cl','L'],['#cR','R']]){
  const clr=()=>{held[k]=0;el.classList.remove('act')};
  el.onpointerup=clr;el.onpointercancel=clr;el.onpointerleave=clr;
 }
+$('#varb').onpointerdown=e=>{
+ e.preventDefault();au();
+ if(lv&&!bats()){lv.bVar=(lv.bVar+1)%4;sfx.tick();updateVarButton()}
+};
 $('#ok').onpointerdown=e=>{e.preventDefault();au();okPress()};
 $('#pp').onpointerdown=e=>{e.preventDefault();pause()};
 $('#scb').onpointerdown=e=>{
@@ -1229,32 +1455,26 @@ function pitchProj(u,v){
  return[x,y,sc];
 }
 
-// Pre-render WCC Stadium Pitch View Background
 const PITCH_BG=document.createElement('canvas');PITCH_BG.width=W;PITCH_BG.height=H;
 (()=>{
  const g=PITCH_BG.getContext('2d');
- // Night Stadium Sky & Floodlight Glow
  const sky=g.createLinearGradient(0,0,0,105);
  sky.addColorStop(0,'#040c1a');sky.addColorStop(1,'#0d233a');
  g.fillStyle=sky;g.fillRect(0,0,W,105);
 
- // Stadium Upper & Lower Tier Crowd Stands
  g.fillStyle='#132030';g.fillRect(0,38,W,65);
  for(let i=0;i<750;i++){
   g.fillStyle=['#ffeb3b','#ff5252','#29b6f6','#ffffff','#69f0ae'][i%5];
   g.fillRect(rnd()*W,42+rnd()*52,3,3);
  }
- // White Sightscreen behind bowler
  g.fillStyle='#eceff1';g.fillRect(W/2-55,58,110,36);
  g.strokeStyle='#37474f';g.lineWidth=2;g.strokeRect(W/2-55,58,110,36);
 
- // Digital Advertising Boards along stadium perimeter
  for(let x=0;x<W;x+=120){
   g.fillStyle=(x/120|0)%2?'#0d47a1':'#1b5e20';
   g.fillRect(x,94,120,12);
  }
 
- // Lush WCC Mowed Outfield Grass
  const turfGrad=g.createLinearGradient(0,106,0,H);
  turfGrad.addColorStop(0,'#1b5e20');turfGrad.addColorStop(1,'#2e7d32');
  g.fillStyle=turfGrad;g.fillRect(0,106,W,H-106);
@@ -1269,7 +1489,6 @@ const PITCH_BG=document.createElement('canvas');PITCH_BG.width=W;PITCH_BG.height
   g.closePath();g.fill();
  }
 
- // Pitch Surface Trapezoid
  const pGrad=g.createLinearGradient(0,PY_TOP,0,PY_BOT);
  pGrad.addColorStop(0,'#d7c4b2');pGrad.addColorStop(0.5,'#e6d7c8');pGrad.addColorStop(1,'#d2bda9');
  g.fillStyle=pGrad;
@@ -1279,7 +1498,6 @@ const PITCH_BG=document.createElement('canvas');PITCH_BG.width=W;PITCH_BG.height
  g.closePath();g.fill();
  g.strokeStyle='#688a58';g.lineWidth=2.5;g.stroke();
 
- // Crease Markings
  g.strokeStyle='#ffffff';g.lineWidth=3;
  g.beginPath();g.moveTo(W/2-PW_TOP*.58,STUMP_TOP_Y);g.lineTo(W/2+PW_TOP*.58,STUMP_TOP_Y);g.stroke();
  g.beginPath();g.moveTo(W/2-PW_TOP*.72,CREASE_TOP);g.lineTo(W/2+PW_TOP*.72,CREASE_TOP);g.stroke();
@@ -1289,7 +1507,6 @@ const PITCH_BG=document.createElement('canvas');PITCH_BG.width=W;PITCH_BG.height
  g.beginPath();g.moveTo(W/2-PW_BOT*.48,STUMP_BOT_Y+14);g.lineTo(W/2+PW_BOT*.48,STUMP_BOT_Y+14);g.stroke();
 })();
 
-// Pre-render Outfield Stadium View
 const OUT_BG=document.createElement('canvas');OUT_BG.width=W;OUT_BG.height=H;
 (()=>{
  const g=OUT_BG.getContext('2d'),OCX=480,OCY=275,ORX=415,ORY=208;
@@ -1354,7 +1571,6 @@ function drawStumpsBot(bowled,t){
 }
 
 function drawUmpireAndNonStriker(L,bt,bw){
- // Umpire behind top stumps (only signals AFTER outcome is revealed!)
  const ux=W/2-6,uy=STUMP_TOP_Y-14;
  X.save();X.translate(ux,uy);
  limb(-3,2,-4,14,4,'#263238');limb(3,2,4,14,4,'#263238');
@@ -1368,7 +1584,6 @@ function drawUmpireAndNonStriker(L,bt,bw){
  X.fillStyle='#fff';X.beginPath();X.ellipse(0,-17,7,2,0,0,7);X.fill();
  X.restore();
 
- // Non-Striker
  const nx=W/2-46,ny=CREASE_TOP-6+(L&&L.ph=='flight'?M.min(12,L.t*10):0);
  X.save();X.translate(nx,ny);
  limb(-3,3,-4,15,4.5,'#f5f5f5');limb(3,3,4,15,4.5,'#f5f5f5');
@@ -1413,7 +1628,6 @@ function drawBowler(L,bw){
  X.restore();
 }
 
-// Articulated Batsman with Direction-Matched Swing!
 function drawBatsman(L,bt){
  const u=L?L.batX:-.18;
  const[bx,by0]=pitchProj(u,0.98);
@@ -1433,7 +1647,6 @@ function drawBatsman(L,bt){
    swingProg=cl(dt*5.5,0,1);
    shotDir=L.press.dir;
    isLoft=L.press.loft;
-   // Step strictly in the direction of the shot!
    strideX=shotDir<0?-16:shotDir>0?18:6;
    strideY=L.by<.38?4:-8;
   }
@@ -1442,36 +1655,29 @@ function drawBatsman(L,bt){
  X.save();X.translate(bx,by);
  X.fillStyle='rgba(0,0,0,0.38)';X.beginPath();X.ellipse(4+strideX*.4,11,26,8,0,0,7);X.fill();
 
- // Legs + Pads
  limb(-7,-22,-10-walkSin*.4,-6,10,bt.pants);limb(-10-walkSin*.4,-6,-10-walkSin*.7,8,10,'#f5f5f5');
  limb(5,-22,9+strideX*.6,-6,10,bt.pants);limb(9+strideX*.6,-6,9+strideX,8+strideY*.5,10,'#ffffff');
 
- // Torso
  X.save();X.translate(strideX*.35,-22+strideY*.2);
  X.fillStyle=bt.col;X.fillRect(-12,-26,24,28);
  X.strokeStyle='#111';X.lineWidth=1.6;X.strokeRect(-12,-26,24,28);
  X.fillStyle=bt.acc;X.fillRect(-12,-15,24,5);
 
- // Head & Helmet
  X.fillStyle='#e0ac69';X.beginPath();X.arc(2,-35,8,0,7);X.fill();
  X.fillStyle=bt.pants;X.beginPath();X.arc(1,-37,9.5,M.PI*.8,M.PI*2.2);X.fill();
  X.fillStyle=bt.acc;X.fillRect(3,-39,12,3);
 
- // Arms & Bat (Swing angle explicitly follows shotDir: Left = positive clockwise sweep to left; Right = counter-clockwise sweep to right!)
  X.save();X.translate(6,-20);
  let armAng=0.20-tapOffset*.02-backlift*1.3;
  let bladeScaleX=1;
  if(swingProg>0){
   const sp=1-M.pow(1-swingProg,2.2);
   if(shotDir<0){
-   // Swinging to LEFT (Leg Side): bat arcs across body to the LEFT (-X)
    armAng=lerp(-1.1, 1.35, sp);
    bladeScaleX=-1;
   }else if(shotDir>0){
-   // Swinging to RIGHT (Off Side): bat arcs out to the RIGHT (+X)
    armAng=lerp(0.85, -1.55, sp);
   }else{
-   // Swinging STRAIGHT towards bowler (Up screen)
    armAng=lerp(0.75, -1.95, sp);
   }
  }
@@ -1479,7 +1685,6 @@ function drawBatsman(L,bt){
  X.scale(bladeScaleX,1);
  limb(0,0,3,22,5.5,bt.col);
  X.fillStyle='#fff';X.beginPath();X.arc(4,23,5,0,7);X.fill();
- // Bat Handle & Willow Blade
  X.fillStyle='#eceff1';X.fillRect(2,23,4,12);
  X.fillStyle='#d7a15c';X.fillRect(-2,35,10,34);
  X.fillStyle=bt.acc;X.fillRect(-1,39,8,6);
@@ -1496,7 +1701,11 @@ function calcBallPitch(L){
  if(p<=pb){
   const k=p/pb;u=0.06+(L.bx-0.06)*k;v=L.by*k;z=42*(1-k*k);
  }else{
-  const k=(p-pb)/(1-pb);u=L.bx+(L.endX-L.bx)*k;v=L.by+(1.0-L.by)*k;
+  const k=(p-pb)/(1-pb);
+  // Apply dramatic curved swing/spin after bounce!
+  const curve=M.pow(cl(k,0,1),1.25);
+  u=L.bx+(L.endX-L.bx)*curve;
+  v=L.by+(1.0-L.by)*k;
   const maxBounce=L.by<.32?44:L.by>.82?10:26;
   z=M.max(0,maxBounce*M.sin(M.PI*cl(k,0,1.1)*.88));
  }
@@ -1512,13 +1721,11 @@ function txt(s,x,y,sz,al='left',c='#fff',stroke=true){
  X.fillStyle=c;X.fillText(s,x,y);
 }
 
-// WCC Style TV Broadcast Lower-Third Scorebar & Top Status Bar
 function drawWCCBroadcastHUD(L,m,n,bt,bw){
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
  const sb=n.bat[n.st],nb=n.bat[n.ns],bwSt=n.bowl[n.bwlIdx];
  const stP=btRos[n.st]||{n:'Batsman',r:'BAT'},nsP=btRos[n.ns]||{n:'Non-Striker',r:'BAT'},bwP=bwRos[n.bwlIdx]||{n:'Bowler',r:'BWL',st:'FAST'};
 
- // Top Mini Broadcast Pill (Format, Target/CRR, Speed Gun & Dollar Wallet)
  X.fillStyle='rgba(6,18,34,0.88)';
  X.fillRect(16,8,W-195,30);
  X.strokeStyle='#29b6f6';X.lineWidth=1.5;X.strokeRect(16,8,W-195,30);
@@ -1528,41 +1735,39 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
  txt(infoTxt,28,28,14,'left','#b3e5fc',false);
  txt(`⚡ ${L.spd.toFixed(1)} km/h   |   💵 $${S.cash}`,W-190,28,14,'right','#00e676',false);
 
- // Shot Direction & Loft Status Pill (Bottom Left above broadcast bar)
+ // Tactical Hint Pill (Batting Aim OR Bowling Trap Hint)
  if(bats()&&(L.ph=='stance'||L.ph=='runup'||L.ph=='flight')){
   const dirTxt=L.shotDir<0?'◀ LEG SIDE':L.shotDir>0?'OFF SIDE ▶':'▲ STRAIGHT';
   const loftTxt=L.loft?'LOFTED (6s/4s)':'GROUNDED (4s)';
-  X.fillStyle='rgba(0,0,0,0.75)';X.fillRect(16,H-88,285,26);
+  X.fillStyle='rgba(0,0,0,0.75)';X.fillRect(16,H-88,295,26);
   txt(`AIM: ${dirTxt} · ${loftTxt}`,26,H-70,13,'left','#ffd54f',false);
+ }else if(!bats()&&(L.ph=='spot'||L.ph=='aim')){
+  const vNames=bwP.st==='FAST'?BOWL_VARS_FAST:BOWL_VARS_SPIN;
+  X.fillStyle='rgba(12,28,54,0.88)';X.fillRect(16,44,W-195,26);
+  txt(`🧠 ${L.aiExpect.txt}  |  Selected: [${vNames[L.bVar%4]}]`,26,61,13,'left','#ffd54f',false);
  }
 
- // WCC Lower-Third TV Broadcast Scoreboard Bar
  const barY=H-56,barH=52;
  const gBar=X.createLinearGradient(0,barY,W,barY);
  gBar.addColorStop(0,'#06152d');gBar.addColorStop(0.5,'#0b2545');gBar.addColorStop(1,'#06152d');
  X.fillStyle=gBar;X.fillRect(0,barY,W,barH);
  X.fillStyle='#29b6f6';X.fillRect(0,barY,W,3);
 
- // Left Block: Team Badge & Score + Overs
  X.fillStyle=bt.col;X.fillRect(0,barY+3,185,barH-3);
  txt(`${bt.c}`,14,barY+32,24,'left','#fff');
  txt(`${n.r}-${n.w}`,76,barY+31,24,'left','#ffd54f');
  txt(`(${ovs(n.b)}${m.maxB?'/'+m.maxB/6:''})`,14,barY+48,12,'left','#e0f7fa',false);
 
- // Center-Left Block: Striker & Non-Striker with Role Badges
  txt(`▸ ${stP.n} [${stP.r}]`,198,barY+23,15,'left','#ffd54f',false);
  txt(`${sb.r} (${sb.b})`,420,barY+23,15,'right','#ffd54f',false);
  txt(`  ${nsP.n} [${nsP.r}]`,198,barY+43,14,'left','#b0bec5',false);
  txt(`${nb.r} (${nb.b})`,420,barY+43,14,'right','#b0bec5',false);
 
- // Divider
  X.fillStyle='rgba(255,255,255,0.2)';X.fillRect(435,barY+8,2,barH-14);
 
- // Center-Right Block: Current Bowler & Figures (W-R & Overs)
  txt(`🥎 ${bwP.n} [${bwP.r}]`,450,barY+23,15,'left','#4fc3f7',false);
  txt(`${bwSt.w}-${bwSt.r} (${ovs(bwSt.b)})`,680,barY+23,15,'right','#ffffff',false);
 
- // Over Ball-by-Ball Circles
  n.ov.slice(-6).forEach((v,i)=>{
   const cx=460+i*28,cy=barY+39;
   X.fillStyle=v=='W'?'#e53935':v==4||v==6?'#00c853':'#1e3c58';
@@ -1570,16 +1775,14 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
   txt(String(v),cx,cy+4,11,'center','#fff',false);
  });
 
- // Far-Right Block: Live Commentary / Action Prompt
  let hint='';
  if(L.revealed)hint=L.msg;
- else if(bats())hint='◀/▶ Move & Aim Shot | ▲ Loft / ▼ Ground | Press SHOT';
- else hint=L.ph=='spot'?'Move Red [X] & Press BOWL':L.ph=='aim'?'Stop Meter in Green!':'Bowling...';
+ else if(bats())hint='◀/▶ Move & Aim | ▲ Loft / ▼ Ground | Press SHOT';
+ else hint=L.ph=='spot'?'Move [X], Pick SWING & Press BOWL':L.ph=='aim'?'Stop Meter in Gold/Green!':'Bowling...';
  txt(hint,W-14,barY+32,13,'right','#00e676',false);
 }
 
 function drawOutfieldView(L,bt,bw){
- // For the first 0.35s after bat contact, show the ball flying off the bat on the Pitch View!
  if(L.t<0.35){
   drawPitchScene(L,bt,bw);
   const p=L.t/0.35;
@@ -1605,7 +1808,6 @@ function drawOutfieldView(L,bt,bw){
   });
  }
 
- // Batsmen running between the wickets
  const runs=L.out.w?0:L.out.r==4||L.out.r==6?1:L.out.r;
  const runProg=runs?cl((L.t-0.35)*1.3,0,runs)%2:0;
  const b1y=OCY+32-(runProg<=1?runProg:2-runProg)*64;
@@ -1623,7 +1825,6 @@ function drawOutfieldView(L,bt,bw){
  X.fillStyle='rgba(0,0,0,0.42)';
  X.beginPath();X.ellipse(bx,by0+4,5+bh*.04,3+bh*.02,0,0,7);X.fill();
 
- // White leather ball with trajectory trail
  X.strokeStyle='rgba(255,255,255,0.35)';X.lineWidth=3;
  X.beginPath();X.moveTo(OCX,OCY+28);X.lineTo(bx,by0-bh);X.stroke();
  X.fillStyle='#ffffff';X.beginPath();X.arc(bx,by0-bh,5.5+bh*.04,0,7);X.fill();
@@ -1640,6 +1841,14 @@ function drawPitchScene(L,bt,bw){
   const[xx,xy,xsc]=pitchProj(L.bx,L.by);
   const pulse=L.ph=='spot'?1+.14*M.sin(L.t*9):1;
   drawRedX(xx,xy,xsc,pulse);
+  // Draw predicted swing/spin trajectory arrow during spot selection!
+  if(!bats()&&L.ph=='spot'){
+   const curve=L.bVar===0?-0.34:L.bVar===1?0.34:L.bVar===2?0.18:0.06;
+   const predEndX=cl(L.bx+curve*(1-L.by*.35),-0.92,0.92);
+   const[ex,ey]=pitchProj(predEndX,0.98);
+   X.strokeStyle='rgba(255,235,59,0.75)';X.lineWidth=2.5;X.setLineDash([5,4]);
+   X.beginPath();X.moveTo(xx,xy);X.lineTo(ex,ey);X.stroke();X.setLineDash([]);
+  }
  }
 
  if(L&&bats()&&(L.ph=='stance'||L.ph=='runup'||L.ph=='flight')){
@@ -1670,11 +1879,18 @@ function drawPitchScene(L,bt,bw){
  const isBowled=L&&L.ph=='pitch_res'&&L.out&&L.out.w&&L.out.k=='b'&&L.t>=0.25;
  drawStumpsBot(isBowled,L?L.t:0);
 
+ // Show ball passing to Wicketkeeper on Play & Miss or Keeper Edge!
+ if(L&&L.ph=='pitch_res'&&!isBowled){
+  const p=cl(L.t/0.4,0,1);
+  const[sx,sy]=pitchProj(L.endX,1.0+p*0.18);
+  X.fillStyle='#ffffff';X.beginPath();X.arc(sx,sy-12,7.5,0,7);X.fill();
+ }
+
  if(L&&L.ph=='aim'){
   const mx=W/2-170,my=H-96;
   X.fillStyle='#04101eee';X.fillRect(mx-6,my-8,352,32);
   const g=X.createLinearGradient(mx,0,mx+340,0);
-  g.addColorStop(0,'#d32f2f');g.addColorStop(.36,'#fbc02d');g.addColorStop(.5,'#00e676');g.addColorStop(.64,'#fbc02d');g.addColorStop(1,'#d32f2f');
+  g.addColorStop(0,'#d32f2f');g.addColorStop(.36,'#fbc02d');g.addColorStop(.46,'#00e676');g.addColorStop(.5,'#ffd54f');g.addColorStop(.54,'#00e676');g.addColorStop(.64,'#fbc02d');g.addColorStop(1,'#d32f2f');
   X.fillStyle=g;X.fillRect(mx,my,340,16);
   X.fillStyle='#ffffff';X.fillRect(mx+L.meter*340-4,my-6,8,28);
  }
@@ -1689,13 +1905,12 @@ function draw(){
 
  if(L&&m&&n){
   drawWCCBroadcastHUD(L,m,n,bt,bw);
-  // Show big popup ONLY AFTER L.revealed is true!
   if(L.revealed&&L.bigT>0&&L.big){
    X.save();
    const s=1+M.min(.28,(1.75-L.bigT)*.25);
    X.translate(W/2,H/2-25);X.scale(s,s);
    txt(L.big,0,0,72,'center',L.big=='OUT!'?'#ff1744':'#ffd54f');
-   if(L.out&&L.out.timing&&!L.out.w)txt(L.out.timing,0,40,24,'center','#00e676');
+   if(L.out&&L.out.timing)txt(L.out.timing,0,40,22,'center','#00e676');
    X.restore();
   }
  }
