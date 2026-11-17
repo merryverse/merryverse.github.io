@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>WCC Pro Cricket Championship</title>
+<title>Verse Cricket Championship</title>
 <style>
 html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-behavior:none}
 #cr{position:fixed;inset:0;background:#040b14;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#eef6ff;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-weight:700}
@@ -10,7 +10,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
 #cr .ov.center{justify-content:center}
 #cr .ov[hidden]{display:none}
 #cr #ld{background:#040b14;z-index:12;justify-content:center;font-size:20px;letter-spacing:.1em}
-#cr h1{margin:4px 0;font-size:clamp(26px,6.5vmin,50px);letter-spacing:.06em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
+#cr h1{margin:4px 0;font-size:clamp(22px,5.6vmin,44px);letter-spacing:.05em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
 #cr h2{margin:3px 0;font-size:clamp(17px,4.2vmin,26px);letter-spacing:.03em;color:#ffd54f;text-shadow:0 2px 4px #000}
 #cr h3{margin:3px 0;font-size:clamp(13.5px,3.1vmin,18px);color:#4fc3f7}
 #cr p{margin:0;max-width:640px;font-size:clamp(12.5px,2.7vmin,15.5px);line-height:1.42;color:#b8d8e8}
@@ -37,7 +37,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
 .ico-role.BWL{background:rgba(255,138,101,.22);border-color:#ff8a65}
 .ico-role.AR{background:rgba(255,213,79,.22);border-color:#ffd54f}
 .ico-role.WK{background:rgba(206,147,216,.22);border-color:#ce93d8}
-/* Responsive Mobile-Friendly Scorecard Table (No Horizontal Cutoff) */
+/* Responsive Mobile-Friendly Scorecard Table */
 .sc-wrap{width:min(96vw,680px);overflow-x:auto;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.14)}
 .sc-table{width:100%;border-collapse:collapse;font-size:clamp(11px,2.2vmin,13.5px);table-layout:fixed}
 .sc-table th,.sc-table td{padding:6px 5px;text-align:left;border-bottom:1px solid rgba(255,255,255,.09);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -106,7 +106,7 @@ addEventListener('resize',fit);fit();
 if(matchMedia('(pointer:coarse)').matches||'ontouchstart' in window)root.classList.add('t');
 document.addEventListener('touchmove',e=>{if(!e.target.closest('.ov'))e.preventDefault()},{passive:false});
 
-// ---------- Pure Visual Role & Style Icons (No Text Labels like AR/BWL/BAT) ----------
+// ---------- Pure Visual Role & Style Icons ----------
 function roleIcon(r,st){
  if(r==='WK')return `<span class="ico-role WK" title="Wicketkeeper">🧤</span>`;
  if(r==='BAT')return `<span class="ico-role BAT" title="Batsman">🏏</span>`;
@@ -196,8 +196,8 @@ const MARKET_POOL=[
 ];
 
 let S={team:0,pts:0,wins:0,tr:0,played:0,mute:0,cash:500,league:'BPL',franName:'Dhaka Dominators',owned:['m_tamim','m_liton','m_taskin'],comp:null};
-try{Object.assign(S,JSON.parse(localStorage.getItem('wcc_cricket_v2')||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem('wcc_cricket_v2',JSON.stringify(S))}catch(e){}};
+try{Object.assign(S,JSON.parse(localStorage.getItem('verse_cricket_v2')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('verse_cricket_v2',JSON.stringify(S))}catch(e){}};
 
 function getRoster(tIdx,useFranchise=false){
  const base=TEAMS[tIdx].roster.map(p=>({n:p[0],r:p[1],ba:p[2],bo:p[3],st:p[4]}));
@@ -217,7 +217,7 @@ let historyGuardActive=false;
 function pushBackGuard(){
  try{
   if(!historyGuardActive){
-   history.pushState({wccSubScreen:true},'');
+   history.pushState({verseSubScreen:true},'');
    historyGuardActive=true;
   }
  }catch(e){}
@@ -485,7 +485,7 @@ function simMatch(a,b,fmt){
  return m;
 }
 
-// ---------- WCC Tricky Bowling Logic ----------
+// ---------- Verse Cricket Tricky Bowling Logic ----------
 const BOWL_VARS_FAST=['⚡ IN-SWING','⚡ OUT-SWING','🐢 SLOWER','🔥 YORKER/BOUNCE'];
 const BOWL_VARS_SPIN=['🌀 OFF BREAK','🌀 LEG BREAK','🎭 DOOSRA','🚀 ARM BALL'];
 
@@ -552,21 +552,17 @@ const TB={
  G0:[28, 28, 12, 0, 14, 0, 18]
 };
 
-// User Batting with 2D Footwork Effectiveness (batX lateral + batY front/back foot depth!)
+// User Batting with 2D Footwork Effectiveness
 function userBat(m,L){
  const n=m.inn[m.cur];
  const batP=m.rosters[n.bt][n.st],bwlP=m.rosters[n.bw][n.bwlIdx];
  const dW=((bwlP?bwlP.bo:80)-(batP?batP.ba:82))/100*.28,p=L.press;
 
- // Ball x at batsman's depth (L.batY, default 0.98; charging down track goes up to 0.84, deep backfoot goes to 1.04)
  const ballXAtBat=lerp(L.bx,L.endX,cl((L.batY-L.by)/(1.0-L.by),0,1.2));
  const hittingStumps=M.abs(L.endX)<.28&&L.by>.32;
  const batReachX=L.batX+0.12;
  const distX=M.abs(ballXAtBat-batReachX);
 
- // Calculate Footwork Depth Effectiveness Bonus (`depthBonus`):
- // Charging/Front-foot (batY < 0.94) is GREAT against Good/Full length (by >= 0.42), bad against Bouncers (by < 0.30).
- // Back-foot (batY > 0.99) is GREAT against Short/Back-of-length (by <= 0.48), risky against Yorkers (by > 0.84).
  let depthBonus=0,footNote='';
  if(L.batY<0.94){
   if(L.by>=0.40){depthBonus=0.22;footNote='GREAT FRONT-FOOT STEP!'}
@@ -652,7 +648,7 @@ function menu(){
  st='menu';lv=null;root.classList.remove('pl');
  const c=S.comp,lab=c?(c.kind=='series'?'SERIES':c.type=='wc'?'WORLD CUP':'TOURNAMENT'):'';
  panel(`
-  <h1>WCC PRO CRICKET</h1>
+  <h1>VERSE CRICKET CHAMPIONSHIP</h1>
   <div class="top-wallet">
    <div>👤 ${U?esc(U.displayName||'Player'):'Guest'}</div>
    <div class="cash">💵 $${S.cash}</div>
@@ -680,7 +676,7 @@ ui.addEventListener('click',e=>{
  if(btn){au();act(btn.dataset.a,btn.dataset.v)}
 });
 
-// Full Batting & Bowling Scorecard HTML Builder (With Pure Icon Badges & Mobile-Fit Columns!)
+// Full Batting & Bowling Scorecard HTML Builder
 function renderScorecardHTML(m,backAction='sc_close',overEndSection=''){
  const n=m.inn[m.cur];
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
@@ -723,7 +719,7 @@ function renderScorecardHTML(m,backAction='sc_close',overEndSection=''){
  return h;
 }
 
-// ---------- Single-Column Player Selection Modals (With Pure Icons!) ----------
+// ---------- Single-Column Player Selection Modals ----------
 let selState={st:0,ns:1,bwl:8};
 function showInningsSetupSelection(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
@@ -793,7 +789,7 @@ function showNextBatsmanModal(){
  panel(h);
 }
 
-// End of Over -> Directly Shows the FULL SCORECARD + Next Over Action!
+// End of Over -> Directly Shows the FULL SCORECARD + Next Over Action
 function showEndOfOverModal(){
  const m=lv.m,n=m.inn[m.cur],bwRos=m.rosters[n.bw];
  const userIsBowling=(n.bw===lv.u);
@@ -1070,13 +1066,13 @@ function act(a,v){
   pick:()=>{S.team=+v;save();showSquadScreen()},
   snd:()=>{S.mute^=1;save();menu()},
   lb:()=>panel(`<h2>📊 GLOBAL LEADERBOARD</h2><p>Your Cash: $${S.cash} · Career Points: ${S.pts}</p>${lbH(10)}${B('menu','⬅ BACK')}`,null,true),
-  how:()=>panel(`<h2>❓ WCC PRO CONTROLS & GUIDE</h2>
+  how:()=>panel(`<h2>❓ VERSE CRICKET CONTROLS & GUIDE</h2>
    <p><b>1. 4-WAY FOOTWORK & SHOT SELECTION:</b><br>
    • Use <b>◀ (Left)</b> & <b>▶ (Right)</b> to move across the crease & aim Leg/Off side.<br>
    • Use <b>▲ (Up)</b> to step <b>FORWARD (Down the pitch)</b> — great for driving full/good length balls!<br>
    • Use <b>▼ (Down)</b> to step <b>BACKWARD (Deep in crease)</b> — great for pulling/cutting short balls!<br>
    • Toggle <b>🚀 LOFT ON / GROUND</b> button (or Key L) for aerial 6s vs grounded 4s.<br><br>
-   <b>2. WCC TRICKY BOWLING:</b><br>
+   <b>2. PRO TRICKY BOWLING:</b><br>
    • Tap <b>SWING / SPIN</b> to switch variations, place the Red <b>X</b>, and stop the meter in the Gold/Green zone!</p>
    ${B('menu','⬅ BACK')}`,null,true),
   set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;showInningsSetupSelection()},
@@ -1112,7 +1108,6 @@ function act(a,v){
 // ---------- Live Match State & 2D Crease Movement ----------
 let lv=null;
 const held={L:0,R:0,U:0,D:0};
-// 9 Fielder positions placed at distinct angles around the oval so gaps exist between them!
 const FLD_ANGLES=[0.32, 0.78, 1.28, 1.86, 2.38, 2.82, 3.65, 4.55, 5.60];
 const FLD_RADII =[0.52, 0.82, 0.76, 0.76, 0.82, 0.52, 0.68, 0.78, 0.68];
 
@@ -1152,7 +1147,6 @@ function updateActionButtons(){
 function beginBall(){
  const L=lv,m=L.m,n=m.inn[m.cur];
  L.press=null;L.out=null;L.acc=0;L.big='';L.bounced=false;L.revealed=false;L.stepTick=0;L.tapTick=.35;
- // Reset batsman depth near popping crease at start of ball, preserving subtle stance
  L.batY=.98;
  const bwlP=m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
  const baseSpd=bwlP.st==='FAST'?138+rnd()*13:85+rnd()*10;
@@ -1203,7 +1197,6 @@ function release(){
 function triggerHit(){
  const L=lv;
  if(L.press)return;
- // Determine shot direction from held keys or last aimed direction
  let dir=L.shotDir;
  if(held.L)dir=-1;
  else if(held.R)dir=1;
@@ -1233,11 +1226,9 @@ function dirTap(k){
  const L=lv;
  if(bats()){
   if(k=='U'){
-   // Step FORWARD down the pitch + Straight shot aim
    L.batY=cl(L.batY-.035,0.84,1.04);
    L.shotDir=0;L.walkPhase+=.9;
   }else if(k=='D'){
-   // Step BACKWARD deep into the crease
    L.batY=cl(L.batY+.035,0.84,1.04);
    L.walkPhase+=.9;
   }else if(k=='L'){
@@ -1258,7 +1249,7 @@ function dirTap(k){
  }
 }
 
-// ---------- Outfield Physics & Gap-Finding so 4s, 6s & Catches Match Visually 100%! ----------
+// ---------- Outfield Physics & Gap-Finding ----------
 function resolveContact(){
  const L=lv,m=L.m;let o;
  L.arrivalT=L.dur*(L.batY/0.98);
@@ -1286,7 +1277,6 @@ function resolveContact(){
   sfx.batCrack();
 
   const ORX=390,ORY=200,OCX=480,OCY=275;
-  // Build the 9 fielders around the stadium
   L.flds=FLD_ANGLES.map((ang,i)=>({
    ang,rad:FLD_RADII[i],
    x:OCX+M.cos(ang)*ORX*FLD_RADII[i],
@@ -1294,37 +1284,27 @@ function resolveContact(){
   }));
 
   const pDir=L.press?L.press.dir:0;
-  // Pick a target angle that matches the batsman's shot direction:
-  // Note: screen Y is OCX - sin(ang)*ORY, so sin(ang)>0 is UP towards bowler, cos(ang)<0 is LEFT (Leg Side), cos(ang)>0 is RIGHT (Off Side)
-  // Gap angles deliberately placed BETWEEN fielder angles so 4s and 6s NEVER go straight into a fielder!
-  const legGaps=[2.12, 2.60, 3.22];     // Deep mid-wicket, square leg, fine leg (Left side)
-  const offGaps=[0.55, 1.03, 5.95];     // Extra cover, backward point, third man (Right side)
-  const strGaps=[1.57, 1.05, 2.10];     // Straight down the ground, long-off, long-on
+  const legGaps=[2.12, 2.60, 3.22];
+  const offGaps=[0.55, 1.03, 5.95];
+  const strGaps=[1.57, 1.05, 2.10];
 
   let chosenAng;
   if(o.w&&o.k=='c'){
-   // CAUGHT OUT: Pick a fielder in the shot's sector and hit the ball DIRECTLY to that fielder's hands!
    const sectorIndices=pDir<0?[3,4,5,6]:pDir>0?[0,1,2,8]:[1,2,3,4];
    L.chaser=sectorIndices[rnd()*sectorIndices.length|0];
    const cf=L.flds[L.chaser];
    L.dest=[cf.x,cf.y];
    L.pitchVec=[M.cos(cf.ang),-M.sin(cf.ang)];
   }else{
-   // NOT OUT (1, 2, 3, 4, or 6): Pick a clean GAP between fielders in the exact direction of the shot!
    const gapList=pDir<0?legGaps:pDir>0?offGaps:strGaps;
    chosenAng=gapList[rnd()*gapList.length|0]+(rnd()-.5)*0.08;
    const ux=M.cos(chosenAng),uy=-M.sin(chosenAng);
 
-   // Distance factor:
-   // 6 = 1.15 (Flies high over the boundary rope!)
-   // 4 = 1.04 (Bounces inside the field at p=0.50, then rolls across the boundary rope!)
-   // 1..3 = 0.48..0.76 (Inside the field, cut off by chasing fielder)
    const distFactor=o.r==6?1.15:o.r==4?1.04:o.r==3?.76:o.r==2?.62:.46;
    const tx=OCX+ux*ORX*distFactor,ty=OCY+uy*ORY*distFactor;
    L.dest=[tx,ty];
    L.pitchVec=[ux,uy];
 
-   // Find nearest fielder to chase the ball
    L.chaser=0;let bestD=1e9;
    L.flds.forEach((f,idx)=>{
     const d=M.hypot(f.x-tx,f.y-ty);
@@ -1400,10 +1380,9 @@ function liveUpd(dt){
  const L=lv;if(!L||st!='play')return;
  L.t+=dt;if(L.bigT>0)L.bigT-=dt;
 
- // Continuous 4-Way Footwork (Left/Right + Forward/Backward) for Batsman!
  if(bats()&&(L.ph=='stance'||L.ph=='runup'||(L.ph=='flight'&&!L.press))){
   const mx=(held.R?1:0)-(held.L?1:0);
-  const my=(held.D?1:0)-(held.U?1:0); // U = step forward (-Y), D = step back (+Y)
+  const my=(held.D?1:0)-(held.U?1:0);
   if(mx!==0){
    L.batX=cl(L.batX+mx*dt*1.02,-.82,.68);
    L.walkPhase+=dt*14;
@@ -1446,7 +1425,6 @@ function liveUpd(dt){
   }
   if(L.ph=='outfield'&&L.flds&&L.t>.35){
    const ch=L.flds[L.chaser];
-   // If it's a 6, fielder only jogs halfway toward boundary watching it sail over; if 4, chases to rope; if 1-3, intercepts ball!
    const tx=L.dest[0],ty=L.dest[1];
    const dx=tx-ch.x,dy=ty-ch.y,d=M.hypot(dx,dy);
    const spd=L.out.r==6?65:L.out.r==4?125:160;
@@ -1499,7 +1477,7 @@ $('#scb').onpointerdown=e=>{
 };
 C.addEventListener('pointerdown',()=>{au();if(st=='play')okPress()});
 
-// ---------- WCC Stadium & Biomechanical Player Graphics Engine ----------
+// ---------- Verse Stadium & Biomechanical Player Graphics Engine ----------
 const PY_TOP=150, PY_BOT=485;
 const PW_TOP=128, PW_BOT=320;
 const CREASE_TOP=182, CREASE_BOT=430;
@@ -1582,7 +1560,6 @@ const OUT_BG=document.createElement('canvas');OUT_BG.width=W;OUT_BG.height=H;
   g.fillRect(x,0,36,H);
  }
  g.restore();
- // Crisp white boundary rope at ORX=390, ORY=200
  g.strokeStyle='#ffffff';g.lineWidth=4.5;g.beginPath();g.ellipse(OCX,OCY,390,200,0,0,7);g.stroke();
  g.strokeStyle='rgba(255,255,255,0.45)';g.lineWidth=2;g.setLineDash([8,6]);
  g.beginPath();g.ellipse(OCX,OCY,390*.52,200*.52,0,0,7);g.stroke();g.setLineDash([]);
@@ -1710,7 +1687,7 @@ function drawBatsman(L,bt){
    shotDir=L.press.dir;
    isLoft=L.press.loft;
    strideX=shotDir<0?-15:shotDir>0?17:5;
-   strideY=L.batY>0.99?5:-9; // Backfoot vs Frontfoot stride
+   strideY=L.batY>0.99?5:-9;
   }
  }
 
@@ -1718,21 +1695,17 @@ function drawBatsman(L,bt){
  X.translate(bx,by);
  X.scale(sc,sc);
 
- // Ground shadow
  X.fillStyle='rgba(0,0,0,0.38)';
  X.beginPath();X.ellipse(4+strideX*.4,11,26,8,0,0,7);X.fill();
 
- // Back Leg (Left Leg) & Front Leg (Right Leg) with sculpted cricket pads
  limb(-7,-22,-10-walkSin*.4,-6,10,bt.pants);
  limb(-10-walkSin*.4,-6,-10-walkSin*.7,8,10.5,'#e8eef2');
  limb(5,-22,9+strideX*.6,-6,10,bt.pants);
  limb(9+strideX*.6,-6,9+strideX,8+strideY*.5,10.5,'#ffffff');
- // Shoes
  X.fillStyle='#fff';
  X.fillRect(-14-walkSin*.7,7,9,4);
  X.fillRect(6+strideX,7+strideY*.5,10,4);
 
- // Torso
  X.save();
  X.translate(strideX*.35,-22+strideY*.2);
  X.fillStyle=bt.col;
@@ -1740,79 +1713,62 @@ function drawBatsman(L,bt){
  X.strokeStyle='#111';X.lineWidth=1.6;X.stroke();
  X.fillStyle=bt.acc;X.fillRect(-11,-15,22,5);
 
- // Head & Helmet facing bowler
  X.fillStyle='#e0ac69';X.beginPath();X.arc(2,-35,8,0,7);X.fill();
  X.fillStyle=bt.pants;X.beginPath();X.arc(1,-37,9.5,M.PI*.8,M.PI*2.2);X.fill();
  X.fillStyle=bt.acc;X.fillRect(3,-39,12,3);
 
- // ---- TWO-HANDED CRICKET GRIP & NATURAL SHOT SWING ----
- // Compute the hands' grip position (hx, hy) relative to torso and the bat's blade angle (`batAng`, where 0 = pointing down at ground, -PI/2 = pointing right, +PI/2 = pointing left, PI = pointing straight up!)
  let hx=10,hy=-6-tapOffset-backlift*7;
- // In stance, bat points down and slightly back to the left (+0.28 rad); in backlift, bat cocks up towards first slip (-0.85 rad)
  let batAng=lerp(0.28,-0.85,backlift);
 
  if(swingProg>0){
   const sp=1-M.pow(1-swingProg,2.2);
   if(shotDir<0){
-   // PULL / HOOK / LEG-SIDE WHIP (Left ◀):
-   // Hands sweep across chest to the LEFT (-X), and bat whips across to the LEFT (+PI*0.72)!
    hx=lerp(10,-16,sp);
    hy=lerp(-13,-18,sp);
    batAng=lerp(-0.85, isLoft?2.35:1.75, sp);
   }else if(shotDir>0){
-   // COVER DRIVE / SQUARE CUT (Right ▶):
-   // Hands extend out to the OFF-SIDE (+X), and bat drives through the off-side (-PI*0.72)!
    hx=lerp(10,22,sp);
    hy=lerp(-13,isLoft?-20:-12,sp);
    batAng=lerp(-0.85, isLoft?-2.45:-1.75, sp);
   }else{
-   // STRAIGHT DRIVE / LOFTED HIT (Straight ▲):
-   // Hands punch straight forward & up, bat arcs vertically straight up (-PI*0.95)!
    hx=lerp(10,8,sp);
    hy=lerp(-13,-22,sp);
    batAng=lerp(-0.85, isLoft?-2.95:-2.35, sp);
   }
  }
 
- // Draw Left Arm (Top Hand) from Left Shoulder (-9, -22) -> Left Elbow -> Grip (hx, hy)
  const lElbX=(-9+hx)*0.5-4,lElbY=(-22+hy)*0.5+4;
  limb(-9,-22,lElbX,lElbY,5.5,bt.col);
  limb(lElbX,lElbY,hx,hy,5,'#f5f5f5');
 
- // Draw Right Arm (Bottom Hand) from Right Shoulder (9, -22) -> Right Elbow -> Grip (hx+2, hy+3)
  const rElbX=(9+hx)*0.5+5,rElbY=(-22+hy)*0.5+5;
  limb(9,-22,rElbX,rElbY,5.5,bt.col);
  limb(rElbX,rElbY,hx+2,hy+3,5,'#f5f5f5');
 
- // Draw the Cricket Bat anchored right at the Two-Handed Grip (hx, hy)!
  X.save();
  X.translate(hx,hy);
  X.rotate(batAng);
 
- // Rubber Handle held between both hands
  X.fillStyle='#263238';X.fillRect(-2,-6,4,14);
- // Both Batting Gloves gripping the handle together
  X.fillStyle='#ffffff';
  X.beginPath();X.arc(0,-1,4.5,0,7);X.fill();
  X.beginPath();X.arc(0,5,4.5,0,7);X.fill();
  X.strokeStyle='#111';X.lineWidth=1;X.stroke();
 
- // Willow Cricket Bat Blade extending from handle (y = 8 to 44)
  X.fillStyle='#d7a15c';
  X.beginPath();
  X.moveTo(-4.5,8);X.lineTo(4.5,8);X.lineTo(5.5,42);X.lineTo(0,44);X.lineTo(-5.5,42);
  X.closePath();X.fill();
- // Wood highlight & brand sticker
  X.fillStyle='#f5d6a7';X.fillRect(-2.5,9,3,31);
  X.fillStyle=bt.acc;X.fillRect(-4,13,8,6);
  X.strokeStyle='#3e2723';X.lineWidth=1.4;
  X.beginPath();
  X.moveTo(-4.5,8);X.lineTo(4.5,8);X.lineTo(5.5,42);X.lineTo(0,44);X.lineTo(-5.5,42);
  X.closePath();X.stroke();
- X.restore(); // end bat
+ X.restore();
 
- X.restore(); // end torso
- X.restore(); // end batsman
+ X.restore();
+ X.restore();
 }
 
 function calcBallPitch(L){
@@ -1841,8 +1797,8 @@ function txt(s,x,y,sz,al='left',c='#fff',stroke=true){
  X.fillStyle=c;X.fillText(s,x,y);
 }
 
-// WCC TV Broadcast HUD with Pure Icons instead of AR/BWL/BAT text!
-function drawWCCBroadcastHUD(L,m,n,bt,bw){
+// Verse TV Broadcast HUD with Pure Icons
+function drawBroadcastHUD(L,m,n,bt,bw){
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
  const sb=n.bat[n.st],nb=n.bat[n.ns],bwSt=n.bowl[n.bwlIdx];
  const stP=btRos[n.st]||{n:'Batsman',r:'BAT'},nsP=btRos[n.ns]||{n:'Non-Striker',r:'BAT'},bwP=bwRos[n.bwlIdx]||{n:'Bowler',r:'BWL',st:'FAST'};
@@ -1878,7 +1834,6 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
  txt(`${n.r}-${n.w}`,76,barY+31,24,'left','#ffd54f');
  txt(`(${ovs(n.b)}${m.maxB?'/'+m.maxB/6:''})`,14,barY+48,12,'left','#e0f7fa',false);
 
- // Striker & Non-Striker with Role Icons instead of text
  txt(`▸ ${roleCanvasIcon(stP)} ${stP.n}`,198,barY+23,15,'left','#ffd54f',false);
  txt(`${sb.r} (${sb.b})`,420,barY+23,15,'right','#ffd54f',false);
  txt(`  ${roleCanvasIcon(nsP)} ${nsP.n}`,198,barY+43,14,'left','#b0bec5',false);
@@ -1886,7 +1841,6 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
 
  X.fillStyle='rgba(255,255,255,0.2)';X.fillRect(435,barY+8,2,barH-14);
 
- // Bowler with Role/Style Icon instead of text
  txt(`${roleCanvasIcon(bwP)} ${bwP.n}`,450,barY+23,15,'left','#4fc3f7',false);
  txt(`${bwSt.w}-${bwSt.r} (${ovs(bwSt.b)})`,680,barY+23,15,'right','#ffffff',false);
 
@@ -1904,7 +1858,7 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
  txt(hint,W-14,barY+32,13,'right','#00e676',false);
 }
 
-// ---------- Synchronized Outfield View (6 = High Over Rope, 4 = Bounces & Rolls Across Rope, Catch = Into Fielder's Hands!) ----------
+// ---------- Synchronized Outfield View ----------
 function drawOutfieldView(L,bt,bw){
  if(L.t<0.35){
   drawPitchScene(L,bt,bw);
@@ -1943,34 +1897,26 @@ function drawOutfieldView(L,bt,bw){
  const bx=OCX+(L.dest[0]-OCX)*p;
  const by0=OCY+28+(L.dest[1]-(OCY+28))*p;
 
- // Distinct Height Profiles (`bh`) for 6, 4, Caught, and Grounded 1-3:
  let bh=0;
  if(L.out.r==6){
-  // SIX: High parabolic arc that stays airborne until it lands BEYOND the boundary rope (at p=1.0)!
   bh=M.sin(M.PI*p)*145;
  }else if(L.out.w&&L.out.k=='c'){
-  // CAUGHT OUT: High lofted arc landing directly in the fielder's hands at p=1.0!
   bh=M.sin(M.PI*p)*82;
  }else if(L.out.r==4){
-  // FOUR: Bounces inside the field at p=0.48, second small bounce at p=0.75, then rolls along the grass (bh=0) across the boundary rope!
   if(p<0.48)bh=M.sin(M.PI*(p/0.48))*(L.press&&L.press.loft?34:14);
   else if(p<0.75)bh=M.sin(M.PI*((p-0.48)/0.27))*10;
   else bh=0;
  }else{
-  // 1, 2, 3 Runs: One small bounce then rolls along the turf
   bh=p<0.45?M.sin(M.PI*(p/0.45))*12:0;
  }
 
- // Ground shadow under ball (shows clearly whether ball is high in the air or rolling on the turf!)
  X.fillStyle='rgba(0,0,0,0.45)';
  X.beginPath();X.ellipse(bx,by0+4,5+bh*.03,3+bh*.015,0,0,7);X.fill();
 
- // Trajectory trail (Gold/Orange for 6, Green/Cyan for ground 4)
  X.strokeStyle=L.out.r==6?'rgba(255,213,79,0.55)':L.out.r==4?'rgba(0,230,118,0.45)':'rgba(255,255,255,0.35)';
  X.lineWidth=3;
  X.beginPath();X.moveTo(OCX,OCY+28);X.lineTo(bx,by0-bh);X.stroke();
 
- // Ball
  X.fillStyle='#ffffff';X.beginPath();X.arc(bx,by0-bh,5.5+bh*.04,0,7);X.fill();
  X.strokeStyle='#d50000';X.lineWidth=1.2;X.stroke();
 }
@@ -2048,7 +1994,7 @@ function draw(){
  else drawPitchScene(L,bt,bw);
 
  if(L&&m&&n){
-  drawWCCBroadcastHUD(L,m,n,bt,bw);
+  drawBroadcastHUD(L,m,n,bt,bw);
   if(L.revealed&&L.bigT>0&&L.big){
    X.save();
    const s=1+M.min(.28,(1.75-L.bigT)*.25);
