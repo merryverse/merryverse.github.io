@@ -6,38 +6,45 @@
 html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-behavior:none}
 #cr{position:fixed;inset:0;background:#040b14;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#eef6ff;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-weight:700}
 #cr canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
-#cr .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;background:linear-gradient(180deg,rgba(4,12,24,.96),rgba(6,24,18,.97));text-align:center;padding:16px 12px 28px;overflow-y:auto;box-sizing:border-box;z-index:5}
+#cr .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;background:linear-gradient(180deg,rgba(4,12,24,.96),rgba(6,24,18,.97));text-align:center;padding:14px 10px 28px;overflow-y:auto;box-sizing:border-box;z-index:5}
 #cr .ov.center{justify-content:center}
 #cr .ov[hidden]{display:none}
 #cr #ld{background:#040b14;z-index:12;justify-content:center;font-size:20px;letter-spacing:.1em}
-#cr h1{margin:4px 0;font-size:clamp(28px,7vmin,52px);letter-spacing:.06em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
-#cr h2{margin:4px 0;font-size:clamp(18px,4.5vmin,28px);letter-spacing:.04em;color:#ffd54f;text-shadow:0 2px 4px #000}
-#cr h3{margin:4px 0;font-size:clamp(14px,3.3vmin,19px);color:#4fc3f7}
-#cr p{margin:0;max-width:640px;font-size:clamp(13px,2.8vmin,16px);line-height:1.45;color:#b8d8e8}
-.top-wallet{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:6px 16px;border-radius:30px;font-size:clamp(12px,2.6vmin,15px)}
+#cr h1{margin:4px 0;font-size:clamp(26px,6.5vmin,50px);letter-spacing:.06em;background:linear-gradient(180deg,#ffffff,#38ef7d,#ffd54f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #000)}
+#cr h2{margin:3px 0;font-size:clamp(17px,4.2vmin,26px);letter-spacing:.03em;color:#ffd54f;text-shadow:0 2px 4px #000}
+#cr h3{margin:3px 0;font-size:clamp(13.5px,3.1vmin,18px);color:#4fc3f7}
+#cr p{margin:0;max-width:640px;font-size:clamp(12.5px,2.7vmin,15.5px);line-height:1.42;color:#b8d8e8}
+.top-wallet{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:30px;font-size:clamp(12px,2.5vmin,15px)}
 .top-wallet span{color:#ffd54f}
 .top-wallet .cash{color:#00e676;font-size:clamp(14px,3vmin,18px)}
-.grid-menu{display:flex;flex-direction:column;gap:10px;width:min(92vw,420px)}
-#cr .b{font:inherit;font-size:clamp(14px,3vmin,17px);letter-spacing:.04em;color:#fff;background:linear-gradient(135deg,#0f4c81,#092b4c);border:2px solid #29b6f6;border-radius:8px;padding:10px 18px;width:100%;max-width:420px;cursor:pointer;box-shadow:0 4px 0 #041526;transition:transform .1s,background .15s;box-sizing:border-box}
+.grid-menu{display:flex;flex-direction:column;gap:9px;width:min(92vw,420px)}
+#cr .b{font:inherit;font-size:clamp(13.5px,2.9vmin,16.5px);letter-spacing:.03em;color:#fff;background:linear-gradient(135deg,#0f4c81,#092b4c);border:2px solid #29b6f6;border-radius:8px;padding:10px 16px;width:100%;max-width:440px;cursor:pointer;box-shadow:0 4px 0 #041526;transition:transform .1s,background .15s;box-sizing:border-box}
 #cr .b.green{background:linear-gradient(135deg,#1b7a3d,#0c4721);border-color:#00e676}
 #cr .b.gold{background:linear-gradient(135deg,#b26a00,#6e3f00);border-color:#ffd54f}
 #cr .b.red{background:linear-gradient(135deg,#9b1c1c,#5c0e0e);border-color:#ff5252}
 #cr .b:hover,#cr .b:focus,#cr .b:focus-visible{background:#1e88e5;outline:2px solid #ffd54f;transform:translateY(-1px)}
 #cr .b:disabled{opacity:.42;cursor:not-allowed;transform:none}
-/* Single-Column Clean List for Bowler/Batsman/Market Cards */
-.card-list{display:flex;flex-direction:column;gap:8px;width:min(94vw,500px);max-height:54vh;overflow-y:auto;padding:4px;box-sizing:border-box}
-.pcard{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(14,34,56,.88);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 14px;text-align:left;font-size:clamp(13px,2.6vmin,15px);box-sizing:border-box}
+.card-list{display:flex;flex-direction:column;gap:8px;width:min(95vw,520px);max-height:46vh;overflow-y:auto;padding:4px;box-sizing:border-box}
+.pcard{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(14,34,56,.9);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;padding:9px 12px;text-align:left;font-size:clamp(12.5px,2.5vmin,15px);box-sizing:border-box}
 .pcard.sel{border:2px solid #00e676;background:rgba(0,230,118,.16)}
 .pcard-info{flex:1;min-width:0}
-.pcard-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:clamp(14px,2.8vmin,16px);color:#fff;margin-bottom:3px}
-.pcard-sub{font-size:clamp(12px,2.3vmin,13.5px);color:#a6c8e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard .b{width:auto;min-width:110px;padding:8px 14px;font-size:clamp(12px,2.4vmin,14px);white-space:nowrap;flex-shrink:0}
-.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:800;color:#000;line-height:1.2}
-.badge.BAT{background:#4fc3f7}.badge.BWL{background:#ff8a65}.badge.AR{background:#ffd54f}.badge.WK{background:#ce93d8}
-.sc-table{width:min(96vw,740px);border-collapse:collapse;font-size:clamp(12px,2.3vmin,14px);background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden}
-.sc-table th,.sc-table td{padding:7px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
-.sc-table th{background:rgba(41,182,246,.22);color:#ffd54f}
-.sc-table td.num,.sc-table th.num{text-align:right}
+.pcard-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:clamp(13.5px,2.7vmin,15.5px);color:#fff;margin-bottom:2px}
+.pcard-sub{font-size:clamp(11.5px,2.2vmin,13px);color:#a6c8e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .b{width:auto;min-width:96px;padding:7px 12px;font-size:clamp(11.5px,2.3vmin,13.5px);white-space:nowrap;flex-shrink:0}
+/* Pure Icon Badges for Roles & Bowling Styles */
+.ico-role{display:inline-flex;align-items:center;justify-content:center;gap:2px;padding:2px 6px;border-radius:6px;font-size:13px;line-height:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);vertical-align:middle}
+.ico-role.BAT{background:rgba(79,195,247,.22);border-color:#4fc3f7}
+.ico-role.BWL{background:rgba(255,138,101,.22);border-color:#ff8a65}
+.ico-role.AR{background:rgba(255,213,79,.22);border-color:#ffd54f}
+.ico-role.WK{background:rgba(206,147,216,.22);border-color:#ce93d8}
+/* Responsive Mobile-Friendly Scorecard Table (No Horizontal Cutoff) */
+.sc-wrap{width:min(96vw,680px);overflow-x:auto;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.14)}
+.sc-table{width:100%;border-collapse:collapse;font-size:clamp(11px,2.2vmin,13.5px);table-layout:fixed}
+.sc-table th,.sc-table td{padding:6px 5px;text-align:left;border-bottom:1px solid rgba(255,255,255,.09);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-table th{background:rgba(41,182,246,.24);color:#ffd54f;font-size:clamp(10.5px,2.1vmin,13px)}
+.sc-table td.num,.sc-table th.num{text-align:right;width:10%}
+.sc-table td.col-name,.sc-table th.col-name{width:38%}
+.sc-table td.col-stat,.sc-table th.col-stat{width:22%;font-size:clamp(10px,2vmin,12px);color:#b0bec5}
 #cr .lbx{width:min(92vw,500px)}
 #cr .lr{display:flex;align-items:center;gap:10px;height:34px;padding:0 12px;margin-top:5px;background:#ffffff12;border-radius:6px;font-size:14px;text-align:left}
 #cr .lr b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -48,8 +55,9 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
 #pad button{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2.5px solid #29b6f6;background:rgba(8,26,46,.84);color:#fff;font:inherit;font-size:4vmin;width:12vmin;height:12vmin;box-shadow:0 4px 12px #000b}
 #pad button:active,#pad button.act{background:#00c853;transform:scale(.93);border-color:#ffd54f}
 #cl{left:2vmin;bottom:14vmin}#cu{left:14vmin;bottom:25vmin}#cd{left:14vmin;bottom:3vmin}#cR{left:26vmin;bottom:14vmin}
-#pad #ok{right:3vmin;bottom:10vmin;width:20vmin;height:20vmin;font-size:3.5vmin;background:radial-gradient(#00e676,#00796b);border-color:#ffd54f}
-#pad #varb{right:3vmin;bottom:32vmin;width:18vmin;height:7.5vmin;border-radius:18px;font-size:2.3vmin;background:linear-gradient(135deg,#6a1b9a,#38006b);border-color:#ffd54f;display:none}
+#pad #ok{right:3vmin;bottom:9vmin;width:20vmin;height:20vmin;font-size:3.5vmin;background:radial-gradient(#00e676,#00796b);border-color:#ffd54f}
+#pad #loftb{right:3vmin;bottom:31vmin;width:19vmin;height:7.5vmin;border-radius:18px;font-size:2.2vmin;background:linear-gradient(135deg,#ff8f00,#c66900);border-color:#ffd54f}
+#pad #varb{right:3vmin;bottom:31vmin;width:19vmin;height:7.5vmin;border-radius:18px;font-size:2.2vmin;background:linear-gradient(135deg,#6a1b9a,#38006b);border-color:#ffd54f;display:none}
 #pad #pp{right:2.5vmin;top:1.8vmin;width:8.5vmin;height:8.5vmin;font-size:2.6vmin}
 #pad #scb{right:12.5vmin;top:1.8vmin;width:14vmin;height:6.5vmin;border-radius:16px;font-size:2.2vmin}
 </style></head><body>
@@ -57,7 +65,11 @@ html,body{margin:0;height:100%;overflow:hidden;background:#040b14;overscroll-beh
  <canvas id="cv"></canvas>
  <div id="ui" class="ov"></div>
  <div id="pad">
-  <button id="cl">◀</button><button id="cu">▲</button><button id="cR">▶</button><button id="cd">▼</button>
+  <button id="cl" title="Move Left / Leg Side">◀</button>
+  <button id="cu" title="Advance Down Pitch / Straight">▲</button>
+  <button id="cR" title="Move Right / Off Side">▶</button>
+  <button id="cd" title="Backfoot / Crease Depth">▼</button>
+  <button id="loftb">🚀 LOFT ON</button>
   <button id="varb">SWING 1</button>
   <button id="ok">SHOT</button>
   <button id="scb">SCORE</button>
@@ -93,6 +105,21 @@ function fit(){const s=M.min(innerWidth/W,innerHeight/H);C.style.width=W*s+'px';
 addEventListener('resize',fit);fit();
 if(matchMedia('(pointer:coarse)').matches||'ontouchstart' in window)root.classList.add('t');
 document.addEventListener('touchmove',e=>{if(!e.target.closest('.ov'))e.preventDefault()},{passive:false});
+
+// ---------- Pure Visual Role & Style Icons (No Text Labels like AR/BWL/BAT) ----------
+function roleIcon(r,st){
+ if(r==='WK')return `<span class="ico-role WK" title="Wicketkeeper">🧤</span>`;
+ if(r==='BAT')return `<span class="ico-role BAT" title="Batsman">🏏</span>`;
+ if(r==='AR')return `<span class="ico-role AR" title="All-Rounder">🏏${st==='FAST'?'⚡':'🌀'}</span>`;
+ return `<span class="ico-role BWL" title="${st==='FAST'?'Fast Bowler':'Spin Bowler'}">${st==='FAST'?'⚡':'🌀'}</span>`;
+}
+function roleCanvasIcon(p){
+ if(!p)return '🏏';
+ if(p.r==='WK')return '🧤';
+ if(p.r==='BAT')return '🏏';
+ if(p.r==='AR')return p.st==='FAST'?'🏏⚡':'🏏🌀';
+ return p.st==='FAST'?'⚡':'🌀';
+}
 
 // ---------- Authentic 8 National Team Rosters ----------
 const TEAMS=[
@@ -185,7 +212,7 @@ function getRoster(tIdx,useFranchise=false){
  return base;
 }
 
-// ---------- Mobile Back Button Navigation Guard (History API) ----------
+// ---------- Mobile Back Button Navigation Guard ----------
 let historyGuardActive=false;
 function pushBackGuard(){
  try{
@@ -197,26 +224,15 @@ function pushBackGuard(){
 }
 
 function handleInGameBack(){
- // If on main home menu, do nothing
  if(st==='menu'&&ui.querySelector('[data-a="single"]'))return;
  au();
  if(st==='play'){
   pause();
  }else if(st==='pause'){
-  if(ui.querySelector('[data-a="sc_close"]')){
-   // Closing full scorecard during match
-   st='play';hideUI();root.classList.add('pl');
-  }else{
-   // Resume match from pause
-   st='play';hideUI();root.classList.add('pl');
-  }
+  st='play';hideUI();root.classList.add('pl');
  }else if(st==='sel'){
-  if(ui.querySelector('[data-a="back_to_over"]')){
-   showEndOfOverModal();
-  }
-  // During mandatory player/bowler selection, stay on screen or allow pause
+  // Stay on active selection screen
  }else{
-  // In any sub-menu (Market, Squad, Format, Opponent, Multiplayer, Leaderboard, How to Play) -> go back to Home Menu!
   menu();
  }
 }
@@ -225,7 +241,6 @@ window.addEventListener('popstate',()=>{
  historyGuardActive=false;
  if(!(st==='menu'&&ui.querySelector('[data-a="single"]'))){
   handleInGameBack();
-  // Re-arm guard if still not on root home menu
   if(!(st==='menu'&&ui.querySelector('[data-a="single"]')))pushBackGuard();
  }
 });
@@ -470,58 +485,38 @@ function simMatch(a,b,fmt){
  return m;
 }
 
-// ---------- WCC Tricky Bowling Logic (Realistic Wickets, Play & Miss, Edges & Traps!) ----------
-// Variations:
-// 0: In-Swing / Off-Break (curves in towards leg/stumps)
-// 1: Out-Swing / Leg-Break (curves away towards off/slips)
-// 2: Slower Cutter / Doosra (deceives timing in air, slower pace)
-// 3: Yorker / Bouncer Trap (extreme length attack)
-const BOWL_VARS_FAST=['IN-SWING','OUT-SWING','SLOWER BALL','SPEED TRAP'];
-const BOWL_VARS_SPIN=['OFF BREAK','LEG BREAK','DOOSRA/GOOGLY','ARM BALL'];
+// ---------- WCC Tricky Bowling Logic ----------
+const BOWL_VARS_FAST=['⚡ IN-SWING','⚡ OUT-SWING','🐢 SLOWER','🔥 YORKER/BOUNCE'];
+const BOWL_VARS_SPIN=['🌀 OFF BREAK','🌀 LEG BREAK','🎭 DOOSRA','🚀 ARM BALL'];
 
 function userBowl(m,L){
  const n=m.inn[m.cur];
  const batP=m.rosters[n.bt][n.st]||{ba:80},bwlP=m.rosters[n.bw][n.bwlIdx]||{bo:84,st:'FAST'};
- const skillDiff=(bwlP.bo-batP.ba)/100; // -0.2 to +0.2
-
- // 1. Meter Accuracy (acc is 0..1, where >0.86 is PERFECT GOLD, >0.65 is GREEN GOOD, <0.45 is LOOSE)
+ const skillDiff=(bwlP.bo-batP.ba)/100;
  const acc=L.acc;
-
- // 2. Check Tactical Deception vs AI Batsman's Expectancy (`L.aiExpect`)
- // L.aiExpect: {zone: 'SHORT'|'FULL'|'GOOD', side: 'OFF'|'LEG', varPref: 0..3}
  const isYorker=L.by>.82,isBouncer=L.by<.28,isGood=L.by>=.40&&L.by<=.72;
  const inStumps=M.abs(L.endX)<.32,fourthStump=L.endX>=.18&&L.endX<=.48;
 
  let trickScore=0;
- // Reward varying delivery type & spot from previous ball
- if(L.bVar!==L.lastBwlVar)trickScore+=0.25;
- else trickScore-=0.15; // Repeating same ball makes AI read it!
- if(M.hypot(L.bx-L.lastBx,L.by-L.lastBy)>.22)trickScore+=0.20;
- else trickScore-=0.20;
-
- // Reward bowling opposite to what AI batsman is waiting for!
+ if(L.bVar!==L.lastBwlVar)trickScore+=0.25;else trickScore-=0.15;
+ if(M.hypot(L.bx-L.lastBx,L.by-L.lastBy)>.22)trickScore+=0.20;else trickScore-=0.20;
  if(L.aiExpect.zone==='SHORT'&&(isYorker||isGood))trickScore+=0.30;
  if(L.aiExpect.zone==='FULL'&&(isBouncer||L.bVar===2))trickScore+=0.30;
- if(fourthStump&&L.bVar===1)trickScore+=0.28; // Classic Out-swinger on 4th stump channel!
- if(inStumps&&(L.bVar===0||isYorker))trickScore+=0.28; // In-swinging yorker at the stumps!
+ if(fourthStump&&L.bVar===1)trickScore+=0.28;
+ if(inStumps&&(L.bVar===0||isYorker))trickScore+=0.28;
 
  L.lastBwlVar=L.bVar;L.lastBx=L.bx;L.lastBy=L.by;
 
- // Calculate Outcome Weights: [Dot(0), 1, 2, 3, 4, 6, Wicket]
  let w;
  if(acc>=0.82){
-  // PERFECT GOLD / GREEN RELEASE! Bowler dominates!
-  const wktChance=18+M.max(0,trickScore*26)+skillDiff*18; // Up to 32-36% wicket chance on a great trap!
+  const wktChance=18+M.max(0,trickScore*26)+skillDiff*18;
   w=[52, 18, 4, 0, 3, 1, wktChance];
  }else if(acc>=0.60){
-  // GOOD RELEASE
   const wktChance=10+M.max(0,trickScore*16)+skillDiff*12;
   w=[42, 26, 7, 1, 8, 2, wktChance];
  }else if(acc>=0.38){
-  // AVERAGE RELEASE
   w=[28, 30, 9, 1, 16, 6, 5];
  }else{
-  // POOR / MISSED METER (Loose Half-Volley or Long-Hop -> AI punishes!)
   w=[12, 20, 8, 1, 34, 22, 2];
  }
 
@@ -529,18 +524,16 @@ function userBowl(m,L){
  const o=outFrom(pick);
 
  if(o.w){
-  // Realistic dismissal types based on line & length!
   if(inStumps&&(isYorker||L.bVar===0||rnd()<.55)){
    o.k='b';o.timing='CLEAN BOWLED!';
   }else if(fourthStump||isBouncer||rnd()<.45){
    o.k='wk';o.timing='EDGED & TAKEN BY KEEPER!';
   }else{
-   o.k='c';o.timing=L.bVar===2?'DECEIVED BY SLOWER BALL!':'CAUGHT IN THE DEEP!';
+   o.k='c';o.timing=L.bVar===2?'DECEIVED BY SLOWER BALL!':'CAUGHT IN THE FIELD!';
   }
  }else if(o.r===0){
   if(acc>=0.72&&rnd()<.65){
-   o.playAndMiss=true;
-   o.timing='SWING & MISS! BEATEN!';
+   o.playAndMiss=true;o.timing='SWING & MISS! BEATEN!';
   }else{
    o.timing='SOLID BLOCK';
   }
@@ -559,13 +552,29 @@ const TB={
  G0:[28, 28, 12, 0, 14, 0, 18]
 };
 
+// User Batting with 2D Footwork Effectiveness (batX lateral + batY front/back foot depth!)
 function userBat(m,L){
  const n=m.inn[m.cur];
  const batP=m.rosters[n.bt][n.st],bwlP=m.rosters[n.bw][n.bwlIdx];
  const dW=((bwlP?bwlP.bo:80)-(batP?batP.ba:82))/100*.28,p=L.press;
+
+ // Ball x at batsman's depth (L.batY, default 0.98; charging down track goes up to 0.84, deep backfoot goes to 1.04)
+ const ballXAtBat=lerp(L.bx,L.endX,cl((L.batY-L.by)/(1.0-L.by),0,1.2));
  const hittingStumps=M.abs(L.endX)<.28&&L.by>.32;
  const batReachX=L.batX+0.12;
- const distX=M.abs(L.endX-batReachX);
+ const distX=M.abs(ballXAtBat-batReachX);
+
+ // Calculate Footwork Depth Effectiveness Bonus (`depthBonus`):
+ // Charging/Front-foot (batY < 0.94) is GREAT against Good/Full length (by >= 0.42), bad against Bouncers (by < 0.30).
+ // Back-foot (batY > 0.99) is GREAT against Short/Back-of-length (by <= 0.48), risky against Yorkers (by > 0.84).
+ let depthBonus=0,footNote='';
+ if(L.batY<0.94){
+  if(L.by>=0.40){depthBonus=0.22;footNote='GREAT FRONT-FOOT STEP!'}
+  else{depthBonus=-0.16;footNote='CRAMPED BY BOUNCER!'}
+ }else if(L.batY>0.99){
+  if(L.by<=0.50){depthBonus=0.22;footNote='SUPERB BACK-FOOT PULL/CUT!'}
+  else if(L.by>0.84){depthBonus=-0.16;footNote='DEEP IN CREASE VS YORKER!'}
+ }
 
  if(!p){
   if(hittingStumps&&distX>.25&&rnd()<.48)return{r:0,w:1,k:'b',timing:'BOWLED!'};
@@ -573,24 +582,24 @@ function userBat(m,L){
   return{r:0,w:0,timing:'WELL LEFT'};
  }
 
- const err=(p.t-L.dur)/.30;
+ const err=(p.t-L.arrivalT)/.30;
  if(M.abs(err)>1.22||distX>.72){
   if(hittingStumps&&rnd()<.38+dW)return{r:0,w:1,k:'b',timing:distX>.72?'MISSED LINE!':err<0?'TOO EARLY!':'TOO LATE!'};
   return{r:0,w:0,playAndMiss:true,timing:distX>.72?'TOO WIDE!':err<0?'EARLY!':'LATE!'};
  }
 
- let q=1-M.abs(err)*.65-M.max(0,distX-.22)*.6;
- if(distX<.24)q+=.18;
+ let q=1-M.abs(err)*.65-M.max(0,distX-.22)*.6+depthBonus;
+ if(distX<.24)q+=.16;
  q=cl(q,0,1);
 
- const tier=q>.65?2:q>.35?1:0;
+ const tier=q>.64?2:q>.34?1:0;
  const mode=L.loft?'U':'G';
  const w=TB[mode+tier].slice();
  w[6]*=M.max(.2,1+dW*1.4);
 
  const o=outFrom(pickW(w));
  if(o.w)o.k=L.loft?'c':(tier==0&&hittingStumps&&rnd()<.55)?'b':'c';
- o.timing=tier==2?'PERFECT TIMING!':tier==1?'SWEET TIMING!':'GOOD CONTACT';
+ o.timing=footNote||(tier==2?'PERFECT TIMING!':tier==1?'SWEET TIMING!':'GOOD CONTACT');
  o.q=q;
  return o;
 }
@@ -634,7 +643,6 @@ function panel(h,f,center=false){
  ui.hidden=false;
  ui.className='ov'+(center?' center':'');
  ui.innerHTML=h;
- // Arm mobile back button history guard whenever not on root home menu
  if(!(st==='menu'&&ui.querySelector('[data-a="single"]')))pushBackGuard();
  setTimeout(()=>{const b=ui.querySelector(f?`[data-a=${f}]`:'.b');if(b)b.focus()},0);
 }
@@ -672,35 +680,50 @@ ui.addEventListener('click',e=>{
  if(btn){au();act(btn.dataset.a,btn.dataset.v)}
 });
 
-// Full Batting & Bowling Scorecard HTML Builder
-function renderScorecardHTML(m,backAction='sc_close'){
+// Full Batting & Bowling Scorecard HTML Builder (With Pure Icon Badges & Mobile-Fit Columns!)
+function renderScorecardHTML(m,backAction='sc_close',overEndSection=''){
  const n=m.inn[m.cur];
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
- let h=`<h2>${TEAMS[n.bt].n} INNINGS — ${n.r}/${n.w} (${ovs(n.b)} Overs)</h2>`;
- h+=`<table class="sc-table"><tr><th>BATSMAN</th><th>ROLE</th><th>STATUS</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr>`;
+ const crr=n.b?(n.r/n.b*6).toFixed(2):'0.00';
+ let h=`<h2>${TEAMS[n.bt].n} — ${n.r}/${n.w} (${ovs(n.b)} Overs · CRR ${crr})</h2>`;
+ if(overEndSection)h+=overEndSection;
+
+ h+=`<div class="sc-wrap"><table class="sc-table">
+  <tr><th class="col-name">BATSMAN</th><th class="col-stat">STATUS</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr>`;
  n.bat.forEach((b,i)=>{
   const p=btRos[i];
   const active=(i===n.st||i===n.ns)&&!b.o;
-  const stTxt=b.o?esc(b.how):active?(i===n.st?'NOT OUT *':'NOT OUT'):'Yet to bat';
-  const sr=b.b?((b.r/b.b)*100).toFixed(1):'0.0';
+  const stTxt=b.o?esc(b.how):active?(i===n.st?'batting *':'not out'):'';
+  const sr=b.b?((b.r/b.b)*100).toFixed(0):'0';
   if(b.b>0||b.o||active){
-   h+=`<tr style="${active?'background:rgba(0,230,118,.14)':''}"><td><b>${esc(p.n)}</b></td><td><span class="badge ${p.r}">${p.r}</span></td><td>${stTxt}</td><td class="num"><b>${b.r}</b></td><td class="num">${b.b}</td><td class="num">${b.f4}</td><td class="num">${b.s6}</td><td class="num">${sr}</td></tr>`;
+   h+=`<tr style="${active?'background:rgba(0,230,118,.15)':''}">
+    <td class="col-name">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></td>
+    <td class="col-stat">${stTxt}</td>
+    <td class="num"><b>${b.r}</b></td><td class="num">${b.b}</td><td class="num">${b.f4}</td><td class="num">${b.s6}</td><td class="num">${sr}</td>
+   </tr>`;
   }
  });
- h+=`</table><h3>BOWLING DEPARTMENT (${TEAMS[n.bw].n})</h3>`;
- h+=`<table class="sc-table"><tr><th>BOWLER</th><th>ROLE</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">ECON</th></tr>`;
+ h+=`</table></div>`;
+
+ h+=`<h3>BOWLING (${TEAMS[n.bw].n})</h3>`;
+ h+=`<div class="sc-wrap"><table class="sc-table">
+  <tr><th class="col-name">BOWLER</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">ECON</th></tr>`;
  n.bowl.forEach((bw,i)=>{
   if(bw.b>0||i===n.bwlIdx){
    const p=bwRos[i];
-   const econ=bw.b?(bw.r/(bw.b/6)).toFixed(2):'0.00';
-   h+=`<tr style="${i===n.bwlIdx?'background:rgba(41,182,246,.16)':''}"><td><b>${esc(p.n)}</b> ${i===n.bwlIdx?'🥎':''}</td><td><span class="badge ${p.r}">${p.r} · ${p.st}</span></td><td class="num">${ovs(bw.b)}</td><td class="num">${bw.mdn}</td><td class="num">${bw.r}</td><td class="num"><b>${bw.w}</b></td><td class="num">${econ}</td></tr>`;
+   const econ=bw.b?(bw.r/(bw.b/6)).toFixed(1):'0.0';
+   h+=`<tr style="${i===n.bwlIdx?'background:rgba(41,182,246,.16)':''}">
+    <td class="col-name">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b> ${i===n.bwlIdx?'🥎':''}</td>
+    <td class="num">${ovs(bw.b)}</td><td class="num">${bw.mdn}</td><td class="num">${bw.r}</td><td class="num"><b>${bw.w}</b></td><td class="num">${econ}</td>
+   </tr>`;
   }
  });
- h+=`</table>`+B(backAction,'⬅ BACK TO MATCH','','green');
+ h+=`</table></div>`;
+ if(backAction)h+=B(backAction,'▶ RESUME MATCH','','green');
  return h;
 }
 
-// ---------- Fixed Single-Column Player Selection Modals (User ONLY selects for User's Own Team!) ----------
+// ---------- Single-Column Player Selection Modals (With Pure Icons!) ----------
 let selState={st:0,ns:1,bwl:8};
 function showInningsSetupSelection(){
  const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
@@ -710,16 +733,15 @@ function showInningsSetupSelection(){
  st='sel';root.classList.remove('pl');
 
  if(userIsBatting){
-  // User is BATTING: AI automatically picks its opening bowler; User ONLY picks their own Opening Striker & Non-Striker!
   n.bwlIdx=bChoices[0];
   let h=`<h2>🏏 YOUR BATTING INNINGS (${TEAMS[n.bt].n})</h2>`;
-  h+=`<p>Select Your Opening Striker & Non-Striker (Single-Column View):</p><div class="card-list">`;
+  h+=`<p>Select Your Opening Striker & Non-Striker:</p><div class="card-list">`;
   btRos.forEach((p,i)=>{
    const isSt=selState.st===i,isNs=selState.ns===i;
    h+=`<div class="pcard ${isSt||isNs?'sel':''}">
     <div class="pcard-info">
-     <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span></div>
-     <div class="pcard-sub">BATTING: ${p.ba} · BOWLING: ${p.bo}</div>
+     <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
+     <div class="pcard-sub">🏏 ${p.ba} · ⚡ ${p.bo}</div>
     </div>
     <div style="display:flex;gap:6px">
      <button class="b ${isSt?'green':''}" style="min-width:82px;padding:7px 10px" data-a="set_st" data-v="${i}">${isSt?'✔ STRIKER':'STRIKER'}</button>
@@ -730,18 +752,17 @@ function showInningsSetupSelection(){
   h+=`</div>`+B('confirm_openers','START BATTING ▶','','green');
   panel(h,'confirm_openers');
  }else{
-  // User is BOWLING: AI automatically sets its own openers (0 & 1); User ONLY picks their own Opening Bowler!
   n.st=0;n.ns=1;
   let h=`<h2>🥎 YOUR BOWLING INNINGS (${TEAMS[n.bw].n})</h2>`;
   h+=`<p>Opponent Openers: <b>${esc(btRos[0].n)}</b> & <b>${esc(btRos[1].n)}</b></p>`;
-  h+=`<h3>SELECT YOUR OPENING BOWLER (${TEAMS[n.bw].n} BOWLING DEPT)</h3><div class="card-list">`;
+  h+=`<h3>SELECT OPENING BOWLER (${TEAMS[n.bw].n})</h3><div class="card-list">`;
   bwRos.forEach((p,i)=>{
    if(p.r==='BWL'||p.r==='AR'||p.bo>=50){
     const isB=selState.bwl===i;
     h+=`<div class="pcard ${isB?'sel':''}">
      <div class="pcard-info">
-      <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} · ${p.st}</span></div>
-      <div class="pcard-sub">BOWL RATING: ${p.bo} · BAT: ${p.ba}</div>
+      <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
+      <div class="pcard-sub">🥎 ${p.bo} · 🏏 ${p.ba}</div>
      </div>
      <button class="b ${isB?'green':''}" data-a="set_bwl" data-v="${i}">${isB?'✔ SELECTED':'SELECT'}</button>
     </div>`;
@@ -761,8 +782,8 @@ function showNextBatsmanModal(){
   if(i!==n.ns&&!b.o&&b.b===0){
    h+=`<div class="pcard">
     <div class="pcard-info">
-     <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r}</span></div>
-     <div class="pcard-sub">BATTING: ${p.ba} · BOWLING: ${p.bo}</div>
+     <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
+     <div class="pcard-sub">🏏 ${p.ba} · ⚡ ${p.bo}</div>
     </div>
     <button class="b green" data-a="pick_next_bat" data-v="${i}">SEND IN ▶</button>
    </div>`;
@@ -772,52 +793,45 @@ function showNextBatsmanModal(){
  panel(h);
 }
 
-// Single-Column End of Over Summary & Bowler Selection (Only asks user to pick bowler if User is Bowling!)
+// End of Over -> Directly Shows the FULL SCORECARD + Next Over Action!
 function showEndOfOverModal(){
- const m=lv.m,n=m.inn[m.cur],btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
+ const m=lv.m,n=m.inn[m.cur],bwRos=m.rosters[n.bw];
  const userIsBowling=(n.bw===lv.u);
  st='sel';root.classList.remove('pl');
  const ovNum=n.b/6;
- const crr=n.b?(n.r/n.b*6).toFixed(2):'0.00';
- const sb=n.bat[n.st],nb=n.bat[n.ns];
  const ovBalls=(n.lastOv&&n.lastOv.length?n.lastOv:n.ov).join('  ');
 
- let h=`<h2>END OF OVER ${ovNum} · ${TEAMS[n.bt].c} ${n.r}/${n.w} (CRR ${crr})</h2>`;
- h+=`<p>This Over: <b>${ovBalls}</b></p>`;
- h+=`<p>🏏 <b>${esc(btRos[n.st].n)}*</b> ${sb.r}(${sb.b}) &nbsp;|&nbsp; <b>${esc(btRos[n.ns].n)}</b> ${nb.r}(${nb.b})</p>`;
-
+ let topCtrl=`<p>End of Over ${ovNum} · Balls: <b>${ovBalls}</b></p>`;
  if(userIsBowling){
-  h+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n} BOWLING DEPT)</h3><div class="card-list">`;
+  topCtrl+=`<h3>SELECT BOWLER FOR OVER ${ovNum+1} (${TEAMS[n.bw].n})</h3><div class="card-list" style="max-height:26vh">`;
   bwRos.forEach((p,i)=>{
    if((p.r==='BWL'||p.r==='AR'||p.bo>=50)&&i!==n.lastBwl){
     const stB=n.bowl[i];
-    h+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
+    topCtrl+=`<div class="pcard ${i===n.bwlIdx?'sel':''}">
      <div class="pcard-info">
-      <div class="pcard-title"><b>${esc(p.n)}</b> <span class="badge ${p.r}">${p.r} · ${p.st}</span></div>
-      <div class="pcard-sub">BWL ${p.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
+      <div class="pcard-title">${roleIcon(p.r,p.st)} <b>${esc(p.n)}</b></div>
+      <div class="pcard-sub">🥎 ${p.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
      </div>
      <button class="b green" data-a="pick_next_bwl" data-v="${i}">BOWL OVER</button>
     </div>`;
    }
   });
-  h+=`</div>`;
+  topCtrl+=`</div>`;
+  panel(renderScorecardHTML(m,null,topCtrl));
  }else{
-  // User is BATTING: AI automatically selected its next bowler (`n.bwlIdx`), just show who is bowling next!
   const nextBwl=bwRos[n.bwlIdx];
   const stB=n.bowl[n.bwlIdx];
-  h+=`<div class="card-list"><div class="pcard sel">
+  topCtrl+=`<div class="pcard sel" style="width:min(95vw,520px)">
    <div class="pcard-info">
-    <div class="pcard-title">🥎 Next Bowler (${TEAMS[n.bw].c}): <b>${esc(nextBwl.n)}</b> <span class="badge ${nextBwl.r}">${nextBwl.r} · ${nextBwl.st}</span></div>
-    <div class="pcard-sub">BWL ${nextBwl.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
+    <div class="pcard-title">Next Bowler (${TEAMS[n.bw].c}): ${roleIcon(nextBwl.r,nextBwl.st)} <b>${esc(nextBwl.n)}</b></div>
+    <div class="pcard-sub">🥎 ${nextBwl.bo} · Spell: ${ovs(stB.b)}-${stB.mdn}-${stB.r}-${stB.w}</div>
    </div>
-  </div></div>`;
-  h+=B('cont_next_over','▶ CONTINUE TO OVER '+(ovNum+1),'','green');
+   <button class="b green" data-a="cont_next_over">OVER ${ovNum+1} ▶</button>
+  </div>`;
+  panel(renderScorecardHTML(m,'cont_next_over',topCtrl));
  }
- h+=B('view_full_sc','📊 VIEW FULL SCORECARD');
- panel(h);
 }
 
-// Single-Column BPL / IPL Auction Market
 function showMarket(){
  let h=`<h2>💰 BPL / IPL FRANCHISE AUCTION</h2>`;
  h+=`<div class="top-wallet"><div class="cash">Balance: $${S.cash}</div><div>Franchise: <b>${esc(S.franName)} (${S.league})</b></div></div>`;
@@ -827,8 +841,8 @@ function showMarket(){
   const isOwned=S.owned.includes(m.id);
   h+=`<div class="pcard ${isOwned?'sel':''}">
    <div class="pcard-info">
-    <div class="pcard-title"><b>${esc(m.n)}</b> <span class="badge ${m.r}">${m.r}</span> <small>[${m.lg}]</small></div>
-    <div class="pcard-sub">BAT ${m.ba} · BWL ${m.bo} (${m.st})</div>
+    <div class="pcard-title">${roleIcon(m.r,m.st)} <b>${esc(m.n)}</b> <small>[${m.lg}]</small></div>
+    <div class="pcard-sub">🏏 ${m.ba} · 🥎 ${m.bo}</div>
    </div>
    ${isOwned?`<span style="color:#00e676;font-weight:800">✔ OWNED</span>`:`<button class="b ${S.cash>=m.price?'green':''}" data-a="buy_p" data-v="${m.id}" ${S.cash<m.price?'disabled':''}>BUY $${m.price}</button>`}
   </div>`;
@@ -849,9 +863,9 @@ function showSquadScreen(){
   h+=`<div class="pcard">
    <div class="pcard-info">
     <div class="pcard-title"><b>${i+1}. ${esc(p.n)}</b></div>
-    <div class="pcard-sub">BAT ${p.ba} · BWL ${p.bo} (${p.st})</div>
+    <div class="pcard-sub">🏏 ${p.ba} · 🥎 ${p.bo}</div>
    </div>
-   <span class="badge ${p.r}">${p.r}</span>
+   ${roleIcon(p.r,p.st)}
   </div>`;
  });
  h+=`</div>`+B('menu','⬅ BACK TO MENU');
@@ -937,7 +951,6 @@ function matchPrompt(ctx){
  panel(`<h2>${TEAMS[ctx.a].n} vs ${TEAMS[ctx.b].n}</h2><p>${FMT[ctx.fmt]} Match</p><div class="grid-menu">${B('play','🪙 GO TO TOSS & PLAY','','green')}${B('sim','⚡ SIMULATE MATCH')}${B('menu','⬅ BACK')}</div>`,null,true);
 }
 
-// Interactive Coin Toss Screen (User calls HEADS or TAILS!)
 function toss(ctx){
  cur=ctx;
  panel(`
@@ -996,7 +1009,7 @@ function onMatch(ctx,m){
  m.inn.forEach(n=>{
   const ros=m.rosters[n.bt];
   const bb=n.bat.reduce((a,b,j)=>b.r>a.r?{r:b.r,b:b.b,j}:a,{r:-1,b:0,j:0});
-  h+=`<p><b>${TEAMS[n.bt].n}</b> ${n.r}/${n.w} (${ovs(n.b)}) · Top Scorer: ${esc(ros[bb.j].n)} ${bb.r}(${bb.b})</p>`;
+  h+=`<p><b>${TEAMS[n.bt].n}</b> ${n.r}/${n.w} (${ovs(n.b)}) · Top: ${esc(ros[bb.j].n)} ${bb.r}(${bb.b})</p>`;
  });
  if(won)sfx.win();else sfx.cash();
  cb=ctx.next||menu;
@@ -1058,13 +1071,13 @@ function act(a,v){
   snd:()=>{S.mute^=1;save();menu()},
   lb:()=>panel(`<h2>📊 GLOBAL LEADERBOARD</h2><p>Your Cash: $${S.cash} · Career Points: ${S.pts}</p>${lbH(10)}${B('menu','⬅ BACK')}`,null,true),
   how:()=>panel(`<h2>❓ WCC PRO CONTROLS & GUIDE</h2>
-   <p><b>1. BATTING MOVEMENT & DIRECTION:</b><br>
-   • Hold/Tap <b>◀ (Left)</b> or <b>▶ (Right)</b> to move across the crease & aim.<br>
-   • Press <b>▲</b> for <b>LOFTED (6s/4s)</b> or <b>▼</b> for <b>GROUNDED (4s)</b>.<br>
-   • Press <b>SHOT / Space</b> when the ball enters the green circle!<br><br>
-   <b>2. WCC TRICKY BOWLING SYSTEM:</b><br>
-   • Tap the purple <b>SWING / SPIN button (or Key V)</b> to switch delivery variations (In-Swing, Out-Swing, Slower Ball, Doosra).<br>
-   • Read the <b>AI Batsman Footwork Hint</b> at the top, place the Red <b>X</b> to outfox the batsman, and stop the meter in the <b>Green/Gold Zone</b> to take wickets!</p>
+   <p><b>1. 4-WAY FOOTWORK & SHOT SELECTION:</b><br>
+   • Use <b>◀ (Left)</b> & <b>▶ (Right)</b> to move across the crease & aim Leg/Off side.<br>
+   • Use <b>▲ (Up)</b> to step <b>FORWARD (Down the pitch)</b> — great for driving full/good length balls!<br>
+   • Use <b>▼ (Down)</b> to step <b>BACKWARD (Deep in crease)</b> — great for pulling/cutting short balls!<br>
+   • Toggle <b>🚀 LOFT ON / GROUND</b> button (or Key L) for aerial 6s vs grounded 4s.<br><br>
+   <b>2. WCC TRICKY BOWLING:</b><br>
+   • Tap <b>SWING / SPIN</b> to switch variations, place the Red <b>X</b>, and stop the meter in the Gold/Green zone!</p>
    ${B('menu','⬅ BACK')}`,null,true),
   set_st:()=>{const idx=+v;if(idx===selState.ns)selState.ns=selState.st;selState.st=idx;showInningsSetupSelection()},
   set_ns:()=>{const idx=+v;if(idx===selState.st)selState.st=selState.ns;selState.ns=idx;showInningsSetupSelection()},
@@ -1089,22 +1102,19 @@ function act(a,v){
    const n=lv.m.inn[lv.m.cur];n.ov=[];
    st='play';hideUI();root.classList.add('pl');beginBall();
   },
-  view_full_sc:()=>{panel(renderScorecardHTML(lv.m,'back_to_over'))},
   view_sc_pause:()=>{panel(renderScorecardHTML(lv.m,'sc_close'))},
-  back_to_over:()=>showEndOfOverModal(),
   sc_close:()=>{st='play';hideUI();root.classList.add('pl')},
   resume:()=>pause(),s1:()=>simLive('over'),s5:()=>simLive('five'),sinn:()=>simLive('inn')
  };
  if(T[a])T[a]();
 }
 
-// ---------- Live Match State & Controls ----------
+// ---------- Live Match State & 2D Crease Movement ----------
 let lv=null;
 const held={L:0,R:0,U:0,D:0};
-const FLD_BASE=[
- [-.42,.22],[.42,.22],[-.76,-.05],[.76,-.05],
- [-.38,-.52],[.38,-.52],[.02,-.78],[-.58,.58],[.58,.58]
-];
+// 9 Fielder positions placed at distinct angles around the oval so gaps exist between them!
+const FLD_ANGLES=[0.32, 0.78, 1.28, 1.86, 2.38, 2.82, 3.65, 4.55, 5.60];
+const FLD_RADII =[0.52, 0.82, 0.76, 0.76, 0.82, 0.52, 0.68, 0.78, 0.68];
 
 function startLive(ctx,first){
  const m=newMatch(ctx.a,ctx.b,ctx.fmt,first,ctx.useFran);
@@ -1113,7 +1123,7 @@ function startLive(ctx,first){
   endInn(m);
  }
  lv={
-  m,ctx,u:ctx.a,ph:'stance',t:0,batX:-.18,walkPhase:0,shotDir:0,loft:true,
+  m,ctx,u:ctx.a,ph:'stance',t:0,batX:-.16,batY:.98,walkPhase:0,shotDir:0,loft:true,
   bx:0,by:.55,bVar:0,lastBwlVar:-1,lastBx:0,lastBy:0,aiExpect:{zone:'GOOD',txt:'Waiting for Good Length'},
   swing:0,spd:138,ci:0,msg:'',big:'',bigT:0,revealed:false,pendingOverEnd:false
  };
@@ -1122,40 +1132,48 @@ function startLive(ctx,first){
 }
 const bats=()=>lv.m.inn[lv.m.cur].bt==lv.u;
 
-function updateVarButton(){
+function updateActionButtons(){
  const L=lv;if(!L)return;
- const vb=$('#varb');
- if(bats()){vb.style.display='none';return}
- vb.style.display='block';
- const n=L.m.inn[L.m.cur],bwlP=L.m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
- const names=bwlP.st==='FAST'?BOWL_VARS_FAST:BOWL_VARS_SPIN;
- vb.textContent=names[L.bVar%4];
+ const vb=$('#varb'),lb=$('#loftb');
+ if(bats()){
+  vb.style.display='none';
+  lb.style.display='block';
+  lb.textContent=L.loft?'🚀 LOFT ON':'🌱 GROUND';
+  lb.style.background=L.loft?'linear-gradient(135deg,#ff8f00,#c66900)':'linear-gradient(135deg,#2e7d32,#1b5e20)';
+ }else{
+  lb.style.display='none';
+  vb.style.display='block';
+  const n=L.m.inn[L.m.cur],bwlP=L.m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
+  const names=bwlP.st==='FAST'?BOWL_VARS_FAST:BOWL_VARS_SPIN;
+  vb.textContent=names[L.bVar%4];
+ }
 }
 
 function beginBall(){
  const L=lv,m=L.m,n=m.inn[m.cur];
  L.press=null;L.out=null;L.acc=0;L.big='';L.bounced=false;L.revealed=false;L.stepTick=0;L.tapTick=.35;
+ // Reset batsman depth near popping crease at start of ball, preserving subtle stance
+ L.batY=.98;
  const bwlP=m.rosters[n.bw][n.bwlIdx]||{st:'FAST'};
  const baseSpd=bwlP.st==='FAST'?138+rnd()*13:85+rnd()*10;
  L.spd=L.bVar===2?baseSpd-16:L.bVar===3?baseSpd+5:baseSpd;
  $('#ok').textContent=bats()?'SHOT':'BOWL';
- updateVarButton();
+ updateActionButtons();
 
  if(bats()){
   L.ph='stance';L.t=0;
-  L.bx=(rnd()-.5)*1.0;
-  L.by=.25+rnd()*.60;
-  L.swing=(rnd()-.5)*.32;
-  L.endX=cl(L.bx+L.swing*(1-L.by*.4),-0.9,0.9);
+  L.bx=(rnd()-.5)*0.95;
+  L.by=.24+rnd()*.62;
+  L.swing=(rnd()-.5)*.30;
+  L.endX=cl(L.bx+L.swing*(1-L.by*.4),-0.88,0.88);
  }else{
   L.ph='spot';L.t=0;
   L.bx=cl(L.bx,-.85,.85);L.by=cl(L.by,.18,.9);
-  L.batX=-.18;
-  // Generate AI Batsman Mind-Game Expectancy so user can set a trap!
+  L.batX=-.16;L.batY=.98;
   const zones=[
-   {zone:'SHORT',txt:'AI Batsman sitting on Back Foot (Trap with Yorker / Full Swing!)'},
-   {zone:'FULL',txt:'AI Batsman looking to Drive Full (Trap with Slower Ball / Bouncer!)'},
-   {zone:'GOOD',txt:'AI Batsman guarding Stumps (Trap on 4th Stump Out-Swing / Doosra!)'}
+   {zone:'SHORT',txt:'AI sitting on Back Foot (Trap with Yorker / Full Swing!)'},
+   {zone:'FULL',txt:'AI looking to Drive Full (Trap with Slower Ball / Bouncer!)'},
+   {zone:'GOOD',txt:'AI guarding Stumps (Trap on 4th Stump Out-Swing / Doosra!)'}
   ];
   L.aiExpect=zones[rnd()*zones.length|0];
  }
@@ -1167,7 +1185,6 @@ function startBowlRunup(){
  const baseSpd=bwlP.st==='FAST'?138+rnd()*13:85+rnd()*10;
  L.spd=L.bVar===2?baseSpd-15:L.bVar===3?baseSpd+6:baseSpd;
  if(!bats()){
-  // Swing/Spin curve depends on selected bowling variation (L.bVar)!
   const curve=L.bVar===0?-0.34:L.bVar===1?0.34:L.bVar===2?0.18:0.06;
   L.swing=curve+(rnd()-.5)*.10;
   L.endX=cl(L.bx+L.swing*(1-L.by*.35),-0.92,0.92);
@@ -1178,6 +1195,7 @@ function release(){
  const L=lv;
  L.ph='flight';L.t=0;
  L.dur=(L.bVar===2?1.48:1.32)+rnd()*.12+(L.by<.35?.10:0);
+ L.arrivalT=L.dur*(L.batY/0.98);
  L.bounced=false;
  sfx.whoosh();
 }
@@ -1185,10 +1203,13 @@ function release(){
 function triggerHit(){
  const L=lv;
  if(L.press)return;
+ // Determine shot direction from held keys or last aimed direction
  let dir=L.shotDir;
  if(held.L)dir=-1;
  else if(held.R)dir=1;
- const snapT=L.t>L.dur*.58&&L.t<L.dur*.88?lerp(L.t,L.dur,.45):L.t;
+ else if(held.U)dir=0;
+ L.arrivalT=L.dur*(L.batY/0.98);
+ const snapT=L.t>L.arrivalT*.58&&L.t<L.arrivalT*.90?lerp(L.t,L.arrivalT,.45):L.t;
  L.press={t:snapT,rawT:L.t,dir,loft:L.loft};
 }
 
@@ -1201,7 +1222,6 @@ function okPress(){
  }else{
   if(L.ph=='spot'){sfx.tick();L.ph='aim';L.t=0;L.meter=.5}
   else if(L.ph=='aim'){
-   // Meter accuracy: center 0.5 is 1.0 (Perfect Gold)
    L.acc=cl(1-M.abs(L.meter-.5)*2.1,0,1);
    sfx.tick();startBowlRunup();
   }else if((L.ph=='outfield'||L.ph=='pitch_res')&&L.revealed&&L.t>1.8)L.t=99;
@@ -1212,15 +1232,21 @@ function dirTap(k){
  if(st!='play'||!lv)return;
  const L=lv;
  if(bats()){
-  if(k=='U'){L.loft=true;L.shotDir=0;sfx.tick()}
-  else if(k=='D'){L.loft=false;L.shotDir=0;sfx.tick()}
-  else if(k=='L'){
+  if(k=='U'){
+   // Step FORWARD down the pitch + Straight shot aim
+   L.batY=cl(L.batY-.035,0.84,1.04);
+   L.shotDir=0;L.walkPhase+=.9;
+  }else if(k=='D'){
+   // Step BACKWARD deep into the crease
+   L.batY=cl(L.batY+.035,0.84,1.04);
+   L.walkPhase+=.9;
+  }else if(k=='L'){
    L.shotDir=-1;
-   L.batX=cl(L.batX-.09,-.82,.68);
+   L.batX=cl(L.batX-.08,-.82,.68);
    L.walkPhase+=.9;
   }else if(k=='R'){
    L.shotDir=1;
-   L.batX=cl(L.batX+.09,-.82,.68);
+   L.batX=cl(L.batX+.08,-.82,.68);
    L.walkPhase+=.9;
   }
  }else if(L.ph=='spot'){
@@ -1232,20 +1258,20 @@ function dirTap(k){
  }
 }
 
+// ---------- Outfield Physics & Gap-Finding so 4s, 6s & Catches Match Visually 100%! ----------
 function resolveContact(){
  const L=lv,m=L.m;let o;
+ L.arrivalT=L.dur*(L.batY/0.98);
  if(bats())o=userBat(m,L);
  else{
   o=userBowl(m,L);
-  // AI batsman swings if it hits the ball, plays & misses, or edges to keeper/fielder!
   if(o.r>0||o.playAndMiss||(o.w&&o.k!=='b')){
    const aiDir=L.endX<-.1?-1:L.endX>.15?1:0;
-   L.press={t:L.dur,rawT:L.dur,dir:aiDir,loft:o.r==6||(o.w&&o.k=='c')};
+   L.press={t:L.arrivalT,rawT:L.arrivalT,dir:aiDir,loft:o.r==6||(o.w&&o.k=='c')};
   }
  }
  L.out=o;L.t=0;L.revealed=false;L.big='';L.msg='';
 
- // Stay on Pitch View if Bowled, Keeper Catch (Edged), Play & Miss, or Defended Dot Ball!
  const stayedOnPitch=(o.w&&(o.k=='b'||o.k=='wk'))||(!o.w&&o.r==0);
 
  if(stayedOnPitch){
@@ -1259,36 +1285,52 @@ function resolveContact(){
   L.revealTime=1.55;
   sfx.batCrack();
 
+  const ORX=390,ORY=200,OCX=480,OCY=275;
+  // Build the 9 fielders around the stadium
+  L.flds=FLD_ANGLES.map((ang,i)=>({
+   ang,rad:FLD_RADII[i],
+   x:OCX+M.cos(ang)*ORX*FLD_RADII[i],
+   y:OCY-M.sin(ang)*ORY*FLD_RADII[i]
+  }));
+
   const pDir=L.press?L.press.dir:0;
-  let ux,uy;
-  if(pDir<0){
-   const ang=M.PI*(0.76+(rnd()-.5)*.28);
-   ux=M.cos(ang);uy=-M.sin(ang)*(rnd()<.25?-.4:1);
-  }else if(pDir>0){
-   const ang=M.PI*(0.24+(rnd()-.5)*.28);
-   ux=M.cos(ang);uy=-M.sin(ang)*(rnd()<.25?-.4:1);
-  }else{
-   const ang=M.PI*(0.5+(rnd()-.5)*.18);
-   ux=M.cos(ang);uy=-M.sin(ang);
-  }
+  // Pick a target angle that matches the batsman's shot direction:
+  // Note: screen Y is OCX - sin(ang)*ORY, so sin(ang)>0 is UP towards bowler, cos(ang)<0 is LEFT (Leg Side), cos(ang)>0 is RIGHT (Off Side)
+  // Gap angles deliberately placed BETWEEN fielder angles so 4s and 6s NEVER go straight into a fielder!
+  const legGaps=[2.12, 2.60, 3.22];     // Deep mid-wicket, square leg, fine leg (Left side)
+  const offGaps=[0.55, 1.03, 5.95];     // Extra cover, backward point, third man (Right side)
+  const strGaps=[1.57, 1.05, 2.10];     // Straight down the ground, long-off, long-on
 
-  const distFactor=o.w?.58:o.r==6?1.18:o.r==4?1.03:o.r==3?.80:o.r==2?.62:o.r==1?.42:.22;
-  const ORX=390,ORY=205,OCX=480,OCY=285;
-  let tx=OCX+ux*ORX*distFactor,ty=OCY+uy*ORY*distFactor;
-
-  L.flds=FLD_BASE.map(([fx,fy])=>({x:OCX+fx*ORX,y:OCY+fy*ORY}));
-  L.chaser=0;
-  let bestD=1e9;
-  L.flds.forEach((f,idx)=>{
-   const d=M.hypot(f.x-tx,f.y-ty);
-   if(d<bestD){bestD=d;L.chaser=idx}
-  });
+  let chosenAng;
   if(o.w&&o.k=='c'){
-   L.flds[L.chaser].x=tx+(rnd()-.5)*36;
-   L.flds[L.chaser].y=ty+(rnd()-.5)*28;
+   // CAUGHT OUT: Pick a fielder in the shot's sector and hit the ball DIRECTLY to that fielder's hands!
+   const sectorIndices=pDir<0?[3,4,5,6]:pDir>0?[0,1,2,8]:[1,2,3,4];
+   L.chaser=sectorIndices[rnd()*sectorIndices.length|0];
+   const cf=L.flds[L.chaser];
+   L.dest=[cf.x,cf.y];
+   L.pitchVec=[M.cos(cf.ang),-M.sin(cf.ang)];
+  }else{
+   // NOT OUT (1, 2, 3, 4, or 6): Pick a clean GAP between fielders in the exact direction of the shot!
+   const gapList=pDir<0?legGaps:pDir>0?offGaps:strGaps;
+   chosenAng=gapList[rnd()*gapList.length|0]+(rnd()-.5)*0.08;
+   const ux=M.cos(chosenAng),uy=-M.sin(chosenAng);
+
+   // Distance factor:
+   // 6 = 1.15 (Flies high over the boundary rope!)
+   // 4 = 1.04 (Bounces inside the field at p=0.50, then rolls across the boundary rope!)
+   // 1..3 = 0.48..0.76 (Inside the field, cut off by chasing fielder)
+   const distFactor=o.r==6?1.15:o.r==4?1.04:o.r==3?.76:o.r==2?.62:.46;
+   const tx=OCX+ux*ORX*distFactor,ty=OCY+uy*ORY*distFactor;
+   L.dest=[tx,ty];
+   L.pitchVec=[ux,uy];
+
+   // Find nearest fielder to chase the ball
+   L.chaser=0;let bestD=1e9;
+   L.flds.forEach((f,idx)=>{
+    const d=M.hypot(f.x-tx,f.y-ty);
+    if(d<bestD){bestD=d;L.chaser=idx}
+   });
   }
-  L.dest=[tx,ty];
-  L.pitchVec=[ux,uy];
  }
 }
 
@@ -1302,12 +1344,12 @@ function triggerOutcomeReveal(){
   L.msg=o.timing||(o.k=='b'?'CLEAN BOWLED!':o.k=='wk'?'EDGED & CAUGHT BEHIND!':'CAUGHT OUT!');
   sfx.out();
  }else if(o.r==6){
-  L.big='SIX!';L.msg='MAXIMUM! OVER THE BOUNDARY ROPE!';sfx.cheer();
+  L.big='SIX!';L.msg='HUGE SIX! SAILS OVER THE ROPES! · '+(o.timing||'');sfx.cheer();
  }else if(o.r==4){
-  L.big='FOUR!';L.msg='ONE BOUNCE OVER THE ROPE — FOUR!';sfx.cheer();
+  L.big='FOUR!';L.msg='BOUNCES & RACES ACROSS THE ROPE — FOUR! · '+(o.timing||'');sfx.cheer();
  }else{
   L.big=o.r?o.r+' RUN'+(o.r>1?'S':''):'DOT BALL';
-  L.msg=o.r?o.r+(o.r>1?' runs':' run')+' completed · '+(o.timing||''):'No run · '+(o.timing||'');
+  L.msg=o.r?o.r+(o.r>1?' runs':' run')+' · '+(o.timing||''):'No run · '+(o.timing||'');
  }
 }
 
@@ -1317,7 +1359,6 @@ function commit(){
  if(m.done)return endLive();
  if(m.cur!=b)return inningsBreak();
  const n=m.inn[m.cur];
- // Only ask User to pick next batsman if USER is Batting!
  if(res.fellWicket&&n.w<10&&n.bt===L.u){
   if(res.overEnded)L.pendingOverEnd=true;
   return showNextBatsmanModal();
@@ -1359,12 +1400,19 @@ function liveUpd(dt){
  const L=lv;if(!L||st!='play')return;
  L.t+=dt;if(L.bigT>0)L.bigT-=dt;
 
+ // Continuous 4-Way Footwork (Left/Right + Forward/Backward) for Batsman!
  if(bats()&&(L.ph=='stance'||L.ph=='runup'||(L.ph=='flight'&&!L.press))){
-  const moveDir=(held.R?1:0)-(held.L?1:0);
-  if(moveDir!==0){
-   L.batX=cl(L.batX+moveDir*dt*1.05,-.82,.68);
+  const mx=(held.R?1:0)-(held.L?1:0);
+  const my=(held.D?1:0)-(held.U?1:0); // U = step forward (-Y), D = step back (+Y)
+  if(mx!==0){
+   L.batX=cl(L.batX+mx*dt*1.02,-.82,.68);
    L.walkPhase+=dt*14;
-   L.shotDir=moveDir;
+   L.shotDir=mx;
+  }
+  if(my!==0){
+   L.batY=cl(L.batY+my*dt*0.26,0.84,1.04);
+   L.walkPhase+=dt*12;
+   if(mx===0&&my<0)L.shotDir=0;
   }
  }else if(!bats()&&L.ph=='spot'){
   const mx=(held.R?1:0)-(held.L?1:0),my=(held.D?1:0)-(held.U?1:0);
@@ -1375,6 +1423,7 @@ function liveUpd(dt){
  }
  if(!bats()&&L.ph=='flight'){
   L.batX=lerp(L.batX,cl(L.endX-.14,-.7,.55),dt*2.4);
+  L.batY=lerp(L.batY,L.by<.36?1.02:0.95,dt*2.0);
  }
 
  if(L.ph=='stance'){
@@ -1384,21 +1433,24 @@ function liveUpd(dt){
   if(L.t>L.stepTick){L.stepTick+=.18;sfx.step()}
   if(L.t>=1.28)release();
  }else if(L.ph=='aim'){
-  // Fast WCC challenge meter
   L.meter=(M.sin(L.t*4.2)+1)/2;
  }else if(L.ph=='flight'){
+  L.arrivalT=L.dur*(L.batY/0.98);
   const p=L.t/L.dur;
   const pb=.18+L.by*.64;
   if(!L.bounced&&p>=pb){L.bounced=true;sfx.bounce()}
-  if(L.t>=L.dur+.18)resolveContact();
+  if(L.t>=L.arrivalT+.18)resolveContact();
  }else if(L.ph=='pitch_res'||L.ph=='outfield'){
   if(!L.revealed&&L.t>=L.revealTime){
    triggerOutcomeReveal();
   }
   if(L.ph=='outfield'&&L.flds&&L.t>.35){
-   const ch=L.flds[L.chaser],tx=L.dest[0],ty=L.dest[1];
+   const ch=L.flds[L.chaser];
+   // If it's a 6, fielder only jogs halfway toward boundary watching it sail over; if 4, chases to rope; if 1-3, intercepts ball!
+   const tx=L.dest[0],ty=L.dest[1];
    const dx=tx-ch.x,dy=ty-ch.y,d=M.hypot(dx,dy);
-   if(d>5){ch.x+=dx/d*dt*150;ch.y+=dy/d*dt*150}
+   const spd=L.out.r==6?65:L.out.r==4?125:160;
+   if(d>6&&!(L.out.w&&L.out.k=='c')){ch.x+=dx/d*dt*spd;ch.y+=dy/d*dt*spd}
   }
   if(L.t>=L.resDur)commit();
  }
@@ -1410,8 +1462,11 @@ addEventListener('keydown',e=>{
  au();
  if(BACKS.includes(e.keyCode)||e.code=='Escape'){e.preventDefault();handleInGameBack();return}
  if(e.code=='KeyP'){pause();return}
+ if(e.code=='KeyL'&&st=='play'&&lv&&bats()){
+  lv.loft=!lv.loft;sfx.tick();updateActionButtons();return;
+ }
  if(e.code=='KeyV'&&st=='play'&&lv&&!bats()){
-  lv.bVar=(lv.bVar+1)%4;sfx.tick();updateVarButton();return;
+  lv.bVar=(lv.bVar+1)%4;sfx.tick();updateActionButtons();return;
  }
  if(!ui.hidden)return;
  if(st=='play'){
@@ -1428,9 +1483,13 @@ for(const[id,k]of[['#cu','U'],['#cd','D'],['#cl','L'],['#cR','R']]){
  const clr=()=>{held[k]=0;el.classList.remove('act')};
  el.onpointerup=clr;el.onpointercancel=clr;el.onpointerleave=clr;
 }
+$('#loftb').onpointerdown=e=>{
+ e.preventDefault();au();
+ if(lv&&bats()){lv.loft=!lv.loft;sfx.tick();updateActionButtons()}
+};
 $('#varb').onpointerdown=e=>{
  e.preventDefault();au();
- if(lv&&!bats()){lv.bVar=(lv.bVar+1)%4;sfx.tick();updateVarButton()}
+ if(lv&&!bats()){lv.bVar=(lv.bVar+1)%4;sfx.tick();updateActionButtons()}
 };
 $('#ok').onpointerdown=e=>{e.preventDefault();au();okPress()};
 $('#pp').onpointerdown=e=>{e.preventDefault();pause()};
@@ -1440,7 +1499,7 @@ $('#scb').onpointerdown=e=>{
 };
 C.addEventListener('pointerdown',()=>{au();if(st=='play')okPress()});
 
-// ---------- WCC Stadium & Broadcast Graphics Engine ----------
+// ---------- WCC Stadium & Biomechanical Player Graphics Engine ----------
 const PY_TOP=150, PY_BOT=485;
 const PW_TOP=128, PW_BOT=320;
 const CREASE_TOP=182, CREASE_BOT=430;
@@ -1523,9 +1582,10 @@ const OUT_BG=document.createElement('canvas');OUT_BG.width=W;OUT_BG.height=H;
   g.fillRect(x,0,36,H);
  }
  g.restore();
- g.strokeStyle='#ffffff';g.lineWidth=4;g.beginPath();g.ellipse(OCX,OCY,ORX-12,ORY-8,0,0,7);g.stroke();
+ // Crisp white boundary rope at ORX=390, ORY=200
+ g.strokeStyle='#ffffff';g.lineWidth=4.5;g.beginPath();g.ellipse(OCX,OCY,390,200,0,0,7);g.stroke();
  g.strokeStyle='rgba(255,255,255,0.45)';g.lineWidth=2;g.setLineDash([8,6]);
- g.beginPath();g.ellipse(OCX,OCY,ORX*.52,ORY*.52,0,0,7);g.stroke();g.setLineDash([]);
+ g.beginPath();g.ellipse(OCX,OCY,390*.52,200*.52,0,0,7);g.stroke();g.setLineDash([]);
  g.fillStyle='#e5d4c8';g.fillRect(OCX-12,OCY-44,24,88);
 })();
 
@@ -1628,70 +1688,131 @@ function drawBowler(L,bw){
  X.restore();
 }
 
+// ---------- Realistic Two-Handed Grip & Shot-Matched Biomechanical Batsman ----------
 function drawBatsman(L,bt){
- const u=L?L.batX:-.18;
- const[bx,by0]=pitchProj(u,0.98);
+ const u=L?L.batX:-.16;
+ const v=L?L.batY:0.98;
+ const[bx,by0,sc]=pitchProj(u,v);
  const by=by0-4;
  let walkSin=0,tapOffset=0,backlift=0,swingProg=0,shotDir=0,isLoft=true,strideX=0,strideY=0;
 
  if(L){
-  const moving=(held.L||held.R)&&(L.ph=='stance'||L.ph=='runup'||(L.ph=='flight'&&!L.press));
+  const moving=(held.L||held.R||held.U||held.D)&&(L.ph=='stance'||L.ph=='runup'||(L.ph=='flight'&&!L.press));
   if(moving)walkSin=M.sin(L.walkPhase)*5;
-  if(L.ph=='stance')tapOffset=M.max(0,M.sin(L.t*10))*8;
-  else if(L.ph=='runup')backlift=cl((L.t-.35)/.9,0,1)*0.85;
-  else if(L.ph=='flight'&&!L.press)backlift=0.92;
+  if(L.ph=='stance')tapOffset=M.max(0,M.sin(L.t*10))*4;
+  else if(L.ph=='runup')backlift=cl((L.t-.35)/.9,0,1);
+  else if(L.ph=='flight'&&!L.press)backlift=1.0;
 
   const activeSwing=(L.ph=='flight'&&L.press)||(L.ph=='pitch_res'&&L.press)||(L.ph=='outfield'&&L.press);
   if(activeSwing){
    const dt=L.ph=='flight'?(L.t-L.press.rawT):(L.t+.18);
-   swingProg=cl(dt*5.5,0,1);
+   swingProg=cl(dt*5.6,0,1);
    shotDir=L.press.dir;
    isLoft=L.press.loft;
-   strideX=shotDir<0?-16:shotDir>0?18:6;
-   strideY=L.by<.38?4:-8;
+   strideX=shotDir<0?-15:shotDir>0?17:5;
+   strideY=L.batY>0.99?5:-9; // Backfoot vs Frontfoot stride
   }
  }
 
- X.save();X.translate(bx,by);
- X.fillStyle='rgba(0,0,0,0.38)';X.beginPath();X.ellipse(4+strideX*.4,11,26,8,0,0,7);X.fill();
+ X.save();
+ X.translate(bx,by);
+ X.scale(sc,sc);
 
- limb(-7,-22,-10-walkSin*.4,-6,10,bt.pants);limb(-10-walkSin*.4,-6,-10-walkSin*.7,8,10,'#f5f5f5');
- limb(5,-22,9+strideX*.6,-6,10,bt.pants);limb(9+strideX*.6,-6,9+strideX,8+strideY*.5,10,'#ffffff');
+ // Ground shadow
+ X.fillStyle='rgba(0,0,0,0.38)';
+ X.beginPath();X.ellipse(4+strideX*.4,11,26,8,0,0,7);X.fill();
 
- X.save();X.translate(strideX*.35,-22+strideY*.2);
- X.fillStyle=bt.col;X.fillRect(-12,-26,24,28);
- X.strokeStyle='#111';X.lineWidth=1.6;X.strokeRect(-12,-26,24,28);
- X.fillStyle=bt.acc;X.fillRect(-12,-15,24,5);
+ // Back Leg (Left Leg) & Front Leg (Right Leg) with sculpted cricket pads
+ limb(-7,-22,-10-walkSin*.4,-6,10,bt.pants);
+ limb(-10-walkSin*.4,-6,-10-walkSin*.7,8,10.5,'#e8eef2');
+ limb(5,-22,9+strideX*.6,-6,10,bt.pants);
+ limb(9+strideX*.6,-6,9+strideX,8+strideY*.5,10.5,'#ffffff');
+ // Shoes
+ X.fillStyle='#fff';
+ X.fillRect(-14-walkSin*.7,7,9,4);
+ X.fillRect(6+strideX,7+strideY*.5,10,4);
 
+ // Torso
+ X.save();
+ X.translate(strideX*.35,-22+strideY*.2);
+ X.fillStyle=bt.col;
+ X.beginPath();X.moveTo(-12,-26);X.lineTo(12,-26);X.lineTo(10,2);X.lineTo(-10,2);X.closePath();X.fill();
+ X.strokeStyle='#111';X.lineWidth=1.6;X.stroke();
+ X.fillStyle=bt.acc;X.fillRect(-11,-15,22,5);
+
+ // Head & Helmet facing bowler
  X.fillStyle='#e0ac69';X.beginPath();X.arc(2,-35,8,0,7);X.fill();
  X.fillStyle=bt.pants;X.beginPath();X.arc(1,-37,9.5,M.PI*.8,M.PI*2.2);X.fill();
  X.fillStyle=bt.acc;X.fillRect(3,-39,12,3);
 
- X.save();X.translate(6,-20);
- let armAng=0.20-tapOffset*.02-backlift*1.3;
- let bladeScaleX=1;
+ // ---- TWO-HANDED CRICKET GRIP & NATURAL SHOT SWING ----
+ // Compute the hands' grip position (hx, hy) relative to torso and the bat's blade angle (`batAng`, where 0 = pointing down at ground, -PI/2 = pointing right, +PI/2 = pointing left, PI = pointing straight up!)
+ let hx=10,hy=-6-tapOffset-backlift*7;
+ // In stance, bat points down and slightly back to the left (+0.28 rad); in backlift, bat cocks up towards first slip (-0.85 rad)
+ let batAng=lerp(0.28,-0.85,backlift);
+
  if(swingProg>0){
   const sp=1-M.pow(1-swingProg,2.2);
   if(shotDir<0){
-   armAng=lerp(-1.1, 1.35, sp);
-   bladeScaleX=-1;
+   // PULL / HOOK / LEG-SIDE WHIP (Left ◀):
+   // Hands sweep across chest to the LEFT (-X), and bat whips across to the LEFT (+PI*0.72)!
+   hx=lerp(10,-16,sp);
+   hy=lerp(-13,-18,sp);
+   batAng=lerp(-0.85, isLoft?2.35:1.75, sp);
   }else if(shotDir>0){
-   armAng=lerp(0.85, -1.55, sp);
+   // COVER DRIVE / SQUARE CUT (Right ▶):
+   // Hands extend out to the OFF-SIDE (+X), and bat drives through the off-side (-PI*0.72)!
+   hx=lerp(10,22,sp);
+   hy=lerp(-13,isLoft?-20:-12,sp);
+   batAng=lerp(-0.85, isLoft?-2.45:-1.75, sp);
   }else{
-   armAng=lerp(0.75, -1.95, sp);
+   // STRAIGHT DRIVE / LOFTED HIT (Straight ▲):
+   // Hands punch straight forward & up, bat arcs vertically straight up (-PI*0.95)!
+   hx=lerp(10,8,sp);
+   hy=lerp(-13,-22,sp);
+   batAng=lerp(-0.85, isLoft?-2.95:-2.35, sp);
   }
  }
- X.rotate(armAng);
- X.scale(bladeScaleX,1);
- limb(0,0,3,22,5.5,bt.col);
- X.fillStyle='#fff';X.beginPath();X.arc(4,23,5,0,7);X.fill();
- X.fillStyle='#eceff1';X.fillRect(2,23,4,12);
- X.fillStyle='#d7a15c';X.fillRect(-2,35,10,34);
- X.fillStyle=bt.acc;X.fillRect(-1,39,8,6);
- X.strokeStyle='#3e2723';X.lineWidth=1.4;X.strokeRect(-2,35,10,34);
- X.restore();
- X.restore();
- X.restore();
+
+ // Draw Left Arm (Top Hand) from Left Shoulder (-9, -22) -> Left Elbow -> Grip (hx, hy)
+ const lElbX=(-9+hx)*0.5-4,lElbY=(-22+hy)*0.5+4;
+ limb(-9,-22,lElbX,lElbY,5.5,bt.col);
+ limb(lElbX,lElbY,hx,hy,5,'#f5f5f5');
+
+ // Draw Right Arm (Bottom Hand) from Right Shoulder (9, -22) -> Right Elbow -> Grip (hx+2, hy+3)
+ const rElbX=(9+hx)*0.5+5,rElbY=(-22+hy)*0.5+5;
+ limb(9,-22,rElbX,rElbY,5.5,bt.col);
+ limb(rElbX,rElbY,hx+2,hy+3,5,'#f5f5f5');
+
+ // Draw the Cricket Bat anchored right at the Two-Handed Grip (hx, hy)!
+ X.save();
+ X.translate(hx,hy);
+ X.rotate(batAng);
+
+ // Rubber Handle held between both hands
+ X.fillStyle='#263238';X.fillRect(-2,-6,4,14);
+ // Both Batting Gloves gripping the handle together
+ X.fillStyle='#ffffff';
+ X.beginPath();X.arc(0,-1,4.5,0,7);X.fill();
+ X.beginPath();X.arc(0,5,4.5,0,7);X.fill();
+ X.strokeStyle='#111';X.lineWidth=1;X.stroke();
+
+ // Willow Cricket Bat Blade extending from handle (y = 8 to 44)
+ X.fillStyle='#d7a15c';
+ X.beginPath();
+ X.moveTo(-4.5,8);X.lineTo(4.5,8);X.lineTo(5.5,42);X.lineTo(0,44);X.lineTo(-5.5,42);
+ X.closePath();X.fill();
+ // Wood highlight & brand sticker
+ X.fillStyle='#f5d6a7';X.fillRect(-2.5,9,3,31);
+ X.fillStyle=bt.acc;X.fillRect(-4,13,8,6);
+ X.strokeStyle='#3e2723';X.lineWidth=1.4;
+ X.beginPath();
+ X.moveTo(-4.5,8);X.lineTo(4.5,8);X.lineTo(5.5,42);X.lineTo(0,44);X.lineTo(-5.5,42);
+ X.closePath();X.stroke();
+ X.restore(); // end bat
+
+ X.restore(); // end torso
+ X.restore(); // end batsman
 }
 
 function calcBallPitch(L){
@@ -1702,7 +1823,6 @@ function calcBallPitch(L){
   const k=p/pb;u=0.06+(L.bx-0.06)*k;v=L.by*k;z=42*(1-k*k);
  }else{
   const k=(p-pb)/(1-pb);
-  // Apply dramatic curved swing/spin after bounce!
   const curve=M.pow(cl(k,0,1),1.25);
   u=L.bx+(L.endX-L.bx)*curve;
   v=L.by+(1.0-L.by)*k;
@@ -1721,6 +1841,7 @@ function txt(s,x,y,sz,al='left',c='#fff',stroke=true){
  X.fillStyle=c;X.fillText(s,x,y);
 }
 
+// WCC TV Broadcast HUD with Pure Icons instead of AR/BWL/BAT text!
 function drawWCCBroadcastHUD(L,m,n,bt,bw){
  const btRos=m.rosters[n.bt],bwRos=m.rosters[n.bw];
  const sb=n.bat[n.st],nb=n.bat[n.ns],bwSt=n.bowl[n.bwlIdx];
@@ -1735,16 +1856,15 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
  txt(infoTxt,28,28,14,'left','#b3e5fc',false);
  txt(`⚡ ${L.spd.toFixed(1)} km/h   |   💵 $${S.cash}`,W-190,28,14,'right','#00e676',false);
 
- // Tactical Hint Pill (Batting Aim OR Bowling Trap Hint)
  if(bats()&&(L.ph=='stance'||L.ph=='runup'||L.ph=='flight')){
-  const dirTxt=L.shotDir<0?'◀ LEG SIDE':L.shotDir>0?'OFF SIDE ▶':'▲ STRAIGHT';
-  const loftTxt=L.loft?'LOFTED (6s/4s)':'GROUNDED (4s)';
-  X.fillStyle='rgba(0,0,0,0.75)';X.fillRect(16,H-88,295,26);
-  txt(`AIM: ${dirTxt} · ${loftTxt}`,26,H-70,13,'left','#ffd54f',false);
+  const dirTxt=L.shotDir<0?'◀ LEG':L.shotDir>0?'OFF ▶':'▲ STRAIGHT';
+  const footTxt=L.batY<0.94?'🦶 FRONT-FOOT (Down Pitch)':L.batY>0.99?'🦶 BACK-FOOT (Deep)':'🦶 NORMAL CREASE';
+  X.fillStyle='rgba(0,0,0,0.78)';X.fillRect(16,H-88,365,26);
+  txt(`${dirTxt} · ${footTxt} · ${L.loft?'🚀 LOFT':'🌱 GROUND'}`,24,H-70,13,'left','#ffd54f',false);
  }else if(!bats()&&(L.ph=='spot'||L.ph=='aim')){
   const vNames=bwP.st==='FAST'?BOWL_VARS_FAST:BOWL_VARS_SPIN;
   X.fillStyle='rgba(12,28,54,0.88)';X.fillRect(16,44,W-195,26);
-  txt(`🧠 ${L.aiExpect.txt}  |  Selected: [${vNames[L.bVar%4]}]`,26,61,13,'left','#ffd54f',false);
+  txt(`🧠 ${L.aiExpect.txt}  |  [${vNames[L.bVar%4]}]`,26,61,13,'left','#ffd54f',false);
  }
 
  const barY=H-56,barH=52;
@@ -1758,14 +1878,16 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
  txt(`${n.r}-${n.w}`,76,barY+31,24,'left','#ffd54f');
  txt(`(${ovs(n.b)}${m.maxB?'/'+m.maxB/6:''})`,14,barY+48,12,'left','#e0f7fa',false);
 
- txt(`▸ ${stP.n} [${stP.r}]`,198,barY+23,15,'left','#ffd54f',false);
+ // Striker & Non-Striker with Role Icons instead of text
+ txt(`▸ ${roleCanvasIcon(stP)} ${stP.n}`,198,barY+23,15,'left','#ffd54f',false);
  txt(`${sb.r} (${sb.b})`,420,barY+23,15,'right','#ffd54f',false);
- txt(`  ${nsP.n} [${nsP.r}]`,198,barY+43,14,'left','#b0bec5',false);
+ txt(`  ${roleCanvasIcon(nsP)} ${nsP.n}`,198,barY+43,14,'left','#b0bec5',false);
  txt(`${nb.r} (${nb.b})`,420,barY+43,14,'right','#b0bec5',false);
 
  X.fillStyle='rgba(255,255,255,0.2)';X.fillRect(435,barY+8,2,barH-14);
 
- txt(`🥎 ${bwP.n} [${bwP.r}]`,450,barY+23,15,'left','#4fc3f7',false);
+ // Bowler with Role/Style Icon instead of text
+ txt(`${roleCanvasIcon(bwP)} ${bwP.n}`,450,barY+23,15,'left','#4fc3f7',false);
  txt(`${bwSt.w}-${bwSt.r} (${ovs(bwSt.b)})`,680,barY+23,15,'right','#ffffff',false);
 
  n.ov.slice(-6).forEach((v,i)=>{
@@ -1777,17 +1899,18 @@ function drawWCCBroadcastHUD(L,m,n,bt,bw){
 
  let hint='';
  if(L.revealed)hint=L.msg;
- else if(bats())hint='◀/▶ Move & Aim | ▲ Loft / ▼ Ground | Press SHOT';
+ else if(bats())hint='◀/▶ Aim | ▲/▼ Step Front/Back | Press SHOT';
  else hint=L.ph=='spot'?'Move [X], Pick SWING & Press BOWL':L.ph=='aim'?'Stop Meter in Gold/Green!':'Bowling...';
  txt(hint,W-14,barY+32,13,'right','#00e676',false);
 }
 
+// ---------- Synchronized Outfield View (6 = High Over Rope, 4 = Bounces & Rolls Across Rope, Catch = Into Fielder's Hands!) ----------
 function drawOutfieldView(L,bt,bw){
  if(L.t<0.35){
   drawPitchScene(L,bt,bw);
   const p=L.t/0.35;
-  const[sx,sy]=pitchProj(L.batX+0.12,0.96);
-  const vx=L.pitchVec[0]*340*p,vy=L.pitchVec[1]*260*p-(L.press&&L.press.loft?120*p:20*p);
+  const[sx,sy]=pitchProj(L.batX+0.12,L.batY);
+  const vx=L.pitchVec[0]*340*p,vy=L.pitchVec[1]*260*p-(L.out.r==6||L.out.w?110*p:20*p);
   X.fillStyle='#ffffff';X.beginPath();X.arc(sx+vx,sy+vy,7,0,7);X.fill();
   return;
  }
@@ -1798,7 +1921,7 @@ function drawOutfieldView(L,bt,bw){
 
  if(L.flds){
   L.flds.forEach((f,i)=>{
-   const isChaser=i===L.chaser&&p<1;
+   const isChaser=i===L.chaser&&p<1&&!(L.out.w&&L.out.k=='c');
    const runCycle=isChaser?M.sin(L.t*22)*4:0;
    X.fillStyle='rgba(0,0,0,0.35)';X.beginPath();X.ellipse(f.x,f.y+10,7,3.5,0,0,7);X.fill();
    limb(f.x-2,f.y+2,f.x-3+runCycle,f.y+10,3,bw.pants,'');
@@ -1819,14 +1942,35 @@ function drawOutfieldView(L,bt,bw){
 
  const bx=OCX+(L.dest[0]-OCX)*p;
  const by0=OCY+28+(L.dest[1]-(OCY+28))*p;
- const maxH=L.out.r==6?135:L.out.w?75:L.out.r==4&&L.press&&L.press.loft?45:14;
- const bh=M.max(0,M.sin(M.PI*p)*maxH);
 
- X.fillStyle='rgba(0,0,0,0.42)';
- X.beginPath();X.ellipse(bx,by0+4,5+bh*.04,3+bh*.02,0,0,7);X.fill();
+ // Distinct Height Profiles (`bh`) for 6, 4, Caught, and Grounded 1-3:
+ let bh=0;
+ if(L.out.r==6){
+  // SIX: High parabolic arc that stays airborne until it lands BEYOND the boundary rope (at p=1.0)!
+  bh=M.sin(M.PI*p)*145;
+ }else if(L.out.w&&L.out.k=='c'){
+  // CAUGHT OUT: High lofted arc landing directly in the fielder's hands at p=1.0!
+  bh=M.sin(M.PI*p)*82;
+ }else if(L.out.r==4){
+  // FOUR: Bounces inside the field at p=0.48, second small bounce at p=0.75, then rolls along the grass (bh=0) across the boundary rope!
+  if(p<0.48)bh=M.sin(M.PI*(p/0.48))*(L.press&&L.press.loft?34:14);
+  else if(p<0.75)bh=M.sin(M.PI*((p-0.48)/0.27))*10;
+  else bh=0;
+ }else{
+  // 1, 2, 3 Runs: One small bounce then rolls along the turf
+  bh=p<0.45?M.sin(M.PI*(p/0.45))*12:0;
+ }
 
- X.strokeStyle='rgba(255,255,255,0.35)';X.lineWidth=3;
+ // Ground shadow under ball (shows clearly whether ball is high in the air or rolling on the turf!)
+ X.fillStyle='rgba(0,0,0,0.45)';
+ X.beginPath();X.ellipse(bx,by0+4,5+bh*.03,3+bh*.015,0,0,7);X.fill();
+
+ // Trajectory trail (Gold/Orange for 6, Green/Cyan for ground 4)
+ X.strokeStyle=L.out.r==6?'rgba(255,213,79,0.55)':L.out.r==4?'rgba(0,230,118,0.45)':'rgba(255,255,255,0.35)';
+ X.lineWidth=3;
  X.beginPath();X.moveTo(OCX,OCY+28);X.lineTo(bx,by0-bh);X.stroke();
+
+ // Ball
  X.fillStyle='#ffffff';X.beginPath();X.arc(bx,by0-bh,5.5+bh*.04,0,7);X.fill();
  X.strokeStyle='#d50000';X.lineWidth=1.2;X.stroke();
 }
@@ -1841,7 +1985,6 @@ function drawPitchScene(L,bt,bw){
   const[xx,xy,xsc]=pitchProj(L.bx,L.by);
   const pulse=L.ph=='spot'?1+.14*M.sin(L.t*9):1;
   drawRedX(xx,xy,xsc,pulse);
-  // Draw predicted swing/spin trajectory arrow during spot selection!
   if(!bats()&&L.ph=='spot'){
    const curve=L.bVar===0?-0.34:L.bVar===1?0.34:L.bVar===2?0.18:0.06;
    const predEndX=cl(L.bx+curve*(1-L.by*.35),-0.92,0.92);
@@ -1852,8 +1995,10 @@ function drawPitchScene(L,bt,bw){
  }
 
  if(L&&bats()&&(L.ph=='stance'||L.ph=='runup'||L.ph=='flight')){
-  const[tx,ty]=pitchProj(L.endX,0.98);
-  const rem=L.ph=='flight'?M.abs(L.dur-L.t):.7;
+  const arrT=L.dur*(L.batY/0.98);
+  const ballXAtBat=lerp(L.bx,L.endX,cl((L.batY-L.by)/(1.0-L.by),0,1.2));
+  const[tx,ty]=pitchProj(ballXAtBat,L.batY);
+  const rem=L.ph=='flight'?M.abs(arrT-L.t):.7;
   const inZone=L.ph=='flight'&&rem<.24;
   X.strokeStyle=inZone?'#00e676':'rgba(255,255,255,0.45)';
   X.lineWidth=inZone?4:2;
@@ -1863,8 +2008,8 @@ function drawPitchScene(L,bt,bw){
    X.strokeStyle=inZone?'#ffd54f':'rgba(255,213,79,0.55)';
    X.lineWidth=2;X.beginPath();X.ellipse(tx,ty,ringR,ringR*.46,0,0,7);X.stroke();
   }
-  const[rx,ry]=pitchProj(L.batX+0.12,0.98);
-  X.fillStyle='rgba(0,230,118,0.22)';
+  const[rx,ry]=pitchProj(L.batX+0.12,L.batY);
+  X.fillStyle='rgba(0,230,118,0.24)';
   X.beginPath();X.ellipse(rx,ry,24,10,0,0,7);X.fill();
  }
 
@@ -1879,7 +2024,6 @@ function drawPitchScene(L,bt,bw){
  const isBowled=L&&L.ph=='pitch_res'&&L.out&&L.out.w&&L.out.k=='b'&&L.t>=0.25;
  drawStumpsBot(isBowled,L?L.t:0);
 
- // Show ball passing to Wicketkeeper on Play & Miss or Keeper Edge!
  if(L&&L.ph=='pitch_res'&&!isBowled){
   const p=cl(L.t/0.4,0,1);
   const[sx,sy]=pitchProj(L.endX,1.0+p*0.18);
