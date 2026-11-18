@@ -57,6 +57,16 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
 #lg #dice.roll{animation:lgroll .65s ease-in-out}
 @keyframes lgroll{0%{transform:rotate3d(1,1,0,0) scale(1)}50%{transform:rotate3d(1,1,1,540deg) scale(1.25) translateY(-14px)}100%{transform:rotate3d(1,1,0,720deg) scale(1)}}
 #lg #toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:60;background:#b71c1c;padding:8px 16px;border-radius:12px;font-weight:700;display:none;max-width:90%;text-align:center}
+/* ===== Home (Space Impact style) ===== */
+#lg #scMenu{background:#050514;align-items:center;justify-content:center}
+#lg .hw{width:min(380px,100%);margin:auto;text-align:center;padding:8px}
+#lg .hw h1{font-size:4.2rem;letter-spacing:14px;margin-right:-14px;line-height:1;background:linear-gradient(90deg,#9fe4ff,#fff,#ffb3d9);-webkit-background-clip:text;background-clip:text;color:transparent}
+#lg .tag{color:#a9b8e8;margin:10px 0 14px;font-size:1rem}
+#lg .pilot{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;text-align:left;color:#cfd8ff}
+#lg .pilot small{display:block;opacity:.7}
+#lg .hb{display:block;width:100%;font-size:1.05rem;font-weight:600;letter-spacing:4px;color:#fff;background:#0e1d3a;border:2px solid #2b9fd8;border-radius:10px;padding:14px 8px;margin-top:10px;box-shadow:0 0 14px rgba(43,159,216,.35)}
+#lg .hb.f{background:#1b4f78;box-shadow:0 0 0 4px #fff,0 0 22px rgba(43,159,216,.6);margin-bottom:14px}
+#lg .hb:active{background:#1b4f78}
 </style>
 </head>
 <body>
@@ -72,14 +82,18 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
   <div id="dwrap"><div id="dice"></div><div><button class="btn" id="roll">🎲 ROLL</button><div id="stat"></div></div></div>
 </div>
 
-<div id="scMenu" class="scr"><div class="card">
-  <h1>LUDO 🎲</h1>
-  <div class="me"><div class="av" id="mav"></div><div><b id="pname">Player</b><small id="pstat">Wins 0 · Played 0 · 0%</small></div></div>
-  <button class="btn" id="bSingle">🤖 Play vs Computer</button>
-  <button class="btn b2" id="bMulti">🌐 Online Multiplayer</button>
-  <p class="small">Roll a 6 to leave home · Land on an opponent to send them back · ★ cells are safe</p>
-  <h2>🏆 Top Players (Wins) 🏆</h2>
-  <ul id="lbList"></ul>
+<div id="scMenu" class="scr"><div class="hw">
+  <h1>LUDO</h1>
+  <p class="tag">Four tokens. One winner.</p>
+  <div class="pilot"><div class="av" id="mav"></div><div>Player: <b id="pname">Player</b><small id="pstat">Wins 0 · Played 0 · 0%</small></div></div>
+  <button class="hb f" id="bSingle">PLAY VS COMPUTER</button>
+  <button class="hb" id="bMulti">ONLINE MULTIPLAYER</button>
+  <button class="hb" id="bLb">LEADERBOARD</button>
+</div></div>
+
+<div id="scLb" class="scr"><div class="card">
+  <h1>Leaderboard</h1><ul id="lbList"></ul>
+  <button class="btn b2" data-go="scMenu">⬅ Back</button>
 </div></div>
 
 <div id="scSingle" class="scr"><div class="card">
@@ -501,6 +515,19 @@ cv.addEventListener("pointerdown", e => {
   const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 15, y = (e.clientY - r.top) / r.height * 15; let b = -1, bd = 1.2;
   legal(S, mySeat, S.dice).forEach(i => { const [tx, ty] = tokXY(mySeat, i, dp[mySeat][i]), d = Math.hypot(tx - x, ty - y); if (d < bd) { bd = d; b = i; } });
   if (b >= 0) doMove(mySeat, b);
+});
+
+/* ===== LEADERBOARD SCREEN + BACK BUTTON (stays inside the game; only Home exits) ===== */
+$("bLb").onclick = () => show("scLb");
+history.replaceState({ lg: 0 }, ""); history.pushState({ lg: 1 }, "");
+addEventListener("popstate", () => {
+  const on = document.querySelector("#lg .scr.on"), id = on ? on.id : "";
+  if (id === "load" || (id === "scMenu" && !$("game").classList.contains("on"))) { history.back(); return; } // Back on Home = leave the page
+  history.pushState({ lg: 1 }, "");
+  if (id === "scRes") exitGame();
+  else if ($("game").classList.contains("on")) { if (S && S.winner < 0 && !confirm("Leave the game?")) return; exitGame(); }
+  else if (id === "scLobby") { leave(); goMenu("scMenu"); }
+  else show("scMenu");
 });
 face(1);
 </script>
