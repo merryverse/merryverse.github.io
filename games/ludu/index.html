@@ -57,16 +57,17 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
 #lg #dice.roll{animation:lgroll .65s ease-in-out}
 @keyframes lgroll{0%{transform:rotate3d(1,1,0,0) scale(1)}50%{transform:rotate3d(1,1,1,540deg) scale(1.25) translateY(-14px)}100%{transform:rotate3d(1,1,0,720deg) scale(1)}}
 #lg #toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:60;background:#b71c1c;padding:8px 16px;border-radius:12px;font-weight:700;display:none;max-width:90%;text-align:center}
-/* ===== Home (Space Impact style) ===== */
-#lg #scMenu{background:#050514;align-items:center;justify-content:center}
-#lg .hw{width:min(380px,100%);margin:auto;text-align:center;padding:8px}
-#lg .hw h1{font-size:4.2rem;letter-spacing:14px;margin-right:-14px;line-height:1;background:linear-gradient(90deg,#9fe4ff,#fff,#ffb3d9);-webkit-background-clip:text;background-clip:text;color:transparent}
-#lg .tag{color:#a9b8e8;margin:10px 0 14px;font-size:1rem}
-#lg .pilot{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;text-align:left;color:#cfd8ff}
-#lg .pilot small{display:block;opacity:.7}
-#lg .hb{display:block;width:100%;font-size:1.05rem;font-weight:600;letter-spacing:4px;color:#fff;background:#0e1d3a;border:2px solid #2b9fd8;border-radius:10px;padding:14px 8px;margin-top:10px;box-shadow:0 0 14px rgba(43,159,216,.35)}
-#lg .hb.f{background:#1b4f78;box-shadow:0 0 0 4px #fff,0 0 22px rgba(43,159,216,.6);margin-bottom:14px}
-#lg .hb:active{background:#1b4f78}
+/* ===== Home (matches inner screens) ===== */
+#lg #scMenu{align-items:center;justify-content:center}
+#lg .hw{width:min(290px,100%);margin:auto;text-align:center;padding:8px}
+#lg .hw h1{font-size:3.4rem;letter-spacing:10px;margin-right:-10px;line-height:1;color:#ffb300;text-shadow:0 0 24px rgba(255,179,0,.35)}
+#lg .tag{color:#a9b8e8;margin:8px 0 12px;font-size:.95rem}
+#lg .pilot{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;text-align:left;color:#dfe5ff;background:rgba(255,255,255,.06);border-radius:14px;padding:8px 12px}
+#lg .pilot small{display:block;opacity:.7;font-size:.8rem}
+#lg .hb{display:block;width:100%;font-size:.95rem;font-weight:700;letter-spacing:1.5px;color:#fff;background:#2a3566;border:0;border-radius:14px;padding:10px 12px;margin-top:9px;box-shadow:0 4px 0 #151c3d}
+#lg .hb.f{color:#1b1200;background:#ffb300;box-shadow:0 4px 0 #b37d00}
+#lg .hb:active{transform:translateY(3px);box-shadow:0 1px 0 #151c3d}
+#lg .hb.f:active{box-shadow:0 1px 0 #b37d00}
 </style>
 </head>
 <body>
@@ -129,7 +130,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, setPersistence, browserLocalPersistence, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, browserPopupRedirectResolver, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getDatabase, ref as rr, set as rs, update as ru, remove as rm, onValue, onDisconnect, get as rg, runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, doc, setDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
@@ -144,8 +145,7 @@ const firebaseConfig = {
   measurementId: "G-T8T99CH1ZG",
   databaseURL: "https://merryverse-official-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
-const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app), rdb = getDatabase(app, firebaseConfig.databaseURL), provider = new GoogleAuthProvider();
-setPersistence(auth, browserLocalPersistence).catch(() => {});
+const app = initializeApp(firebaseConfig), auth = initializeAuth(app, { persistence: [indexedDBLocalPersistence, browserLocalPersistence], popupRedirectResolver: browserPopupRedirectResolver }), db = getFirestore(app), rdb = getDatabase(app, firebaseConfig.databaseURL), provider = new GoogleAuthProvider();
 const $ = id => document.getElementById(id);
 const LS = k => localStorage.getItem(k);
 
@@ -266,29 +266,33 @@ onSnapshot(query(collection(db, "ludo_scores"), orderBy("score", "desc"), limit(
 }, e => console.error(e));
 const showStat = () => { const p = myStat.played; $("pstat").textContent = `Wins ${myStat.score} · Played ${p} · ${p ? Math.round(myStat.score / p * 100) : 0}%`; };
 async function saveStat(win) {
-  if (!me || savedId === S.id || mySeat < 0) return; savedId = S.id; myStat.score += win ? 1 : 0; myStat.played++; showStat();
+  if (!me || savedId === S.id || mySeat < 0) return; savedId = S.id; myStat.score += win ? 1 : 0; myStat.played++; showStat(); try { localStorage.setItem('lg_stat', JSON.stringify(myStat)); } catch (e) {}
   try { await setDoc(doc(db, "ludo_scores", me.uid), { uid: me.uid, name: me.displayName || "Player", photoURL: me.photoURL || "", score: increment(win ? 1 : 0), played: increment(1), updatedAt: Date.now() }, { merge: true }); } catch (e) { console.error(e); }
 }
 
-/* ===== LOGIN (saved in the browser, same flow as the racing game) ===== */
+/* ===== LOGIN (saved in the browser: cached profile shows the menu instantly, Google sign-in only when really signed out) ===== */
 function showLoginButton() {
   const l = $("load"); l.classList.add("on"); l.textContent = "";
-  const b = document.createElement("button"); b.className = "btn"; b.style.width = "auto"; b.textContent = "Sign in with Google";
-  b.onclick = () => { sessionStorage.removeItem("lg_redir"); signInWithRedirect(auth, provider); }; l.append(b);
+  const c = document.createElement("div"); c.className = "card"; c.innerHTML = "<h1>LUDO</h1><p class='small'>Sign in once, stay signed in</p>";
+  const b = document.createElement("button"); b.className = "btn"; b.textContent = "Sign in with Google";
+  b.onclick = () => signInWithRedirect(auth, provider); c.append(b); l.append(c);
 }
+const ready = () => { if (auth.currentUser) return true; toast("Connecting... try again"); return false; };
+let booted = false;
+try { const u = JSON.parse(LS("lg_user") || "null"), st = JSON.parse(LS("lg_stat") || "null"); if (u && u.uid) { me = u; if (st) myStat = st; $("pname").textContent = myName(); setAv($("mav"), u.photoURL, myName()); showStat(); $("load").classList.remove("on"); show("scMenu"); } } catch (e) {}
+getRedirectResult(auth).catch(e => console.error(e));
 onAuthStateChanged(auth, async user => {
   if (user) {
-    me = user; localStorage.setItem("lg_login", "1"); sessionStorage.removeItem("lg_redir");
+    me = user; localStorage.setItem("lg_user", JSON.stringify({ uid: user.uid, displayName: user.displayName || "Player", photoURL: user.photoURL || "" }));
     $("pname").textContent = myName(); setAv($("mav"), user.photoURL, myName());
-    try { const d = await getDoc(doc(db, "ludo_scores", user.uid)); if (d.exists()) myStat = { score: d.data().score || 0, played: d.data().played || 0 }; } catch (e) {}
-    showStat(); $("load").classList.remove("on"); show("scMenu");
-    const q = new URLSearchParams(location.search).get("room"), saved = LS("lg_room");
-    if (q) joinRoom(q); else if (saved) joinRoom(saved, true);
+    if ($("load").classList.contains("on")) { $("load").classList.remove("on"); show("scMenu"); }
+    try { const d = await getDoc(doc(db, "ludo_scores", user.uid)); if (d.exists()) { myStat = { score: d.data().score || 0, played: d.data().played || 0 }; localStorage.setItem("lg_stat", JSON.stringify(myStat)); } } catch (e) {}
+    showStat();
+    if (!booted) { booted = true; const q = new URLSearchParams(location.search).get("room"), saved = LS("lg_room"); if (q) joinRoom(q); else if (saved) joinRoom(saved, true); }
   } else {
-    try { const r = await getRedirectResult(auth); if (r && r.user) return; } catch (e) { console.error(e); }
-    if (auth.currentUser) return; localStorage.removeItem("lg_login");
-    if (sessionStorage.getItem("lg_redir")) { showLoginButton(); return; }
-    sessionStorage.setItem("lg_redir", "1"); signInWithRedirect(auth, provider);
+    await new Promise(r => setTimeout(r, 400));
+    if (auth.currentUser) return;
+    localStorage.removeItem("lg_user"); me = null; showLoginButton();
   }
 });
 
@@ -370,6 +374,7 @@ $("bSingle").onclick = () => show("scSingle"); $("bMulti").onclick = () => show(
 const pl = () => ({ n: me.displayName || "Player", p: me.photoURL || "", j: Date.now(), on: true });
 const genCode = () => Array.from({ length: 5 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
 document.querySelectorAll("[data-room]").forEach(b => b.onclick = async () => {
+  if (!ready()) return;
   for (let k = 0; k < 5; k++) {
     const code = genCode();
     try { const res = await runTransaction(rr(rdb, "ludo/" + code), cur => cur ? undefined : { host: me.uid, max: +b.dataset.room, status: "lobby", c: Date.now(), players: { [me.uid]: pl() } }); if (res.committed) return enterRoom(code); }
@@ -377,7 +382,7 @@ document.querySelectorAll("[data-room]").forEach(b => b.onclick = async () => {
   }
   toast("Try again");
 });
-$("bJoin").onclick = () => joinRoom($("code").value);
+$("bJoin").onclick = () => { if (ready()) joinRoom($("code").value); };
 async function joinRoom(code, silent) {
   code = (code || "").toUpperCase().trim(); if (code.length < 4) return toast("Enter the room code");
   try {
