@@ -20,6 +20,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
 #lg .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b37d00}
 #lg .btn:disabled{opacity:.5}
 #lg .btn.b2{background:#2a3566;color:#fff;box-shadow:0 5px 0 #151c3d}
+#lg .btn.b3{background:#b71c1c;color:#fff;box-shadow:0 5px 0 #6b1010}
 #lg .row{display:flex;gap:8px}
 #lg .row .btn{flex:1;padding:10px 6px;font-size:1.05rem}
 #lg input{width:100%;font-weight:700;font-size:1.3rem;font-family:inherit;text-align:center;text-transform:uppercase;letter-spacing:4px;padding:10px;border-radius:14px;border:2px solid #3a4890;background:#0d1230;color:#fff;margin-top:8px}
@@ -55,7 +56,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
 #lg .gbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #151c3d}
 #lg .gbtn.danger{background:#8e2424;box-shadow:0 3px 0 #521111}
 #lg #toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:60;background:#b71c1c;padding:8px 16px;border-radius:12px;font-weight:700;display:none;max-width:90%;text-align:center}
-#lg #scPromo{z-index:25}
+#lg #scPromo,#lg #scLeave{z-index:25}
 #lg .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 #lg .pbtn{background:#232d5b;border:2px solid #ffb300;border-radius:14px;padding:10px 4px;color:#fff;font-weight:700;font-size:.85rem}
 #lg .pbtn span{display:block;font-size:2rem;line-height:1.1;margin-bottom:4px}
@@ -153,6 +154,13 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10162f}
   </div>
 </div></div>
 
+<div id="scLeave" class="scr"><div class="card">
+  <h1 id="lvTitle">Leave Match?</h1>
+  <p class="small" id="lvSub">If you leave now, the current match will end.</p>
+  <button class="btn" id="bStay">▶ Continue Playing</button>
+  <button class="btn b3" id="bConfirmLeave">🚪 Leave Match</button>
+</div></div>
+
 <div id="scRes" class="scr"><div class="card">
   <h1 id="rtitle">Winner</h1><p class="small" id="rsub"></p>
   <button class="btn" id="bRe">🔄 Rematch</button><p class="small" id="rwait">Waiting for the host to start a rematch...</p>
@@ -181,10 +189,7 @@ const app = initializeApp(firebaseConfig), auth = initializeAuth(app, { persiste
 const $ = id => document.getElementById(id);
 const LS = k => localStorage.getItem(k);
 
-/* ===== CHESS ENGINE & RULES (Pure Functions, RTDB Safe Integer Array) =====
-   Pieces: 0 = empty, 1 = Pawn, 2 = Knight, 3 = Bishop, 4 = Rook, 5 = Queen, 6 = King
-   White > 0 (seat 0, moves up r--), Black < 0 (seat 1, moves down r++)
-   Castling bits: 1 = W-K, 2 = W-Q, 4 = B-K, 8 = B-Q */
+/* ===== CHESS ENGINE & RULES ===== */
 const INIT_B = [
   -4,-2,-3,-5,-6,-3,-2,-4,
   -1,-1,-1,-1,-1,-1,-1,-1,
@@ -227,24 +232,20 @@ const newState = u => ({
 
 function isAttacked(b, sq, bySeat) {
   const s = signOf(bySeat), r = sq >> 3, c = sq & 7;
-  // Pawns
   const pr = r + s;
   if (pr >= 0 && pr < 8) {
     if (c > 0 && b[pr * 8 + c - 1] === 1 * s) return true;
     if (c < 7 && b[pr * 8 + c + 1] === 1 * s) return true;
   }
-  // Knights
   for (const [dr, dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]) {
     const nr = r + dr, nc = c + dc;
     if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && b[nr * 8 + nc] === 2 * s) return true;
   }
-  // King
   for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
     if (!dr && !dc) continue;
     const nr = r + dr, nc = c + dc;
     if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && b[nr * 8 + nc] === 6 * s) return true;
   }
-  // Orthogonal (Rook / Queen)
   for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
     let nr = r + dr, nc = c + dc;
     while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
@@ -253,7 +254,6 @@ function isAttacked(b, sq, bySeat) {
       nr += dr; nc += dc;
     }
   }
-  // Diagonal (Bishop / Queen)
   for (const [dr, dc] of [[-1,-1],[-1,1],[1,-1],[1,1]]) {
     let nr = r + dr, nc = c + dc;
     while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
@@ -265,10 +265,7 @@ function isAttacked(b, sq, bySeat) {
   return false;
 }
 
-function kingSq(b, seat) {
-  const k = 6 * signOf(seat);
-  return b.indexOf(k);
-}
+const kingSq = (b, seat) => b.indexOf(6 * signOf(seat));
 const inCheck = (b, seat) => { const k = kingSq(b, seat); return k >= 0 && isAttacked(b, k, 1 - seat); };
 
 function pseudoMovesFrom(S, sq, seat) {
@@ -386,7 +383,7 @@ function applyChessMove(S, seat, f, t, pr = 5) {
   return true;
 }
 
-/* ===== AI ENGINE (Minimax with Alpha-Beta Pruning & Positional Tables) ===== */
+/* ===== AI ENGINE ===== */
 function evalBoard(b) {
   let sc = 0;
   for (let i = 0; i < 64; i++) {
@@ -436,7 +433,7 @@ function aiPickMove(S, depth) {
   }
 
   for (const m of moves) {
-    const c = { b: S.b.slice(), cas: S.cas, ep: S.ep, turn: seat, hm: S.hm };
+    const c = { b: S.b.slice(), cas: S.cas, ep: st => st.ep, ep: S.ep, turn: seat, hm: S.hm };
     execOnBoard(c, m, 5); c.turn = 1 - seat;
     const jitter = depth === 1 ? (Math.random() - .5) * 90 : (Math.random() - .5) * 8;
     const val = search(c, depth - 1, -1e9, 1e9) + jitter;
@@ -445,7 +442,7 @@ function aiPickMove(S, depth) {
   return best;
 }
 
-/* ===== AUDIO (synthesized, no external files) ===== */
+/* ===== AUDIO ===== */
 let ac, mute = LS("lg_mute") === "1";
 const au = () => { if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (ac && ac.state === "suspended") ac.resume(); };
 function snd(f, d = .1, type = "sine", v = .15, to = 0, delay = 0) {
@@ -466,15 +463,116 @@ $("lg").addEventListener("click", e => { if (e.target.closest("button")) sfx.cli
 const showMute = () => $("bSnd").textContent = mute ? "🔇" : "🔊"; showMute();
 $("bSnd").onclick = () => { mute = !mute; localStorage.setItem("lg_mute", mute ? "1" : "0"); showMute(); };
 
-/* ===== STATE / UI HELPERS ===== */
+/* ===== STATE & IN-GAME BACK BUTTON HISTORY ENGINE =====
+   Depth levels:
+   0 = Home (scMenu / load) -> pressing Back here exits the page
+   1 = Sub-screens (scLb, scSingle, scMp, scLobby, scLeave, scRes)
+   2 = Active Game Board (#game)
+   3 = Pawn Promotion Modal (scPromo) */
 const COL = ["#ffb300", "#00e5ff"];
 let me = null, S = null, single = true, mySeat = 0, aiLevel = 2, singleSide = 0, flipped = false;
 let room = null, roomCode = null, offRoom = null, offConn = null;
-let selSq = -1, selMoves = [], pendPromo = null, anim = null;
+let selSq = -1, selMoves = [], pendPromo = null, leaveMode = "exit", anim = null;
 let lastVerT = 0, pending = false, pendT = 0, resultShown = false, savedId = "", parts = [], pls = [], myStat = { score: 0, played: 0 };
 
-const show = id => document.querySelectorAll("#lg .scr").forEach(e => e.classList.toggle("on", e.id === id));
-const goMenu = id => { $("game").classList.remove("on"); show(id); };
+let curD = 0, ignorePop = 0;
+history.replaceState({ d: 0 }, "");
+
+function targetDepthFor(id) {
+  if (id === "scPromo") return 3;
+  if ($("game").classList.contains("on") && !id) return 2;
+  if (id === "scLb" || id === "scSingle" || id === "scMp" || id === "scLobby" || id === "scLeave" || id === "scRes") return 1;
+  return 0;
+}
+
+function syncDepth(targetD) {
+  const d = (history.state && typeof history.state.d === "number") ? history.state.d : curD;
+  if (targetD > d) {
+    for (let i = d + 1; i <= targetD; i++) history.pushState({ d: i }, "");
+  } else if (targetD < d) {
+    ignorePop++;
+    history.go(targetD - d);
+  }
+  curD = targetD;
+}
+
+const show = (id, fromPop = false) => {
+  document.querySelectorAll("#lg .scr").forEach(e => e.classList.toggle("on", e.id === id));
+  if (!fromPop) syncDepth(targetDepthFor(id));
+};
+const goMenu = (id, fromPop = false) => {
+  $("game").classList.remove("on");
+  show(id, fromPop);
+};
+
+function askLeaveGame(mode = "exit", fromPop = false) {
+  leaveMode = mode;
+  $("lvTitle").textContent = mode === "resign" ? "Resign Match?" : "Leave Match?";
+  $("lvSub").textContent = mode === "resign" ? "You will forfeit this game to your opponent." : "If you leave now, the current match will end.";
+  $("bConfirmLeave").textContent = mode === "resign" ? "🏳️ Resign" : "🚪 Leave Match";
+  show("scLeave", fromPop);
+}
+
+$("bStay").onclick = () => show(null);
+$("bConfirmLeave").onclick = () => {
+  if (leaveMode === "resign") {
+    show(null);
+    if (single) { const n = clone(S); n.winner = 1 - mySeat; n.reason = "Resignation"; n.ver++; commit(n); }
+    else runTransaction(rr(rdb, `chess/${roomCode}/s`), cur => {
+      if (!cur || cur.winner >= 0) return cur;
+      cur.winner = 1 - mySeat; cur.reason = "Resignation"; cur.ver++; return cur;
+    });
+  } else {
+    exitGame();
+  }
+};
+
+addEventListener("popstate", e => {
+  const newD = (e.state && typeof e.state.d === "number") ? e.state.d : 0;
+  curD = newD;
+  if (ignorePop > 0) { ignorePop--; return; }
+
+  const on = document.querySelector("#lg .scr.on"), id = on ? on.id : "";
+  const inGame = $("game").classList.contains("on");
+
+  if (id === "scPromo") {
+    pendPromo = null;
+    show(null, true);
+    if (curD < 2) syncDepth(2);
+    return;
+  }
+  if (id === "scLeave") {
+    exitGame(true);
+    if (curD > 0) syncDepth(0);
+    return;
+  }
+  if (id === "scRes") {
+    exitGame(true);
+    if (curD > 0) syncDepth(0);
+    return;
+  }
+  if (inGame) {
+    if (S && S.winner < 0) {
+      askLeaveGame("exit", true);
+      if (curD < 1) syncDepth(1);
+    } else {
+      exitGame(true);
+      if (curD > 0) syncDepth(0);
+    }
+    return;
+  }
+  if (id === "scLobby") {
+    leave();
+    goMenu("scMenu", true);
+    if (curD > 0) syncDepth(0);
+    return;
+  }
+  if (id && id !== "scMenu" && id !== "load") {
+    show("scMenu", true);
+    if (curD > 0) syncDepth(0);
+  }
+});
+
 function toast(t) { const e = $("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = "none", 4000); }
 const myName = () => ((me && me.displayName) || "Player").split(" ")[0].slice(0, 12);
 const pOf = s => (!single && room && room.players && S) ? room.players[S.u[s]] : null;
@@ -504,7 +602,7 @@ async function saveStat(win) {
   try { await setDoc(doc(db, "chess_scores", me.uid), { uid: me.uid, name: me.displayName || "Player", photoURL: me.photoURL || "", score: increment(win ? 1 : 0), played: increment(1), updatedAt: Date.now() }, { merge: true }); } catch (e) { console.error(e); }
 }
 
-/* ===== LOGIN (shares lg_user cache with Ludo) ===== */
+/* ===== LOGIN ===== */
 function showLoginButton() {
   const l = $("load"); l.classList.add("on"); l.textContent = "";
   const c = document.createElement("div"); c.className = "card"; c.innerHTML = "<h1>CHESS</h1><p class='small'>Sign in once, stay signed in</p>";
@@ -513,13 +611,13 @@ function showLoginButton() {
 }
 const ready = () => { if (auth.currentUser) return true; toast("Connecting... try again"); return false; };
 let booted = false;
-try { const u = JSON.parse(LS("lg_user") || "null"), st = JSON.parse(LS("chess_stat") || "null"); if (u && u.uid) { me = u; if (st) myStat = st; $("pname").textContent = myName(); setAv($("mav"), u.photoURL, myName()); showStat(); $("load").classList.remove("on"); show("scMenu"); } } catch (e) {}
+try { const u = JSON.parse(LS("lg_user") || "null"), st = JSON.parse(LS("chess_stat") || "null"); if (u && u.uid) { me = u; if (st) myStat = st; $("pname").textContent = myName(); setAv($("mav"), u.photoURL, myName()); showStat(); $("load").classList.remove("on"); show("scMenu", true); } } catch (e) {}
 getRedirectResult(auth).catch(e => console.error(e));
 onAuthStateChanged(auth, async user => {
   if (user) {
     me = user; localStorage.setItem("lg_user", JSON.stringify({ uid: user.uid, displayName: user.displayName || "Player", photoURL: user.photoURL || "" }));
     $("pname").textContent = myName(); setAv($("mav"), user.photoURL, myName());
-    if ($("load").classList.contains("on")) { $("load").classList.remove("on"); show("scMenu"); }
+    if ($("load").classList.contains("on")) { $("load").classList.remove("on"); show("scMenu", true); }
     try { const d = await getDoc(doc(db, "chess_scores", user.uid)); if (d.exists()) { myStat = { score: d.data().score || 0, played: d.data().played || 0 }; localStorage.setItem("chess_stat", JSON.stringify(myStat)); } } catch (e) {}
     showStat();
     if (!booted) { booted = true; const q = new URLSearchParams(location.search).get("room"), saved = LS("chess_room"); if (q) joinRoom(q); else if (saved) joinRoom(saved, true); }
@@ -630,28 +728,21 @@ function showResult() {
   const host = single || hostUid() === me.uid;
   $("bRe").style.display = host ? "" : "none";
   $("rwait").style.display = host ? "none" : "";
-  show("scRes"); sfx.win();
+  show("scRes", true); sfx.win();
   if (mine) confetti();
   if (!draw) saveStat(mine);
 }
 
 $("bFlip").onclick = () => { if (!S) return; flipped = !flipped; buildPanels(); ui(); };
-$("bResign").onclick = () => {
-  if (!S || S.winner >= 0 || !confirm("Are you sure you want to resign?")) return;
-  if (single) { const n = clone(S); n.winner = 1 - mySeat; n.reason = "Resignation"; n.ver++; commit(n); }
-  else runTransaction(rr(rdb, `chess/${roomCode}/s`), cur => {
-    if (!cur || cur.winner >= 0) return cur;
-    cur.winner = 1 - mySeat; cur.reason = "Resignation"; cur.ver++; return cur;
-  });
-};
-
+$("bResign").onclick = () => { if (S && S.winner < 0) askLeaveGame("resign"); };
 $("bRe").onclick = () => {
-  const nextU = [S.u[1], S.u[0]]; // swap colors on rematch
+  const nextU = [S.u[1], S.u[0]];
   if (single) { mySeat = 1 - mySeat; commit(newState(nextU)); }
   else ru(rr(rdb, "chess/" + roomCode), { status: "play", s: newState(nextU) });
 };
-$("bMenu").onclick = $("bExit").onclick = () => { if (S && S.winner < 0 && !confirm("Leave the game?")) return; exitGame(); };
-function exitGame() { if (!single) leave(); S = null; goMenu("scMenu"); }
+$("bMenu").onclick = () => exitGame();
+$("bExit").onclick = () => { if (S && S.winner < 0) askLeaveGame("exit"); else exitGame(); };
+function exitGame(fromPop = false) { if (!single) leave(); S = null; goMenu("scMenu", fromPop); }
 
 /* ===== PROMOTION MODAL ===== */
 document.querySelectorAll("[data-pr]").forEach(b => b.onclick = () => {
@@ -669,10 +760,12 @@ document.querySelectorAll("[data-side]").forEach(b => b.onclick = () => {
 document.querySelectorAll("[data-lvl]").forEach(b => b.onclick = () => {
   single = true; aiLevel = +b.dataset.lvl; mySeat = singleSide;
   const u = mySeat === 0 ? [me.uid, "bot"] : ["bot", me.uid];
-  $("game").classList.add("on"); show(null); resize(); S = null; commit(newState(u));
+  $("game").classList.add("on"); resize(); S = null; commit(newState(u));
 });
 document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => show(b.dataset.go));
-$("bSingle").onclick = () => show("scSingle"); $("bMulti").onclick = () => show("scMp");
+$("bSingle").onclick = () => show("scSingle");
+$("bMulti").onclick = () => show("scMp");
+$("bLb").onclick = () => show("scLb");
 
 /* ===== ONLINE MULTIPLAYER (Realtime Database: chess/<CODE>) ===== */
 const pl = () => ({ n: me.displayName || "Player", p: me.photoURL || "", j: Date.now(), on: true });
@@ -807,11 +900,9 @@ function drawVectorPiece(x, y, p, scale = 1) {
   ctx.translate(x, y);
   ctx.scale(scale, scale);
 
-  // Drop shadow
   ctx.fillStyle = "rgba(0,0,0,.34)";
   ctx.beginPath(); ctx.ellipse(0, .31, .34, .12, 0, 0, 7); ctx.fill();
 
-  // Piece gradient & stroke style
   const g = ctx.createLinearGradient(-.25, -.38, .25, .35);
   if (isW) { g.addColorStop(0, "#ffffff"); g.addColorStop(.55, "#e8eefc"); g.addColorStop(1, "#b8c6e6"); }
   else { g.addColorStop(0, "#3b487a"); g.addColorStop(.5, "#1f274d"); g.addColorStop(1, "#0d1228"); }
@@ -821,7 +912,6 @@ function drawVectorPiece(x, y, p, scale = 1) {
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
-  // Pedestal base
   ctx.beginPath();
   ctx.moveTo(-.28, .28); ctx.lineTo(.28, .28);
   ctx.quadraticCurveTo(.26, .19, .18, .18);
@@ -829,7 +919,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
   ctx.quadraticCurveTo(-.26, .19, -.28, .28);
   ctx.closePath(); ctx.fill(); ctx.stroke();
 
-  if (t === 1) { // Pawn
+  if (t === 1) {
     ctx.beginPath();
     ctx.moveTo(-.16, .18);
     ctx.quadraticCurveTo(-.13, .02, -.07, -.06);
@@ -837,7 +927,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
     ctx.quadraticCurveTo(.13, .02, .16, .18);
     ctx.closePath(); ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.arc(0, -.16, .11, 0, 7); ctx.fill(); ctx.stroke();
-  } else if (t === 2) { // Knight
+  } else if (t === 2) {
     ctx.beginPath();
     ctx.moveTo(-.18, .18);
     ctx.quadraticCurveTo(-.20, -.05, -.10, -.22);
@@ -850,7 +940,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
     ctx.closePath(); ctx.fill(); ctx.stroke();
     ctx.fillStyle = isW ? "#161f42" : "#ffb300";
     ctx.beginPath(); ctx.arc(.05, -.15, .024, 0, 7); ctx.fill();
-  } else if (t === 3) { // Bishop
+  } else if (t === 3) {
     ctx.beginPath();
     ctx.moveTo(-.17, .18);
     ctx.quadraticCurveTo(-.18, -.08, 0, -.26);
@@ -858,7 +948,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
     ctx.closePath(); ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.arc(0, -.30, .045, 0, 7); ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(-.06, -.08); ctx.lineTo(.06, -.08); ctx.moveTo(0, -.14); ctx.lineTo(0, -.02); ctx.stroke();
-  } else if (t === 4) { // Rook
+  } else if (t === 4) {
     ctx.beginPath();
     ctx.moveTo(-.18, .18); ctx.lineTo(-.14, -.12); ctx.lineTo(-.20, -.12);
     ctx.lineTo(-.20, -.26); ctx.lineTo(-.11, -.26); ctx.lineTo(-.11, -.19);
@@ -866,7 +956,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
     ctx.lineTo(.05, -.19); ctx.lineTo(.11, -.19); ctx.lineTo(.11, -.26);
     ctx.lineTo(.20, -.26); ctx.lineTo(.20, -.12); ctx.lineTo(.14, -.12);
     ctx.lineTo(.18, .18); ctx.closePath(); ctx.fill(); ctx.stroke();
-  } else if (t === 5) { // Queen
+  } else if (t === 5) {
     ctx.beginPath();
     ctx.moveTo(-.19, .18);
     ctx.lineTo(-.25, -.18); ctx.lineTo(-.11, -.04);
@@ -876,7 +966,7 @@ function drawVectorPiece(x, y, p, scale = 1) {
     for (const [cx, cy] of [[-.25, -.21], [0, -.27], [.25, -.21]]) {
       ctx.beginPath(); ctx.arc(cx, cy, .035, 0, 7); ctx.fill(); ctx.stroke();
     }
-  } else if (t === 6) { // King
+  } else if (t === 6) {
     ctx.beginPath();
     ctx.moveTo(0, -.36); ctx.lineTo(0, -.22);
     ctx.moveTo(-.07, -.30); ctx.lineTo(.07, -.30);
@@ -900,24 +990,20 @@ function draw(t, dt) {
   const chkW = inCheck(S.b, 0) ? kingSq(S.b, 0) : -1;
   const chkB = inCheck(S.b, 1) ? kingSq(S.b, 1) : -1;
 
-  // Squares
   for (let vr = 0; vr < 8; vr++) for (let vc = 0; vc < 8; vc++) {
     const r = flipped ? 7 - vr : vr, c = flipped ? 7 - vc : vc, sq = r * 8 + c;
     const light = ((r + c) & 1) === 0;
     ctx.fillStyle = light ? "#e8edf9" : "#4b5d96";
     ctx.fillRect(vc, vr, 1, 1);
 
-    // Last move highlight
     if (sq === S.lf || sq === S.lt) {
       ctx.fillStyle = "rgba(255, 193, 7, 0.36)";
       ctx.fillRect(vc, vr, 1, 1);
     }
-    // Selected square highlight
     if (sq === selSq) {
       ctx.fillStyle = "rgba(0, 229, 255, 0.42)";
       ctx.fillRect(vc, vr, 1, 1);
     }
-    // King in check highlight
     if (sq === chkW || sq === chkB) {
       const rg = ctx.createRadialGradient(vc + .5, vr + .5, .08, vc + .5, vr + .5, .55);
       rg.addColorStop(0, "rgba(255, 23, 68, 0.92)");
@@ -925,7 +1011,6 @@ function draw(t, dt) {
       ctx.fillStyle = rg;
       ctx.fillRect(vc, vr, 1, 1);
     }
-    // Coordinates on board edge
     if (vc === 0) {
       ctx.fillStyle = light ? "#4b5d96" : "#e8edf9";
       ctx.font = "700 0.17px Fredoka, sans-serif";
@@ -938,7 +1023,6 @@ function draw(t, dt) {
     }
   }
 
-  // Legal move hints
   for (const m of selMoves) {
     const [vx, vy] = viewCoord(m.t);
     const isCap = S.b[m.t] !== 0 || m.sp === 3;
@@ -952,7 +1036,6 @@ function draw(t, dt) {
     }
   }
 
-  // Pieces
   for (let sq = 0; sq < 64; sq++) {
     const p = S.b[sq]; if (!p) continue;
     if (anim && anim.sq === sq) continue;
@@ -960,7 +1043,6 @@ function draw(t, dt) {
     drawVectorPiece(vx, vy, p, sq === selSq ? 1.08 : 1);
   }
 
-  // Moving piece animation
   if (anim) {
     const k = Math.min(1, (performance.now() - anim.t0) / anim.dur);
     const e = 1 - Math.pow(1 - k, 3);
@@ -969,7 +1051,6 @@ function draw(t, dt) {
     if (k >= 1) anim = null;
   }
 
-  // Particles
   for (let k = parts.length - 1; k >= 0; k--) {
     const q = parts[k]; q.life -= dt; q.vy += 8 * dt; q.x += q.vx * dt; q.y += q.vy * dt;
     if (q.life <= 0) { parts.splice(k, 1); continue; }
@@ -1015,20 +1096,6 @@ cv.addEventListener("pointerdown", e => {
     selSq = -1;
     selMoves = [];
   }
-});
-
-/* ===== LEADERBOARD SCREEN + BACK BUTTON ===== */
-$("bLb").onclick = () => show("scLb");
-history.replaceState({ lg: 0 }, ""); history.pushState({ lg: 1 }, "");
-addEventListener("popstate", () => {
-  const on = document.querySelector("#lg .scr.on"), id = on ? on.id : "";
-  if (id === "load" || (id === "scMenu" && !$("game").classList.contains("on"))) { history.back(); return; }
-  history.pushState({ lg: 1 }, "");
-  if (id === "scPromo") { pendPromo = null; show(null); }
-  else if (id === "scRes") exitGame();
-  else if ($("game").classList.contains("on")) { if (S && S.winner < 0 && !confirm("Leave the game?")) return; exitGame(); }
-  else if (id === "scLobby") { leave(); goMenu("scMenu"); }
-  else show("scMenu");
 });
 </script>
 </body>
