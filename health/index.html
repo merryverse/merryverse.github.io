@@ -57,7 +57,32 @@ a{text-decoration:none;color:inherit}
 .section-head p{color:var(--muted);font-size:11px;margin-top:4px}
 .section-icon{width:38px;height:38px;background:#e1f4f2;color:var(--primary);display:grid;place-items:center;border-radius:12px}
 
-/* USER BAR & ADMIN */
+/* SEPARATE ADMIN PANEL BOX */
+.admin-panel-box {
+  display: none;
+  background: #edf4ff;
+  border: 1px solid #c9ddff;
+  border-radius: 14px;
+  padding: 13px 15px;
+  margin-bottom: 14px;
+}
+.admin-panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.admin-panel-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1e4b8f;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* USER BAR & FAMILY VIEW */
 .user-bar{background:#eaf7f5;padding:15px;border-radius:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border:1px solid #d2ece8; position: relative;}
 .user-info{display:flex;align-items:center;gap:11px; flex: 1; min-width: 0;}
 .user-avatar{width:42px;height:42px;border-radius:50%;background:var(--primary);color:white;display:grid;place-items:center;font-weight:800;font-size:15px;overflow:hidden;flex-shrink:0}
@@ -74,43 +99,17 @@ a{text-decoration:none;color:inherit}
 }
 .switch-account-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(8, 127, 131, 0.2); }
 
-.admin-bar{width:100%;padding-top:12px;border-top:1px dashed #c0e0dc;display:flex;flex-direction:column;gap:10px}
-.admin-bar-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.admin-bar-top > span{font-size:11px;font-weight:700;color:#075c65}
-.admin-select-btn {
+.family-bar{width:100%;padding-top:12px;border-top:1px dashed #c0e0dc;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.family-bar > span{font-size:11px;font-weight:700;color:#075c65}
+
+.select-trigger-btn {
   padding:7px 12px; border-radius:8px; border:1px solid var(--primary); font-size:11px; font-weight:600; background:white; color:var(--dark); outline:none; flex:1; max-width:300px; display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer; transition:.2s; min-width:0;
 }
-.admin-select-btn:hover { border-color: #06696c; background:#f9fbfb;}
+.select-trigger-btn:hover { border-color: #06696c; background:#f9fbfb;}
+.select-trigger-btn.admin-btn-style { border-color: #3b76d1; }
 .select-btn-text { flex:1; min-width:0; text-align:left; }
 .select-btn-name { font-size:11.5px; font-weight:700; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
 .select-btn-email { font-size:9.5px; font-weight:400; color:#93a6aa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top:1px; }
-
-/* ADMIN & FAMILY ACTION BUTTONS BAR */
-.admin-quick-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.mini-ctrl-btn {
-  border: 1px solid #c0e0dc;
-  background: white;
-  color: var(--primary);
-  padding: 6px 10px;
-  border-radius: 7px;
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: .2s;
-}
-.mini-ctrl-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-.mini-ctrl-btn.danger { color: #d66; border-color: #f3cccc; }
-.mini-ctrl-btn.danger:hover { background: #d66; color: white; border-color: #d66; }
-.mini-ctrl-btn.family-add { background: #087f83; color: white; border-color: #087f83; }
-.mini-ctrl-btn.family-add:hover { background: #06696c; }
 
 /* PENDING FAMILY REQUESTS BANNER */
 .requests-box {
@@ -284,10 +283,10 @@ a{text-decoration:none;color:inherit}
 .modal-cancel { background: #f1f5f5; color: var(--muted); }
 .modal-submit { background: var(--primary); color: white; }
 
-/* ACCOUNT SELECTOR MODAL */
-#accountSelectOverlay { z-index: 99998; align-items:center; }
-#accountSelectBox { max-height: 75vh; display:flex; flex-direction:column; padding: 20px 15px; width: 92%; max-width: 360px;}
-#accountListContainer { overflow-y: auto; flex:1; margin-top:5px; }
+/* ACCOUNT SELECTOR MODALS */
+.selector-overlay { z-index: 99998; align-items:center; }
+.selector-box { max-height: 75vh; display:flex; flex-direction:column; padding: 20px 15px; width: 92%; max-width: 360px;}
+.selector-list { overflow-y: auto; flex:1; margin-top:5px; }
 .account-item {
   padding: 11px 12px; border-bottom: 1px solid #f1f5f5; font-size: 13px; color: var(--dark);
   cursor: pointer; display: flex; align-items: center; gap: 10px; transition: .2s;
@@ -361,20 +360,24 @@ a{text-decoration:none;color:inherit}
  .med-stats{gap:6px}
  .stat-box{padding:11px}
  .stat-box strong{font-size:19px}
- .admin-select-btn{max-width:100%}
+ .select-trigger-btn{max-width:100%}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Custom Prompt Modal for Add / View / Family Request -->
+<!-- Custom Prompt Modal for Admin Add / Admin View / Family Request -->
 <div id="customPromptOverlay" class="modal-overlay">
   <div class="modal-box">
     <h4 id="promptModalTitle">Add Family Member</h4>
     <p id="promptModalDesc">Enter a family member's Gmail address.</p>
     <label class="modal-label">Gmail Address</label>
     <input type="email" id="promptEmailInput" placeholder="e.g. member@gmail.com">
+    <div id="promptNameWrapper" style="display:none;">
+      <label class="modal-label">Full Name (Optional)</label>
+      <input type="text" id="promptNameInput" placeholder="e.g. Mashayekh Ahmed">
+    </div>
     <div id="promptAccessWrapper">
       <label class="modal-label">Requested Access Level</label>
       <select id="promptAccessSelect">
@@ -389,12 +392,34 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- Custom Account Selector Modal -->
-<div id="accountSelectOverlay" class="modal-overlay" onclick="closeAccountSelector(event)">
-  <div id="accountSelectBox" class="modal-box" onclick="event.stopPropagation()">
-    <h4 style="margin-left:5px; margin-bottom: 10px;">Select Account</h4>
-    <div id="accountListContainer"></div>
-    <div id="accountModalFooter"></div>
+<!-- 1. Admin Account Selector Modal (Separate) -->
+<div id="adminSelectOverlay" class="modal-overlay selector-overlay" onclick="closeAdminSelector(event)">
+  <div class="modal-box selector-box" onclick="event.stopPropagation()">
+    <h4 style="margin-left:5px; margin-bottom: 10px;"><i class="fa-solid fa-user-shield" style="color:#1e4b8f;"></i> Admin View: Open Account</h4>
+    <div id="adminListContainer" class="selector-list"></div>
+    <div class="admin-modal-footer">
+      <button class="admin-footer-btn add-btn" onclick="closeAdminSelector(); openPromptModal('admin_add');">
+        <i class="fa-solid fa-plus"></i> Add
+      </button>
+      <button class="admin-footer-btn" onclick="closeAdminSelector(); openPromptModal('admin_view');">
+        <i class="fa-solid fa-eye"></i> View
+      </button>
+      <button class="admin-footer-btn del-btn" id="adminDeleteModeBtn" onclick="toggleAdminDeleteMode()">
+        <i class="fa-solid fa-trash"></i> Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Family Account Selector Modal (User View) -->
+<div id="familySelectOverlay" class="modal-overlay selector-overlay" onclick="closeFamilySelector(event)">
+  <div class="modal-box selector-box" onclick="event.stopPropagation()">
+    <h4 style="margin-left:5px; margin-bottom: 10px;"><i class="fa-solid fa-users" style="color:var(--primary);"></i> Family View</h4>
+    <div id="familyListContainer" class="selector-list"></div>
+    <div class="account-item" style="color:var(--primary);font-weight:700;margin-top:8px;border-top:1px dashed #c0e0dc;border-bottom:none;padding-bottom:2px;" onclick="closeFamilySelector(); openPromptModal('family_request');">
+      <i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i>
+      <div>+ Add Family Member...</div>
+    </div>
   </div>
 </div>
 
@@ -442,8 +467,22 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <div class="reminder-card" id="medOverviewCard">
-    
-    <!-- User Account Bar with Switch Account Button -->
+
+    <!-- SEPARATE ADMIN VIEW PANEL (শুধু এডমিন madina.manjeel@gmail.com এর জন্য) -->
+    <div class="admin-panel-box" id="adminPanelBox">
+      <div class="admin-panel-row">
+        <span class="admin-panel-label"><i class="fa-solid fa-user-shield"></i> Admin View:</span>
+        <div class="select-trigger-btn admin-btn-style" onclick="openAdminSelector()">
+          <div class="select-btn-text">
+            <span id="adminActingName" class="select-btn-name">Loading...</span>
+            <span id="adminActingEmail" class="select-btn-email"></span>
+          </div>
+          <i class="fa-solid fa-chevron-down" style="color:#3b76d1;flex-shrink:0;"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER VIEW BOX (ওপেন করা ইউজার যেভাবে দেখেন ঠিক সেভাবেই) -->
     <div class="user-bar">
       <div class="user-info">
         <div class="user-avatar" id="userAvatar"><i class="fa-solid fa-user"></i></div>
@@ -453,32 +492,27 @@ a{text-decoration:none;color:inherit}
         </div>
       </div>
       <!-- Switch Account Button -->
-      <button class="switch-account-btn" onclick="switchGoogleAccount()" title="Switch Account">
+      <button class="switch-account-btn" onclick="switchGoogleAccount()" title="Switch Google Account">
         <i class="fa-solid fa-right-from-bracket"></i>
       </button>
 
-      <!-- Admin / Family Control Bar -->
-      <div class="admin-bar" id="adminControls">
-        <div class="admin-bar-top">
-          <span id="viewModeLabel"><i class="fa-solid fa-users"></i> Family View:</span>
-          <div id="adminSelectBtn" class="admin-select-btn" onclick="openAccountSelector(false)">
-            <div class="select-btn-text">
-              <span id="adminSelectName" class="select-btn-name">Loading...</span>
-              <span id="adminSelectEmail" class="select-btn-email"></span>
-            </div>
-            <i class="fa-solid fa-chevron-down" style="color:var(--muted);flex-shrink:0;"></i>
+      <!-- Family View Bar (ইউজার বা এডমিন তার হয়ে ব্যবহার করবেন) -->
+      <div class="family-bar" id="familyControls">
+        <span><i class="fa-solid fa-users"></i> Family View:</span>
+        <div class="select-trigger-btn" onclick="openFamilySelector()">
+          <div class="select-btn-text">
+            <span id="familySelectName" class="select-btn-name">Loading...</span>
+            <span id="familySelectEmail" class="select-btn-email"></span>
           </div>
+          <i class="fa-solid fa-chevron-down" style="color:var(--muted);flex-shrink:0;"></i>
         </div>
-
-        <!-- নিচে Quick Action Bar (Admin এর জন্য Add, View, Delete + সিলেক্টেড আইডির ফ্যামিলি ভিউতে অ্যাড) -->
-        <div class="admin-quick-actions" id="adminQuickActions"></div>
       </div>
     </div>
 
-    <!-- Pending Family Requests Box (User & Admin) -->
+    <!-- Pending Family Requests Box (বর্তমানে ওপেন থাকা ইউজারের ইনকামিং রিকোয়েস্ট) -->
     <div id="pendingRequestsBox" class="requests-box">
       <div class="requests-box-title" id="pendingRequestsTitle">
-        <i class="fa-solid fa-user-clock"></i> Pending Family Requests
+        <i class="fa-solid fa-user-clock"></i> Incoming Family Requests
       </div>
       <div id="pendingRequestsList"></div>
     </div>
@@ -793,22 +827,35 @@ a{text-decoration:none;color:inherit}
     "nusaiba.jannat.alifa@gmail.com"
   ];
 
+  // যারা এখনো নতুন প্রজেক্টে লগইন করেননি তাদের ফুল নেম ফলব্যাক (লগইন করলে Google-এর আসল ফুল নেম অটোমেটিক আপডেট হবে)
+  const FALLBACK_FULL_NAMES = {
+    "mashayekh.ahmed.archives@gmail.com": "Mashayekh Ahmed",
+    "mashayekh64@gmail.com": "Mashayekh Ahmed",
+    "madina.manjeel@gmail.com": "Madina Manjeel",
+    "shariatunnesa.madina@gmail.com": "Shariatunnesa Madina",
+    "abdulkhalequebaf@gmail.com": "Md Abdul Khaleque",
+    "lima.akter.1323@gmail.com": "Lima Akter",
+    "ahmad.muttaqeen@gmail.com": "Ahmad Muttaqeen",
+    "nusaiba.jannat.alifa@gmail.com": "Nusaiba Jannat Alifa",
+    "afia.ahmed.adiba@gmail.com": "Afia Ahmed Adiba",
+    "darulahmed467170@gmail.com": "Darul Ahmed"
+  };
+
   let currentUser = null;
-  let viewingEmail = null;
+  let actingEmail = null;   // বর্তমানে কোন ইউজারের ভিউ ওপেন আছে (সাধারণ ইউজারের নিজের ইমেইল; এডমিন Admin View থেকে বদলাতে পারবেন)
+  let viewingEmail = null;  // actingEmail-এর Family View থেকে কোন অ্যাকাউন্টের ওষুধ দেখা হচ্ছে
   let allMedicines = [];
   let allHistory = [];
-  let allFamilyLinks = []; // Firestore "family_links"
-  let userProfiles = {};   // Firestore "users"
+  let allFamilyLinks = [];  // Firestore "family_links"
+  let userProfiles = {};    // Firestore "users"
   let pendingTimes = [];
   let currentTab = "today";
   let editingId = null;
   let authInitialized = false;
 
-  // মোডাল স্টেট ('admin_add' | 'admin_view' | 'family_request')
-  let promptMode = "family_request";
+  let promptMode = "family_request"; // 'admin_add' | 'admin_view' | 'family_request'
   let isAdminDeleteMode = false;
 
-  // এডমিনের যোগ করা ও লিস্ট থেকে ডিলিট করা ইমেইল
   let addedEmails = JSON.parse(localStorage.getItem("hc_saved_emails") || "[]");
   let hiddenAdminEmails = JSON.parse(localStorage.getItem("hc_hidden_admin_emails") || "[]");
 
@@ -846,21 +893,30 @@ a{text-decoration:none;color:inherit}
     "Chlorhexidine Gluconate 0.2%"
   ];
 
-  // যেকোনো অ্যাকাউন্টের আসল নাম ও ইমেইল
+  // যেকোনো অ্যাকাউন্টের ফুল নেম ও ইমেইল পাওয়ার ফাংশন (Google Profile > Firestore users > Fallback Full Name > Email Prefix)
   function getUserInfo(email) {
-    if (!email) return { name: "", email: "" };
+    if (!email) return { name: "", email: "", photoURL: "" };
     const e = email.toLowerCase().trim();
     if (currentUser && currentUser.email.toLowerCase().trim() === e) {
       return {
-        name: currentUser.displayName || e.split("@")[0],
-        email: e
+        name: currentUser.displayName || FALLBACK_FULL_NAMES[e] || e.split("@")[0],
+        email: e,
+        photoURL: currentUser.photoURL || ""
       };
     }
     const profile = userProfiles[e];
     if (profile && profile.displayName) {
-      return { name: profile.displayName, email: e };
+      return {
+        name: profile.displayName,
+        email: e,
+        photoURL: profile.photoURL || ""
+      };
     }
-    return { name: e.split("@")[0], email: e };
+    return {
+      name: FALLBACK_FULL_NAMES[e] || e.split("@")[0],
+      email: e,
+      photoURL: ""
+    };
   }
 
   function getDefaultFamilyViewList(email) {
@@ -893,6 +949,7 @@ a{text-decoration:none;color:inherit}
     const logged = loggedInEmail.toLowerCase().trim();
     const target = targetEmail.toLowerCase().trim();
 
+    // এডমিন সব অ্যাকাউন্ট এডিট করতে পারবেন
     if (logged === ADMIN_EMAIL) return true;
     if (logged === target) return true;
     if (logged === "mashayekh.ahmed.archives@gmail.com" && FAMILY_GROUP_1.includes(target)) return true;
@@ -901,6 +958,24 @@ a{text-decoration:none;color:inherit}
     const acceptedLink = allFamilyLinks.find(
       l =>
         (l.requesterEmail || "").toLowerCase().trim() === logged &&
+        (l.targetEmail || "").toLowerCase().trim() === target &&
+        l.status === "accepted"
+    );
+    return !!(acceptedLink && acceptedLink.accessLevel === "edit");
+  }
+
+  // Family View লিস্টে ব্যাজ দেখানোর জন্য (actingEmail-এর সাপেক্ষে পারমিশন)
+  function canActingUserModify(actorEmail, targetEmail) {
+    if (!actorEmail || !targetEmail) return false;
+    const actor = actorEmail.toLowerCase().trim();
+    const target = targetEmail.toLowerCase().trim();
+    if (actor === target) return true;
+    if (actor === "mashayekh.ahmed.archives@gmail.com" && FAMILY_GROUP_1.includes(target)) return true;
+    if (actor === "darulahmed467170@gmail.com" && DARUL_MODIFIABLE.includes(target)) return true;
+
+    const acceptedLink = allFamilyLinks.find(
+      l =>
+        (l.requesterEmail || "").toLowerCase().trim() === actor &&
         (l.targetEmail || "").toLowerCase().trim() === target &&
         l.status === "accepted"
     );
@@ -1158,7 +1233,7 @@ a{text-decoration:none;color:inherit}
     const email = user.email.toLowerCase().trim();
     const profileData = {
       email: email,
-      displayName: user.displayName || email.split("@")[0],
+      displayName: user.displayName || FALLBACK_FULL_NAMES[email] || email.split("@")[0],
       photoURL: user.photoURL || "",
       lastLogin: new Date().toISOString()
     };
@@ -1167,6 +1242,21 @@ a{text-decoration:none;color:inherit}
       await setDoc(doc(db, "users", email), profileData, { merge: true });
     } catch (e) {
       console.error("User profile save error:", e);
+    }
+  }
+
+  // বর্তমানে ওপেন থাকা ইউজারের (actingEmail) হেডার কার্ড আপডেট করা
+  function updateUserHeaderCard() {
+    if (!actingEmail) return;
+    const info = getUserInfo(actingEmail);
+    document.getElementById("displayUserName").textContent = info.name;
+    document.getElementById("displayUserEmail").textContent = info.email;
+
+    const avatarEl = document.getElementById("userAvatar");
+    if (info.photoURL) {
+      avatarEl.innerHTML = `<img src="${safeText(info.photoURL)}" alt="Avatar">`;
+    } else {
+      avatarEl.textContent = (info.name || "U").charAt(0).toUpperCase();
     }
   }
 
@@ -1179,6 +1269,7 @@ a{text-decoration:none;color:inherit}
     if (user) {
       currentUser = user;
       const loggedEmail = user.email.toLowerCase().trim();
+      actingEmail = loggedEmail;
       viewingEmail = loggedEmail;
 
       if (window.AndroidDownloader && window.AndroidDownloader.registerUserEmail) {
@@ -1190,29 +1281,19 @@ a{text-decoration:none;color:inherit}
       loading.style.display = 'none';
       content.style.display = 'block';
 
-      document.getElementById("displayUserName").textContent = user.displayName || user.email.split("@")[0];
-      document.getElementById("displayUserEmail").textContent = user.email;
-
-      const avatarEl = document.getElementById("userAvatar");
-      if (user.photoURL) {
-        avatarEl.innerHTML = `<img src="${safeText(user.photoURL)}" alt="Avatar">`;
-      } else {
-        avatarEl.textContent = (user.displayName || "U").charAt(0).toUpperCase();
+      // শুধু এডমিনের জন্য আলাদা Admin View প্যানেল দেখাবে
+      const adminPanel = document.getElementById("adminPanelBox");
+      if (adminPanel) {
+        adminPanel.style.display = (loggedEmail === ADMIN_EMAIL) ? "block" : "none";
       }
-
-      const viewModeLabel = document.getElementById("viewModeLabel");
-      if (loggedEmail === ADMIN_EMAIL) {
-        viewModeLabel.innerHTML = `<i class="fa-solid fa-user-shield"></i> Admin View:`;
-      } else {
-        viewModeLabel.innerHTML = `<i class="fa-solid fa-users"></i> Family View:`;
-      }
-      document.getElementById("adminControls").style.display = "flex";
 
       await saveCurrentUserProfile(user);
+      updateUserHeaderCard();
       updateTargetAccountNote();
       await loadDataFromFirebase();
     } else {
       currentUser = null;
+      actingEmail = null;
       viewingEmail = null;
       loading.style.display = 'block';
       content.style.display = 'none';
@@ -1236,44 +1317,12 @@ a{text-decoration:none;color:inherit}
 
     if (loggedEmail === ADMIN_EMAIL && viewingEmail !== ADMIN_EMAIL) {
       note.textContent = `Admin Mode: Managing medicines for ${info.name} (${info.email})`;
-    } else if (loggedEmail !== viewingEmail) {
+    } else if (actingEmail !== viewingEmail) {
       note.textContent = canEdit 
         ? `Family Mode: Managing medicines for ${info.name} (${info.email})` 
         : `Family Mode (View Only): Viewing ${info.name} (${info.email})`;
     } else {
       note.textContent = `Managing medicines for: ${info.name} (${info.email})`;
-    }
-  }
-
-  // এডমিন ভিউ ও ফ্যামিলি ভিউ এর নিচে কুইক অ্যাকশন বাটন রেন্ডার
-  function renderQuickActions() {
-    const bar = document.getElementById("adminQuickActions");
-    if (!bar || !currentUser) return;
-    const loggedEmail = currentUser.email.toLowerCase().trim();
-    const isAdmin = loggedEmail === ADMIN_EMAIL;
-    const viewInfo = getUserInfo(viewingEmail);
-
-    if (isAdmin) {
-      bar.innerHTML = `
-        <button class="mini-ctrl-btn" onclick="window.openPromptModal('admin_add')">
-          <i class="fa-solid fa-plus"></i> Add
-        </button>
-        <button class="mini-ctrl-btn" onclick="window.openPromptModal('admin_view')">
-          <i class="fa-solid fa-eye"></i> View
-        </button>
-        <button class="mini-ctrl-btn danger" onclick="window.openAccountSelector(true)">
-          <i class="fa-solid fa-trash"></i> Delete
-        </button>
-        <button class="mini-ctrl-btn family-add" onclick="window.openPromptModal('family_request')">
-          <i class="fa-solid fa-user-plus"></i> Add to ${safeText(viewInfo.name)}'s Family
-        </button>
-      `;
-    } else {
-      bar.innerHTML = `
-        <button class="mini-ctrl-btn family-add" onclick="window.openPromptModal('family_request')">
-          <i class="fa-solid fa-user-plus"></i> Add Family Member
-        </button>
-      `;
     }
   }
 
@@ -1302,8 +1351,9 @@ a{text-decoration:none;color:inherit}
 
       await loadGlobalMedicines();
       
+      updateUserHeaderCard();
       populateAdminDropdown();
-      renderQuickActions();
+      populateFamilyDropdown();
       renderPendingRequests();
       renderAll();
       checkAndTriggerUserNotifications();
@@ -1313,30 +1363,158 @@ a{text-decoration:none;color:inherit}
     }
   }
 
-  // পেন্ডিং ফ্যামিলি রিকোয়েস্ট রেন্ডার (এক্সেপ্টার View Only নাকি Can Edit তা চুজ করতে পারবে)
+  // ১. আলাদা Admin View ড্রপডাউন পপুলেট করা
+  function populateAdminDropdown() {
+    if (!currentUser) return;
+    const loggedEmail = currentUser.email.toLowerCase().trim();
+    if (loggedEmail !== ADMIN_EMAIL) return;
+
+    const usersSet = new Set([ADMIN_EMAIL, ...FAMILY_GROUP_1, ...FAMILY_GROUP_2]);
+    Object.keys(userProfiles).forEach(e => usersSet.add(e));
+    allMedicines.forEach(m => { if (m.userEmail) usersSet.add(m.userEmail.toLowerCase().trim()); });
+    allFamilyLinks.forEach(l => {
+      if (l.requesterEmail) usersSet.add(l.requesterEmail.toLowerCase().trim());
+      if (l.targetEmail) usersSet.add(l.targetEmail.toLowerCase().trim());
+    });
+    addedEmails.forEach(e => usersSet.add(e));
+
+    hiddenAdminEmails.forEach(h => {
+      if (h !== ADMIN_EMAIL) usersSet.delete(h);
+    });
+
+    const users = Array.from(usersSet);
+
+    const actInfo = getUserInfo(actingEmail);
+    const btnName = document.getElementById("adminActingName");
+    const btnEmail = document.getElementById("adminActingEmail");
+    if (btnName) btnName.textContent = actInfo.name;
+    if (btnEmail) btnEmail.textContent = actInfo.email;
+
+    const delBtn = document.getElementById("adminDeleteModeBtn");
+    if (delBtn) {
+      delBtn.classList.toggle("active", isAdminDeleteMode);
+      delBtn.innerHTML = isAdminDeleteMode
+        ? `<i class="fa-solid fa-check"></i> Done`
+        : `<i class="fa-solid fa-trash"></i> Delete`;
+    }
+
+    const container = document.getElementById("adminListContainer");
+    if (!container) return;
+
+    container.innerHTML = users.map(email => {
+      const isActive = email === actingEmail;
+      const info = getUserInfo(email);
+      const showDeleteBtn = isAdminDeleteMode && email !== ADMIN_EMAIL;
+
+      // ওই ইউজারের কোনো পেন্ডিং ইনকামিং রিকোয়েস্ট আছে কিনা তা ব্যাজ আকারে দেখানো
+      const incCount = allFamilyLinks.filter(
+        l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === email
+      ).length;
+      const reqBadge = incCount > 0
+        ? `<span style="background:#fff3d6;color:#b86b11;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;">${incCount} Req</span>`
+        : "";
+
+      const selfBadge = email === ADMIN_EMAIL
+        ? `<small style="font-weight:500;color:#82979b;font-size:10px">(Admin)</small>`
+        : "";
+
+      return `
+        <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="${showDeleteBtn ? '' : 'selectAdminAccount(this.dataset.email)'}">
+          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
+          <div style="flex:1;min-width:0;">
+            <div class="account-item-name">
+              <span>${safeText(info.name)}</span>
+              ${selfBadge}
+              ${reqBadge}
+            </div>
+            <div class="account-item-email">${safeText(info.email)}</div>
+          </div>
+          ${showDeleteBtn ? `
+            <button class="account-delete-icon" title="Remove from list" onclick="event.stopPropagation(); window.removeAdminAccount('${safeText(email)}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>` : ''}
+        </div>`;
+    }).join("");
+  }
+
+  // ২. নিচের User-এর মতো Family View ড্রপডাউন পপুলেট করা (actingEmail-এর সাপেক্ষে)
+  function populateFamilyDropdown() {
+    if (!actingEmail) return;
+
+    const defaultFamily = getDefaultFamilyViewList(actingEmail);
+    const acceptedLinks = getAcceptedFamilyLinksFor(actingEmail);
+    const dynamicEmails = acceptedLinks.map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
+    const merged = Array.from(new Set([...defaultFamily, ...dynamicEmails])).filter(e => e !== actingEmail);
+    const users = [actingEmail, ...merged];
+
+    const viewInfo = getUserInfo(viewingEmail);
+    const btnName = document.getElementById("familySelectName");
+    const btnEmail = document.getElementById("familySelectEmail");
+    if (btnName) btnName.textContent = viewInfo.name;
+    if (btnEmail) btnEmail.textContent = viewInfo.email;
+
+    const container = document.getElementById("familyListContainer");
+    if (!container) return;
+
+    const pendingSent = getPendingSentLinksFor(actingEmail);
+
+    let html = users.map(email => {
+      const isActive = email === viewingEmail;
+      const info = getUserInfo(email);
+      const canMod = canActingUserModify(actingEmail, email);
+
+      let badge = "";
+      if (email === actingEmail) {
+        badge = `<small style="font-weight:500;color:#82979b;font-size:10px">(My Account)</small>`;
+      } else if (canMod) {
+        badge = `<span style="color:#159968;font-size:9px;font-weight:600;">(Can Edit)</span>`;
+      } else {
+        badge = `<span style="color:#82979b;font-size:9px;font-weight:600;">(View Only)</span>`;
+      }
+
+      return `
+        <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="selectFamilyAccount(this.dataset.email)">
+          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
+          <div style="flex:1;min-width:0;">
+            <div class="account-item-name">
+              <span>${safeText(info.name)}</span>
+              ${badge}
+            </div>
+            <div class="account-item-email">${safeText(info.email)}</div>
+          </div>
+        </div>`;
+    }).join("");
+
+    if (pendingSent.length > 0) {
+      html += pendingSent.map(l => {
+        const info = getUserInfo(l.targetEmail);
+        return `
+          <div class="account-item pending-item">
+            <i class="fa-solid fa-clock" style="color:#d58b37;"></i>
+            <div style="flex:1;min-width:0;">
+              <div class="account-item-name">
+                <span>${safeText(info.name)}</span>
+                <span style="color:#d58b37;font-size:9px;font-weight:600;">(Pending Approval)</span>
+              </div>
+              <div class="account-item-email">${safeText(info.email)}</div>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    container.innerHTML = html;
+  }
+
+  // বর্তমানে ওপেন থাকা ইউজারের (actingEmail) ইনকামিং রিকোয়েস্ট দেখানো
   function renderPendingRequests() {
     const box = document.getElementById("pendingRequestsBox");
     const listEl = document.getElementById("pendingRequestsList");
     const titleEl = document.getElementById("pendingRequestsTitle");
-    if (!currentUser || !box || !listEl) return;
+    if (!actingEmail || !box || !listEl) return;
 
-    const loggedEmail = currentUser.email.toLowerCase().trim();
-    const isAdmin = loggedEmail === ADMIN_EMAIL;
-
-    const pending = allFamilyLinks.filter(l => {
-      if (l.status !== "pending") return false;
-      if (isAdmin) return true; // এডমিন সবার ইনকামিং রিকোয়েস্ট দেখতে ও Accept/Reject করতে পারবে
-      return (l.targetEmail || "").toLowerCase().trim() === loggedEmail;
-    });
-
-    // এডমিন কোনো নির্দিষ্ট আইডি ভিউ করলে সেই আইডির ইনকামিং রিকোয়েস্টগুলো সবার ওপরে দেখাবে
-    if (isAdmin && viewingEmail) {
-      pending.sort((a, b) => {
-        const aMatch = (a.targetEmail || "").toLowerCase().trim() === viewingEmail ? 0 : 1;
-        const bMatch = (b.targetEmail || "").toLowerCase().trim() === viewingEmail ? 0 : 1;
-        return aMatch - bMatch;
-      });
-    }
+    const pending = allFamilyLinks.filter(
+      l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === actingEmail
+    );
 
     if (pending.length === 0) {
       box.style.display = "none";
@@ -1344,29 +1522,19 @@ a{text-decoration:none;color:inherit}
       return;
     }
 
-    titleEl.innerHTML = isAdmin
-      ? `<i class="fa-solid fa-user-shield"></i> Incoming Family Requests (Admin Control - ${pending.length})`
-      : `<i class="fa-solid fa-user-clock"></i> Incoming Family Requests (${pending.length})`;
+    const actInfo = getUserInfo(actingEmail);
+    titleEl.innerHTML = `<i class="fa-solid fa-user-clock"></i> Incoming Family Requests for ${safeText(actInfo.name)} (${pending.length})`;
 
     listEl.innerHTML = pending.map(req => {
       const requester = getUserInfo(req.requesterEmail);
-      const target = getUserInfo(req.targetEmail);
       const reqAccess = req.accessLevel === "edit" ? "Can Edit" : "View Only";
-
-      const infoHtml = isAdmin
-        ? `<div>
-             <strong>${safeText(requester.name)}</strong> <span class="request-email-sub">(${safeText(requester.email)})</span>
-             <br>requested <strong>${reqAccess}</strong> access to
-             <strong>${safeText(target.name)}</strong> <span class="request-email-sub">(${safeText(target.email)})</span>
-           </div>`
-        : `<div>
-             <strong>${safeText(requester.name)}</strong> <span class="request-email-sub">(${safeText(requester.email)})</span>
-             wants <strong>${reqAccess}</strong> access to your medicines. Choose permission:
-           </div>`;
 
       return `
         <div class="request-item">
-          <div class="request-item-info">${infoHtml}</div>
+          <div class="request-item-info">
+            <strong>${safeText(requester.name)}</strong> <span class="request-email-sub">(${safeText(requester.email)})</span>
+            wants <strong>${reqAccess}</strong> access to view medicines in Family View. Choose permission:
+          </div>
           <div class="request-actions">
             <button class="req-btn req-accept-view" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'view')">
               <i class="fa-solid fa-eye"></i> Accept (View Only)
@@ -1413,6 +1581,7 @@ a{text-decoration:none;color:inherit}
 
       renderPendingRequests();
       populateAdminDropdown();
+      populateFamilyDropdown();
       updateTargetAccountNote();
       renderAll();
 
@@ -1427,143 +1596,37 @@ a{text-decoration:none;color:inherit}
     }
   };
 
-  function populateAdminDropdown() {
-    if (!currentUser) return;
-    const loggedEmail = currentUser.email.toLowerCase().trim();
-    const isAdmin = loggedEmail === ADMIN_EMAIL;
-
-    let users = [];
-    if (isAdmin) {
-      const usersSet = new Set([ADMIN_EMAIL, ...FAMILY_GROUP_1, ...FAMILY_GROUP_2]);
-      Object.keys(userProfiles).forEach(e => usersSet.add(e));
-      allMedicines.forEach(m => { if (m.userEmail) usersSet.add(m.userEmail.toLowerCase().trim()); });
-      allFamilyLinks.forEach(l => {
-        if (l.requesterEmail) usersSet.add(l.requesterEmail.toLowerCase().trim());
-        if (l.targetEmail) usersSet.add(l.targetEmail.toLowerCase().trim());
-      });
-      addedEmails.forEach(e => usersSet.add(e));
-
-      // ডিলিট করা আইডিগুলো লিস্ট থেকে বাদ দেওয়া (নিজের এডমিন আইডি বাদে)
-      hiddenAdminEmails.forEach(h => {
-        if (h !== ADMIN_EMAIL) usersSet.delete(h);
-      });
-
-      users = Array.from(usersSet);
-    } else {
-      const defaultFamily = getDefaultFamilyViewList(loggedEmail);
-      const acceptedLinks = getAcceptedFamilyLinksFor(loggedEmail);
-      const dynamicEmails = acceptedLinks.map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
-      const merged = Array.from(new Set([...defaultFamily, ...dynamicEmails])).filter(e => e !== loggedEmail);
-      users = [loggedEmail, ...merged];
-    }
-
-    // ড্রপডাউন বাটনে সিলেক্টেড অ্যাকাউন্টের নাম এবং নিচে ছোট হালকা ইমেইল
-    const currentViewInfo = getUserInfo(viewingEmail);
-    const btnName = document.getElementById("adminSelectName");
-    const btnEmail = document.getElementById("adminSelectEmail");
-    if (btnName) btnName.textContent = currentViewInfo.name;
-    if (btnEmail) btnEmail.textContent = currentViewInfo.email;
-
-    const container = document.getElementById("accountListContainer");
-    const footer = document.getElementById("accountModalFooter");
-    if (!container) return;
-
-    const pendingSent = isAdmin ? [] : getPendingSentLinksFor(loggedEmail);
-
-    let html = users.map(email => {
-      const isActive = email === viewingEmail;
-      const info = getUserInfo(email);
-      const canMod = canModifyTarget(loggedEmail, email);
-
-      let badge = "";
-      if (email === loggedEmail) {
-        badge = `<small style="font-weight:500;color:#82979b;font-size:10px">(My Account)</small>`;
-      } else if (canMod) {
-        badge = `<span style="color:#159968;font-size:9px;font-weight:600;">(Can Edit)</span>`;
-      } else {
-        badge = `<span style="color:#82979b;font-size:9px;font-weight:600;">(View Only)</span>`;
-      }
-
-      const showDeleteBtn = isAdmin && isAdminDeleteMode && email !== ADMIN_EMAIL;
-
-      return `
-        <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="${showDeleteBtn ? '' : 'selectCustomAccount(this.dataset.email)'}">
-          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
-          <div style="flex:1;min-width:0;">
-            <div class="account-item-name">
-              <span>${safeText(info.name)}</span>
-              ${badge}
-            </div>
-            <div class="account-item-email">${safeText(info.email)}</div>
-          </div>
-          ${showDeleteBtn ? `
-            <button class="account-delete-icon" title="Remove from list" onclick="event.stopPropagation(); window.removeAdminAccount('${safeText(email)}')">
-              <i class="fa-solid fa-trash"></i>
-            </button>` : ''}
-        </div>`;
-    }).join("");
-
-    if (pendingSent.length > 0) {
-      html += pendingSent.map(l => {
-        const info = getUserInfo(l.targetEmail);
-        return `
-          <div class="account-item pending-item">
-            <i class="fa-solid fa-clock" style="color:#d58b37;"></i>
-            <div style="flex:1;min-width:0;">
-              <div class="account-item-name">
-                <span>${safeText(info.name)}</span>
-                <span style="color:#d58b37;font-size:9px;font-weight:600;">(Pending Approval)</span>
-              </div>
-              <div class="account-item-email">${safeText(info.email)}</div>
-            </div>
-          </div>`;
-      }).join("");
-    }
-
-    container.innerHTML = html;
-
-    // মোডালের নিচে এডমিনের জন্য Add, View, Delete ৩টি অপশন
-    if (footer) {
-      if (isAdmin) {
-        footer.innerHTML = `
-          <div class="admin-modal-footer">
-            <button class="admin-footer-btn add-btn" onclick="window.closeAccountSelector(); window.openPromptModal('admin_add');">
-              <i class="fa-solid fa-plus"></i> Add
-            </button>
-            <button class="admin-footer-btn" onclick="window.closeAccountSelector(); window.openPromptModal('admin_view');">
-              <i class="fa-solid fa-eye"></i> View
-            </button>
-            <button class="admin-footer-btn del-btn ${isAdminDeleteMode ? 'active' : ''}" onclick="window.toggleAdminDeleteMode()">
-              <i class="fa-solid fa-trash"></i> ${isAdminDeleteMode ? 'Done' : 'Delete'}
-            </button>
-          </div>
-        `;
-      } else {
-        footer.innerHTML = `
-          <div class="account-item" style="color:var(--primary);font-weight:700;margin-top:8px;border-top:1px dashed #c0e0dc;border-bottom:none;padding-bottom:2px;" onclick="window.closeAccountSelector(); window.openPromptModal('family_request');">
-            <i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i>
-            <div>+ Add Family Member...</div>
-          </div>
-        `;
-      }
-    }
-  }
-
-  window.openAccountSelector = function(startInDeleteMode = false) {
-    isAdminDeleteMode = !!startInDeleteMode;
+  // Admin Selector Controls
+  window.openAdminSelector = function() {
+    isAdminDeleteMode = false;
     populateAdminDropdown();
-    document.getElementById("accountSelectOverlay").style.display = "flex";
+    document.getElementById("adminSelectOverlay").style.display = "flex";
   };
-  
-  window.closeAccountSelector = function(e) {
+
+  window.closeAdminSelector = function(e) {
     if(e) e.stopPropagation();
     isAdminDeleteMode = false;
-    document.getElementById("accountSelectOverlay").style.display = "none";
+    document.getElementById("adminSelectOverlay").style.display = "none";
   };
 
   window.toggleAdminDeleteMode = function() {
     isAdminDeleteMode = !isAdminDeleteMode;
     populateAdminDropdown();
+  };
+
+  window.selectAdminAccount = function(email) {
+    closeAdminSelector();
+    if (!email) return;
+    actingEmail = email.toLowerCase().trim();
+    viewingEmail = actingEmail;
+    editingId = null;
+    clearMedForm();
+    updateUserHeaderCard();
+    populateAdminDropdown();
+    populateFamilyDropdown();
+    renderPendingRequests();
+    updateTargetAccountNote();
+    renderAll();
   };
 
   window.removeAdminAccount = function(email) {
@@ -1577,28 +1640,40 @@ a{text-decoration:none;color:inherit}
       localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
     }
 
-    if (viewingEmail === e) {
+    if (actingEmail === e) {
+      actingEmail = ADMIN_EMAIL;
       viewingEmail = ADMIN_EMAIL;
       editingId = null;
       clearMedForm();
+      updateUserHeaderCard();
+      populateFamilyDropdown();
+      renderPendingRequests();
       updateTargetAccountNote();
-      renderQuickActions();
       renderAll();
     }
     populateAdminDropdown();
     showToast("Removed from Admin View list.");
   };
 
-  window.selectCustomAccount = function(val) {
-    closeAccountSelector();
-    if (!currentUser) return;
-    viewingEmail = val;
+  // Family Selector Controls
+  window.openFamilySelector = function() {
+    populateFamilyDropdown();
+    document.getElementById("familySelectOverlay").style.display = "flex";
+  };
+
+  window.closeFamilySelector = function(e) {
+    if(e) e.stopPropagation();
+    document.getElementById("familySelectOverlay").style.display = "none";
+  };
+
+  window.selectFamilyAccount = function(email) {
+    closeFamilySelector();
+    if (!email) return;
+    viewingEmail = email.toLowerCase().trim();
     editingId = null;
     clearMedForm();
+    populateFamilyDropdown();
     updateTargetAccountNote();
-    populateAdminDropdown();
-    renderQuickActions();
-    renderPendingRequests();
     renderAll();
   };
 
@@ -1608,28 +1683,33 @@ a{text-decoration:none;color:inherit}
     promptMode = mode;
     const titleEl = document.getElementById("promptModalTitle");
     const descEl = document.getElementById("promptModalDesc");
+    const nameWrap = document.getElementById("promptNameWrapper");
     const accessWrap = document.getElementById("promptAccessWrapper");
     const submitBtn = document.getElementById("promptSubmitBtn");
-    const viewInfo = getUserInfo(viewingEmail);
+    const actInfo = getUserInfo(actingEmail);
 
     if (mode === "admin_add") {
       titleEl.textContent = "Add Email to Admin View";
       descEl.textContent = "This Gmail will be saved to your Admin View list and opened immediately.";
+      nameWrap.style.display = "block";
       accessWrap.style.display = "none";
       submitBtn.textContent = "Add & Save";
     } else if (mode === "admin_view") {
       titleEl.textContent = "Quick View Gmail";
-      descEl.textContent = "View medicines for this Gmail without adding it to your Admin View list.";
+      descEl.textContent = "Open this Gmail's view without adding it to your Admin View list.";
+      nameWrap.style.display = "none";
       accessWrap.style.display = "none";
       submitBtn.textContent = "View Only";
     } else {
-      titleEl.textContent = `Add to ${viewInfo.name}'s Family View`;
-      descEl.textContent = `Send a Family View request from ${viewInfo.email}. The recipient (or Admin) can accept with View Only or Can Edit permission.`;
+      titleEl.textContent = "Add Family Member";
+      descEl.textContent = `Send a Family View request from ${actInfo.name} (${actInfo.email}). The recipient can accept with View Only or Can Edit permission.`;
+      nameWrap.style.display = "none";
       accessWrap.style.display = "block";
       submitBtn.textContent = "Send Request";
     }
 
     document.getElementById("promptEmailInput").value = "";
+    document.getElementById("promptNameInput").value = "";
     document.getElementById("customPromptOverlay").style.display = "flex";
     document.getElementById("promptEmailInput").focus();
   };
@@ -1641,6 +1721,7 @@ a{text-decoration:none;color:inherit}
     const loggedEmail = currentUser.email.toLowerCase().trim();
     const isAdmin = loggedEmail === ADMIN_EMAIL;
     const inputVal = document.getElementById("promptEmailInput").value.trim().toLowerCase();
+    const customName = document.getElementById("promptNameInput").value.trim();
 
     if (!inputVal || !inputVal.includes("@")) {
       showToast("Please enter a valid email");
@@ -1655,35 +1736,45 @@ a{text-decoration:none;color:inherit}
       hiddenAdminEmails = hiddenAdminEmails.filter(x => x !== inputVal);
       localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
 
+      if (customName) {
+        const profilePayload = { email: inputVal, displayName: customName };
+        userProfiles[inputVal] = { ...(userProfiles[inputVal] || {}), ...profilePayload };
+        try {
+          await setDoc(doc(db, "users", inputVal), profilePayload, { merge: true });
+        } catch (e) { console.error(e); }
+      }
+
+      actingEmail = inputVal;
       viewingEmail = inputVal;
       editingId = null;
       clearMedForm();
+      updateUserHeaderCard();
       populateAdminDropdown();
-      renderQuickActions();
-      updateTargetAccountNote();
+      populateFamilyDropdown();
       renderPendingRequests();
+      updateTargetAccountNote();
       renderAll();
       showToast("Added to Admin View list.");
       return;
     }
 
     if (promptMode === "admin_view" && isAdmin) {
-      // লিস্টে যোগ না করেই শুধু ভিউ করা
+      actingEmail = inputVal;
       viewingEmail = inputVal;
       editingId = null;
       clearMedForm();
+      updateUserHeaderCard();
       populateAdminDropdown();
-      renderQuickActions();
-      updateTargetAccountNote();
+      populateFamilyDropdown();
       renderPendingRequests();
+      updateTargetAccountNote();
       renderAll();
       showToast("Viewing account (not added to list).");
       return;
     }
 
-    // family_request মোড: যে আইডি বর্তমানে ভিউ করা হচ্ছে (সাধারণ ইউজারের ক্ষেত্রে নিজের, এডমিনের ক্ষেত্রে সিলেক্টেড আইডি)
-    const requesterEmail = isAdmin ? (viewingEmail || loggedEmail) : loggedEmail;
-
+    // family_request মোড: বর্তমানে ওপেন থাকা actingEmail থেকে রিকোয়েস্ট পাঠানো
+    const requesterEmail = actingEmail || loggedEmail;
     if (inputVal === requesterEmail) {
       showToast("Cannot send request to the same account.");
       return;
@@ -1726,7 +1817,7 @@ a{text-decoration:none;color:inherit}
       }
 
       populateAdminDropdown();
-      renderPendingRequests();
+      populateFamilyDropdown();
       showToast("Family request sent! Waiting for approval.");
     } catch (e) {
       console.error("Error sending family request:", e);
