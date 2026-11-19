@@ -74,8 +74,9 @@ a{text-decoration:none;color:inherit}
 }
 .switch-account-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(8, 127, 131, 0.2); }
 
-.admin-bar{width:100%;padding-top:12px;border-top:1px dashed #c0e0dc;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.admin-bar > span{font-size:11px;font-weight:700;color:#075c65}
+.admin-bar{width:100%;padding-top:12px;border-top:1px dashed #c0e0dc;display:flex;flex-direction:column;gap:10px}
+.admin-bar-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.admin-bar-top > span{font-size:11px;font-weight:700;color:#075c65}
 .admin-select-btn {
   padding:7px 12px; border-radius:8px; border:1px solid var(--primary); font-size:11px; font-weight:600; background:white; color:var(--dark); outline:none; flex:1; max-width:300px; display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer; transition:.2s; min-width:0;
 }
@@ -83,6 +84,33 @@ a{text-decoration:none;color:inherit}
 .select-btn-text { flex:1; min-width:0; text-align:left; }
 .select-btn-name { font-size:11.5px; font-weight:700; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
 .select-btn-email { font-size:9.5px; font-weight:400; color:#93a6aa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top:1px; }
+
+/* ADMIN & FAMILY ACTION BUTTONS BAR */
+.admin-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mini-ctrl-btn {
+  border: 1px solid #c0e0dc;
+  background: white;
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: .2s;
+}
+.mini-ctrl-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.mini-ctrl-btn.danger { color: #d66; border-color: #f3cccc; }
+.mini-ctrl-btn.danger:hover { background: #d66; color: white; border-color: #d66; }
+.mini-ctrl-btn.family-add { background: #087f83; color: white; border-color: #087f83; }
+.mini-ctrl-btn.family-add:hover { background: #06696c; }
 
 /* PENDING FAMILY REQUESTS BANNER */
 .requests-box {
@@ -124,21 +152,22 @@ a{text-decoration:none;color:inherit}
 }
 .request-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 .req-btn {
   border: 0;
-  padding: 7px 13px;
+  padding: 7px 11px;
   border-radius: 7px;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
-.req-accept { background: #159968; color: white; }
+.req-accept-view { background: #087f83; color: white; }
+.req-accept-edit { background: #159968; color: white; }
 .req-reject { background: #fff0f0; color: #d66; border: 1px solid #f7d6d6; }
 
 /* QUICK LINKS */
@@ -271,6 +300,39 @@ a{text-decoration:none;color:inherit}
 .account-item.active i { color: var(--primary); }
 .account-item-name { font-size:13px; font-weight:700; line-height:1.3; display:flex; align-items:center; flex-wrap:wrap; gap:5px; }
 .account-item-email { font-size:10px; font-weight:400; color:#93a6aa; word-break:break-all; margin-top:2px; }
+.account-delete-icon {
+  background: #fff0f0; color: #d66; border: 1px solid #f5d0d0;
+  width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center;
+  cursor: pointer; flex-shrink: 0; font-size: 11px;
+}
+.account-delete-icon:hover { background: #d66; color: white; }
+
+/* MODAL BOTTOM 3-BUTTON BAR FOR ADMIN */
+.admin-modal-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 12px;
+  margin-top: 10px;
+  border-top: 1px dashed #c0e0dc;
+}
+.admin-footer-btn {
+  padding: 9px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #c0e0dc;
+  background: #f5fbfa;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.admin-footer-btn.add-btn { background: var(--primary); color: white; border-color: var(--primary); }
+.admin-footer-btn.del-btn { background: #fff5f5; color: #d66; border-color: #f3cccc; }
+.admin-footer-btn.del-btn.active { background: #d66; color: white; border-color: #d66; }
 
 /* FOOTER */
 .footer{margin-top:40px;padding:25px 10px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:11px;line-height:2}
@@ -306,12 +368,12 @@ a{text-decoration:none;color:inherit}
 
 <body>
 
-<!-- Custom Prompt Modal for Adding Family Member -->
+<!-- Custom Prompt Modal for Add / View / Family Request -->
 <div id="customPromptOverlay" class="modal-overlay">
   <div class="modal-box">
     <h4 id="promptModalTitle">Add Family Member</h4>
-    <p id="promptModalDesc">Enter a family member's Gmail address to send a Family View request. They can Accept or Reject it when they open this page.</p>
-    <label class="modal-label">Member Gmail Address</label>
+    <p id="promptModalDesc">Enter a family member's Gmail address.</p>
+    <label class="modal-label">Gmail Address</label>
     <input type="email" id="promptEmailInput" placeholder="e.g. member@gmail.com">
     <div id="promptAccessWrapper">
       <label class="modal-label">Requested Access Level</label>
@@ -322,7 +384,7 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="modal-btns">
       <button class="modal-btn modal-cancel" onclick="closeCustomPrompt(false)">Cancel</button>
-      <button class="modal-btn modal-submit" id="promptSubmitBtn" onclick="closeCustomPrompt(true)">Send Request</button>
+      <button class="modal-btn modal-submit" id="promptSubmitBtn" onclick="closeCustomPrompt(true)">Submit</button>
     </div>
   </div>
 </div>
@@ -332,6 +394,7 @@ a{text-decoration:none;color:inherit}
   <div id="accountSelectBox" class="modal-box" onclick="event.stopPropagation()">
     <h4 style="margin-left:5px; margin-bottom: 10px;">Select Account</h4>
     <div id="accountListContainer"></div>
+    <div id="accountModalFooter"></div>
   </div>
 </div>
 
@@ -394,16 +457,21 @@ a{text-decoration:none;color:inherit}
         <i class="fa-solid fa-right-from-bracket"></i>
       </button>
 
-      <!-- Admin / Family Control Bar (সবার জন্য চালু) -->
+      <!-- Admin / Family Control Bar -->
       <div class="admin-bar" id="adminControls">
-        <span id="viewModeLabel"><i class="fa-solid fa-users"></i> Family View:</span>
-        <div id="adminSelectBtn" class="admin-select-btn" onclick="openAccountSelector()">
-          <div class="select-btn-text">
-            <span id="adminSelectName" class="select-btn-name">Loading...</span>
-            <span id="adminSelectEmail" class="select-btn-email"></span>
+        <div class="admin-bar-top">
+          <span id="viewModeLabel"><i class="fa-solid fa-users"></i> Family View:</span>
+          <div id="adminSelectBtn" class="admin-select-btn" onclick="openAccountSelector(false)">
+            <div class="select-btn-text">
+              <span id="adminSelectName" class="select-btn-name">Loading...</span>
+              <span id="adminSelectEmail" class="select-btn-email"></span>
+            </div>
+            <i class="fa-solid fa-chevron-down" style="color:var(--muted);flex-shrink:0;"></i>
           </div>
-          <i class="fa-solid fa-chevron-down" style="color:var(--muted);flex-shrink:0;"></i>
         </div>
+
+        <!-- নিচে Quick Action Bar (Admin এর জন্য Add, View, Delete + সিলেক্টেড আইডির ফ্যামিলি ভিউতে অ্যাড) -->
+        <div class="admin-quick-actions" id="adminQuickActions"></div>
       </div>
     </div>
 
@@ -702,22 +770,50 @@ a{text-decoration:none;color:inherit}
 
   const ADMIN_EMAIL = "madina.manjeel@gmail.com";
 
+  // বাই ডিফল্ট দুটি ফ্যামিলি গ্রুপ ও পারমিশন
+  const FAMILY_GROUP_1 = [
+    "mashayekh.ahmed.archives@gmail.com",
+    "shariatunnesa.madina@gmail.com",
+    "abdulkhalequebaf@gmail.com",
+    "lima.akter.1323@gmail.com",
+    "ahmad.muttaqeen@gmail.com"
+  ];
+
+  const FAMILY_GROUP_2 = [
+    "abdulkhalequebaf@gmail.com",
+    "shariatunnesa.madina@gmail.com",
+    "darulahmed467170@gmail.com",
+    "afia.ahmed.adiba@gmail.com",
+    "nusaiba.jannat.alifa@gmail.com"
+  ];
+
+  const DARUL_MODIFIABLE = [
+    "darulahmed467170@gmail.com",
+    "afia.ahmed.adiba@gmail.com",
+    "nusaiba.jannat.alifa@gmail.com"
+  ];
+
   let currentUser = null;
   let viewingEmail = null;
   let allMedicines = [];
   let allHistory = [];
-  let allFamilyLinks = []; // Firestore "family_links" কালেকশন
-  let userProfiles = {};   // Firestore "users" কালেকশন (email -> { displayName, email, photoURL })
+  let allFamilyLinks = []; // Firestore "family_links"
+  let userProfiles = {};   // Firestore "users"
   let pendingTimes = [];
   let currentTab = "today";
   let editingId = null;
   let authInitialized = false;
 
-  // এডমিনের ম্যানুয়ালি দেখা ইমেইলগুলো লোকাল স্টোরেজে রাখা
+  // মোডাল স্টেট ('admin_add' | 'admin_view' | 'family_request')
+  let promptMode = "family_request";
+  let isAdminDeleteMode = false;
+
+  // এডমিনের যোগ করা ও লিস্ট থেকে ডিলিট করা ইমেইল
   let addedEmails = JSON.parse(localStorage.getItem("hc_saved_emails") || "[]");
+  let hiddenAdminEmails = JSON.parse(localStorage.getItem("hc_hidden_admin_emails") || "[]");
+
   const ALL_PATTERN_TIMES = ["06:30", "13:00", "19:00"];
 
-  // ওষুধের নামের পাশাপাশি ডোজ মেমোরিতে রাখার ম্যাপ
   let globalMedicineDoses = {};
   let allKnownDoses = new Set();
 
@@ -750,7 +846,7 @@ a{text-decoration:none;color:inherit}
     "Chlorhexidine Gluconate 0.2%"
   ];
 
-  // যেকোনো অ্যাকাউন্টের আসল নাম ও ইমেইল পাওয়ার ফাংশন (হার্ডকোডেড ম্যাপ ছাড়া)
+  // যেকোনো অ্যাকাউন্টের আসল নাম ও ইমেইল
   function getUserInfo(email) {
     if (!email) return { name: "", email: "" };
     const e = email.toLowerCase().trim();
@@ -767,24 +863,28 @@ a{text-decoration:none;color:inherit}
     return { name: e.split("@")[0], email: e };
   }
 
-  function getDisplayName(email) {
-    return getUserInfo(email).name;
+  function getDefaultFamilyViewList(email) {
+    if (!email) return [];
+    const e = email.toLowerCase().trim();
+    const list = new Set();
+    if (FAMILY_GROUP_1.includes(e)) FAMILY_GROUP_1.forEach(x => list.add(x));
+    if (FAMILY_GROUP_2.includes(e)) FAMILY_GROUP_2.forEach(x => list.add(x));
+    return Array.from(list);
   }
 
-  // ডায়নামিক ফ্যামিলি ভিউ পারমিশন চেক
-  function getAcceptedFamilyLinksFor(loggedInEmail) {
-    if (!loggedInEmail) return [];
-    const logged = loggedInEmail.toLowerCase().trim();
+  function getAcceptedFamilyLinksFor(requesterEmail) {
+    if (!requesterEmail) return [];
+    const req = requesterEmail.toLowerCase().trim();
     return allFamilyLinks.filter(
-      l => (l.requesterEmail || "").toLowerCase().trim() === logged && l.status === "accepted"
+      l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "accepted"
     );
   }
 
-  function getPendingSentLinksFor(loggedInEmail) {
-    if (!loggedInEmail) return [];
-    const logged = loggedInEmail.toLowerCase().trim();
+  function getPendingSentLinksFor(requesterEmail) {
+    if (!requesterEmail) return [];
+    const req = requesterEmail.toLowerCase().trim();
     return allFamilyLinks.filter(
-      l => (l.requesterEmail || "").toLowerCase().trim() === logged && l.status === "pending"
+      l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "pending"
     );
   }
 
@@ -795,6 +895,8 @@ a{text-decoration:none;color:inherit}
 
     if (logged === ADMIN_EMAIL) return true;
     if (logged === target) return true;
+    if (logged === "mashayekh.ahmed.archives@gmail.com" && FAMILY_GROUP_1.includes(target)) return true;
+    if (logged === "darulahmed467170@gmail.com" && DARUL_MODIFIABLE.includes(target)) return true;
 
     const acceptedLink = allFamilyLinks.find(
       l =>
@@ -822,12 +924,10 @@ a{text-decoration:none;color:inherit}
     }
   }
 
-  // Firestore "medicine_library" কালেকশনের ডকুমেন্ট আইডি (নাম থেকে)
   function libraryKey(name) {
     return String(name || "").trim().toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g, "_").replace(/^_+|_+$/g, "") || "unnamed";
   }
 
-  // নতুন/আপডেট ওষুধের নাম ও ডোজ লাইব্রেরিতে সেভ করা
   async function saveToMedicineLibrary(name, dose) {
     if (!name || !name.trim()) return;
     const cleanName = name.trim();
@@ -1053,7 +1153,6 @@ a{text-decoration:none;color:inherit}
     });
   };
 
-  // লগইন করা ইউজারের নাম ও ইমেইল Firestore "users" কালেকশনে সেভ করা
   async function saveCurrentUserProfile(user) {
     if (!user || !user.email) return;
     const email = user.email.toLowerCase().trim();
@@ -1146,6 +1245,38 @@ a{text-decoration:none;color:inherit}
     }
   }
 
+  // এডমিন ভিউ ও ফ্যামিলি ভিউ এর নিচে কুইক অ্যাকশন বাটন রেন্ডার
+  function renderQuickActions() {
+    const bar = document.getElementById("adminQuickActions");
+    if (!bar || !currentUser) return;
+    const loggedEmail = currentUser.email.toLowerCase().trim();
+    const isAdmin = loggedEmail === ADMIN_EMAIL;
+    const viewInfo = getUserInfo(viewingEmail);
+
+    if (isAdmin) {
+      bar.innerHTML = `
+        <button class="mini-ctrl-btn" onclick="window.openPromptModal('admin_add')">
+          <i class="fa-solid fa-plus"></i> Add
+        </button>
+        <button class="mini-ctrl-btn" onclick="window.openPromptModal('admin_view')">
+          <i class="fa-solid fa-eye"></i> View
+        </button>
+        <button class="mini-ctrl-btn danger" onclick="window.openAccountSelector(true)">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+        <button class="mini-ctrl-btn family-add" onclick="window.openPromptModal('family_request')">
+          <i class="fa-solid fa-user-plus"></i> Add to ${safeText(viewInfo.name)}'s Family
+        </button>
+      `;
+    } else {
+      bar.innerHTML = `
+        <button class="mini-ctrl-btn family-add" onclick="window.openPromptModal('family_request')">
+          <i class="fa-solid fa-user-plus"></i> Add Family Member
+        </button>
+      `;
+    }
+  }
+
   async function loadDataFromFirebase() {
     if (!currentUser) return;
     document.getElementById("medContent").innerHTML = '<div class="empty">Loading your medicines... <i class="fa-solid fa-spinner fa-spin"></i></div>';
@@ -1172,6 +1303,7 @@ a{text-decoration:none;color:inherit}
       await loadGlobalMedicines();
       
       populateAdminDropdown();
+      renderQuickActions();
       renderPendingRequests();
       renderAll();
       checkAndTriggerUserNotifications();
@@ -1181,7 +1313,7 @@ a{text-decoration:none;color:inherit}
     }
   }
 
-  // পেন্ডিং ফ্যামিলি রিকোয়েস্ট রেন্ডার করা (ইউজারের নিজের ও এডমিনের জন্য সবারটা)
+  // পেন্ডিং ফ্যামিলি রিকোয়েস্ট রেন্ডার (এক্সেপ্টার View Only নাকি Can Edit তা চুজ করতে পারবে)
   function renderPendingRequests() {
     const box = document.getElementById("pendingRequestsBox");
     const listEl = document.getElementById("pendingRequestsList");
@@ -1193,9 +1325,18 @@ a{text-decoration:none;color:inherit}
 
     const pending = allFamilyLinks.filter(l => {
       if (l.status !== "pending") return false;
-      if (isAdmin) return true; // এডমিন সবার পেন্ডিং রিকোয়েস্ট দেখতে ও Accept/Reject করতে পারবে
+      if (isAdmin) return true; // এডমিন সবার ইনকামিং রিকোয়েস্ট দেখতে ও Accept/Reject করতে পারবে
       return (l.targetEmail || "").toLowerCase().trim() === loggedEmail;
     });
+
+    // এডমিন কোনো নির্দিষ্ট আইডি ভিউ করলে সেই আইডির ইনকামিং রিকোয়েস্টগুলো সবার ওপরে দেখাবে
+    if (isAdmin && viewingEmail) {
+      pending.sort((a, b) => {
+        const aMatch = (a.targetEmail || "").toLowerCase().trim() === viewingEmail ? 0 : 1;
+        const bMatch = (b.targetEmail || "").toLowerCase().trim() === viewingEmail ? 0 : 1;
+        return aMatch - bMatch;
+      });
+    }
 
     if (pending.length === 0) {
       box.style.display = "none";
@@ -1204,31 +1345,34 @@ a{text-decoration:none;color:inherit}
     }
 
     titleEl.innerHTML = isAdmin
-      ? `<i class="fa-solid fa-user-shield"></i> Pending Family Requests (Admin Control - ${pending.length})`
-      : `<i class="fa-solid fa-user-clock"></i> Pending Family Requests (${pending.length})`;
+      ? `<i class="fa-solid fa-user-shield"></i> Incoming Family Requests (Admin Control - ${pending.length})`
+      : `<i class="fa-solid fa-user-clock"></i> Incoming Family Requests (${pending.length})`;
 
     listEl.innerHTML = pending.map(req => {
       const requester = getUserInfo(req.requesterEmail);
       const target = getUserInfo(req.targetEmail);
-      const accessText = req.accessLevel === "edit" ? "Can Edit" : "View Only";
+      const reqAccess = req.accessLevel === "edit" ? "Can Edit" : "View Only";
 
       const infoHtml = isAdmin
         ? `<div>
              <strong>${safeText(requester.name)}</strong> <span class="request-email-sub">(${safeText(requester.email)})</span>
-             <br>requested <strong>${accessText}</strong> access to
+             <br>requested <strong>${reqAccess}</strong> access to
              <strong>${safeText(target.name)}</strong> <span class="request-email-sub">(${safeText(target.email)})</span>
            </div>`
         : `<div>
              <strong>${safeText(requester.name)}</strong> <span class="request-email-sub">(${safeText(requester.email)})</span>
-             wants <strong>${accessText}</strong> access to view your medicines in Family View.
+             wants <strong>${reqAccess}</strong> access to your medicines. Choose permission:
            </div>`;
 
       return `
         <div class="request-item">
           <div class="request-item-info">${infoHtml}</div>
           <div class="request-actions">
-            <button class="req-btn req-accept" onclick="window.respondFamilyRequest('${req.id}', 'accepted')">
-              <i class="fa-solid fa-check"></i> Accept
+            <button class="req-btn req-accept-view" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'view')">
+              <i class="fa-solid fa-eye"></i> Accept (View Only)
+            </button>
+            <button class="req-btn req-accept-edit" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'edit')">
+              <i class="fa-solid fa-pen"></i> Accept (Can Edit)
             </button>
             <button class="req-btn req-reject" onclick="window.respondFamilyRequest('${req.id}', 'rejected')">
               <i class="fa-solid fa-xmark"></i> Reject
@@ -1241,7 +1385,7 @@ a{text-decoration:none;color:inherit}
     box.style.display = "block";
   }
 
-  window.respondFamilyRequest = async function(reqId, newStatus) {
+  window.respondFamilyRequest = async function(reqId, newStatus, chosenAccess) {
     if (!currentUser) return;
     const loggedEmail = currentUser.email.toLowerCase().trim();
     const req = allFamilyLinks.find(r => r.id === reqId);
@@ -1260,6 +1404,10 @@ a{text-decoration:none;color:inherit}
         updatedAt: new Date().toISOString(),
         updatedBy: loggedEmail
       };
+      if (newStatus === "accepted" && chosenAccess) {
+        updatePayload.accessLevel = chosenAccess;
+      }
+
       await updateDoc(doc(db, "family_links", reqId), updatePayload);
       Object.assign(req, updatePayload);
 
@@ -1267,7 +1415,12 @@ a{text-decoration:none;color:inherit}
       populateAdminDropdown();
       updateTargetAccountNote();
       renderAll();
-      showToast(newStatus === "accepted" ? "Request accepted!" : "Request rejected.");
+
+      if (newStatus === "accepted") {
+        showToast(`Accepted (${chosenAccess === "edit" ? "Can Edit" : "View Only"})!`);
+      } else {
+        showToast("Request rejected.");
+      }
     } catch (e) {
       console.error("Error responding to request:", e);
       showToast("Failed to update request.");
@@ -1281,8 +1434,7 @@ a{text-decoration:none;color:inherit}
 
     let users = [];
     if (isAdmin) {
-      // এডমিন সব পরিচিত ইউজার (users, medicines, family_links, addedEmails) দেখতে পারবে
-      const usersSet = new Set([ADMIN_EMAIL]);
+      const usersSet = new Set([ADMIN_EMAIL, ...FAMILY_GROUP_1, ...FAMILY_GROUP_2]);
       Object.keys(userProfiles).forEach(e => usersSet.add(e));
       allMedicines.forEach(m => { if (m.userEmail) usersSet.add(m.userEmail.toLowerCase().trim()); });
       allFamilyLinks.forEach(l => {
@@ -1290,12 +1442,19 @@ a{text-decoration:none;color:inherit}
         if (l.targetEmail) usersSet.add(l.targetEmail.toLowerCase().trim());
       });
       addedEmails.forEach(e => usersSet.add(e));
-      if (viewingEmail) usersSet.add(viewingEmail);
+
+      // ডিলিট করা আইডিগুলো লিস্ট থেকে বাদ দেওয়া (নিজের এডমিন আইডি বাদে)
+      hiddenAdminEmails.forEach(h => {
+        if (h !== ADMIN_EMAIL) usersSet.delete(h);
+      });
+
       users = Array.from(usersSet);
     } else {
+      const defaultFamily = getDefaultFamilyViewList(loggedEmail);
       const acceptedLinks = getAcceptedFamilyLinksFor(loggedEmail);
-      const familyEmails = acceptedLinks.map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
-      users = [loggedEmail, ...Array.from(new Set(familyEmails)).filter(e => e !== loggedEmail)];
+      const dynamicEmails = acceptedLinks.map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
+      const merged = Array.from(new Set([...defaultFamily, ...dynamicEmails])).filter(e => e !== loggedEmail);
+      users = [loggedEmail, ...merged];
     }
 
     // ড্রপডাউন বাটনে সিলেক্টেড অ্যাকাউন্টের নাম এবং নিচে ছোট হালকা ইমেইল
@@ -1306,6 +1465,7 @@ a{text-decoration:none;color:inherit}
     if (btnEmail) btnEmail.textContent = currentViewInfo.email;
 
     const container = document.getElementById("accountListContainer");
+    const footer = document.getElementById("accountModalFooter");
     if (!container) return;
 
     const pendingSent = isAdmin ? [] : getPendingSentLinksFor(loggedEmail);
@@ -1324,8 +1484,10 @@ a{text-decoration:none;color:inherit}
         badge = `<span style="color:#82979b;font-size:9px;font-weight:600;">(View Only)</span>`;
       }
 
+      const showDeleteBtn = isAdmin && isAdminDeleteMode && email !== ADMIN_EMAIL;
+
       return `
-        <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="selectCustomAccount(this.dataset.email)">
+        <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="${showDeleteBtn ? '' : 'selectCustomAccount(this.dataset.email)'}">
           <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
           <div style="flex:1;min-width:0;">
             <div class="account-item-name">
@@ -1334,10 +1496,13 @@ a{text-decoration:none;color:inherit}
             </div>
             <div class="account-item-email">${safeText(info.email)}</div>
           </div>
+          ${showDeleteBtn ? `
+            <button class="account-delete-icon" title="Remove from list" onclick="event.stopPropagation(); window.removeAdminAccount('${safeText(email)}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>` : ''}
         </div>`;
     }).join("");
 
-    // পাঠানো পেন্ডিং রিকোয়েস্টগুলো লিস্টে হালকা করে দেখানো
     if (pendingSent.length > 0) {
       html += pendingSent.map(l => {
         const info = getUserInfo(l.targetEmail);
@@ -1355,49 +1520,118 @@ a{text-decoration:none;color:inherit}
       }).join("");
     }
 
-    html += `
-      <div class="account-item" style="color:var(--primary);font-weight:700;margin-top:8px;border-top:1px dashed #c0e0dc;border-bottom:none" onclick="selectCustomAccount('__ADD_USER__')">
-        <i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i>
-        <div>${isAdmin ? '+ Add / View Another Gmail...' : '+ Add Family Member...'}</div>
-      </div>
-    `;
-
     container.innerHTML = html;
+
+    // মোডালের নিচে এডমিনের জন্য Add, View, Delete ৩টি অপশন
+    if (footer) {
+      if (isAdmin) {
+        footer.innerHTML = `
+          <div class="admin-modal-footer">
+            <button class="admin-footer-btn add-btn" onclick="window.closeAccountSelector(); window.openPromptModal('admin_add');">
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+            <button class="admin-footer-btn" onclick="window.closeAccountSelector(); window.openPromptModal('admin_view');">
+              <i class="fa-solid fa-eye"></i> View
+            </button>
+            <button class="admin-footer-btn del-btn ${isAdminDeleteMode ? 'active' : ''}" onclick="window.toggleAdminDeleteMode()">
+              <i class="fa-solid fa-trash"></i> ${isAdminDeleteMode ? 'Done' : 'Delete'}
+            </button>
+          </div>
+        `;
+      } else {
+        footer.innerHTML = `
+          <div class="account-item" style="color:var(--primary);font-weight:700;margin-top:8px;border-top:1px dashed #c0e0dc;border-bottom:none;padding-bottom:2px;" onclick="window.closeAccountSelector(); window.openPromptModal('family_request');">
+            <i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i>
+            <div>+ Add Family Member...</div>
+          </div>
+        `;
+      }
+    }
   }
 
-  window.openAccountSelector = function() {
+  window.openAccountSelector = function(startInDeleteMode = false) {
+    isAdminDeleteMode = !!startInDeleteMode;
+    populateAdminDropdown();
     document.getElementById("accountSelectOverlay").style.display = "flex";
   };
   
   window.closeAccountSelector = function(e) {
     if(e) e.stopPropagation();
+    isAdminDeleteMode = false;
     document.getElementById("accountSelectOverlay").style.display = "none";
+  };
+
+  window.toggleAdminDeleteMode = function() {
+    isAdminDeleteMode = !isAdminDeleteMode;
+    populateAdminDropdown();
+  };
+
+  window.removeAdminAccount = function(email) {
+    if (!email || email === ADMIN_EMAIL) return;
+    const e = email.toLowerCase().trim();
+    addedEmails = addedEmails.filter(x => x !== e);
+    localStorage.setItem("hc_saved_emails", JSON.stringify(addedEmails));
+
+    if (!hiddenAdminEmails.includes(e)) {
+      hiddenAdminEmails.push(e);
+      localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
+    }
+
+    if (viewingEmail === e) {
+      viewingEmail = ADMIN_EMAIL;
+      editingId = null;
+      clearMedForm();
+      updateTargetAccountNote();
+      renderQuickActions();
+      renderAll();
+    }
+    populateAdminDropdown();
+    showToast("Removed from Admin View list.");
   };
 
   window.selectCustomAccount = function(val) {
     closeAccountSelector();
     if (!currentUser) return;
-    const loggedEmail = currentUser.email.toLowerCase().trim();
-    const isAdmin = loggedEmail === ADMIN_EMAIL;
+    viewingEmail = val;
+    editingId = null;
+    clearMedForm();
+    updateTargetAccountNote();
+    populateAdminDropdown();
+    renderQuickActions();
+    renderPendingRequests();
+    renderAll();
+  };
 
-    if (val === "__ADD_USER__") {
-      document.getElementById("promptModalTitle").textContent = isAdmin ? "Add / View Gmail" : "Add Family Member";
-      document.getElementById("promptModalDesc").textContent = isAdmin
-        ? "Enter a valid Gmail address to view or manage their medicines immediately."
-        : "Enter a family member's Gmail address to send a request. Once they (or Admin) accept, you can view them in Family View.";
-      document.getElementById("promptAccessWrapper").style.display = isAdmin ? "none" : "block";
-      document.getElementById("promptSubmitBtn").textContent = isAdmin ? "Add & View" : "Send Request";
-      document.getElementById("promptEmailInput").value = "";
-      document.getElementById("customPromptOverlay").style.display = "flex";
-      document.getElementById("promptEmailInput").focus();
+  // Add / View / Family Request এর জন্য ইউনিফায়েড মোডাল
+  window.openPromptModal = function(mode) {
+    if (!currentUser) return;
+    promptMode = mode;
+    const titleEl = document.getElementById("promptModalTitle");
+    const descEl = document.getElementById("promptModalDesc");
+    const accessWrap = document.getElementById("promptAccessWrapper");
+    const submitBtn = document.getElementById("promptSubmitBtn");
+    const viewInfo = getUserInfo(viewingEmail);
+
+    if (mode === "admin_add") {
+      titleEl.textContent = "Add Email to Admin View";
+      descEl.textContent = "This Gmail will be saved to your Admin View list and opened immediately.";
+      accessWrap.style.display = "none";
+      submitBtn.textContent = "Add & Save";
+    } else if (mode === "admin_view") {
+      titleEl.textContent = "Quick View Gmail";
+      descEl.textContent = "View medicines for this Gmail without adding it to your Admin View list.";
+      accessWrap.style.display = "none";
+      submitBtn.textContent = "View Only";
     } else {
-      viewingEmail = val;
-      editingId = null;
-      clearMedForm();
-      updateTargetAccountNote();
-      populateAdminDropdown();
-      renderAll();
+      titleEl.textContent = `Add to ${viewInfo.name}'s Family View`;
+      descEl.textContent = `Send a Family View request from ${viewInfo.email}. The recipient (or Admin) can accept with View Only or Can Edit permission.`;
+      accessWrap.style.display = "block";
+      submitBtn.textContent = "Send Request";
     }
+
+    document.getElementById("promptEmailInput").value = "";
+    document.getElementById("customPromptOverlay").style.display = "flex";
+    document.getElementById("promptEmailInput").focus();
   };
 
   window.closeCustomPrompt = async function(isSubmit) {
@@ -1413,28 +1647,52 @@ a{text-decoration:none;color:inherit}
       return;
     }
 
-    if (inputVal === loggedEmail) {
-      showToast("This is already your own account.");
-      return;
-    }
-
-    if (isAdmin) {
+    if (promptMode === "admin_add" && isAdmin) {
       if (!addedEmails.includes(inputVal)) {
         addedEmails.push(inputVal);
         localStorage.setItem("hc_saved_emails", JSON.stringify(addedEmails));
       }
+      hiddenAdminEmails = hiddenAdminEmails.filter(x => x !== inputVal);
+      localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
+
       viewingEmail = inputVal;
+      editingId = null;
+      clearMedForm();
       populateAdminDropdown();
+      renderQuickActions();
       updateTargetAccountNote();
+      renderPendingRequests();
       renderAll();
+      showToast("Added to Admin View list.");
       return;
     }
 
-    // সাধারণ ইউজারের জন্য ফ্যামিলি রিকোয়েস্ট পাঠানো
+    if (promptMode === "admin_view" && isAdmin) {
+      // লিস্টে যোগ না করেই শুধু ভিউ করা
+      viewingEmail = inputVal;
+      editingId = null;
+      clearMedForm();
+      populateAdminDropdown();
+      renderQuickActions();
+      updateTargetAccountNote();
+      renderPendingRequests();
+      renderAll();
+      showToast("Viewing account (not added to list).");
+      return;
+    }
+
+    // family_request মোড: যে আইডি বর্তমানে ভিউ করা হচ্ছে (সাধারণ ইউজারের ক্ষেত্রে নিজের, এডমিনের ক্ষেত্রে সিলেক্টেড আইডি)
+    const requesterEmail = isAdmin ? (viewingEmail || loggedEmail) : loggedEmail;
+
+    if (inputVal === requesterEmail) {
+      showToast("Cannot send request to the same account.");
+      return;
+    }
+
     const accessLevel = document.getElementById("promptAccessSelect").value || "view";
     const existing = allFamilyLinks.find(
       l =>
-        (l.requesterEmail || "").toLowerCase().trim() === loggedEmail &&
+        (l.requesterEmail || "").toLowerCase().trim() === requesterEmail &&
         (l.targetEmail || "").toLowerCase().trim() === inputVal
     );
 
@@ -1442,17 +1700,12 @@ a{text-decoration:none;color:inherit}
       if (existing) {
         if (existing.status === "accepted") {
           showToast("Already connected with this member!");
-          viewingEmail = inputVal;
-          populateAdminDropdown();
-          updateTargetAccountNote();
-          renderAll();
           return;
         }
         if (existing.status === "pending") {
           showToast("Request already sent & waiting for approval.");
           return;
         }
-        // আগে rejected হয়ে থাকলে আবার pending করে পাঠানো
         const updatePayload = {
           accessLevel,
           status: "pending",
@@ -1462,7 +1715,7 @@ a{text-decoration:none;color:inherit}
         Object.assign(existing, updatePayload);
       } else {
         const newReq = {
-          requesterEmail: loggedEmail,
+          requesterEmail: requesterEmail,
           targetEmail: inputVal,
           accessLevel,
           status: "pending",
@@ -1473,6 +1726,7 @@ a{text-decoration:none;color:inherit}
       }
 
       populateAdminDropdown();
+      renderPendingRequests();
       showToast("Family request sent! Waiting for approval.");
     } catch (e) {
       console.error("Error sending family request:", e);
