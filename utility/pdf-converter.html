@@ -406,7 +406,6 @@
             errorBox.style.display = 'none';
             const originalName = getBaseName(selectedWordFile.name);
             
-            // Fixed logic: Check original file name for extension, not the truncated base name
             let mimeType = selectedWordFile.type;
             if (!mimeType || mimeType === "") {
                 mimeType = selectedWordFile.name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
@@ -418,7 +417,7 @@
                 btn.innerText = "ডেটা এক্সট্র্যাক্ট হচ্ছে...";
                 const base64Data = await getBase64WithoutPrefix(selectedWordFile);
 
-                const VERCEL_API_URL = "https://merryversegithubio.vercel.app/api/convert";
+                const VERCEL_API_URL = "https://merryverse.vercel.app/api/convert";
 
                 const response = await fetch(VERCEL_API_URL, {
                     method: 'POST',
