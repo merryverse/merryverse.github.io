@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merryverse Official | Live Video & Social Portal</title>
+    <title>Merryverse Official | Media, Games, Utility & Hub</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,8 +24,17 @@
         .glass-panel {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(99, 102, 241, 0.2);
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+        .hub-card {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.45));
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hub-card:hover {
+            transform: translateY(-4px);
         }
         .video-card:hover .play-overlay {
             opacity: 1;
@@ -58,41 +67,159 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Sticky Responsive Navbar (Fixed Overlapping on Mobile) -->
-    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-3 sm:px-6 py-2.5 sm:py-3">
-        <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
-            <!-- Brand Logo & Name -->
-            <a href="#" class="flex items-center gap-2 sm:gap-3 min-w-0">
-                <div class="relative shrink-0">
-                    <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-75"></div>
-                    <img src="Merryverse_logo.png" alt="Merryverse" class="relative h-9 w-9 sm:h-11 sm:w-11 rounded-full object-cover bg-slate-900" onerror="this.src='https://ui-avatars.com/api/?name=MV&background=6366f1&color=fff'">
-                </div>
-                <div class="truncate">
-                    <span class="text-sm sm:text-xl font-extrabold tracking-wide bg-gradient-to-r from-white via-indigo-200 to-purple-400 bg-clip-text text-transparent block leading-tight truncate">MERRYVERSE</span>
-                    <span class="text-[9px] sm:text-xs text-indigo-400 font-medium tracking-wider block truncate">@merryverseofficial</span>
+    <!-- Slide-out Side Menu Backdrop -->
+    <div id="drawer-backdrop" onclick="toggleSideMenu(false)" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Slide-out Side Menu (Drawer) -->
+    <aside id="side-drawer" class="fixed top-0 left-0 h-full w-72 sm:w-80 bg-[#0b1120]/95 backdrop-blur-xl border-r border-indigo-500/20 z-[70] transform -translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between shadow-2xl">
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5">
+                <img src="Merryverse_logo.png" alt="Merryverse" class="h-9 w-9 rounded-full object-cover border border-indigo-500/50" onerror="this.src='https://ui-avatars.com/api/?name=MV&background=6366f1&color=fff'">
+                <div>
+                    <span class="text-base font-extrabold tracking-wide bg-gradient-to-r from-white via-indigo-200 to-purple-400 bg-clip-text text-transparent block leading-tight">MERRYVERSE</span>
+                    <span class="text-[10px] text-indigo-400 font-medium tracking-wider block">ALL-IN-ONE HUB</span>
                 </div>
             </a>
+            <button onclick="toggleSideMenu(false)" class="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
 
-            <!-- Social Action Buttons -->
-            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                <a href="https://www.youtube.com/@merryverseofficial?sub_confirmation=1" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 shadow-lg shadow-red-600/20 transition">
-                    <i class="fa-brands fa-youtube text-xs sm:text-base"></i>
+        <!-- Drawer Navigation Links -->
+        <div class="p-4 overflow-y-auto flex-grow space-y-6">
+            <div>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 mb-2">Explore Portal</p>
+                <nav class="space-y-1.5">
+                    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-white font-semibold transition">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm block leading-tight">Home & Media</span>
+                            <span class="text-[10px] text-indigo-300/80 font-normal">Videos & Social Feed</span>
+                        </div>
+                    </a>
+
+                    <a href="/utility/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-cyan-500/30 text-slate-300 hover:text-white transition group">
+                        <div class="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-toolbox"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold block leading-tight">Utility</span>
+                            <span class="text-[10px] text-slate-400">Daily Tools & Calculators</span>
+                        </div>
+                    </a>
+
+                    <a href="/games/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-purple-500/30 text-slate-300 hover:text-white transition group">
+                        <div class="w-8 h-8 rounded-lg bg-purple-500/15 text-purple-400 group-hover:bg-purple-500 group-hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold block leading-tight">Games</span>
+                            <span class="text-[10px] text-slate-400">Play Fun Web Games</span>
+                        </div>
+                    </a>
+
+                    <a href="/health/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-rose-500/30 text-slate-300 hover:text-white transition group">
+                        <div class="w-8 h-8 rounded-lg bg-rose-500/15 text-rose-400 group-hover:bg-rose-500 group-hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold block leading-tight">Health Care</span>
+                            <span class="text-[10px] text-slate-400">Wellness & Health Tools</span>
+                        </div>
+                    </a>
+
+                    <a href="/islamic/index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-emerald-500/30 text-slate-300 hover:text-white transition group">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-mosque"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold block leading-tight">Islamic</span>
+                            <span class="text-[10px] text-slate-400">Dua, Prayer & Resources</span>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Socials -->
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/60">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2.5 text-center">Connect With Us</p>
+            <div class="grid grid-cols-3 gap-2">
+                <a href="https://www.youtube.com/@merryverseofficial?sub_confirmation=1" target="_blank" class="bg-red-600/15 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 py-2 rounded-xl flex items-center justify-center transition" title="YouTube">
+                    <i class="fa-brands fa-youtube text-base"></i>
+                </a>
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600/15 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 py-2 rounded-xl flex items-center justify-center transition" title="Facebook">
+                    <i class="fa-brands fa-facebook-f text-base"></i>
+                </a>
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-pink-600/15 hover:bg-pink-600 text-pink-400 hover:text-white border border-pink-500/30 py-2 rounded-xl flex items-center justify-center transition" title="Instagram">
+                    <i class="fa-brands fa-instagram text-base"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Sticky Responsive Navbar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-3 sm:px-6 py-2.5 sm:py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+            
+            <!-- Left: Menu Trigger + Brand Logo -->
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <button onclick="toggleSideMenu(true)" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-800/80 hover:bg-indigo-600/30 border border-slate-700/80 hover:border-indigo-500/50 text-slate-200 hover:text-white flex items-center justify-center transition shrink-0" aria-label="Open Side Menu" title="Open Menu">
+                    <i class="fa-solid fa-bars-staggered text-sm sm:text-base"></i>
+                </button>
+
+                <a href="/" class="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <div class="relative shrink-0">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-75"></div>
+                        <img src="Merryverse_logo.png" alt="Merryverse" class="relative h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover bg-slate-900" onerror="this.src='https://ui-avatars.com/api/?name=MV&background=6366f1&color=fff'">
+                    </div>
+                    <div class="truncate">
+                        <span class="text-sm sm:text-lg font-extrabold tracking-wide bg-gradient-to-r from-white via-indigo-200 to-purple-400 bg-clip-text text-transparent block leading-tight truncate">MERRYVERSE</span>
+                        <span class="text-[9px] sm:text-[11px] text-indigo-400 font-medium tracking-wider block truncate">@merryverseofficial</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Center: Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center gap-1 bg-slate-900/70 border border-slate-800/90 p-1 rounded-full">
+                <a href="/" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-sm transition">
+                    <i class="fa-solid fa-house mr-1"></i> Home
+                </a>
+                <a href="/utility/index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-cyan-300 hover:bg-slate-800/90 transition">
+                    <i class="fa-solid fa-toolbox mr-1 text-cyan-400"></i> Utility
+                </a>
+                <a href="/games/index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-purple-300 hover:bg-slate-800/90 transition">
+                    <i class="fa-solid fa-gamepad mr-1 text-purple-400"></i> Games
+                </a>
+                <a href="/health/index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-rose-300 hover:bg-slate-800/90 transition">
+                    <i class="fa-solid fa-heart-pulse mr-1 text-rose-400"></i> Health Care
+                </a>
+                <a href="/islamic/index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-emerald-300 hover:bg-slate-800/90 transition">
+                    <i class="fa-solid fa-mosque mr-1 text-emerald-400"></i> Islamic
+                </a>
+            </div>
+
+            <!-- Right: Social Action Buttons -->
+            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <a href="https://www.youtube.com/@merryverseofficial?sub_confirmation=1" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 shadow-lg shadow-red-600/20 transition">
+                    <i class="fa-brands fa-youtube text-xs sm:text-sm"></i>
                     <span>Subscribe</span>
                 </a>
-                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 w-8 h-8 sm:w-auto sm:h-auto sm:px-3.5 sm:py-2 rounded-full flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold transition" title="Facebook Page">
+                <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs sm:text-sm transition" title="Facebook Page">
                     <i class="fa-brands fa-facebook-f"></i>
-                    <span class="hidden md:inline">Facebook</span>
                 </a>
-                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-pink-600/20 hover:bg-pink-600 text-pink-400 hover:text-white border border-pink-500/30 w-8 h-8 sm:w-auto sm:h-auto sm:px-3.5 sm:py-2 rounded-full flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold transition" title="Instagram">
+                <a href="https://www.instagram.com/merryverseofficial" target="_blank" class="bg-pink-600/20 hover:bg-pink-600 text-pink-400 hover:text-white border border-pink-500/30 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs sm:text-sm transition" title="Instagram">
                     <i class="fa-brands fa-instagram"></i>
-                    <span class="hidden md:inline">Instagram</span>
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Header with Live YouTube Stats -->
-    <header class="relative overflow-hidden border-b border-slate-800/60 bg-gradient-to-b from-indigo-950/30 via-slate-900/10 to-transparent py-7 sm:py-9 px-4 sm:px-6">
+    <header class="relative overflow-hidden border-b border-slate-800/60 bg-gradient-to-b from-indigo-950/35 via-slate-900/10 to-transparent py-7 sm:py-9 px-4 sm:px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             
             <!-- Creator Info -->
@@ -100,11 +227,11 @@
                 <img src="Merryverse_logo.png" alt="Merryverse Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-indigo-500/60 shadow-2xl shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=Merry+Verse&background=6366f1&color=fff&size=128'">
                 <div>
                     <div class="inline-flex items-center gap-1.5 bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-semibold px-3 py-0.5 rounded-full mb-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> OFFICIAL MEDIA PORTAL
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> OFFICIAL DIGITAL ECOSYSTEM
                     </div>
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">Merryverse Official</h1>
                     <p id="channel-desc" class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl line-clamp-2">
-                        Welcome to our official hub! Watch our latest animations, creative shorts, videos, and follow our social updates all in one place.
+                        Watch our latest videos & animations, play web games, explore daily utility tools, health care & Islamic resources—all in one place.
                     </p>
                 </div>
             </div>
@@ -128,15 +255,83 @@
         </div>
     </header>
 
+    <!-- NEW: Explore Merryverse Hub (Quick-Launch Bento Section) -->
+    <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-6 sm:pt-8">
+        <div class="flex items-center justify-between mb-3.5">
+            <h2 class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-indigo-300 flex items-center gap-2">
+                <i class="fa-solid fa-grid-2 text-indigo-400"></i>
+                <i class="fa-solid fa-compass text-indigo-400"></i>
+                <span>Explore Merryverse Sections</span>
+            </h2>
+            <span class="text-[11px] text-slate-500 hidden sm:inline">Select a portal to launch</span>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            
+            <!-- Utility Card -->
+            <a href="/utility/index.html" class="hub-card group relative rounded-2xl p-4 sm:p-5 border border-cyan-500/25 hover:border-cyan-400/70 hover:shadow-[0_0_25px_rgba(6,182,212,0.18)] overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-cyan-500/10 rounded-full blur-xl group-hover:bg-cyan-500/20 transition"></div>
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 flex items-center justify-center text-lg transition duration-300">
+                        <i class="fa-solid fa-toolbox"></i>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-600 group-hover:text-cyan-400 transition"></i>
+                </div>
+                <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition">Utility</h3>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 line-clamp-1">Smart tools & calculators</p>
+            </a>
+
+            <!-- Games Card -->
+            <a href="/games/index.html" class="hub-card group relative rounded-2xl p-4 sm:p-5 border border-purple-500/25 hover:border-purple-400/70 hover:shadow-[0_0_25px_rgba(168,85,247,0.18)] overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition"></div>
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400 group-hover:bg-purple-500 group-hover:text-white flex items-center justify-center text-lg transition duration-300">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-600 group-hover:text-purple-400 transition"></i>
+                </div>
+                <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-purple-300 transition">Games</h3>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 line-clamp-1">Play arcade & web games</p>
+            </a>
+
+            <!-- Health Care Card -->
+            <a href="/health/index.html" class="hub-card group relative rounded-2xl p-4 sm:p-5 border border-rose-500/25 hover:border-rose-400/70 hover:shadow-[0_0_25px_rgba(244,63,94,0.18)] overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-rose-500/10 rounded-full blur-xl group-hover:bg-rose-500/20 transition"></div>
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-11 h-11 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 group-hover:bg-rose-500 group-hover:text-white flex items-center justify-center text-lg transition duration-300">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-600 group-hover:text-rose-400 transition"></i>
+                </div>
+                <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-rose-300 transition">Health Care</h3>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 line-clamp-1">Wellness & health guides</p>
+            </a>
+
+            <!-- Islamic Card -->
+            <a href="/islamic/index.html" class="hub-card group relative rounded-2xl p-4 sm:p-5 border border-emerald-500/25 hover:border-emerald-400/70 hover:shadow-[0_0_25px_rgba(16,185,129,0.18)] overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition"></div>
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-slate-950 flex items-center justify-center text-lg transition duration-300">
+                        <i class="fa-solid fa-mosque"></i>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-600 group-hover:text-emerald-400 transition"></i>
+                </div>
+                <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-emerald-300 transition">Islamic</h3>
+                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 line-clamp-1">Dua, prayer & resources</p>
+            </a>
+
+        </div>
+    </section>
+
     <!-- Main Content Dashboard -->
-    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-10 flex-grow">
+    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- LEFT COLUMN: Smart Frame Player & Unified Gallery -->
             <div class="lg:col-span-7 xl:col-span-8 space-y-8">
                 
                 <!-- Adaptive Video Player Box -->
-                <div id="player-box" class="glass-panel rounded-2xl p-4 sm:p-6 scroll-mt-16">
+                <div id="player-box" class="glass-panel rounded-2xl p-4 sm:p-6 scroll-mt-20">
                     <div class="flex items-center justify-between gap-2 mb-4">
                         <div class="flex items-center gap-2">
                             <span class="flex h-2.5 w-2.5 relative">
@@ -216,7 +411,7 @@
 
             </div>
 
-            <!-- RIGHT COLUMN: Facebook & Social Hub (Fixed Blank Box Issue) -->
+            <!-- RIGHT COLUMN: Facebook & Social Hub -->
             <div class="lg:col-span-5 xl:col-span-4 space-y-6">
                 
                 <!-- Clean Facebook Hub Card -->
@@ -233,7 +428,7 @@
                         Connect with <strong class="text-slate-200">@merryverseofficial</strong> on Facebook for daily reels, stories, and exclusive updates:
                     </p>
 
-                    <!-- Compact Facebook Header Plugin (No Blank White Timeline Box!) -->
+                    <!-- Compact Facebook Header Plugin -->
                     <div class="w-full overflow-hidden rounded-xl bg-white flex justify-center p-1 shadow-md mb-4">
                         <iframe 
                             src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmerryverseofficial&tabs=&width=340&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" 
@@ -309,14 +504,24 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 px-4 sm:px-6 text-center text-xs text-slate-400 mt-10">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+    <!-- Upgraded Footer with Portal Quick Links -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/90 py-7 px-4 sm:px-6 text-center text-xs text-slate-400 mt-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5">
             <div class="flex items-center gap-2.5">
                 <img src="Merryverse_logo.png" alt="Logo" class="h-6 w-6 rounded-full object-cover" onerror="this.style.display='none'">
                 <span class="font-bold text-white">MERRYVERSE OFFICIAL</span>
                 <span>&copy; <script>document.write(new Date().getFullYear())</script></span>
             </div>
+
+            <!-- Portal Pages Quick Links -->
+            <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 font-medium text-slate-300">
+                <a href="/utility/index.html" class="hover:text-cyan-400 transition">Utility</a>
+                <a href="/games/index.html" class="hover:text-purple-400 transition">Games</a>
+                <a href="/health/index.html" class="hover:text-rose-400 transition">Health Care</a>
+                <a href="/islamic/index.html" class="hover:text-emerald-400 transition">Islamic</a>
+            </div>
+
+            <!-- Social Links -->
             <div class="flex gap-5 text-sm">
                 <a href="https://www.youtube.com/@merryverseofficial" target="_blank" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube mr-1"></i>YouTube</a>
                 <a href="https://www.facebook.com/merryverseofficial" target="_blank" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook mr-1"></i>Facebook</a>
@@ -325,8 +530,32 @@
         </div>
     </footer>
 
-    <!-- Smart YouTube API v3 Script -->
+    <!-- Side Menu & Smart YouTube API v3 Script -->
     <script>
+        // --- Side Drawer Control ---
+        function toggleSideMenu(open) {
+            const drawer = document.getElementById('side-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('-translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                backdrop.classList.add('opacity-0');
+                drawer.classList.add('-translate-x-full');
+                document.body.style.overflow = '';
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        // Close side menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') toggleSideMenu(false);
+        });
+
+        // --- YouTube API v3 Logic ---
         const API_KEY = ['AIzaSyAB_bXoTTuxIQCl', 'El4oZmXGvGD-uyah2vY'].join('');
         const CHANNEL_HANDLE = '@merryverseofficial';
         const MAX_FETCH = 18;
@@ -372,7 +601,6 @@
             const iframe = document.getElementById('main-video-frame');
             const ytLink = document.getElementById('direct-yt-link');
 
-            // Adjust aspect ratio dynamically without showing ugly text labels
             if (video.isShort) {
                 wrapper.className = 'player-9-16 relative rounded-2xl overflow-hidden bg-slate-950 border border-indigo-500/40 shadow-2xl';
                 ytLink.href = `https://www.youtube.com/shorts/${video.id}`;
@@ -384,7 +612,6 @@
             document.getElementById('current-video-title').textContent = video.title;
             document.getElementById('current-video-date').textContent = `Published: ${formatDate(video.pubDate)}`;
 
-            // Highlight selected card
             document.querySelectorAll('.video-card').forEach(c => c.classList.remove('active-video'));
             if (cardElement) cardElement.classList.add('active-video');
 
@@ -415,7 +642,6 @@
 
         async function loadYouTubeFeed() {
             try {
-                // 1. Fetch Channel Stats & Uploads Playlist
                 let chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${API_KEY}`);
                 let chData = await chRes.json();
 
@@ -436,7 +662,6 @@
 
                 const uploadsPlaylistId = channel.contentDetails.relatedPlaylists.uploads;
 
-                // 2. Fetch Latest Playlist Items
                 const plRes = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${MAX_FETCH}&key=${API_KEY}`);
                 const plData = await plRes.json();
 
@@ -445,7 +670,6 @@
                     return;
                 }
 
-                // 3. Fetch Video Details
                 const videoIds = plData.items.map(item => item.snippet.resourceId.videoId).join(',');
                 const vidDetailsRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoIds}&key=${API_KEY}`);
                 const vidDetailsData = await vidDetailsRes.json();
@@ -458,7 +682,6 @@
                     const desc = item.snippet.description || '';
                     const thumb = (item.snippet.thumbnails.maxres || item.snippet.thumbnails.standard || item.snippet.thumbnails.high || item.snippet.thumbnails.medium)?.url;
 
-                    // Vertical format detection for player frame sizing
                     const isShort = (durationSec > 0 && durationSec <= 180) || /#shorts/i.test(title) || /#shorts/i.test(desc);
 
                     allVideos.push({
@@ -474,7 +697,6 @@
                 const unifiedGrid = document.getElementById('unified-grid');
                 const loader = document.getElementById('video-loader');
 
-                // Render All Videos in One Clean Grid
                 allVideos.forEach((vid, idx) => {
                     const card = document.createElement('div');
                     card.className = `video-card group cursor-pointer rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-indigo-500/70 transition duration-300 flex flex-col`;
@@ -504,7 +726,6 @@
                     unifiedGrid.appendChild(card);
                 });
 
-                // Initialize Default Player
                 loader.classList.add('hidden');
                 unifiedGrid.classList.remove('hidden');
                 if (allVideos.length > 0) {
