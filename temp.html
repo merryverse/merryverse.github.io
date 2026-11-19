@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Firestore Data Migrator</title>
+<style>
+  body { font-family: sans-serif; padding: 24px; background: #f3f8f8; color: #123b43; }
+  button { background: #087f83; color: #fff; border: 0; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; margin-right: 10px; margin-bottom: 10px; }
+  button:disabled { background: #9db2b4; cursor: not-allowed; }
+  pre { background: #fff; padding: 15px; border-radius: 10px; border: 1px solid #d2ece8; max-height: 400px; overflow: auto; margin-top: 15px; }
+</style>
+</head>
+<body>
+  <h2>Firestore ডাটা কপি (`family-429c7` → `merryverse-official`)</h2>
+  
+  <button id="loginBtn" onclick="loginTarget()">১. নতুন প্রজেক্টে Google Login করুন</button>
+  <button id="startBtn" onclick="runMigration()" disabled>২. সব ডাটা কপি শুরু করুন</button>
+  
+  <pre id="log">প্রথমে ১ নম্বর বাটনে ক্লিক করে Google Login করুন...</pre>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+
+    const sourceConfig = {
+      apiKey: "AIzaSyAXZwWx1egnLtdgExUDepoLB6b20CrGwms",
+      authDomain: "family-429c7.firebaseapp.com",
+      projectId: "family-429c7",
+      storageBucket: "family-429c7.firebasestorage.app",
+      messagingSenderId: "982876086618",
+      appId: "1:982876086618:web:97d56fd46148561cf2d363"
+    };
+
+    const targetConfig = {
+      apiKey: "AIzaSyDuXxHJ0vnBiAn4SOvsCN-vRaOvB5DCWso",
+      authDomain: "merryverse-official.firebaseapp.com",
+      databaseURL: "https://merryverse-official-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "merryverse-official",
+      storageBucket: "merryverse-official.firebasestorage.app",
+      messagingSenderId: "583720884212",
+      appId: "1:583720884212:web:7d944f26b621d24c0d4ba1",
+      measurementId: "G-T8T99CH1ZG"
+    };
+
+    const sourceApp = initializeApp(sourceConfig, "sourceApp");
+    const targetApp = initializeApp(targetConfig, "targetApp");
+
+    const sourceDb = getFirestore(sourceApp);
+    const targetDb = getFirestore(targetApp);
+    const targetAuth = getAuth(targetApp);
+    const provider = new GoogleAuthProvider();
+
+    const logEl = document.getElementById("log");
+    function log(msg) {
+      logEl.textContent += "\n" + msg;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    window.loginTarget = async function() {
+      try {
+        const res = await signInWithPopup(targetAuth, provider);
+        log("✅ লগইন সফল হয়েছে: " + res.user.email);
+        document.getElementById("startBtn").disabled = false;
+      } catch (err) {
+        log("❌ লগইন এরর: " + err.message);
+      }
+    };
+
+    async function copyCollection(colName) {
+      log(`--- ${colName} পড়ছি... ---`);
+      const snap = await getDocs(collection(sourceDb, colName));
+      log(`${colName} এ ${snap.size} টি ডকুমেন্ট পাওয়া গেছে।`);
+
+      let count = 0;
+      for (const d of snap.docs) {
+        await setDoc(doc(targetDb, colName, d.id), d.data(), { merge: true });
+        count++;
+        log(`[${colName}] কপি হয়েছে (${count}/${snap.size}): ${d.id}`);
+      }
+      log(`✅ ${colName} সম্পন্ন হয়েছে!`);
+    }
+
+    window.runMigration = async function() {
+      const btn = document.getElementById("startBtn");
+      btn.disabled = true;
+      log("\nকপি শুরু হচ্ছে...");
+      try {
+        await copyCollection("medicines");
+        await copyCollection("med_history");
+        log("\n🎉 সব ডাটা সফলভাবে নতুন প্রজেক্টে কপি হয়েছে!");
+      } catch (err) {
+        console.error(err);
+        log("\n❌ ত্রুটি হয়েছে: " + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>
