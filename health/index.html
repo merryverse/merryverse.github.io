@@ -7,31 +7,26 @@
 <title>HealthCare | Personal Health Portal</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Font Awesome: non-blocking -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></noscript>
 
 <style>
-:root {
-  --primary:#087f83;
-  --primary2:#13aaa1;
-  --dark:#123b43;
-  --bg:#f3f8f8;
-  --white:#fff;
-  --muted:#82979b;
-  --border:#e7eeee;
-  --shadow:0 8px 30px rgba(18,59,67,.055);
-}
+:root{--primary:#087f83;--primary2:#13aaa1;--dark:#123b43;--bg:#f3f8f8;--white:#fff;--muted:#82979b;--border:#e7eeee;--shadow:0 8px 30px rgba(18,59,67,.055)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);-webkit-tap-highlight-color:transparent}
 button,input,select{font-family:inherit}
 a{text-decoration:none;color:inherit}
 .wrapper{max-width:1180px;margin:auto;padding:24px}
 
 /* LOADING & AUTH STATE */
-#loading-message { text-align: center; padding-top: 150px; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-#content-wrapper { display: none; }
-.login-btn { background: var(--primary); color: white; border: 0; padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 5px 15px rgba(8,127,131,0.2); transition: .2s; }
-.login-btn:hover { background: #06696c; transform: translateY(-2px); }
+#loading-message{text-align:center;padding-top:150px;font-size:1.2rem;font-weight:bold;color:var(--primary)}
+#content-wrapper{display:none}
+.login-btn{background:var(--primary);color:white;border:0;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 5px 15px rgba(8,127,131,.2);transition:.2s}
+.login-btn:hover{background:#06696c;transform:translateY(-2px)}
 
 /* HEADER */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}
@@ -41,7 +36,7 @@ a{text-decoration:none;color:inherit}
 .brand p{font-size:11px;color:var(--muted)}
 .header-date{font-size:12px;color:var(--muted);background:white;padding:11px 15px;border-radius:12px;border:1px solid var(--border)}
 
-/* HERO SECTION */
+/* HERO */
 .hero{background:linear-gradient(115deg,#075c65,#087f83 60%,#13aaa1);border-radius:20px;padding:20px 24px;color:white;position:relative;overflow:hidden;box-shadow:0 10px 25px #087f8325}
 .hero:before{content:"";position:absolute;width:200px;height:200px;right:-50px;top:-100px;border:30px solid #ffffff12;border-radius:50%}
 .hero-content{position:relative;z-index:1}
@@ -57,117 +52,41 @@ a{text-decoration:none;color:inherit}
 .section-head p{color:var(--muted);font-size:11px;margin-top:4px}
 .section-icon{width:38px;height:38px;background:#e1f4f2;color:var(--primary);display:grid;place-items:center;border-radius:12px}
 
-/* SEPARATE ADMIN PANEL BOX */
-.admin-panel-box {
-  display: none;
-  background: #edf4ff;
-  border: 1px solid #c9ddff;
-  border-radius: 14px;
-  padding: 13px 15px;
-  margin-bottom: 14px;
-}
-.admin-panel-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.admin-panel-label {
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #1e4b8f;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+/* ADMIN PANEL */
+.admin-panel-box{display:none;background:#edf4ff;border:1px solid #c9ddff;border-radius:14px;padding:13px 15px;margin-bottom:14px}
+.admin-panel-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.admin-panel-label{font-size:11.5px;font-weight:800;color:#1e4b8f;display:flex;align-items:center;gap:6px}
 
-/* USER BAR & FAMILY VIEW */
-.user-bar{background:#eaf7f5;padding:15px;border-radius:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border:1px solid #d2ece8; position: relative;}
-.user-info{display:flex;align-items:center;gap:11px; flex: 1; min-width: 0;}
+/* USER BAR */
+.user-bar{background:#eaf7f5;padding:15px;border-radius:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border:1px solid #d2ece8;position:relative}
+.user-info{display:flex;align-items:center;gap:11px;flex:1;min-width:0}
 .user-avatar{width:42px;height:42px;border-radius:50%;background:var(--primary);color:white;display:grid;place-items:center;font-weight:800;font-size:15px;overflow:hidden;flex-shrink:0}
 .user-avatar img{width:100%;height:100%;object-fit:cover}
-.user-details{flex: 1; min-width: 0; overflow: hidden;}
-.user-details h4{color:var(--primary);font-size:14px;font-weight:800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-.user-details p{font-size:10.5px;color:#93a6aa;margin-top:2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight:400;}
-
-.switch-account-btn {
-  background: white; border: 1px solid #a8dcd6; color: var(--primary);
-  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
-  cursor: pointer; box-shadow: 0 4px 10px rgba(8, 127, 131, 0.1);
-  transition: all 0.2s ease; flex-shrink: 0;
-}
-.switch-account-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(8, 127, 131, 0.2); }
-
+.user-details{flex:1;min-width:0;overflow:hidden}
+.user-details h4{color:var(--primary);font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-details p{font-size:10.5px;color:#93a6aa;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400}
+.switch-account-btn{background:white;border:1px solid #a8dcd6;color:var(--primary);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 10px rgba(8,127,131,.1);transition:all .2s ease;flex-shrink:0}
+.switch-account-btn:hover{background:var(--primary);color:white;transform:translateY(-2px);box-shadow:0 6px 15px rgba(8,127,131,.2)}
 .family-bar{width:100%;padding-top:12px;border-top:1px dashed #c0e0dc;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.family-bar > span{font-size:11px;font-weight:700;color:#075c65}
+.family-bar>span{font-size:11px;font-weight:700;color:#075c65}
+.select-trigger-btn{padding:7px 12px;border-radius:8px;border:1px solid var(--primary);font-size:11px;font-weight:600;background:white;color:var(--dark);outline:none;flex:1;max-width:300px;display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;transition:.2s;min-width:0}
+.select-trigger-btn:hover{border-color:#06696c;background:#f9fbfb}
+.select-trigger-btn.admin-btn-style{border-color:#3b76d1}
+.select-btn-text{flex:1;min-width:0;text-align:left}
+.select-btn-name{font-size:11.5px;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.select-btn-email{font-size:9.5px;font-weight:400;color:#93a6aa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin-top:1px}
 
-.select-trigger-btn {
-  padding:7px 12px; border-radius:8px; border:1px solid var(--primary); font-size:11px; font-weight:600; background:white; color:var(--dark); outline:none; flex:1; max-width:300px; display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer; transition:.2s; min-width:0;
-}
-.select-trigger-btn:hover { border-color: #06696c; background:#f9fbfb;}
-.select-trigger-btn.admin-btn-style { border-color: #3b76d1; }
-.select-btn-text { flex:1; min-width:0; text-align:left; }
-.select-btn-name { font-size:11.5px; font-weight:700; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
-.select-btn-email { font-size:9.5px; font-weight:400; color:#93a6aa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top:1px; }
-
-/* PENDING FAMILY REQUESTS BANNER */
-.requests-box {
-  display: none;
-  background: #fff8eb;
-  border: 1px solid #fde3b4;
-  border-radius: 13px;
-  padding: 13px 14px;
-  margin-bottom: 18px;
-}
-.requests-box-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: #a66213;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.request-item {
-  background: white;
-  border: 1px solid #f5e2be;
-  border-radius: 10px;
-  padding: 11px 12px;
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.request-item-info {
-  font-size: 11.5px;
-  color: var(--dark);
-  line-height: 1.45;
-}
-.request-email-sub {
-  font-size: 10px;
-  color: #93a6aa;
-  font-weight: 400;
-}
-.request-actions {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.req-btn {
-  border: 0;
-  padding: 7px 11px;
-  border-radius: 7px;
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.req-accept-view { background: #087f83; color: white; }
-.req-accept-edit { background: #159968; color: white; }
-.req-reject { background: #fff0f0; color: #d66; border: 1px solid #f7d6d6; }
+/* REQUESTS */
+.requests-box{display:none;background:#fff8eb;border:1px solid #fde3b4;border-radius:13px;padding:13px 14px;margin-bottom:18px}
+.requests-box-title{font-size:12px;font-weight:800;color:#a66213;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.request-item{background:white;border:1px solid #f5e2be;border-radius:10px;padding:11px 12px;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.request-item-info{font-size:11.5px;color:var(--dark);line-height:1.45}
+.request-email-sub{font-size:10px;color:#93a6aa;font-weight:400}
+.request-actions{display:flex;gap:6px;flex-wrap:wrap}
+.req-btn{border:0;padding:7px 11px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.req-accept-view{background:#087f83;color:white}
+.req-accept-edit{background:#159968;color:white}
+.req-reject{background:#fff0f0;color:#d66;border:1px solid #f7d6d6}
 
 /* QUICK LINKS */
 .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
@@ -195,19 +114,16 @@ a{text-decoration:none;color:inherit}
 .tool-top p{font-size:10px;color:var(--muted);margin-top:3px}
 .field{margin-bottom:12px;position:relative}
 .field label{display:block;font-size:11px;color:#647d81;font-weight:600;margin-bottom:7px}
-.field input, .field select{width:100%;border:1px solid var(--border);background:#f8fbfb;padding:12px;border-radius:10px;outline:none;font-size:13px;color:var(--dark)}
-.field input:focus, .field select:focus{border-color:var(--primary)}
-
-/* AUTO-COMPLETE */
-.suggestions-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-radius: 8px; max-height: 180px; overflow-y: auto; z-index: 99; box-shadow: var(--shadow); display: none; }
-.suggestion-item { padding: 9px 12px; font-size: 12px; cursor: pointer; border-bottom: 1px solid #f1f5f5; color: var(--dark); }
-.suggestion-item:hover { background: #eaf7f5; color: var(--primary); font-weight: 600; }
-
+.field input,.field select{width:100%;border:1px solid var(--border);background:#f8fbfb;padding:12px;border-radius:10px;outline:none;font-size:13px;color:var(--dark)}
+.field input:focus,.field select:focus{border-color:var(--primary)}
+.suggestions-list{position:absolute;top:100%;left:0;right:0;background:white;border:1px solid var(--border);border-radius:8px;max-height:180px;overflow-y:auto;z-index:99;box-shadow:var(--shadow);display:none}
+.suggestion-item{padding:9px 12px;font-size:12px;cursor:pointer;border-bottom:1px solid #f1f5f5;color:var(--dark)}
+.suggestion-item:hover{background:#eaf7f5;color:var(--primary);font-weight:600}
 .action-btn{width:100%;background:var(--primary);color:white;border:0;border-radius:10px;padding:12px;font-size:12px;font-weight:700;cursor:pointer}
 .result{margin-top:13px;padding:13px;background:#eaf7f5;border-radius:11px;color:#087f83;font-size:12px;line-height:1.7;display:none}
 .result strong{font-size:19px;display:block}
 
-/* MEDICATION MANAGER */
+/* MEDICATION */
 .reminder-card{background:white;border:1px solid var(--border);border-radius:19px;padding:22px;box-shadow:var(--shadow)}
 .reminder-card h4{font-size:14px}
 .med-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
@@ -222,12 +138,10 @@ a{text-decoration:none;color:inherit}
 .stat-box{padding:14px;background:#f5f9f9;border-radius:12px}
 .stat-box span{font-size:10px;color:var(--muted)}
 .stat-box strong{display:block;font-size:22px;margin-top:5px}
-
 .med-row{background:#f9fbfb;border:1px solid #e9eeee;border-radius:13px;padding:14px;margin-top:10px}
-.med-row.morning{background:#e0f2fe;border-color:#bae6fd;} 
-.med-row.midday{background:#fed7aa;border-color:#fdba74;}  
-.med-row.night{background:#f1f5f9;border-color:#cbd5e1;}   
-
+.med-row.morning{background:#e0f2fe;border-color:#bae6fd}
+.med-row.midday{background:#fed7aa;border-color:#fdba74}
+.med-row.night{background:#f1f5f9;border-color:#cbd5e1}
 .med-row-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .med-row h4{font-size:13px}
 .med-row p{font-size:10px;color:#64748b;margin-top:5px}
@@ -238,100 +152,54 @@ a{text-decoration:none;color:inherit}
 .med-skipped{background:#d17c3c;color:white}
 .med-delete{background:#fff0f0;color:#d66}
 .med-edit{background:#e8f1ff;color:#4277c9}
-.med-add-jump{background:#087f83;color:white;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;border:0;white-space:nowrap;flex-shrink:0;}
+.med-add-jump{background:#087f83;color:white;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;border:0;white-space:nowrap;flex-shrink:0}
 
-/* TABS CONTAINER */
-.med-tabs-wrapper{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:4px;margin:20px 0 12px;width:100%;}
-.med-tabs{display:flex;gap:4px;flex-wrap:nowrap;flex-shrink:1;min-width:0;}
-.med-tab{border:1px solid var(--border);background:white;padding:6px 8px;border-radius:7px;font-size:9.5px;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* TABS */
+.med-tabs-wrapper{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:4px;margin:20px 0 12px;width:100%}
+.med-tabs{display:flex;gap:4px;flex-wrap:nowrap;flex-shrink:1;min-width:0}
+.med-tab{border:1px solid var(--border);background:white;padding:6px 8px;border-radius:7px;font-size:9.5px;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .med-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
-
 .empty{text-align:center;color:var(--muted);font-size:12px;padding:18px}
-.empty-add-container{text-align:center;padding:15px;}
+.empty-add-container{text-align:center;padding:15px}
 .notification-box{margin-top:20px;background:#eaf7f5;padding:15px;border-radius:12px}
 .notification-box p{font-size:11px;color:#587b7d;margin:7px 0 12px;line-height:1.7}
 .status-text{font-size:10px;margin-top:9px;color:#587b7d}
 
-/* SMART TOAST NOTIFICATION */
-#toast-notification {
-  position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(100px);
-  background: var(--dark); color: white; padding: 12px 24px; border-radius: 30px;
-  font-size: 12px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; z-index: 9999;
-  display: flex; align-items: center; gap: 8px;
-}
-#toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+/* TOAST */
+#toast-notification{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark);color:white;padding:12px 24px;border-radius:30px;font-size:12px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.2);transition:transform .3s ease,opacity .3s ease;opacity:0;z-index:9999;display:flex;align-items:center;gap:8px}
+#toast-notification.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-/* MODALS STYLING */
-.modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); z-index: 99999;
-  display: none; justify-content: center; align-items: center;
-  backdrop-filter: blur(4px);
-}
-.modal-box {
-  background: white; padding: 25px; border-radius: 16px;
-  width: 90%; max-width: 340px; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
-.modal-box h4 { font-size: 16px; color: var(--dark); margin-bottom: 8px; }
-.modal-box p { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height:1.6; }
-.modal-box input, .modal-box select { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; margin-bottom: 12px; outline: none; background: #f8fbfb; color: var(--dark); }
-.modal-box input:focus, .modal-box select:focus { border-color: var(--primary); }
-.modal-label { display:block; font-size:11px; font-weight:600; color:#647d81; margin-bottom:5px; }
-.modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
-.modal-btn { padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; border: 0; }
-.modal-cancel { background: #f1f5f5; color: var(--muted); }
-.modal-submit { background: var(--primary); color: white; }
-
-/* ACCOUNT SELECTOR MODALS */
-.selector-overlay { z-index: 99998; align-items:center; }
-.selector-box { max-height: 75vh; display:flex; flex-direction:column; padding: 20px 15px; width: 92%; max-width: 360px;}
-.selector-list { overflow-y: auto; flex:1; margin-top:5px; }
-.account-item {
-  padding: 11px 12px; border-bottom: 1px solid #f1f5f5; font-size: 13px; color: var(--dark);
-  cursor: pointer; display: flex; align-items: center; gap: 10px; transition: .2s;
-}
-.account-item:last-child { border-bottom: none; }
-.account-item:hover { background: #f3f8f8; color: var(--primary); }
-.account-item.active { background: #eaf7f5; color: var(--primary); font-weight: 700; border-radius: 8px; border-bottom: none; margin-bottom: 4px; }
-.account-item.pending-item { opacity: 0.72; cursor: default; background: #fafafa; }
-.account-item i { font-size:15px; color: #a8ced0; flex-shrink:0; }
-.account-item.active i { color: var(--primary); }
-.account-item-name { font-size:13px; font-weight:700; line-height:1.3; display:flex; align-items:center; flex-wrap:wrap; gap:5px; }
-.account-item-email { font-size:10px; font-weight:400; color:#93a6aa; word-break:break-all; margin-top:2px; }
-.account-delete-icon {
-  background: #fff0f0; color: #d66; border: 1px solid #f5d0d0;
-  width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center;
-  cursor: pointer; flex-shrink: 0; font-size: 11px;
-}
-.account-delete-icon:hover { background: #d66; color: white; }
-
-/* MODAL BOTTOM 3-BUTTON BAR FOR ADMIN */
-.admin-modal-footer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding-top: 12px;
-  margin-top: 10px;
-  border-top: 1px dashed #c0e0dc;
-}
-.admin-footer-btn {
-  padding: 9px 6px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid #c0e0dc;
-  background: #f5fbfa;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-.admin-footer-btn.add-btn { background: var(--primary); color: white; border-color: var(--primary); }
-.admin-footer-btn.del-btn { background: #fff5f5; color: #d66; border-color: #f3cccc; }
-.admin-footer-btn.del-btn.active { background: #d66; color: white; border-color: #d66; }
+/* MODALS */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:99999;display:none;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
+.modal-box{background:white;padding:25px;border-radius:16px;width:90%;max-width:340px;box-shadow:0 15px 35px rgba(0,0,0,.2)}
+.modal-box h4{font-size:16px;color:var(--dark);margin-bottom:8px}
+.modal-box p{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.modal-box input,.modal-box select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:13px;margin-bottom:12px;outline:none;background:#f8fbfb;color:var(--dark)}
+.modal-box input:focus,.modal-box select:focus{border-color:var(--primary)}
+.modal-label{display:block;font-size:11px;font-weight:600;color:#647d81;margin-bottom:5px}
+.modal-btns{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
+.modal-btn{padding:9px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:0}
+.modal-cancel{background:#f1f5f5;color:var(--muted)}
+.modal-submit{background:var(--primary);color:white}
+.selector-overlay{z-index:99998;align-items:center}
+.selector-box{max-height:75vh;display:flex;flex-direction:column;padding:20px 15px;width:92%;max-width:360px}
+.selector-list{overflow-y:auto;flex:1;margin-top:5px}
+.account-item{padding:11px 12px;border-bottom:1px solid #f1f5f5;font-size:13px;color:var(--dark);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.2s}
+.account-item:last-child{border-bottom:none}
+.account-item:hover{background:#f3f8f8;color:var(--primary)}
+.account-item.active{background:#eaf7f5;color:var(--primary);font-weight:700;border-radius:8px;border-bottom:none;margin-bottom:4px}
+.account-item.pending-item{opacity:.72;cursor:default;background:#fafafa}
+.account-item i{font-size:15px;color:#a8ced0;flex-shrink:0}
+.account-item.active i{color:var(--primary)}
+.account-item-name{font-size:13px;font-weight:700;line-height:1.3;display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.account-item-email{font-size:10px;font-weight:400;color:#93a6aa;word-break:break-all;margin-top:2px}
+.account-delete-icon{background:#fff0f0;color:#d66;border:1px solid #f5d0d0;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;cursor:pointer;flex-shrink:0;font-size:11px}
+.account-delete-icon:hover{background:#d66;color:white}
+.admin-modal-footer{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:12px;margin-top:10px;border-top:1px dashed #c0e0dc}
+.admin-footer-btn{padding:9px 6px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid #c0e0dc;background:#f5fbfa;color:var(--primary);display:flex;align-items:center;justify-content:center;gap:5px}
+.admin-footer-btn.add-btn{background:var(--primary);color:white;border-color:var(--primary)}
+.admin-footer-btn.del-btn{background:#fff5f5;color:#d66;border-color:#f3cccc}
+.admin-footer-btn.del-btn.active{background:#d66;color:white;border-color:#d66}
 
 /* FOOTER */
 .footer{margin-top:40px;padding:25px 10px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:11px;line-height:2}
@@ -346,7 +214,7 @@ a{text-decoration:none;color:inherit}
  .hero h1{font-size:22px;margin-bottom:6px}
  .hero p{font-size:11.5px;margin-bottom:8px;line-height:1.4}
  .hero-btn{margin-top:6px;padding:9px 14px}
- .quick-grid{grid-template-columns:repeat(2,1fr); gap:10px}
+ .quick-grid{grid-template-columns:repeat(2,1fr);gap:10px}
  .quick-card{padding:14px 11px;gap:10px}
  .quick-icon{min-width:38px;height:38px;font-size:16px}
  .quick-card h4{font-size:11px}
@@ -367,7 +235,7 @@ a{text-decoration:none;color:inherit}
 
 <body>
 
-<!-- Custom Prompt Modal for Admin Add / Admin View / Family Request -->
+<!-- Prompt Modal -->
 <div id="customPromptOverlay" class="modal-overlay">
   <div class="modal-box">
     <h4 id="promptModalTitle">Add Family Member</h4>
@@ -392,26 +260,20 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- 1. Admin Account Selector Modal (Separate) -->
+<!-- Admin selector -->
 <div id="adminSelectOverlay" class="modal-overlay selector-overlay" onclick="closeAdminSelector(event)">
   <div class="modal-box selector-box" onclick="event.stopPropagation()">
     <h4 style="margin-left:5px; margin-bottom: 10px;"><i class="fa-solid fa-user-shield" style="color:#1e4b8f;"></i> Admin View: Open Account</h4>
     <div id="adminListContainer" class="selector-list"></div>
     <div class="admin-modal-footer">
-      <button class="admin-footer-btn add-btn" onclick="closeAdminSelector(); openPromptModal('admin_add');">
-        <i class="fa-solid fa-plus"></i> Add
-      </button>
-      <button class="admin-footer-btn" onclick="closeAdminSelector(); openPromptModal('admin_view');">
-        <i class="fa-solid fa-eye"></i> View
-      </button>
-      <button class="admin-footer-btn del-btn" id="adminDeleteModeBtn" onclick="toggleAdminDeleteMode()">
-        <i class="fa-solid fa-trash"></i> Delete
-      </button>
+      <button class="admin-footer-btn add-btn" onclick="closeAdminSelector(); openPromptModal('admin_add');"><i class="fa-solid fa-plus"></i> Add</button>
+      <button class="admin-footer-btn" onclick="closeAdminSelector(); openPromptModal('admin_view');"><i class="fa-solid fa-eye"></i> View</button>
+      <button class="admin-footer-btn del-btn" id="adminDeleteModeBtn" onclick="toggleAdminDeleteMode()"><i class="fa-solid fa-trash"></i> Delete</button>
     </div>
   </div>
 </div>
 
-<!-- 2. Family Account Selector Modal (User View) -->
+<!-- Family selector -->
 <div id="familySelectOverlay" class="modal-overlay selector-overlay" onclick="closeFamilySelector(event)">
   <div class="modal-box selector-box" onclick="event.stopPropagation()">
     <h4 style="margin-left:5px; margin-bottom: 10px;"><i class="fa-solid fa-users" style="color:var(--primary);"></i> Family View</h4>
@@ -423,17 +285,14 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- Smart Toast Notification -->
 <div id="toast-notification"><i class="fa-solid fa-circle-check" style="color:#159968;"></i> <span id="toastText">Added successfully</span></div>
 
 <div id="loading-message">
   <div style="font-size: 32px; color: var(--primary); margin-bottom: 10px;"><i class="fa-solid fa-notes-medical"></i></div>
-  <span id="loading-text">Verifying... Please wait</span>
+  <span id="loading-text">Loading...</span>
   <div id="login-box" style="display: none; margin-top: 20px;">
     <p style="font-size: 12px; color: #82979b; margin-bottom: 15px;">Please log in to access your portal</p>
-    <button onclick="doGoogleLogin()" class="login-btn">
-      <i class="fa-brands fa-google"></i> Login with Google
-    </button>
+    <button onclick="doGoogleLogin()" class="login-btn"><i class="fa-brands fa-google"></i> Login with Google</button>
   </div>
 </div>
 
@@ -443,10 +302,7 @@ a{text-decoration:none;color:inherit}
 <header class="header">
   <div class="brand">
     <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-    <div>
-      <h2>HealthCare</h2>
-      <p>PERSONAL HEALTH PORTAL</p>
-    </div>
+    <div><h2>HealthCare</h2><p>PERSONAL HEALTH PORTAL</p></div>
   </div>
   <div class="header-date" id="currentDate"></div>
 </header>
@@ -459,7 +315,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- 1. TODAY'S OVERVIEW -->
+<!-- 1. OVERVIEW -->
 <section class="section" id="myOverviewSection">
   <div class="section-head">
     <div><h3>My Medication Overview</h3><p>Active schedules and daily dose tracker</p></div>
@@ -468,7 +324,6 @@ a{text-decoration:none;color:inherit}
 
   <div class="reminder-card" id="medOverviewCard">
 
-    <!-- SEPARATE ADMIN VIEW PANEL (শুধু এডমিন madina.manjeel@gmail.com এর জন্য) -->
     <div class="admin-panel-box" id="adminPanelBox">
       <div class="admin-panel-row">
         <span class="admin-panel-label"><i class="fa-solid fa-user-shield"></i> Admin View:</span>
@@ -482,7 +337,6 @@ a{text-decoration:none;color:inherit}
       </div>
     </div>
 
-    <!-- USER VIEW BOX (ওপেন করা ইউজার যেভাবে দেখেন ঠিক সেভাবেই) -->
     <div class="user-bar">
       <div class="user-info">
         <div class="user-avatar" id="userAvatar"><i class="fa-solid fa-user"></i></div>
@@ -491,12 +345,10 @@ a{text-decoration:none;color:inherit}
           <p id="displayUserEmail"></p>
         </div>
       </div>
-      <!-- Switch Account Button -->
       <button class="switch-account-btn" onclick="switchGoogleAccount()" title="Switch Google Account">
         <i class="fa-solid fa-right-from-bracket"></i>
       </button>
 
-      <!-- Family View Bar (ইউজার বা এডমিন তার হয়ে ব্যবহার করবেন) -->
       <div class="family-bar" id="familyControls">
         <span><i class="fa-solid fa-users"></i> Family View:</span>
         <div class="select-trigger-btn" onclick="openFamilySelector()">
@@ -509,15 +361,11 @@ a{text-decoration:none;color:inherit}
       </div>
     </div>
 
-    <!-- Pending Family Requests Box (বর্তমানে ওপেন থাকা ইউজারের ইনকামিং রিকোয়েস্ট) -->
     <div id="pendingRequestsBox" class="requests-box">
-      <div class="requests-box-title" id="pendingRequestsTitle">
-        <i class="fa-solid fa-user-clock"></i> Incoming Family Requests
-      </div>
+      <div class="requests-box-title" id="pendingRequestsTitle"><i class="fa-solid fa-user-clock"></i> Incoming Family Requests</div>
       <div id="pendingRequestsList"></div>
     </div>
 
-    <!-- জাম্প টার্গেট পয়েন্ট (Today's Overview হেডিং) -->
     <h4 id="todaysOverviewHeading">Today's Overview</h4>
 
     <div class="med-stats">
@@ -526,26 +374,22 @@ a{text-decoration:none;color:inherit}
       <div class="stat-box"><span>Pending</span><strong id="pendingStat" style="color:#d58b37">0</strong></div>
     </div>
 
-    <!-- TABS & + ADD BUTTON -->
     <div class="med-tabs-wrapper">
       <div class="med-tabs">
         <button class="med-tab active" onclick="setMedTab('today',this)">Today's Schedule</button>
         <button class="med-tab" onclick="setMedTab('all',this)">All Medicines</button>
         <button class="med-tab" onclick="setMedTab('history',this)">History</button>
       </div>
-      <button class="med-add-jump" id="topAddJumpBtn" onclick="window.jumpToAddMedicine()">
-        <i class="fa-solid fa-plus"></i> Add
-      </button>
+      <button class="med-add-jump" id="topAddJumpBtn" onclick="window.jumpToAddMedicine()"><i class="fa-solid fa-plus"></i> Add</button>
     </div>
 
     <div id="medContent" style="margin-top: 15px; margin-bottom: 10px;">
       <div class="empty">No medicines scheduled today.</div>
     </div>
-
   </div>
 </section>
 
-<!-- 2. HEALTH RESOURCES -->
+<!-- 2. RESOURCES -->
 <section class="section">
   <div class="section-head">
     <div><h3>Health Resources</h3><p>Useful healthcare resources at your fingertips</p></div>
@@ -571,7 +415,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- 3. FAMILY RECORDS -->
+<!-- 3. RECORDS -->
 <section class="section" id="records">
   <div class="section-head">
     <div><h3>Family Medical Records</h3><p>Personal medical documents & reports</p></div>
@@ -606,7 +450,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- 4. HEALTH CALCULATORS -->
+<!-- 4. TOOLS -->
 <section class="section">
   <div class="section-head">
     <div><h3>Smart Health Tools</h3><p>Simple calculators for everyday health tracking</p></div>
@@ -644,7 +488,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- 5. ADD NEW MEDICINE SECTION (BOTTOM) -->
+<!-- 5. ADD MEDICINE -->
 <section class="section" id="medicineManager">
   <div class="section-head">
     <div><h3>Add New Medicine</h3><p>Manage medicines and daily schedules</p></div>
@@ -677,9 +521,7 @@ a{text-decoration:none;color:inherit}
           </div>
         </div>
 
-        <div class="full-field">
-          <div id="selectedTimes" class="time-list"></div>
-        </div>
+        <div class="full-field"><div id="selectedTimes" class="time-list"></div></div>
 
         <div class="field">
           <label>Dose Pattern (1+1+1 Format)</label>
@@ -702,15 +544,8 @@ a{text-decoration:none;color:inherit}
           </div>
         </div>
 
-        <div class="field">
-          <label>Start Date</label>
-          <input type="date" id="medStart">
-        </div>
-
-        <div class="field">
-          <label>End Date (Leave blank for Continuous)</label>
-          <input type="date" id="medEnd">
-        </div>
+        <div class="field"><label>Start Date</label><input type="date" id="medStart"></div>
+        <div class="field"><label>End Date (Leave blank for Continuous)</label><input type="date" id="medEnd"></div>
 
         <div class="field full-field">
           <label>Additional Note (Optional)</label>
@@ -718,15 +553,11 @@ a{text-decoration:none;color:inherit}
         </div>
       </div>
 
-      <button class="action-btn" id="saveMedButton" onclick="saveMedicine()">
-        <i class="fa-solid fa-save"></i> Save Medicine
-      </button>
+      <button class="action-btn" id="saveMedButton" onclick="saveMedicine()"><i class="fa-solid fa-save"></i> Save Medicine</button>
     </div>
 
     <div class="notification-box" style="margin-top: 25px;">
-      <div style="font-size:12px;font-weight:700;color:#087f83">
-        <i class="fa-solid fa-bell"></i> Notification Settings
-      </div>
+      <div style="font-size:12px;font-weight:700;color:#087f83"><i class="fa-solid fa-bell"></i> Notification Settings</div>
       <p>Enable notifications to receive medicine alerts on your device.</p>
       <button class="action-btn" onclick="enableMedNotifications()">Enable / Test Notification</button>
       <p id="notificationStatus" class="status-text">Notification permission not checked.</p>
@@ -734,10 +565,8 @@ a{text-decoration:none;color:inherit}
 
     <p style="font-size:10px;color:#82979b;margin-top:16px;line-height:1.8">
       <i class="fa-solid fa-circle-info"></i>
-      This is a personal tracking tool, not a prescription system.
-      Always follow your doctor's instructions.
+      This is a personal tracking tool, not a prescription system. Always follow your doctor's instructions.
     </p>
-
   </div>
 </section>
 
@@ -751,31 +580,16 @@ a{text-decoration:none;color:inherit}
 </div>
 </div>
 
-<!-- Firebase SDKs -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-  import { 
-    getAuth, 
-    GoogleAuthProvider, 
-    onAuthStateChanged, 
-    signInWithPopup, 
-    signInWithRedirect, 
-    signOut, 
-    setPersistence, 
-    browserLocalPersistence 
+  import {
+    initializeAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect,
+    getRedirectResult, signOut, indexedDBLocalPersistence, browserLocalPersistence,
+    browserPopupRedirectResolver
   } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-  
-  import { 
-    getFirestore, 
-    collection, 
-    getDocs, 
-    addDoc, 
-    updateDoc, 
-    deleteDoc, 
-    setDoc,
-    arrayUnion,
-    doc 
+  import {
+    getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, setDoc,
+    arrayUnion, doc, query, where
   } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -790,21 +604,19 @@ a{text-decoration:none;color:inherit}
   };
 
   const app = initializeApp(firebaseConfig);
-  let analytics = null;
-  try {
-    analytics = getAnalytics(app);
-  } catch (e) {
-    console.warn("Analytics init skipped:", e);
-  }
-  const auth = getAuth(app);
+
+  // ✅ লগইন সবসময় ব্রাউজারে সেভ থাকবে (IndexedDB, না হলে localStorage) — পারসিস্টেন্স শুরু থেকেই সেট
+  const auth = initializeAuth(app, {
+    persistence: [indexedDBLocalPersistence, browserLocalPersistence],
+    popupRedirectResolver: browserPopupRedirectResolver
+  });
   const db = getFirestore(app);
-  
+
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
 
   const ADMIN_EMAIL = "madina.manjeel@gmail.com";
 
-  // বাই ডিফল্ট দুটি ফ্যামিলি গ্রুপ ও পারমিশন
   const FAMILY_GROUP_1 = [
     "mashayekh.ahmed.archives@gmail.com",
     "shariatunnesa.madina@gmail.com",
@@ -812,7 +624,6 @@ a{text-decoration:none;color:inherit}
     "lima.akter.1323@gmail.com",
     "ahmad.muttaqeen@gmail.com"
   ];
-
   const FAMILY_GROUP_2 = [
     "abdulkhalequebaf@gmail.com",
     "shariatunnesa.madina@gmail.com",
@@ -820,14 +631,11 @@ a{text-decoration:none;color:inherit}
     "afia.ahmed.adiba@gmail.com",
     "nusaiba.jannat.alifa@gmail.com"
   ];
-
   const DARUL_MODIFIABLE = [
     "darulahmed467170@gmail.com",
     "afia.ahmed.adiba@gmail.com",
     "nusaiba.jannat.alifa@gmail.com"
   ];
-
-  // যারা এখনো নতুন প্রজেক্টে লগইন করেননি তাদের ফুল নেম ফলব্যাক (লগইন করলে Google-এর আসল ফুল নেম অটোমেটিক আপডেট হবে)
   const FALLBACK_FULL_NAMES = {
     "mashayekh.ahmed.archives@gmail.com": "Mashayekh Ahmed",
     "mashayekh64@gmail.com": "Mashayekh Ahmed",
@@ -841,82 +649,66 @@ a{text-decoration:none;color:inherit}
     "darulahmed467170@gmail.com": "Darul Ahmed"
   };
 
+  const LS_USER = "hc_last_user";
+  const LS_CACHE = "hc_data_cache_v2";
+
   let currentUser = null;
-  let actingEmail = null;   // বর্তমানে কোন ইউজারের ভিউ ওপেন আছে (সাধারণ ইউজারের নিজের ইমেইল; এডমিন Admin View থেকে বদলাতে পারবেন)
-  let viewingEmail = null;  // actingEmail-এর Family View থেকে কোন অ্যাকাউন্টের ওষুধ দেখা হচ্ছে
+  let actingEmail = null;
+  let viewingEmail = null;
   let allMedicines = [];
   let allHistory = [];
-  let allFamilyLinks = [];  // Firestore "family_links"
-  let userProfiles = {};    // Firestore "users"
+  let allFamilyLinks = [];
+  let userProfiles = {};
   let pendingTimes = [];
   let currentTab = "today";
   let editingId = null;
-  let authInitialized = false;
+  let sessionStarted = false;
+  let loadingData = false;
 
-  let promptMode = "family_request"; // 'admin_add' | 'admin_view' | 'family_request'
+  let promptMode = "family_request";
   let isAdminDeleteMode = false;
 
-  let addedEmails = JSON.parse(localStorage.getItem("hc_saved_emails") || "[]");
-  let hiddenAdminEmails = JSON.parse(localStorage.getItem("hc_hidden_admin_emails") || "[]");
+  let addedEmails = lsGet("hc_saved_emails", []);
+  let hiddenAdminEmails = lsGet("hc_hidden_admin_emails", []);
 
   const ALL_PATTERN_TIMES = ["06:30", "13:00", "19:00"];
-
   let globalMedicineDoses = {};
   let allKnownDoses = new Set();
 
   let globalMedicineNames = [
-    "Paracetamol", "Napa", "Napa Extra", "Napa Extend", "Napa Drop", "Napa Syrup",
-    "Ace", "Ace Plus", "Ace Drop", "Ace Syrup", "Tylenol", "Fexo", "Rinex",
-    "Ibuprofen", "Napa Fast", "Ketorol", "Diclofenac", "Naproxen", "Toradol",
-    "Tusca Syrup", "Ascoril LS", "Phensedyl", "Benadryl", "Boric Acid Ear Drop",
-    "Otrivin Nasal Drop", "Xylometazoline", "Monas 4", "Monas 5", "Monas 10", "Montelukast",
-    "Fexo 120", "Fexo 180", "Histacin", "Telfast", "Bilastine", "Ebast", "Atrizin",
-    "Metformin 500", "Glucophage", "Glycomet", "Glimepiride", "Diamicron MR",
-    "Januvia 100", "Jardiance 10", "Galvus", "Insulin Glargine", "Lantus", "Mixtard 30/70",
-    "Amlong 5", "Amlodipine", "Bisocor 5", "Bisoprolol", "Losan 50", "Losartan Potassium",
-    "Valsartan", "Olmesartan", "Cardace", "Ramipril", "Atorvastatin", "Rosuvastatin",
-    "Clopidogrel", "Ecosprin 75", "Concor", "Propranolol", "Nebivolol",
-    "Thyroxine 25 mcg", "Thyroxine 50 mcg", "Thyroxine 100 mcg", "Eltroxin", "Thyroid Tablet",
-    "Duphaston", "Dydrogesterone", "Folic Acid", "PregnaCare", "Gestone", "Progesterone",
-    "Ovagyl", "Metronidazole", "Clomiphene", "Letrozole", "Drospirenone", "Ethinylestradiol",
-    "Vaginal Suppository", "Miconazole", "Clotrimazole", "Tranexamic Acid", "Progynova",
-    "Napa Pediatric Drop", "Ace Drop", "Tusca Syrup", "Orsaline", "Zinc Drop",
-    "Ceevit Drop", "Amodis Suspension", "Cefixime Pediatric Drop", "Azithromycin Syrup",
-    "Amoxicillin Suspension", "Erythrocin Syrup", "Salbutamol Syrup", "Mucosolvan Syrup",
-    "Azithromycin 500", "Azithrocin", "Zithromax", "Cefixime 200", "Cefuroxime",
-    "Amoxicillin", "Augmentin 625", "Moxiclav", "Ciprofloxacin 500", "Levofloxacin 500",
-    "Doxycycline", "Ceftriaxone", "Erythromycin", "Clindamycin",
-    "Seclo 20", "Omeprazole", "Pantix 20", "Pantoprazole", "Maxpro 20", "Esomeprazole",
-    "Esoral 20", "Sergel 20", "Rabeprazole", "Antacid Syrup", "Mucaine Gel",
-    "Ceevit", "Vitamin C", "Calci-X", "Calcium D3", "Evion 400", "Vitamin E",
-    "B-Complex", "Neuro-B", "Becosules", "Multivitamin", "Iron Tablet", "Fefol",
-    "Chlorhexidine Gluconate 0.2%"
+    "Paracetamol","Napa","Napa Extra","Napa Extend","Napa Drop","Napa Syrup","Ace","Ace Plus","Ace Drop","Ace Syrup","Tylenol","Fexo","Rinex",
+    "Ibuprofen","Napa Fast","Ketorol","Diclofenac","Naproxen","Toradol","Tusca Syrup","Ascoril LS","Phensedyl","Benadryl","Boric Acid Ear Drop",
+    "Otrivin Nasal Drop","Xylometazoline","Monas 4","Monas 5","Monas 10","Montelukast","Fexo 120","Fexo 180","Histacin","Telfast","Bilastine","Ebast","Atrizin",
+    "Metformin 500","Glucophage","Glycomet","Glimepiride","Diamicron MR","Januvia 100","Jardiance 10","Galvus","Insulin Glargine","Lantus","Mixtard 30/70",
+    "Amlong 5","Amlodipine","Bisocor 5","Bisoprolol","Losan 50","Losartan Potassium","Valsartan","Olmesartan","Cardace","Ramipril","Atorvastatin","Rosuvastatin",
+    "Clopidogrel","Ecosprin 75","Concor","Propranolol","Nebivolol","Thyroxine 25 mcg","Thyroxine 50 mcg","Thyroxine 100 mcg","Eltroxin","Thyroid Tablet",
+    "Duphaston","Dydrogesterone","Folic Acid","PregnaCare","Gestone","Progesterone","Ovagyl","Metronidazole","Clomiphene","Letrozole","Drospirenone","Ethinylestradiol",
+    "Vaginal Suppository","Miconazole","Clotrimazole","Tranexamic Acid","Progynova","Napa Pediatric Drop","Orsaline","Zinc Drop",
+    "Ceevit Drop","Amodis Suspension","Cefixime Pediatric Drop","Azithromycin Syrup","Amoxicillin Suspension","Erythrocin Syrup","Salbutamol Syrup","Mucosolvan Syrup",
+    "Azithromycin 500","Azithrocin","Zithromax","Cefixime 200","Cefuroxime","Amoxicillin","Augmentin 625","Moxiclav","Ciprofloxacin 500","Levofloxacin 500",
+    "Doxycycline","Ceftriaxone","Erythromycin","Clindamycin","Seclo 20","Omeprazole","Pantix 20","Pantoprazole","Maxpro 20","Esomeprazole",
+    "Esoral 20","Sergel 20","Rabeprazole","Antacid Syrup","Mucaine Gel","Ceevit","Vitamin C","Calci-X","Calcium D3","Evion 400","Vitamin E",
+    "B-Complex","Neuro-B","Becosules","Multivitamin","Iron Tablet","Fefol","Chlorhexidine Gluconate 0.2%"
   ];
 
-  // যেকোনো অ্যাকাউন্টের ফুল নেম ও ইমেইল পাওয়ার ফাংশন (Google Profile > Firestore users > Fallback Full Name > Email Prefix)
+  function lsGet(key, fallback) {
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
+  }
+  function lsSet(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  }
+
+  const $ = id => document.getElementById(id);
+
   function getUserInfo(email) {
     if (!email) return { name: "", email: "", photoURL: "" };
     const e = email.toLowerCase().trim();
-    if (currentUser && currentUser.email.toLowerCase().trim() === e) {
-      return {
-        name: currentUser.displayName || FALLBACK_FULL_NAMES[e] || e.split("@")[0],
-        email: e,
-        photoURL: currentUser.photoURL || ""
-      };
+    if (currentUser && (currentUser.email || "").toLowerCase().trim() === e) {
+      return { name: currentUser.displayName || FALLBACK_FULL_NAMES[e] || e.split("@")[0], email: e, photoURL: currentUser.photoURL || "" };
     }
     const profile = userProfiles[e];
-    if (profile && profile.displayName) {
-      return {
-        name: profile.displayName,
-        email: e,
-        photoURL: profile.photoURL || ""
-      };
-    }
-    return {
-      name: FALLBACK_FULL_NAMES[e] || e.split("@")[0],
-      email: e,
-      photoURL: ""
-    };
+    if (profile && profile.displayName) return { name: profile.displayName, email: e, photoURL: profile.photoURL || "" };
+    return { name: FALLBACK_FULL_NAMES[e] || e.split("@")[0], email: e, photoURL: "" };
   }
 
   function getDefaultFamilyViewList(email) {
@@ -931,40 +723,28 @@ a{text-decoration:none;color:inherit}
   function getAcceptedFamilyLinksFor(requesterEmail) {
     if (!requesterEmail) return [];
     const req = requesterEmail.toLowerCase().trim();
-    return allFamilyLinks.filter(
-      l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "accepted"
-    );
+    return allFamilyLinks.filter(l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "accepted");
   }
-
   function getPendingSentLinksFor(requesterEmail) {
     if (!requesterEmail) return [];
     const req = requesterEmail.toLowerCase().trim();
-    return allFamilyLinks.filter(
-      l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "pending"
-    );
+    return allFamilyLinks.filter(l => (l.requesterEmail || "").toLowerCase().trim() === req && l.status === "pending");
   }
 
   function canModifyTarget(loggedInEmail, targetEmail) {
     if (!loggedInEmail || !targetEmail) return false;
     const logged = loggedInEmail.toLowerCase().trim();
     const target = targetEmail.toLowerCase().trim();
-
-    // এডমিন সব অ্যাকাউন্ট এডিট করতে পারবেন
     if (logged === ADMIN_EMAIL) return true;
     if (logged === target) return true;
     if (logged === "mashayekh.ahmed.archives@gmail.com" && FAMILY_GROUP_1.includes(target)) return true;
     if (logged === "darulahmed467170@gmail.com" && DARUL_MODIFIABLE.includes(target)) return true;
-
-    const acceptedLink = allFamilyLinks.find(
-      l =>
-        (l.requesterEmail || "").toLowerCase().trim() === logged &&
-        (l.targetEmail || "").toLowerCase().trim() === target &&
-        l.status === "accepted"
-    );
-    return !!(acceptedLink && acceptedLink.accessLevel === "edit");
+    const link = allFamilyLinks.find(l =>
+      (l.requesterEmail || "").toLowerCase().trim() === logged &&
+      (l.targetEmail || "").toLowerCase().trim() === target && l.status === "accepted");
+    return !!(link && link.accessLevel === "edit");
   }
 
-  // Family View লিস্টে ব্যাজ দেখানোর জন্য (actingEmail-এর সাপেক্ষে পারমিশন)
   function canActingUserModify(actorEmail, targetEmail) {
     if (!actorEmail || !targetEmail) return false;
     const actor = actorEmail.toLowerCase().trim();
@@ -972,29 +752,22 @@ a{text-decoration:none;color:inherit}
     if (actor === target) return true;
     if (actor === "mashayekh.ahmed.archives@gmail.com" && FAMILY_GROUP_1.includes(target)) return true;
     if (actor === "darulahmed467170@gmail.com" && DARUL_MODIFIABLE.includes(target)) return true;
-
-    const acceptedLink = allFamilyLinks.find(
-      l =>
-        (l.requesterEmail || "").toLowerCase().trim() === actor &&
-        (l.targetEmail || "").toLowerCase().trim() === target &&
-        l.status === "accepted"
-    );
-    return !!(acceptedLink && acceptedLink.accessLevel === "edit");
+    const link = allFamilyLinks.find(l =>
+      (l.requesterEmail || "").toLowerCase().trim() === actor &&
+      (l.targetEmail || "").toLowerCase().trim() === target && l.status === "accepted");
+    return !!(link && link.accessLevel === "edit");
   }
 
+  /* ---------- Medicine name / dose suggestions ---------- */
   function recordMedDoseInMemory(medName, medDose) {
     if (!medName) return;
     const cleanName = medName.trim();
-    if (!globalMedicineNames.some(n => n.toLowerCase() === cleanName.toLowerCase())) {
-      globalMedicineNames.push(cleanName);
-    }
+    if (!globalMedicineNames.some(n => n.toLowerCase() === cleanName.toLowerCase())) globalMedicineNames.push(cleanName);
     if (medDose && medDose.trim()) {
       const cleanDose = medDose.trim();
       const key = cleanName.toLowerCase();
       if (!globalMedicineDoses[key]) globalMedicineDoses[key] = [];
-      if (!globalMedicineDoses[key].some(d => d.toLowerCase() === cleanDose.toLowerCase())) {
-        globalMedicineDoses[key].push(cleanDose);
-      }
+      if (!globalMedicineDoses[key].some(d => d.toLowerCase() === cleanDose.toLowerCase())) globalMedicineDoses[key].push(cleanDose);
       allKnownDoses.add(cleanDose);
     }
   }
@@ -1011,220 +784,151 @@ a{text-decoration:none;color:inherit}
       const payload = { name: cleanName, nameKey: cleanName.toLowerCase() };
       if (cleanDose) payload.doses = arrayUnion(cleanDose);
       await setDoc(doc(db, "medicine_library", libraryKey(cleanName)), payload, { merge: true });
-    } catch (e) {
-      console.error("Medicine library save error:", e);
-    }
+    } catch (e) { console.error("Medicine library save error:", e); }
   }
 
+  // ব্যাকগ্রাউন্ডে লোড হয়, মূল পেইজ আটকায় না
   async function loadGlobalMedicines() {
     try {
-      globalMedicineDoses = {};
-      allKnownDoses = new Set();
-
-      allMedicines.forEach(data => {
-        recordMedDoseInMemory(data.name, data.dose);
+      allMedicines.forEach(d => recordMedDoseInMemory(d.name, d.dose));
+      const libSnap = await getDocs(collection(db, "medicine_library"));
+      libSnap.docs.forEach(d => {
+        const data = d.data();
+        if (!data || !data.name) return;
+        recordMedDoseInMemory(data.name, "");
+        (data.doses || []).forEach(ds => recordMedDoseInMemory(data.name, ds));
       });
-
-      try {
-        const libSnap = await getDocs(collection(db, "medicine_library"));
-        libSnap.docs.forEach(d => {
-          const data = d.data();
-          if (!data || !data.name) return;
-          recordMedDoseInMemory(data.name, "");
-          (data.doses || []).forEach(ds => recordMedDoseInMemory(data.name, ds));
-        });
-      } catch (libErr) {
-        console.error("Medicine library load error:", libErr);
-      }
-    } catch(e) {
-      console.error("Error loading medicines for suggestions:", e);
-    }
+    } catch (e) { console.error("Medicine library load error:", e); }
   }
 
-  window.handleCloudMedSearch = function(val) {
-    const listEl = document.getElementById("medSuggestions");
-    if(!val || val.trim().length < 1) {
-      listEl.style.display = "none";
-      return;
-    }
-    const filtered = globalMedicineNames.filter(m => m.toLowerCase().includes(val.toLowerCase()));
-    if(filtered.length === 0) {
-      listEl.style.display = "none";
-      return;
-    }
+  window.handleCloudMedSearch = function (val) {
+    const listEl = $("medSuggestions");
+    if (!val || val.trim().length < 1) { listEl.style.display = "none"; return; }
+    const filtered = globalMedicineNames.filter(m => m.toLowerCase().includes(val.toLowerCase())).slice(0, 40);
+    if (!filtered.length) { listEl.style.display = "none"; return; }
     listEl.innerHTML = filtered.map(name => {
       const doses = globalMedicineDoses[name.toLowerCase()] || [];
-      const doseHint = doses.length ? `<small style="color:var(--muted);margin-left:6px;">(${safeText(doses.join(", "))})</small>` : "";
-      return `<div class="suggestion-item" data-name="${safeText(name)}" onclick="selectMedicine(this.dataset.name)">${safeText(name)}${doseHint}</div>`;
+      const hint = doses.length ? `<small style="color:var(--muted);margin-left:6px;">(${safeText(doses.join(", "))})</small>` : "";
+      return `<div class="suggestion-item" data-name="${safeText(name)}" onclick="selectMedicine(this.dataset.name)">${safeText(name)}${hint}</div>`;
     }).join("");
     listEl.style.display = "block";
   };
 
-  window.selectMedicine = function(name) {
-    document.getElementById("newMedName").value = name;
-    document.getElementById("medSuggestions").style.display = "none";
-
+  window.selectMedicine = function (name) {
+    $("newMedName").value = name;
+    $("medSuggestions").style.display = "none";
     const doses = globalMedicineDoses[name.toLowerCase()] || [];
-    const doseInput = document.getElementById("newMedDose");
-    if (doses.length === 1 && !doseInput.value.trim()) {
-      doseInput.value = doses[0];
-    }
-    if (doses.length > 0) {
-      setTimeout(() => {
-        doseInput.focus();
-        handleDoseSearch("");
-      }, 0);
-    }
+    const doseInput = $("newMedDose");
+    if (doses.length === 1 && !doseInput.value.trim()) doseInput.value = doses[0];
+    if (doses.length > 0) setTimeout(() => { doseInput.focus(); handleDoseSearch(""); }, 0);
   };
 
-  window.handleDoseSearch = function(val) {
-    const listEl = document.getElementById("doseSuggestions");
-    const medName = document.getElementById("newMedName").value.trim().toLowerCase();
-    
-    let candidateDoses = [];
-    if (medName && globalMedicineDoses[medName] && globalMedicineDoses[medName].length > 0) {
-      candidateDoses = [...globalMedicineDoses[medName]];
-    } else {
-      candidateDoses = Array.from(allKnownDoses);
-    }
-
-    const searchVal = (val || "").trim().toLowerCase();
-    const filtered = searchVal 
-      ? candidateDoses.filter(d => d.toLowerCase().includes(searchVal))
-      : candidateDoses;
-
-    if (filtered.length === 0) {
-      listEl.style.display = "none";
-      return;
-    }
-
-    listEl.innerHTML = filtered.map(dose => `
-      <div class="suggestion-item" data-dose="${safeText(dose)}" onclick="selectDose(this.dataset.dose)">${safeText(dose)}</div>
-    `).join("");
+  window.handleDoseSearch = function (val) {
+    const listEl = $("doseSuggestions");
+    const medName = $("newMedName").value.trim().toLowerCase();
+    let candidates = (medName && globalMedicineDoses[medName] && globalMedicineDoses[medName].length)
+      ? [...globalMedicineDoses[medName]] : Array.from(allKnownDoses);
+    const s = (val || "").trim().toLowerCase();
+    const filtered = s ? candidates.filter(d => d.toLowerCase().includes(s)) : candidates;
+    if (!filtered.length) { listEl.style.display = "none"; return; }
+    listEl.innerHTML = filtered.map(dose =>
+      `<div class="suggestion-item" data-dose="${safeText(dose)}" onclick="selectDose(this.dataset.dose)">${safeText(dose)}</div>`).join("");
     listEl.style.display = "block";
   };
 
-  window.selectDose = function(dose) {
-    document.getElementById("newMedDose").value = dose;
-    document.getElementById("doseSuggestions").style.display = "none";
+  window.selectDose = function (dose) {
+    $("newMedDose").value = dose;
+    $("doseSuggestions").style.display = "none";
   };
 
-  document.addEventListener("click", function(e) {
-    if(!e.target.closest('#newMedName') && !e.target.closest('#medSuggestions')) {
-      const s = document.getElementById("medSuggestions");
-      if(s) s.style.display = "none";
-    }
-    if(!e.target.closest('#newMedDose') && !e.target.closest('#doseSuggestions')) {
-      const d = document.getElementById("doseSuggestions");
-      if(d) d.style.display = "none";
-    }
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest('#newMedName') && !e.target.closest('#medSuggestions')) { const s = $("medSuggestions"); if (s) s.style.display = "none"; }
+    if (!e.target.closest('#newMedDose') && !e.target.closest('#doseSuggestions')) { const d = $("doseSuggestions"); if (d) d.style.display = "none"; }
   });
 
-  const now = new Date();
-  document.getElementById("currentDate").textContent = now.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
-  document.getElementById("year").textContent = now.getFullYear();
+  const now0 = new Date();
+  $("currentDate").textContent = now0.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  $("year").textContent = now0.getFullYear();
 
   function showToast(message) {
-    const toast = document.getElementById("toast-notification");
-    document.getElementById("toastText").textContent = message;
+    const toast = $("toast-notification");
+    $("toastText").textContent = message;
     toast.classList.add("show");
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2800);
+    setTimeout(() => toast.classList.remove("show"), 2800);
   }
 
-  window.calculateBMI = function(){
-    const w=Number(document.getElementById("weight").value);
-    const h=Number(document.getElementById("height").value);
-    if(!w||!h||w<=0||h<50||h>250||w>500){showToast("Enter valid weight and height.");return;}
-    const bmi=w/Math.pow(h/100,2);
-    let s=bmi<18.5?"Underweight":bmi<25?"Normal range":bmi<30?"Overweight":"Obesity range";
-    showResult("bmiResult",`Your BMI<strong>${bmi.toFixed(1)}</strong>${s}<br><small>Adult screening categories, not a diagnosis.</small>`);
+  /* ---------- Calculators ---------- */
+  window.calculateBMI = function () {
+    const w = Number($("weight").value), h = Number($("height").value);
+    if (!w || !h || w <= 0 || h < 50 || h > 250 || w > 500) { showToast("Enter valid weight and height."); return; }
+    const bmi = w / Math.pow(h / 100, 2);
+    const s = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Normal range" : bmi < 30 ? "Overweight" : "Obesity range";
+    showResult("bmiResult", `Your BMI<strong>${bmi.toFixed(1)}</strong>${s}<br><small>Adult screening categories, not a diagnosis.</small>`);
   };
-
-  window.calculateWater = function(){
-    const w=Number(document.getElementById("waterWeight").value);
-    if(!w||w<=0||w>500){showToast("Enter valid weight.");return;}
-    const liters=w*.033;
-    showResult("waterResult",`Estimated daily fluid amount<strong>${liters.toFixed(2)} L</strong>Approximately ${Math.round(liters*1000)} ml.<br><small>Rough estimate only. Individual needs vary.</small>`);
+  window.calculateWater = function () {
+    const w = Number($("waterWeight").value);
+    if (!w || w <= 0 || w > 500) { showToast("Enter valid weight."); return; }
+    const liters = w * .033;
+    showResult("waterResult", `Estimated daily fluid amount<strong>${liters.toFixed(2)} L</strong>Approximately ${Math.round(liters * 1000)} ml.<br><small>Rough estimate only. Individual needs vary.</small>`);
   };
-
-  window.calculateAge = function(){
-    const val=document.getElementById("birthDate").value;
-    if(!val){showToast("Select your birth date.");return;}
-    const dob=new Date(val+"T00:00:00");
-    const n=new Date();
-    if(dob>n){showToast("Date cannot be in the future.");return;}
-    let y=n.getFullYear()-dob.getFullYear();
-    let m=n.getMonth()-dob.getMonth();
-    let d=n.getDate()-dob.getDate();
-    if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate();}
-    if(m<0){y--;m+=12;}
-    showResult("ageResult",`Your Age<strong>${y} Years</strong>${m} Months and ${d} Days`);
+  window.calculateAge = function () {
+    const val = $("birthDate").value;
+    if (!val) { showToast("Select your birth date."); return; }
+    const dob = new Date(val + "T00:00:00"), n = new Date();
+    if (dob > n) { showToast("Date cannot be in the future."); return; }
+    let y = n.getFullYear() - dob.getFullYear(), m = n.getMonth() - dob.getMonth(), d = n.getDate() - dob.getDate();
+    if (d < 0) { m--; d += new Date(n.getFullYear(), n.getMonth(), 0).getDate(); }
+    if (m < 0) { y--; m += 12; }
+    showResult("ageResult", `Your Age<strong>${y} Years</strong>${m} Months and ${d} Days`);
   };
+  function showResult(id, html) { const el = $(id); el.innerHTML = html; el.style.display = "block"; }
 
-  function showResult(id,html){
-    const el=document.getElementById(id);
-    el.innerHTML=html;
-    el.style.display="block";
+  function todayDate() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+  function safeText(v) {
+    return String(v || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[c]);
   }
 
-  function todayDate(){
-    const d=new Date();
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  /* ---------- Login / Logout ---------- */
+  const isApp = () => typeof window.AndroidDownloader !== 'undefined';
+
+  function showLoginScreen() {
+    $("loading-message").style.display = 'block';
+    $("content-wrapper").style.display = 'none';
+    $("loading-text").style.display = 'none';
+    $("login-box").style.display = 'block';
+  }
+  function showLoadingScreen(text) {
+    $("loading-message").style.display = 'block';
+    $("content-wrapper").style.display = 'none';
+    $("loading-text").style.display = 'inline';
+    $("loading-text").textContent = text;
+    $("login-box").style.display = 'none';
   }
 
-  function safeText(v){
-    return String(v||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[c]);
+  function startLogin(onFail) {
+    const p = isApp() ? signInWithRedirect(auth, provider) : signInWithPopup(auth, provider);
+    p.catch(err => {
+      console.error("Login Error:", err);
+      showToast(isApp() ? "Failed to initialize login" : "Login cancelled or blocked");
+      onFail();
+    });
   }
 
-  window.doGoogleLogin = function() {
-    document.getElementById('loading-text').textContent = "Opening Google Sign-In...";
-    document.getElementById('login-box').style.display = 'none';
-
-    const isApp = typeof window.AndroidDownloader !== 'undefined';
-
-    if (isApp) {
-      signInWithRedirect(auth, provider).catch(err => {
-         console.error("Login Error:", err);
-         showToast("Failed to initialize login");
-         document.getElementById('loading-text').textContent = "Verifying... Please wait";
-         document.getElementById('login-box').style.display = 'block';
-      });
-    } else {
-      signInWithPopup(auth, provider).catch(err => {
-         console.error("Popup Login Error:", err);
-         showToast("Login cancelled or blocked");
-         document.getElementById('loading-text').textContent = "Verifying... Please wait";
-         document.getElementById('login-box').style.display = 'block';
-      });
-    }
+  window.doGoogleLogin = function () {
+    showLoadingScreen("Opening Google Sign-In...");
+    startLogin(showLoginScreen);
   };
 
-  window.switchGoogleAccount = function() {
-    document.getElementById('loading-message').style.display = 'block';
-    document.getElementById('content-wrapper').style.display = 'none';
-    document.getElementById('loading-text').style.display = 'inline';
-    document.getElementById('login-box').style.display = 'none';
-    
+  window.switchGoogleAccount = function () {
+    showLoadingScreen("Switching account...");
     signOut(auth).then(() => {
-      const isApp = typeof window.AndroidDownloader !== 'undefined';
-      
-      if (isApp) {
-        signInWithRedirect(auth, provider).catch((error) => {
-          console.error("Switch Account Error", error);
-          showToast("Error switching account");
-          document.getElementById('loading-text').style.display = 'none';
-          document.getElementById('login-box').style.display = 'block';
-        });
-      } else {
-        signInWithPopup(auth, provider).catch((error) => {
-          console.error("Switch Account Error", error);
-          showToast("Error switching account");
-          document.getElementById('loading-text').style.display = 'none';
-          document.getElementById('login-box').style.display = 'block';
-        });
-      }
+      localStorage.removeItem(LS_USER);
+      localStorage.removeItem(LS_CACHE);
+      sessionStarted = false;
+      startLogin(showLoginScreen);
     });
   };
 
@@ -1232,81 +936,116 @@ a{text-decoration:none;color:inherit}
     if (!user || !user.email) return;
     const email = user.email.toLowerCase().trim();
     const profileData = {
-      email: email,
+      email,
       displayName: user.displayName || FALLBACK_FULL_NAMES[email] || email.split("@")[0],
       photoURL: user.photoURL || "",
       lastLogin: new Date().toISOString()
     };
     userProfiles[email] = profileData;
-    try {
-      await setDoc(doc(db, "users", email), profileData, { merge: true });
-    } catch (e) {
-      console.error("User profile save error:", e);
-    }
+    try { await setDoc(doc(db, "users", email), profileData, { merge: true }); }
+    catch (e) { console.error("User profile save error:", e); }
   }
 
-  // বর্তমানে ওপেন থাকা ইউজারের (actingEmail) হেডার কার্ড আপডেট করা
   function updateUserHeaderCard() {
     if (!actingEmail) return;
     const info = getUserInfo(actingEmail);
-    document.getElementById("displayUserName").textContent = info.name;
-    document.getElementById("displayUserEmail").textContent = info.email;
-
-    const avatarEl = document.getElementById("userAvatar");
-    if (info.photoURL) {
-      avatarEl.innerHTML = `<img src="${safeText(info.photoURL)}" alt="Avatar">`;
-    } else {
-      avatarEl.textContent = (info.name || "U").charAt(0).toUpperCase();
-    }
+    $("displayUserName").textContent = info.name;
+    $("displayUserEmail").textContent = info.email;
+    const avatarEl = $("userAvatar");
+    if (info.photoURL) avatarEl.innerHTML = `<img src="${safeText(info.photoURL)}" alt="Avatar" referrerpolicy="no-referrer">`;
+    else avatarEl.textContent = (info.name || "U").charAt(0).toUpperCase();
   }
 
-  onAuthStateChanged(auth, async (user) => {
-    const loading = document.getElementById("loading-message");
-    const content = document.getElementById("content-wrapper");
-    const loginBtn = document.getElementById("login-box");
-    const authMessage = document.getElementById("loading-text");
+  /* ---------- Local cache (instant first paint) ---------- */
+  let cacheTimer = null;
+  function saveCacheSoon() {
+    clearTimeout(cacheTimer);
+    cacheTimer = setTimeout(() => {
+      if (!currentUser) return;
+      lsSet(LS_CACHE, {
+        email: (currentUser.email || "").toLowerCase().trim(),
+        meds: allMedicines, hist: allHistory, links: allFamilyLinks, profiles: userProfiles
+      });
+    }, 400);
+  }
+  function loadCache(email) {
+    const c = lsGet(LS_CACHE, null);
+    if (!c || c.email !== email) return false;
+    allMedicines = c.meds || [];
+    allHistory = c.hist || [];
+    allFamilyLinks = c.links || [];
+    userProfiles = c.profiles || {};
+    return true;
+  }
 
-    if (user) {
-      currentUser = user;
-      const loggedEmail = user.email.toLowerCase().trim();
-      actingEmail = loggedEmail;
-      viewingEmail = loggedEmail;
+  /* ---------- Session ---------- */
+  function startSession(user) {
+    currentUser = user;
+    const loggedEmail = user.email.toLowerCase().trim();
+    actingEmail = loggedEmail;
+    viewingEmail = loggedEmail;
+    sessionStarted = true;
 
-      if (window.AndroidDownloader && window.AndroidDownloader.registerUserEmail) {
-        window.AndroidDownloader.registerUserEmail(loggedEmail);
-        const statusEl = document.getElementById("notificationStatus");
-        if (statusEl) statusEl.textContent = "App notifications active for " + user.email;
-      }
+    if (window.AndroidDownloader && window.AndroidDownloader.registerUserEmail) {
+      window.AndroidDownloader.registerUserEmail(loggedEmail);
+      const st = $("notificationStatus");
+      if (st) st.textContent = "App notifications active for " + user.email;
+    }
 
-      loading.style.display = 'none';
-      content.style.display = 'block';
+    $("loading-message").style.display = 'none';
+    $("content-wrapper").style.display = 'block';
 
-      // শুধু এডমিনের জন্য আলাদা Admin View প্যানেল দেখাবে
-      const adminPanel = document.getElementById("adminPanelBox");
-      if (adminPanel) {
-        adminPanel.style.display = (loggedEmail === ADMIN_EMAIL) ? "block" : "none";
-      }
+    const adminPanel = $("adminPanelBox");
+    if (adminPanel) adminPanel.style.display = (loggedEmail === ADMIN_EMAIL) ? "block" : "none";
 
-      await saveCurrentUserProfile(user);
-      updateUserHeaderCard();
-      updateTargetAccountNote();
-      await loadDataFromFirebase();
+    const hasCache = loadCache(loggedEmail);
+    updateUserHeaderCard();
+    updateTargetAccountNote();
+    if (hasCache) {
+      populateAdminDropdown(); populateFamilyDropdown(); renderPendingRequests(); renderAll();
     } else {
-      currentUser = null;
-      actingEmail = null;
-      viewingEmail = null;
-      loading.style.display = 'block';
-      content.style.display = 'none';
-      authMessage.style.display = 'none';
-      loginBtn.style.display = 'block';
+      $("medContent").innerHTML = '<div class="empty">Loading your medicines... <i class="fa-solid fa-spinner fa-spin"></i></div>';
+    }
+    loadDataFromFirebase();
+  }
+
+  // ✅ আগে লগইন করা থাকলে সাথে সাথে পেইজ দেখাবে (ভেরিফাই স্ক্রিনের জন্য অপেক্ষা নয়)
+  const cachedUser = lsGet(LS_USER, null);
+  if (cachedUser && cachedUser.email) {
+    startSession({ email: cachedUser.email, displayName: cachedUser.displayName || "", photoURL: cachedUser.photoURL || "", _stub: true });
+  } else {
+    showLoadingScreen("Loading...");
+  }
+
+  // অ্যাপে redirect লগইনের রেজাল্ট
+  getRedirectResult(auth).catch(e => console.error("Redirect result error:", e));
+
+  onAuthStateChanged(auth, (user) => {
+    if (user && user.email) {
+      lsSet(LS_USER, { email: user.email.toLowerCase().trim(), displayName: user.displayName || "", photoURL: user.photoURL || "" });
+      const sameUser = sessionStarted && currentUser && (currentUser.email || "").toLowerCase().trim() === user.email.toLowerCase().trim();
+      if (sameUser) {
+        currentUser = user;
+        updateUserHeaderCard();
+        updateTargetAccountNote();
+        saveCurrentUserProfile(user);
+        if (!loadingData) loadDataFromFirebase();
+      } else {
+        startSession(user);
+        saveCurrentUserProfile(user);
+      }
+    } else {
+      // সত্যিই লগআউট অবস্থায় আছে
+      localStorage.removeItem(LS_USER);
+      currentUser = null; actingEmail = null; viewingEmail = null; sessionStarted = false;
+      showLoginScreen();
     }
   });
 
   function updateTargetAccountNote() {
-    const note = document.getElementById("targetAccountNote");
-    const topAddBtn = document.getElementById("topAddJumpBtn");
-    const medFormContainer = document.getElementById("medFormContainer");
-
+    const note = $("targetAccountNote");
+    const topAddBtn = $("topAddJumpBtn");
+    const medFormContainer = $("medFormContainer");
     if (!viewingEmail || !currentUser) return;
     const loggedEmail = currentUser.email.toLowerCase().trim();
     const canEdit = canModifyTarget(loggedEmail, viewingEmail);
@@ -1318,56 +1057,83 @@ a{text-decoration:none;color:inherit}
     if (loggedEmail === ADMIN_EMAIL && viewingEmail !== ADMIN_EMAIL) {
       note.textContent = `Admin Mode: Managing medicines for ${info.name} (${info.email})`;
     } else if (actingEmail !== viewingEmail) {
-      note.textContent = canEdit 
-        ? `Family Mode: Managing medicines for ${info.name} (${info.email})` 
+      note.textContent = canEdit
+        ? `Family Mode: Managing medicines for ${info.name} (${info.email})`
         : `Family Mode (View Only): Viewing ${info.name} (${info.email})`;
     } else {
       note.textContent = `Managing medicines for: ${info.name} (${info.email})`;
     }
   }
 
+  /* ---------- Data loading (faster: targeted queries) ---------- */
+  async function fetchByEmails(colName, emails) {
+    const list = Array.from(new Set(emails.filter(Boolean)));
+    const chunks = [];
+    for (let i = 0; i < list.length; i += 30) chunks.push(list.slice(i, i + 30));
+    const snaps = await Promise.all(chunks.map(c => getDocs(query(collection(db, colName), where("userEmail", "in", c)))));
+    return snaps.flatMap(s => s.docs.map(d => ({ id: d.id, ...d.data() })));
+  }
+
   async function loadDataFromFirebase() {
-    if (!currentUser) return;
-    document.getElementById("medContent").innerHTML = '<div class="empty">Loading your medicines... <i class="fa-solid fa-spinner fa-spin"></i></div>';
-    
+    if (!currentUser || loadingData) return;
+    loadingData = true;
     try {
-      const [medSnap, histSnap, usersSnap, linksSnap] = await Promise.all([
-        getDocs(collection(db, "medicines")),
-        getDocs(collection(db, "med_history")),
+      const loggedEmail = currentUser.email.toLowerCase().trim();
+      const isAdmin = loggedEmail === ADMIN_EMAIL;
+
+      // ছোট কালেকশনগুলো একসাথে
+      const [usersSnap, linksSnap] = await Promise.all([
         getDocs(collection(db, "users")).catch(() => ({ docs: [] })),
         getDocs(collection(db, "family_links")).catch(() => ({ docs: [] }))
       ]);
-
-      allMedicines = medSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      allHistory = histSnap.docs.map(d => ({ id: d.id, ...d.data() }));
       allFamilyLinks = linksSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-
       usersSnap.docs.forEach(d => {
         const data = d.data();
-        if (data && data.email) {
-          userProfiles[data.email.toLowerCase().trim()] = data;
-        }
+        if (data && data.email) userProfiles[data.email.toLowerCase().trim()] = data;
       });
 
-      await loadGlobalMedicines();
-      
+      if (isAdmin) {
+        // এডমিনের সবার ডাটা লাগে
+        const [medSnap, histSnap] = await Promise.all([
+          getDocs(collection(db, "medicines")),
+          getDocs(collection(db, "med_history"))
+        ]);
+        allMedicines = medSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        allHistory = histSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } else {
+        // সাধারণ ইউজারের শুধু নিজের ও ফ্যামিলির ডাটা
+        const emails = new Set([loggedEmail, ...getDefaultFamilyViewList(loggedEmail)]);
+        getAcceptedFamilyLinksFor(loggedEmail).forEach(l => emails.add((l.targetEmail || "").toLowerCase().trim()));
+        const arr = Array.from(emails);
+        const [meds, hist] = await Promise.all([fetchByEmails("medicines", arr), fetchByEmails("med_history", arr)]);
+        allMedicines = meds;
+        allHistory = hist;
+      }
+
       updateUserHeaderCard();
       populateAdminDropdown();
       populateFamilyDropdown();
       renderPendingRequests();
+      updateTargetAccountNote();
       renderAll();
       checkAndTriggerUserNotifications();
+      saveCacheSoon();
+
+      loadGlobalMedicines(); // ব্যাকগ্রাউন্ড, await নয়
     } catch (error) {
       console.error("Error loading data:", error);
-      document.getElementById("medContent").innerHTML = '<div class="empty" style="color:#d66;">Failed to load data. Please check connection.</div>';
+      if (!allMedicines.length) {
+        $("medContent").innerHTML = '<div class="empty" style="color:#d66;">Failed to load data. Please check connection.</div>';
+      }
+    } finally {
+      loadingData = false;
     }
   }
 
-  // ১. আলাদা Admin View ড্রপডাউন পপুলেট করা
+  /* ---------- Dropdowns ---------- */
   function populateAdminDropdown() {
     if (!currentUser) return;
-    const loggedEmail = currentUser.email.toLowerCase().trim();
-    if (loggedEmail !== ADMIN_EMAIL) return;
+    if (currentUser.email.toLowerCase().trim() !== ADMIN_EMAIL) return;
 
     const usersSet = new Set([ADMIN_EMAIL, ...FAMILY_GROUP_1, ...FAMILY_GROUP_2]);
     Object.keys(userProfiles).forEach(e => usersSet.add(e));
@@ -1377,56 +1143,36 @@ a{text-decoration:none;color:inherit}
       if (l.targetEmail) usersSet.add(l.targetEmail.toLowerCase().trim());
     });
     addedEmails.forEach(e => usersSet.add(e));
-
-    hiddenAdminEmails.forEach(h => {
-      if (h !== ADMIN_EMAIL) usersSet.delete(h);
-    });
+    hiddenAdminEmails.forEach(h => { if (h !== ADMIN_EMAIL) usersSet.delete(h); });
 
     const users = Array.from(usersSet);
-
     const actInfo = getUserInfo(actingEmail);
-    const btnName = document.getElementById("adminActingName");
-    const btnEmail = document.getElementById("adminActingEmail");
-    if (btnName) btnName.textContent = actInfo.name;
-    if (btnEmail) btnEmail.textContent = actInfo.email;
+    if ($("adminActingName")) $("adminActingName").textContent = actInfo.name;
+    if ($("adminActingEmail")) $("adminActingEmail").textContent = actInfo.email;
 
-    const delBtn = document.getElementById("adminDeleteModeBtn");
+    const delBtn = $("adminDeleteModeBtn");
     if (delBtn) {
       delBtn.classList.toggle("active", isAdminDeleteMode);
-      delBtn.innerHTML = isAdminDeleteMode
-        ? `<i class="fa-solid fa-check"></i> Done`
-        : `<i class="fa-solid fa-trash"></i> Delete`;
+      delBtn.innerHTML = isAdminDeleteMode ? `<i class="fa-solid fa-check"></i> Done` : `<i class="fa-solid fa-trash"></i> Delete`;
     }
 
-    const container = document.getElementById("adminListContainer");
+    const container = $("adminListContainer");
     if (!container) return;
 
     container.innerHTML = users.map(email => {
       const isActive = email === actingEmail;
       const info = getUserInfo(email);
       const showDeleteBtn = isAdminDeleteMode && email !== ADMIN_EMAIL;
-
-      // ওই ইউজারের কোনো পেন্ডিং ইনকামিং রিকোয়েস্ট আছে কিনা তা ব্যাজ আকারে দেখানো
-      const incCount = allFamilyLinks.filter(
-        l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === email
-      ).length;
+      const incCount = allFamilyLinks.filter(l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === email).length;
       const reqBadge = incCount > 0
-        ? `<span style="background:#fff3d6;color:#b86b11;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;">${incCount} Req</span>`
-        : "";
-
-      const selfBadge = email === ADMIN_EMAIL
-        ? `<small style="font-weight:500;color:#82979b;font-size:10px">(Admin)</small>`
-        : "";
+        ? `<span style="background:#fff3d6;color:#b86b11;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;">${incCount} Req</span>` : "";
+      const selfBadge = email === ADMIN_EMAIL ? `<small style="font-weight:500;color:#82979b;font-size:10px">(Admin)</small>` : "";
 
       return `
         <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="${showDeleteBtn ? '' : 'selectAdminAccount(this.dataset.email)'}">
-          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
+          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i>
           <div style="flex:1;min-width:0;">
-            <div class="account-item-name">
-              <span>${safeText(info.name)}</span>
-              ${selfBadge}
-              ${reqBadge}
-            </div>
+            <div class="account-item-name"><span>${safeText(info.name)}</span>${selfBadge}${reqBadge}</div>
             <div class="account-item-email">${safeText(info.email)}</div>
           </div>
           ${showDeleteBtn ? `
@@ -1437,49 +1183,35 @@ a{text-decoration:none;color:inherit}
     }).join("");
   }
 
-  // ২. নিচের User-এর মতো Family View ড্রপডাউন পপুলেট করা (actingEmail-এর সাপেক্ষে)
   function populateFamilyDropdown() {
     if (!actingEmail) return;
-
     const defaultFamily = getDefaultFamilyViewList(actingEmail);
-    const acceptedLinks = getAcceptedFamilyLinksFor(actingEmail);
-    const dynamicEmails = acceptedLinks.map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
+    const dynamicEmails = getAcceptedFamilyLinksFor(actingEmail).map(l => (l.targetEmail || "").toLowerCase().trim()).filter(Boolean);
     const merged = Array.from(new Set([...defaultFamily, ...dynamicEmails])).filter(e => e !== actingEmail);
     const users = [actingEmail, ...merged];
 
     const viewInfo = getUserInfo(viewingEmail);
-    const btnName = document.getElementById("familySelectName");
-    const btnEmail = document.getElementById("familySelectEmail");
-    if (btnName) btnName.textContent = viewInfo.name;
-    if (btnEmail) btnEmail.textContent = viewInfo.email;
+    if ($("familySelectName")) $("familySelectName").textContent = viewInfo.name;
+    if ($("familySelectEmail")) $("familySelectEmail").textContent = viewInfo.email;
 
-    const container = document.getElementById("familyListContainer");
+    const container = $("familyListContainer");
     if (!container) return;
-
     const pendingSent = getPendingSentLinksFor(actingEmail);
 
     let html = users.map(email => {
       const isActive = email === viewingEmail;
       const info = getUserInfo(email);
       const canMod = canActingUserModify(actingEmail, email);
-
       let badge = "";
-      if (email === actingEmail) {
-        badge = `<small style="font-weight:500;color:#82979b;font-size:10px">(My Account)</small>`;
-      } else if (canMod) {
-        badge = `<span style="color:#159968;font-size:9px;font-weight:600;">(Can Edit)</span>`;
-      } else {
-        badge = `<span style="color:#82979b;font-size:9px;font-weight:600;">(View Only)</span>`;
-      }
+      if (email === actingEmail) badge = `<small style="font-weight:500;color:#82979b;font-size:10px">(My Account)</small>`;
+      else if (canMod) badge = `<span style="color:#159968;font-size:9px;font-weight:600;">(Can Edit)</span>`;
+      else badge = `<span style="color:#82979b;font-size:9px;font-weight:600;">(View Only)</span>`;
 
       return `
         <div class="account-item ${isActive ? 'active' : ''}" data-email="${safeText(email)}" onclick="selectFamilyAccount(this.dataset.email)">
-          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i> 
+          <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle'}"></i>
           <div style="flex:1;min-width:0;">
-            <div class="account-item-name">
-              <span>${safeText(info.name)}</span>
-              ${badge}
-            </div>
+            <div class="account-item-name"><span>${safeText(info.name)}</span>${badge}</div>
             <div class="account-item-email">${safeText(info.email)}</div>
           </div>
         </div>`;
@@ -1492,35 +1224,22 @@ a{text-decoration:none;color:inherit}
           <div class="account-item pending-item">
             <i class="fa-solid fa-clock" style="color:#d58b37;"></i>
             <div style="flex:1;min-width:0;">
-              <div class="account-item-name">
-                <span>${safeText(info.name)}</span>
-                <span style="color:#d58b37;font-size:9px;font-weight:600;">(Pending Approval)</span>
-              </div>
+              <div class="account-item-name"><span>${safeText(info.name)}</span>
+                <span style="color:#d58b37;font-size:9px;font-weight:600;">(Pending Approval)</span></div>
               <div class="account-item-email">${safeText(info.email)}</div>
             </div>
           </div>`;
       }).join("");
     }
-
     container.innerHTML = html;
   }
 
-  // বর্তমানে ওপেন থাকা ইউজারের (actingEmail) ইনকামিং রিকোয়েস্ট দেখানো
   function renderPendingRequests() {
-    const box = document.getElementById("pendingRequestsBox");
-    const listEl = document.getElementById("pendingRequestsList");
-    const titleEl = document.getElementById("pendingRequestsTitle");
+    const box = $("pendingRequestsBox"), listEl = $("pendingRequestsList"), titleEl = $("pendingRequestsTitle");
     if (!actingEmail || !box || !listEl) return;
 
-    const pending = allFamilyLinks.filter(
-      l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === actingEmail
-    );
-
-    if (pending.length === 0) {
-      box.style.display = "none";
-      listEl.innerHTML = "";
-      return;
-    }
+    const pending = allFamilyLinks.filter(l => l.status === "pending" && (l.targetEmail || "").toLowerCase().trim() === actingEmail);
+    if (!pending.length) { box.style.display = "none"; listEl.innerHTML = ""; return; }
 
     const actInfo = getUserInfo(actingEmail);
     titleEl.innerHTML = `<i class="fa-solid fa-user-clock"></i> Incoming Family Requests for ${safeText(actInfo.name)} (${pending.length})`;
@@ -1528,7 +1247,6 @@ a{text-decoration:none;color:inherit}
     listEl.innerHTML = pending.map(req => {
       const requester = getUserInfo(req.requesterEmail);
       const reqAccess = req.accessLevel === "edit" ? "Can Edit" : "View Only";
-
       return `
         <div class="request-item">
           <div class="request-item-info">
@@ -1536,89 +1254,56 @@ a{text-decoration:none;color:inherit}
             wants <strong>${reqAccess}</strong> access to view medicines in Family View. Choose permission:
           </div>
           <div class="request-actions">
-            <button class="req-btn req-accept-view" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'view')">
-              <i class="fa-solid fa-eye"></i> Accept (View Only)
-            </button>
-            <button class="req-btn req-accept-edit" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'edit')">
-              <i class="fa-solid fa-pen"></i> Accept (Can Edit)
-            </button>
-            <button class="req-btn req-reject" onclick="window.respondFamilyRequest('${req.id}', 'rejected')">
-              <i class="fa-solid fa-xmark"></i> Reject
-            </button>
+            <button class="req-btn req-accept-view" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'view')"><i class="fa-solid fa-eye"></i> Accept (View Only)</button>
+            <button class="req-btn req-accept-edit" onclick="window.respondFamilyRequest('${req.id}', 'accepted', 'edit')"><i class="fa-solid fa-pen"></i> Accept (Can Edit)</button>
+            <button class="req-btn req-reject" onclick="window.respondFamilyRequest('${req.id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Reject</button>
           </div>
-        </div>
-      `;
+        </div>`;
     }).join("");
-
     box.style.display = "block";
   }
 
-  window.respondFamilyRequest = async function(reqId, newStatus, chosenAccess) {
+  window.respondFamilyRequest = async function (reqId, newStatus, chosenAccess) {
     if (!currentUser) return;
     const loggedEmail = currentUser.email.toLowerCase().trim();
     const req = allFamilyLinks.find(r => r.id === reqId);
     if (!req) return;
-
     const isAdmin = loggedEmail === ADMIN_EMAIL;
     const isTarget = (req.targetEmail || "").toLowerCase().trim() === loggedEmail;
-    if (!isAdmin && !isTarget) {
-      showToast("You do not have permission to respond to this request.");
-      return;
-    }
+    if (!isAdmin && !isTarget) { showToast("You do not have permission to respond to this request."); return; }
 
     try {
-      const updatePayload = {
-        status: newStatus,
-        updatedAt: new Date().toISOString(),
-        updatedBy: loggedEmail
-      };
-      if (newStatus === "accepted" && chosenAccess) {
-        updatePayload.accessLevel = chosenAccess;
-      }
-
+      const updatePayload = { status: newStatus, updatedAt: new Date().toISOString(), updatedBy: loggedEmail };
+      if (newStatus === "accepted" && chosenAccess) updatePayload.accessLevel = chosenAccess;
       await updateDoc(doc(db, "family_links", reqId), updatePayload);
       Object.assign(req, updatePayload);
-
-      renderPendingRequests();
-      populateAdminDropdown();
-      populateFamilyDropdown();
-      updateTargetAccountNote();
-      renderAll();
-
-      if (newStatus === "accepted") {
-        showToast(`Accepted (${chosenAccess === "edit" ? "Can Edit" : "View Only"})!`);
-      } else {
-        showToast("Request rejected.");
-      }
+      renderPendingRequests(); populateAdminDropdown(); populateFamilyDropdown(); updateTargetAccountNote(); renderAll();
+      showToast(newStatus === "accepted" ? `Accepted (${chosenAccess === "edit" ? "Can Edit" : "View Only"})!` : "Request rejected.");
     } catch (e) {
       console.error("Error responding to request:", e);
       showToast("Failed to update request.");
     }
   };
 
-  // Admin Selector Controls
-  window.openAdminSelector = function() {
+  /* ---------- Selectors ---------- */
+  window.openAdminSelector = function () {
     isAdminDeleteMode = false;
     populateAdminDropdown();
-    document.getElementById("adminSelectOverlay").style.display = "flex";
+    $("adminSelectOverlay").style.display = "flex";
   };
-
-  window.closeAdminSelector = function(e) {
-    if(e) e.stopPropagation();
+  window.closeAdminSelector = function (e) {
+    if (e) e.stopPropagation();
     isAdminDeleteMode = false;
-    document.getElementById("adminSelectOverlay").style.display = "none";
+    $("adminSelectOverlay").style.display = "none";
   };
-
-  window.toggleAdminDeleteMode = function() {
+  window.toggleAdminDeleteMode = function () {
     isAdminDeleteMode = !isAdminDeleteMode;
     populateAdminDropdown();
   };
 
-  window.selectAdminAccount = function(email) {
-    closeAdminSelector();
-    if (!email) return;
-    actingEmail = email.toLowerCase().trim();
-    viewingEmail = actingEmail;
+  function switchActing(email) {
+    actingEmail = email;
+    viewingEmail = email;
     editingId = null;
     clearMedForm();
     updateUserHeaderCard();
@@ -1627,46 +1312,34 @@ a{text-decoration:none;color:inherit}
     renderPendingRequests();
     updateTargetAccountNote();
     renderAll();
+  }
+
+  window.selectAdminAccount = function (email) {
+    closeAdminSelector();
+    if (!email) return;
+    switchActing(email.toLowerCase().trim());
   };
 
-  window.removeAdminAccount = function(email) {
+  window.removeAdminAccount = function (email) {
     if (!email || email === ADMIN_EMAIL) return;
     const e = email.toLowerCase().trim();
     addedEmails = addedEmails.filter(x => x !== e);
-    localStorage.setItem("hc_saved_emails", JSON.stringify(addedEmails));
-
-    if (!hiddenAdminEmails.includes(e)) {
-      hiddenAdminEmails.push(e);
-      localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
-    }
-
-    if (actingEmail === e) {
-      actingEmail = ADMIN_EMAIL;
-      viewingEmail = ADMIN_EMAIL;
-      editingId = null;
-      clearMedForm();
-      updateUserHeaderCard();
-      populateFamilyDropdown();
-      renderPendingRequests();
-      updateTargetAccountNote();
-      renderAll();
-    }
+    lsSet("hc_saved_emails", addedEmails);
+    if (!hiddenAdminEmails.includes(e)) { hiddenAdminEmails.push(e); lsSet("hc_hidden_admin_emails", hiddenAdminEmails); }
+    if (actingEmail === e) switchActing(ADMIN_EMAIL);
     populateAdminDropdown();
     showToast("Removed from Admin View list.");
   };
 
-  // Family Selector Controls
-  window.openFamilySelector = function() {
+  window.openFamilySelector = function () {
     populateFamilyDropdown();
-    document.getElementById("familySelectOverlay").style.display = "flex";
+    $("familySelectOverlay").style.display = "flex";
   };
-
-  window.closeFamilySelector = function(e) {
-    if(e) e.stopPropagation();
-    document.getElementById("familySelectOverlay").style.display = "none";
+  window.closeFamilySelector = function (e) {
+    if (e) e.stopPropagation();
+    $("familySelectOverlay").style.display = "none";
   };
-
-  window.selectFamilyAccount = function(email) {
+  window.selectFamilyAccount = function (email) {
     closeFamilySelector();
     if (!email) return;
     viewingEmail = email.toLowerCase().trim();
@@ -1677,147 +1350,91 @@ a{text-decoration:none;color:inherit}
     renderAll();
   };
 
-  // Add / View / Family Request এর জন্য ইউনিফায়েড মোডাল
-  window.openPromptModal = function(mode) {
+  /* ---------- Prompt modal ---------- */
+  window.openPromptModal = function (mode) {
     if (!currentUser) return;
     promptMode = mode;
-    const titleEl = document.getElementById("promptModalTitle");
-    const descEl = document.getElementById("promptModalDesc");
-    const nameWrap = document.getElementById("promptNameWrapper");
-    const accessWrap = document.getElementById("promptAccessWrapper");
-    const submitBtn = document.getElementById("promptSubmitBtn");
     const actInfo = getUserInfo(actingEmail);
 
     if (mode === "admin_add") {
-      titleEl.textContent = "Add Email to Admin View";
-      descEl.textContent = "This Gmail will be saved to your Admin View list and opened immediately.";
-      nameWrap.style.display = "block";
-      accessWrap.style.display = "none";
-      submitBtn.textContent = "Add & Save";
+      $("promptModalTitle").textContent = "Add Email to Admin View";
+      $("promptModalDesc").textContent = "This Gmail will be saved to your Admin View list and opened immediately.";
+      $("promptNameWrapper").style.display = "block";
+      $("promptAccessWrapper").style.display = "none";
+      $("promptSubmitBtn").textContent = "Add & Save";
     } else if (mode === "admin_view") {
-      titleEl.textContent = "Quick View Gmail";
-      descEl.textContent = "Open this Gmail's view without adding it to your Admin View list.";
-      nameWrap.style.display = "none";
-      accessWrap.style.display = "none";
-      submitBtn.textContent = "View Only";
+      $("promptModalTitle").textContent = "Quick View Gmail";
+      $("promptModalDesc").textContent = "Open this Gmail's view without adding it to your Admin View list.";
+      $("promptNameWrapper").style.display = "none";
+      $("promptAccessWrapper").style.display = "none";
+      $("promptSubmitBtn").textContent = "View Only";
     } else {
-      titleEl.textContent = "Add Family Member";
-      descEl.textContent = `Send a Family View request from ${actInfo.name} (${actInfo.email}). The recipient can accept with View Only or Can Edit permission.`;
-      nameWrap.style.display = "none";
-      accessWrap.style.display = "block";
-      submitBtn.textContent = "Send Request";
+      $("promptModalTitle").textContent = "Add Family Member";
+      $("promptModalDesc").textContent = `Send a Family View request from ${actInfo.name} (${actInfo.email}). The recipient can accept with View Only or Can Edit permission.`;
+      $("promptNameWrapper").style.display = "none";
+      $("promptAccessWrapper").style.display = "block";
+      $("promptSubmitBtn").textContent = "Send Request";
     }
-
-    document.getElementById("promptEmailInput").value = "";
-    document.getElementById("promptNameInput").value = "";
-    document.getElementById("customPromptOverlay").style.display = "flex";
-    document.getElementById("promptEmailInput").focus();
+    $("promptEmailInput").value = "";
+    $("promptNameInput").value = "";
+    $("customPromptOverlay").style.display = "flex";
+    $("promptEmailInput").focus();
   };
 
-  window.closeCustomPrompt = async function(isSubmit) {
-    document.getElementById("customPromptOverlay").style.display = "none";
+  window.closeCustomPrompt = async function (isSubmit) {
+    $("customPromptOverlay").style.display = "none";
     if (!isSubmit || !currentUser) return;
 
     const loggedEmail = currentUser.email.toLowerCase().trim();
     const isAdmin = loggedEmail === ADMIN_EMAIL;
-    const inputVal = document.getElementById("promptEmailInput").value.trim().toLowerCase();
-    const customName = document.getElementById("promptNameInput").value.trim();
+    const inputVal = $("promptEmailInput").value.trim().toLowerCase();
+    const customName = $("promptNameInput").value.trim();
 
-    if (!inputVal || !inputVal.includes("@")) {
-      showToast("Please enter a valid email");
-      return;
-    }
+    if (!inputVal || !inputVal.includes("@")) { showToast("Please enter a valid email"); return; }
 
     if (promptMode === "admin_add" && isAdmin) {
-      if (!addedEmails.includes(inputVal)) {
-        addedEmails.push(inputVal);
-        localStorage.setItem("hc_saved_emails", JSON.stringify(addedEmails));
-      }
+      if (!addedEmails.includes(inputVal)) { addedEmails.push(inputVal); lsSet("hc_saved_emails", addedEmails); }
       hiddenAdminEmails = hiddenAdminEmails.filter(x => x !== inputVal);
-      localStorage.setItem("hc_hidden_admin_emails", JSON.stringify(hiddenAdminEmails));
-
+      lsSet("hc_hidden_admin_emails", hiddenAdminEmails);
       if (customName) {
         const profilePayload = { email: inputVal, displayName: customName };
         userProfiles[inputVal] = { ...(userProfiles[inputVal] || {}), ...profilePayload };
-        try {
-          await setDoc(doc(db, "users", inputVal), profilePayload, { merge: true });
-        } catch (e) { console.error(e); }
+        try { await setDoc(doc(db, "users", inputVal), profilePayload, { merge: true }); } catch (e) { console.error(e); }
       }
-
-      actingEmail = inputVal;
-      viewingEmail = inputVal;
-      editingId = null;
-      clearMedForm();
-      updateUserHeaderCard();
-      populateAdminDropdown();
-      populateFamilyDropdown();
-      renderPendingRequests();
-      updateTargetAccountNote();
-      renderAll();
+      switchActing(inputVal);
       showToast("Added to Admin View list.");
       return;
     }
 
     if (promptMode === "admin_view" && isAdmin) {
-      actingEmail = inputVal;
-      viewingEmail = inputVal;
-      editingId = null;
-      clearMedForm();
-      updateUserHeaderCard();
-      populateAdminDropdown();
-      populateFamilyDropdown();
-      renderPendingRequests();
-      updateTargetAccountNote();
-      renderAll();
+      switchActing(inputVal);
       showToast("Viewing account (not added to list).");
       return;
     }
 
-    // family_request মোড: বর্তমানে ওপেন থাকা actingEmail থেকে রিকোয়েস্ট পাঠানো
     const requesterEmail = actingEmail || loggedEmail;
-    if (inputVal === requesterEmail) {
-      showToast("Cannot send request to the same account.");
-      return;
-    }
+    if (inputVal === requesterEmail) { showToast("Cannot send request to the same account."); return; }
 
-    const accessLevel = document.getElementById("promptAccessSelect").value || "view";
-    const existing = allFamilyLinks.find(
-      l =>
-        (l.requesterEmail || "").toLowerCase().trim() === requesterEmail &&
-        (l.targetEmail || "").toLowerCase().trim() === inputVal
-    );
+    const accessLevel = $("promptAccessSelect").value || "view";
+    const existing = allFamilyLinks.find(l =>
+      (l.requesterEmail || "").toLowerCase().trim() === requesterEmail &&
+      (l.targetEmail || "").toLowerCase().trim() === inputVal);
 
     try {
       if (existing) {
-        if (existing.status === "accepted") {
-          showToast("Already connected with this member!");
-          return;
-        }
-        if (existing.status === "pending") {
-          showToast("Request already sent & waiting for approval.");
-          return;
-        }
-        const updatePayload = {
-          accessLevel,
-          status: "pending",
-          updatedAt: new Date().toISOString()
-        };
-        await updateDoc(doc(db, "family_links", existing.id), updatePayload);
-        Object.assign(existing, updatePayload);
+        if (existing.status === "accepted") { showToast("Already connected with this member!"); return; }
+        if (existing.status === "pending") { showToast("Request already sent & waiting for approval."); return; }
+        const upd = { accessLevel, status: "pending", updatedAt: new Date().toISOString() };
+        await updateDoc(doc(db, "family_links", existing.id), upd);
+        Object.assign(existing, upd);
       } else {
-        const newReq = {
-          requesterEmail: requesterEmail,
-          targetEmail: inputVal,
-          accessLevel,
-          status: "pending",
-          createdAt: new Date().toISOString()
-        };
+        const newReq = { requesterEmail, targetEmail: inputVal, accessLevel, status: "pending", createdAt: new Date().toISOString() };
         const docRef = await addDoc(collection(db, "family_links"), newReq);
         allFamilyLinks.push({ id: docRef.id, ...newReq });
       }
-
       populateAdminDropdown();
       populateFamilyDropdown();
+      saveCacheSoon();
       showToast("Family request sent! Waiting for approval.");
     } catch (e) {
       console.error("Error sending family request:", e);
@@ -1825,466 +1442,361 @@ a{text-decoration:none;color:inherit}
     }
   };
 
+  /* ---------- Medicines ---------- */
   function getActiveMedicines() {
     if (!viewingEmail) return [];
     return allMedicines.filter(m => (m.userEmail || "").toLowerCase().trim() === viewingEmail);
   }
-
   function getActiveHistory() {
     if (!viewingEmail) return [];
     return allHistory.filter(h => (h.userEmail || "").toLowerCase().trim() === viewingEmail);
   }
 
-  window.addMedTime = function(){
-    const input=document.getElementById("newMedTime");
-    const time=input.value;
-    if(!time){showToast("Select a time first.");return;}
-    if(pendingTimes.includes(time)){showToast("Time already added.");return;}
+  window.addMedTime = function () {
+    const input = $("newMedTime"), time = input.value;
+    if (!time) { showToast("Select a time first."); return; }
+    if (pendingTimes.includes(time)) { showToast("Time already added."); return; }
     pendingTimes.push(time);
     pendingTimes.sort();
-    input.value="";
+    input.value = "";
     renderTimes();
   };
 
-  function renderTimes(){
-    document.getElementById("selectedTimes").innerHTML=pendingTimes.map((t,i)=>`
-      <span class="time-chip">${safeText(t)}
-      <button onclick="window.removeTime(${i})">×</button></span>
-    `).join("");
+  function renderTimes() {
+    $("selectedTimes").innerHTML = pendingTimes.map((t, i) =>
+      `<span class="time-chip">${safeText(t)}<button onclick="window.removeTime(${i})">×</button></span>`).join("");
   }
+  window.removeTime = function (i) { pendingTimes.splice(i, 1); renderTimes(); };
 
-  window.removeTime = function(i){
-    pendingTimes.splice(i,1);
-    renderTimes();
-  };
-
-  window.onPatternChange = function(val) {
+  window.onPatternChange = function (val) {
     pendingTimes = pendingTimes.filter(t => !ALL_PATTERN_TIMES.includes(t));
-
-    let timesToAdd = [];
-    if(val === "1+1+1") timesToAdd = ["06:30", "13:00", "19:00"];
-    else if(val === "1+0+1") timesToAdd = ["06:30", "19:00"];
-    else if(val === "1+0+0") timesToAdd = ["06:30"];
-    else if(val === "0+1+0") timesToAdd = ["13:00"];
-    else if(val === "0+0+1") timesToAdd = ["19:00"];
-    else if(val === "1+1+0") timesToAdd = ["06:30", "13:00"];
-    else if(val === "0+1+1") timesToAdd = ["13:00", "19:00"];
-
-    timesToAdd.forEach(t => {
-      if(!pendingTimes.includes(t)) pendingTimes.push(t);
-    });
+    const map = {
+      "1+1+1": ["06:30", "13:00", "19:00"], "1+0+1": ["06:30", "19:00"], "1+0+0": ["06:30"],
+      "0+1+0": ["13:00"], "0+0+1": ["19:00"], "1+1+0": ["06:30", "13:00"], "0+1+1": ["13:00", "19:00"]
+    };
+    (map[val] || []).forEach(t => { if (!pendingTimes.includes(t)) pendingTimes.push(t); });
     pendingTimes.sort();
     renderTimes();
   };
 
-  window.saveMedicine = async function(){
-    if(!currentUser || !viewingEmail) return;
-    if(!canModifyTarget(currentUser.email, viewingEmail)) {
-      showToast("You do not have permission to modify this account.");
-      return;
-    }
-    if(editingId) return updateMedicine();
+  function readMedForm() {
+    return {
+      name: $("newMedName").value.trim(),
+      dose: $("newMedDose").value.trim(),
+      pattern: $("dosePattern").value,
+      meal: $("mealTiming").value,
+      start: $("medStart").value,
+      end: $("medEnd").value.trim(),
+      note: $("medNote").value.trim()
+    };
+  }
 
-    const name=document.getElementById("newMedName").value.trim();
-    const dose=document.getElementById("newMedDose").value.trim();
-    const pattern=document.getElementById("dosePattern").value;
-    const meal=document.getElementById("mealTiming").value;
-    const start=document.getElementById("medStart").value;
-    const end=document.getElementById("medEnd").value.trim();
-    const note=document.getElementById("medNote").value.trim();
+  window.saveMedicine = async function () {
+    if (!currentUser || !viewingEmail) return;
+    if (!canModifyTarget(currentUser.email, viewingEmail)) { showToast("You do not have permission to modify this account."); return; }
+    if (editingId) return updateMedicine();
 
-    if(!name){
-      showToast("Please enter medicine name.");return;
-    }
+    const f = readMedForm();
+    if (!f.name) { showToast("Please enter medicine name."); return; }
 
     const newMed = {
       userEmail: viewingEmail.toLowerCase().trim(),
-      name, 
-      dose: dose || "", 
-      pattern: pattern || "",
-      meal: meal || "After meal",
-      start: start || todayDate(), 
-      end: end || "", 
-      note: note || "", 
-      times: [...pendingTimes],
-      createdAt: new Date().toISOString()
+      name: f.name, dose: f.dose || "", pattern: f.pattern || "", meal: f.meal || "After meal",
+      start: f.start || todayDate(), end: f.end || "", note: f.note || "",
+      times: [...pendingTimes], createdAt: new Date().toISOString()
     };
 
     try {
       const docRef = await addDoc(collection(db, "medicines"), newMed);
       allMedicines.push({ id: docRef.id, ...newMed });
-
-      recordMedDoseInMemory(name, dose);
-      saveToMedicineLibrary(name, dose);
-      
+      recordMedDoseInMemory(f.name, f.dose);
+      saveToMedicineLibrary(f.name, f.dose);
       clearMedForm();
       populateAdminDropdown();
       renderAll();
-      document.getElementById("todaysOverviewHeading").scrollIntoView({behavior: "smooth", block: "start"});
+      $("todaysOverviewHeading").scrollIntoView({ behavior: "smooth", block: "start" });
       showToast("Medicine added successfully");
-    } catch(e) {
+    } catch (e) {
       showToast("Error saving medicine");
     }
   };
 
   async function updateMedicine() {
-    if(!currentUser || !canModifyTarget(currentUser.email, viewingEmail)) {
-      showToast("You do not have permission to modify this account.");
-      return;
-    }
-    const name=document.getElementById("newMedName").value.trim();
-    const dose=document.getElementById("newMedDose").value.trim();
-    const pattern=document.getElementById("dosePattern").value;
-    const meal=document.getElementById("mealTiming").value;
-    const start=document.getElementById("medStart").value;
-    const end=document.getElementById("medEnd").value.trim();
-    const note=document.getElementById("medNote").value.trim();
+    if (!currentUser || !canModifyTarget(currentUser.email, viewingEmail)) { showToast("You do not have permission to modify this account."); return; }
+    const f = readMedForm();
+    if (!f.name) { showToast("Please enter medicine name."); return; }
 
-    if(!name){showToast("Please enter medicine name.");return;}
-
-    const updatedData = { 
-      name, 
-      dose: dose || "", 
-      pattern: pattern || "", 
-      meal: meal || "After meal",
-      start: start || todayDate(), 
-      end: end || "", 
-      note: note || "", 
-      times: [...pendingTimes] 
+    const updatedData = {
+      name: f.name, dose: f.dose || "", pattern: f.pattern || "", meal: f.meal || "After meal",
+      start: f.start || todayDate(), end: f.end || "", note: f.note || "", times: [...pendingTimes]
     };
 
     try {
       await updateDoc(doc(db, "medicines", editingId), updatedData);
       const m = allMedicines.find(x => x.id === editingId);
-      if(m) Object.assign(m, updatedData);
-
-      recordMedDoseInMemory(name, dose);
-      saveToMedicineLibrary(name, dose);
-
+      if (m) Object.assign(m, updatedData);
+      recordMedDoseInMemory(f.name, f.dose);
+      saveToMedicineLibrary(f.name, f.dose);
       editingId = null;
-      document.getElementById("formTitleText").textContent = "Add New Medicine";
-      document.getElementById("saveMedButton").innerHTML = '<i class="fa-solid fa-save"></i> Save Medicine';
+      $("formTitleText").textContent = "Add New Medicine";
+      $("saveMedButton").innerHTML = '<i class="fa-solid fa-save"></i> Save Medicine';
       clearMedForm();
       renderAll();
-      document.getElementById("todaysOverviewHeading").scrollIntoView({behavior: "smooth", block: "start"});
+      $("todaysOverviewHeading").scrollIntoView({ behavior: "smooth", block: "start" });
       showToast("Medicine updated successfully");
-    } catch(e) {
+    } catch (e) {
       showToast("Error updating medicine");
     }
   }
 
   function clearMedForm() {
-    document.getElementById("newMedName").value="";
-    document.getElementById("newMedDose").value="";
-    document.getElementById("dosePattern").value="";
-    document.getElementById("mealTiming").value="After meal";
-    document.getElementById("medStart").value="";
-    document.getElementById("medEnd").value="";
-    document.getElementById("medNote").value=""; 
-    pendingTimes=[];
+    $("newMedName").value = "";
+    $("newMedDose").value = "";
+    $("dosePattern").value = "";
+    $("mealTiming").value = "After meal";
+    $("medStart").value = "";
+    $("medEnd").value = "";
+    $("medNote").value = "";
+    pendingTimes = [];
     renderTimes();
   }
 
   function isClockTimeActiveNow(timeStr) {
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const n = new Date();
+    const cur = n.getHours() * 60 + n.getMinutes();
     const [h, m] = timeStr.split(":").map(Number);
-    const medMinutes = h * 60 + m;
-    const diff = currentMinutes - medMinutes;
+    const diff = cur - (h * 60 + m);
     return diff >= -120 && diff <= 120;
   }
 
-  function todayItems(){
+  function todayItems() {
     const dateStr = todayDate();
     const result = [];
-    const now = new Date();
-    const currentHM = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-    
+    const n = new Date();
+    const hm = `${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}`;
+    const isMorning = hm >= "04:00" && hm <= "11:59";
+    const isMidday = hm >= "12:00" && hm <= "15:59";
+    const isNight = hm >= "16:00" && hm <= "23:59";
+
     getActiveMedicines().forEach(m => {
-      if(m.start && dateStr < m.start) return;
-      if(m.end && dateStr > m.end) return;
+      if (m.start && dateStr < m.start) return;
+      if (m.end && dateStr > m.end) return;
 
-      if(m.pattern && m.pattern.trim() !== "") {
-        const isMorning = currentHM >= "04:00" && currentHM <= "11:59";
-        const isMidday = currentHM >= "12:00" && currentHM <= "15:59";
-        const isNight = currentHM >= "16:00" && currentHM <= "23:59";
-
-        if(m.pattern === "1+1+1") {
-          if(isMorning) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Morning", category: 'morning', note: m.note });
-          if(isMidday) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Midday", category: 'midday', note: m.note });
-          if(isNight) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Night", category: 'night', note: m.note });
-        } else if(m.pattern === "1+0+1") {
-          if(isMorning) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Morning", category: 'morning', note: m.note });
-          if(isNight) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Night", category: 'night', note: m.note });
-        } else if(m.pattern === "1+0+0" && isMorning) {
-          result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Morning", category: 'morning', note: m.note });
-        } else if(m.pattern === "0+1+0" && isMidday) {
-          result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Midday", category: 'midday', note: m.note });
-        } else if(m.pattern === "0+0+1" && isNight) {
-          result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Night", category: 'night', note: m.note });
-        } else if(m.pattern === "1+1+0") {
-          if(isMorning) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Morning", category: 'morning', note: m.note });
-          if(isMidday) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Midday", category: 'midday', note: m.note });
-        } else if(m.pattern === "0+1+1") {
-          if(isMidday) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Midday", category: 'midday', note: m.note });
-          if(isNight) result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim(), time: "Night", category: 'night', note: m.note });
-        }
-        return; 
+      if (m.pattern && m.pattern.trim() !== "") {
+        const doseLabel = `${m.dose || ''} (${m.pattern} - ${m.meal})`.trim();
+        const push = (time, category) => result.push({ id: m.id, name: m.name, dose: doseLabel, time, category, note: m.note });
+        const p = m.pattern;
+        const morning = ["1+1+1", "1+0+1", "1+0+0", "1+1+0"].includes(p);
+        const midday = ["1+1+1", "0+1+0", "1+1+0", "0+1+1"].includes(p);
+        const night = ["1+1+1", "1+0+1", "0+0+1", "0+1+1"].includes(p);
+        if (morning && isMorning) push("Morning", "morning");
+        if (midday && isMidday) push("Midday", "midday");
+        if (night && isNight) push("Night", "night");
+        return;
       }
 
-      if(m.times && m.times.length > 0) {
+      if (m.times && m.times.length > 0) {
         m.times.forEach(t => {
-          if(isClockTimeActiveNow(t)) {
-            result.push({ 
-              id: m.id, 
-              name: m.name, 
-              dose: `${m.dose || ''} (${m.meal || 'After meal'})`.trim(), 
-              time: t, 
-              category: 'clock',
-              note: m.note
-            });
+          if (isClockTimeActiveNow(t)) {
+            result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.meal || 'After meal'})`.trim(), time: t, category: 'clock', note: m.note });
           }
         });
         return;
       }
 
-      result.push({ 
-        id: m.id, 
-        name: m.name, 
-        dose: `${m.dose || ''} (${m.meal || 'After meal'})`.trim(), 
-        time: "Anytime", 
-        category: 'clock',
-        note: m.note
-      });
+      result.push({ id: m.id, name: m.name, dose: `${m.dose || ''} (${m.meal || 'After meal'})`.trim(), time: "Anytime", category: 'clock', note: m.note });
     });
 
-    return result.sort((a,b)=>a.time.localeCompare(b.time));
+    return result.sort((a, b) => a.time.localeCompare(b.time));
   }
 
-  function statusOf(id,time,date=todayDate()){
+  function statusOf(id, time, date = todayDate()) {
     return getActiveHistory().find(h => h.medId === id && h.time === time && h.date === date)?.status || "pending";
   }
 
-  window.markMedicine = async function(id,time,status){
-    if(!viewingEmail || !currentUser) return;
-    if(!canModifyTarget(currentUser.email, viewingEmail)) {
-      showToast("View only mode: Cannot modify status.");
-      return;
-    }
-    const date=todayDate();
-    let record = getActiveHistory().find(h => h.medId === id && h.time === time && h.date === date);
-    
+  window.markMedicine = async function (id, time, status) {
+    if (!viewingEmail || !currentUser) return;
+    if (!canModifyTarget(currentUser.email, viewingEmail)) { showToast("View only mode: Cannot modify status."); return; }
+    const date = todayDate();
+    const record = getActiveHistory().find(h => h.medId === id && h.time === time && h.date === date);
     try {
-      if(record){
+      if (record) {
         await updateDoc(doc(db, "med_history", record.id), { status });
         record.status = status;
       } else {
-        const newHistory = {
-          medId: id,
-          userEmail: viewingEmail.toLowerCase().trim(),
-          time, date, status,
-          recordedAt: new Date().toISOString()
-        };
+        const newHistory = { medId: id, userEmail: viewingEmail.toLowerCase().trim(), time, date, status, recordedAt: new Date().toISOString() };
         const docRef = await addDoc(collection(db, "med_history"), newHistory);
         allHistory.push({ id: docRef.id, ...newHistory });
       }
       renderAll();
-    } catch(e) {
+    } catch (e) {
       showToast("Error saving record");
     }
   };
 
-  function renderToday(){
-    const items=todayItems();
-    const taken=items.filter(x=>statusOf(x.id,x.time)==="taken").length;
-    const pending=items.filter(x=>statusOf(x.id,x.time)==="pending").length;
+  function renderToday() {
+    const items = todayItems();
+    const taken = items.filter(x => statusOf(x.id, x.time) === "taken").length;
+    const pending = items.filter(x => statusOf(x.id, x.time) === "pending").length;
 
-    document.getElementById("totalStat").textContent=items.length;
-    document.getElementById("takenStat").textContent=taken;
-    document.getElementById("pendingStat").textContent=pending;
+    $("totalStat").textContent = items.length;
+    $("takenStat").textContent = taken;
+    $("pendingStat").textContent = pending;
 
-    if(!items.length) return '<div class="empty">No medicines scheduled for this exact time window.</div>';
+    if (!items.length) return '<div class="empty">No medicines scheduled for this exact time window.</div>';
 
     const canEdit = currentUser && canModifyTarget(currentUser.email, viewingEmail);
 
-    return items.map(item=>{
-      const status=statusOf(item.id,item.time);
-      const label=status==="taken"?"Taken":status==="skipped"?"Skipped":"Pending";
-      const color=status==="taken"?"#159968":status==="skipped"?"#d17c3c":"#82979b";
-      
-      let bgClass = "";
-      if(item.category === 'morning') bgClass = "morning";
-      else if(item.category === 'midday') bgClass = "midday";
-      else if(item.category === 'night') bgClass = "night";
+    return items.map(item => {
+      const status = statusOf(item.id, item.time);
+      const label = status === "taken" ? "Taken" : status === "skipped" ? "Skipped" : "Pending";
+      const color = status === "taken" ? "#159968" : status === "skipped" ? "#d17c3c" : "#82979b";
+      const bgClass = ['morning', 'midday', 'night'].includes(item.category) ? item.category : "";
 
       return `
       <div class="med-row ${bgClass}">
         <div class="med-row-top">
           <div>
             <h4>${safeText(item.name)}</h4>
-            <p>${safeText(item.dose||"Dosage not specified")} · <i class="fa-regular fa-clock"></i> ${safeText(item.time)}</p>
+            <p>${safeText(item.dose || "Dosage not specified")} · <i class="fa-regular fa-clock"></i> ${safeText(item.time)}</p>
             ${item.note ? `<p style="font-size:10.5px;color:#087f83;margin-top:4px;font-weight:600;"><i class="fa-solid fa-note-sticky"></i> ${safeText(item.note)}</p>` : ''}
           </div>
           <span style="font-size:10px;font-weight:700;color:${color}">${label}</span>
         </div>
         ${canEdit ? `
         <div class="med-buttons">
-          <button class="med-action med-taken" ${status==="taken"?"disabled":""}
-            onclick="window.markMedicine('${item.id}','${item.time}','taken')">
-            <i class="fa-solid fa-check"></i> Taken
-          </button>
-          <button class="med-action med-skipped" ${status==="skipped"?"disabled":""}
-            onclick="window.markMedicine('${item.id}','${item.time}','skipped')">
-            <i class="fa-solid fa-forward"></i> Skipped
-          </button>
+          <button class="med-action med-taken" ${status === "taken" ? "disabled" : ""} onclick="window.markMedicine('${item.id}','${item.time}','taken')"><i class="fa-solid fa-check"></i> Taken</button>
+          <button class="med-action med-skipped" ${status === "skipped" ? "disabled" : ""} onclick="window.markMedicine('${item.id}','${item.time}','skipped')"><i class="fa-solid fa-forward"></i> Skipped</button>
         </div>` : ''}
       </div>`;
     }).join("");
   }
 
-  function renderMedicineList(){
+  function renderMedicineList() {
     const dateStr = todayDate();
     const myMeds = getActiveMedicines().filter(m => !m.end || m.end >= dateStr);
     const canEdit = currentUser && canModifyTarget(currentUser.email, viewingEmail);
 
-    if(!myMeds.length) {
+    if (!myMeds.length) {
       return `
         <div class="empty-add-container">
           <div class="empty" style="padding-bottom:10px;">No active medicines found for this account.</div>
-          ${canEdit ? `
-          <button class="med-action med-add-jump" style="padding: 10px 18px; font-size: 12px; margin: auto;" onclick="window.jumpToAddMedicine()">
-            <i class="fa-solid fa-plus"></i> Add New Medicine
-          </button>` : ''}
-        </div>
-      `;
+          ${canEdit ? `<button class="med-action med-add-jump" style="padding: 10px 18px; font-size: 12px; margin: auto;" onclick="window.jumpToAddMedicine()"><i class="fa-solid fa-plus"></i> Add New Medicine</button>` : ''}
+        </div>`;
     }
-    return myMeds.map(m=>`
+    return myMeds.map(m => `
       <div class="med-row">
         <div class="med-row-top">
           <div>
             <h4>${safeText(m.name)}</h4>
-            <p>${safeText(m.dose||"")} (${safeText(m.pattern||"Custom")}) - ${safeText(m.meal||"After meal")}</p>
+            <p>${safeText(m.dose || "")} (${safeText(m.pattern || "Custom")}) - ${safeText(m.meal || "After meal")}</p>
             <p>${safeText(m.start)} → ${m.end ? safeText(m.end) : 'Continuous (No End Date)'}</p>
             ${m.note ? `<p style="font-size:10.5px;color:#087f83;margin-top:4px;font-weight:600;"><i class="fa-solid fa-note-sticky"></i> ${safeText(m.note)}</p>` : ''}
           </div>
         </div>
         ${canEdit ? `
         <div class="med-buttons">
-          <button class="med-action med-edit" onclick="window.editMedicine('${m.id}')">
-            <i class="fa-solid fa-pen"></i> Edit
-          </button>
-          <button class="med-action med-delete" onclick="window.deleteMedicine('${m.id}')">
-            <i class="fa-solid fa-trash"></i> Delete
-          </button>
+          <button class="med-action med-edit" onclick="window.editMedicine('${m.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+          <button class="med-action med-delete" onclick="window.deleteMedicine('${m.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
         </div>` : ''}
-      </div>
-    `).join("");
+      </div>`).join("");
   }
 
-  window.jumpToAddMedicine = function(){
-    if(currentUser && !canModifyTarget(currentUser.email, viewingEmail)) {
-      showToast("View only mode: Cannot add medicine.");
-      return;
-    }
+  window.jumpToAddMedicine = function () {
+    if (currentUser && !canModifyTarget(currentUser.email, viewingEmail)) { showToast("View only mode: Cannot add medicine."); return; }
     editingId = null;
-    document.getElementById("formTitleText").textContent = "Add New Medicine";
-    document.getElementById("saveMedButton").innerHTML = '<i class="fa-solid fa-save"></i> Save Medicine';
+    $("formTitleText").textContent = "Add New Medicine";
+    $("saveMedButton").innerHTML = '<i class="fa-solid fa-save"></i> Save Medicine';
     clearMedForm();
-    document.getElementById("medicineManager").scrollIntoView({behavior: "smooth", block: "start"});
+    $("medicineManager").scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  function renderHistory(){
-    const d = new Date();
+  function renderHistory() {
     const pastDates = [];
-    for(let i=0; i<3; i++) {
-      const tempDate = new Date();
-      tempDate.setDate(d.getDate() - i);
-      pastDates.push(`${tempDate.getFullYear()}-${String(tempDate.getMonth()+1).padStart(2,"0")}-${String(tempDate.getDate()).padStart(2,"0")}`);
+    for (let i = 0; i < 3; i++) {
+      const t = new Date();
+      t.setDate(t.getDate() - i);
+      pastDates.push(`${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`);
     }
-
     const records = getActiveHistory().filter(h => pastDates.includes(h.date));
-    records.sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
-
-    if(!records.length) return '<div class="empty">No history available for the last 3 days.</div>';
+    records.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+    if (!records.length) return '<div class="empty">No history available for the last 3 days.</div>';
 
     const canEdit = currentUser && canModifyTarget(currentUser.email, viewingEmail);
+    const medMap = new Map(allMedicines.map(x => [x.id, x]));
 
-    return records.map(h=>{
-      const m = allMedicines.find(x=>x.id===h.medId);
+    return records.map(h => {
+      const m = medMap.get(h.medId);
       const isTaken = h.status === "taken";
       return `<div class="med-row">
         <div class="med-row-top">
-          <div>
-            <h4>${safeText(m?.name||"Deleted medicine")}</h4>
-            <p>${safeText(h.date)} · ${safeText(h.time)}</p>
-          </div>
-          <span style="font-size:11px;font-weight:700;color:${isTaken?"#159968":"#d17c3c"}">
-            ${isTaken?"Taken":"Skipped"}
-          </span>
+          <div><h4>${safeText(m?.name || "Deleted medicine")}</h4><p>${safeText(h.date)} · ${safeText(h.time)}</p></div>
+          <span style="font-size:11px;font-weight:700;color:${isTaken ? "#159968" : "#d17c3c"}">${isTaken ? "Taken" : "Skipped"}</span>
         </div>
         ${canEdit ? `
         <div class="med-buttons">
-          <button class="med-action ${isTaken?'med-skipped':'med-taken'}" onclick="window.markMedicine('${h.medId}','${h.time}','${isTaken?'skipped':'taken'}')">
-            <i class="fa-solid fa-rotate"></i> Change to ${isTaken?'Skipped':'Taken'}
+          <button class="med-action ${isTaken ? 'med-skipped' : 'med-taken'}" onclick="window.markMedicine('${h.medId}','${h.time}','${isTaken ? 'skipped' : 'taken'}')">
+            <i class="fa-solid fa-rotate"></i> Change to ${isTaken ? 'Skipped' : 'Taken'}
           </button>
         </div>` : ''}
       </div>`;
     }).join("");
   }
 
-  window.editMedicine = function(id){
-    if(currentUser && !canModifyTarget(currentUser.email, viewingEmail)) return;
+  window.editMedicine = function (id) {
+    if (currentUser && !canModifyTarget(currentUser.email, viewingEmail)) return;
     const m = allMedicines.find(x => x.id === id);
-    if(!m) return;
-
-    document.getElementById("newMedName").value=m.name;
-    document.getElementById("newMedDose").value=m.dose||"";
-    document.getElementById("dosePattern").value=m.pattern||"";
-    document.getElementById("mealTiming").value=m.meal||"After meal";
-    document.getElementById("medStart").value=m.start||"";
-    document.getElementById("medEnd").value=m.end||"";
-    document.getElementById("medNote").value=m.note||""; 
-    pendingTimes=[...(m.times||[])];
-    editingId=id;
+    if (!m) return;
+    $("newMedName").value = m.name;
+    $("newMedDose").value = m.dose || "";
+    $("dosePattern").value = m.pattern || "";
+    $("mealTiming").value = m.meal || "After meal";
+    $("medStart").value = m.start || "";
+    $("medEnd").value = m.end || "";
+    $("medNote").value = m.note || "";
+    pendingTimes = [...(m.times || [])];
+    editingId = id;
     renderTimes();
-    
-    document.getElementById("formTitleText").textContent = "Edit Medicine";
-    document.getElementById("saveMedButton").innerHTML = '<i class="fa-solid fa-pen"></i> Update Medicine';
-    document.getElementById("medicineManager").scrollIntoView({behavior: "smooth", block: "start"});
+    $("formTitleText").textContent = "Edit Medicine";
+    $("saveMedButton").innerHTML = '<i class="fa-solid fa-pen"></i> Update Medicine';
+    $("medicineManager").scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  window.deleteMedicine = async function(id){
-    if(!currentUser || !canModifyTarget(currentUser.email, viewingEmail)) return;
-    if(!confirm("Delete this medicine?")) return;
+  window.deleteMedicine = async function (id) {
+    if (!currentUser || !canModifyTarget(currentUser.email, viewingEmail)) return;
+    if (!confirm("Delete this medicine?")) return;
     try {
       await deleteDoc(doc(db, "medicines", id));
       allMedicines = allMedicines.filter(m => m.id !== id);
       renderAll();
-    } catch(e) {
+    } catch (e) {
       showToast("Error deleting medicine");
     }
   };
 
-  window.setMedTab = function(tab,button){
-    currentTab=tab;
-    document.querySelectorAll(".med-tab").forEach(b=>b.classList.remove("active"));
+  window.setMedTab = function (tab, button) {
+    currentTab = tab;
+    document.querySelectorAll(".med-tab").forEach(b => b.classList.remove("active"));
     button.classList.add("active");
     renderContent();
-    document.getElementById("todaysOverviewHeading").scrollIntoView({behavior: "smooth", block: "start"});
+    $("todaysOverviewHeading").scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  function renderContent(){
-    const box=document.getElementById("medContent");
-    if(currentTab==="today") box.innerHTML=renderToday();
-    if(currentTab==="all") box.innerHTML=renderMedicineList();
-    if(currentTab==="history") box.innerHTML=renderHistory();
+  function renderContent() {
+    const box = $("medContent");
+    if (currentTab === "today") box.innerHTML = renderToday();
+    if (currentTab === "all") box.innerHTML = renderMedicineList();
+    if (currentTab === "history") box.innerHTML = renderHistory();
   }
 
-  function renderAll(){
-    renderToday();
+  function renderAll() {
+    // renderContent নিজেই "today" ট্যাবে stats আপডেট করে; অন্য ট্যাবে stats এর জন্য আলাদা কল
+    if (currentTab !== "today") renderToday();
     renderContent();
+    saveCacheSoon();
   }
 
+  /* ---------- Notifications ---------- */
   function sendNativeOrBrowserNotification(title, body) {
     if (window.AndroidDownloader && window.AndroidDownloader.showMedicineNotification) {
       window.AndroidDownloader.showMedicineNotification(title, body);
@@ -2293,28 +1805,22 @@ a{text-decoration:none;color:inherit}
     }
   }
 
-  window.enableMedNotifications = async function(){
-    const status = document.getElementById("notificationStatus");
+  window.enableMedNotifications = async function () {
+    const status = $("notificationStatus");
     if (window.AndroidDownloader && window.AndroidDownloader.showMedicineNotification) {
       if (currentUser && window.AndroidDownloader.registerUserEmail) {
         window.AndroidDownloader.registerUserEmail(currentUser.email.toLowerCase().trim());
       }
       status.textContent = "App notifications are active!";
-      window.AndroidDownloader.showMedicineNotification(
-        "HealthCare Reminder Active",
-        "আপনার ওষধের নোটিফিকেশন সচল রয়েছে।"
-      );
+      window.AndroidDownloader.showMedicineNotification("HealthCare Reminder Active", "আপনার ওষধের নোটিফিকেশন সচল রয়েছে।");
       return;
     }
-    if(!("Notification" in window)){
-      status.textContent="Notifications not supported.";
-      return;
-    }
-    try{
-      const permission=await Notification.requestPermission();
-      status.textContent=permission==="granted"?"Notifications enabled.":"Permission not granted.";
-    }catch(e){
-      status.textContent="Could not enable notifications.";
+    if (!("Notification" in window)) { status.textContent = "Notifications not supported."; return; }
+    try {
+      const permission = await Notification.requestPermission();
+      status.textContent = permission === "granted" ? "Notifications enabled." : "Permission not granted.";
+    } catch (e) {
+      status.textContent = "Could not enable notifications.";
     }
   };
 
@@ -2322,8 +1828,8 @@ a{text-decoration:none;color:inherit}
     if (!currentUser) return;
     const loggedInEmail = currentUser.email.toLowerCase().trim();
     const dateStr = todayDate();
-    const now = new Date();
-    const currentHM = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    const n = new Date();
+    const hm = `${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}`;
 
     const userMeds = allMedicines.filter(m => (m.userEmail || "").toLowerCase().trim() === loggedInEmail);
     const userHist = allHistory.filter(h => (h.userEmail || "").toLowerCase().trim() === loggedInEmail);
@@ -2331,33 +1837,27 @@ a{text-decoration:none;color:inherit}
     userMeds.forEach(m => {
       if (m.start && dateStr < m.start) return;
       if (m.end && dateStr > m.end) return;
-
-      if (m.times && m.times.includes(currentHM)) {
-        const notifyKey = `notified_${loggedInEmail}_${dateStr}_${m.id}_${currentHM}`;
-        const isTaken = userHist.some(h => h.medId === m.id && h.time === currentHM && h.date === dateStr);
-
+      if (m.times && m.times.includes(hm)) {
+        const notifyKey = `notified_${loggedInEmail}_${dateStr}_${m.id}_${hm}`;
+        const isTaken = userHist.some(h => h.medId === m.id && h.time === hm && h.date === dateStr);
         if (!localStorage.getItem(notifyKey) && !isTaken) {
           localStorage.setItem(notifyKey, "1");
           sendNativeOrBrowserNotification(
             `ওষধ খাওয়ার সময় হয়েছে: ${m.name}`,
-            `ডোজ: ${m.dose || 'নির্ধারিত পরিমাণ'} (${m.meal || 'After meal'}) · সময়: ${currentHM}`
+            `ডোজ: ${m.dose || 'নির্ধারিত পরিমাণ'} (${m.meal || 'After meal'}) · সময়: ${hm}`
           );
         }
       }
     });
   }
 
-  // Initial call on load
-  (async function initializeAuthentication() {
-    try {
-      await setPersistence(auth, browserLocalPersistence);
-      authInitialized = true;
-    } catch(error) {
-      console.error("Auth persistence initialization error:", error);
-    }
-  })();
-
   setInterval(checkAndTriggerUserNotifications, 30000);
+
+  // ট্যাব আবার ওপেন করলে ডাটা চুপচাপ রিফ্রেশ
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && currentUser && sessionStarted && !currentUser._stub) loadDataFromFirebase();
+  });
+
   renderTimes();
 </script>
 </body>
