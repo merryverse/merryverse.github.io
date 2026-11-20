@@ -1614,17 +1614,22 @@ a{text-decoration:none;color:inherit}
     return getActiveHistory().find(h => h.medId === id && h.time === time && h.date === date)?.status || "pending";
   }
 
-  window.markMedicine = async function (id, time, status) {
+  window.markMedicine = async function (id, time, status, forDate) {
     if (!viewingEmail || !currentUser) return;
     if (!canModifyTarget(currentUser.email, viewingEmail)) { showToast("View only mode: Cannot modify status."); return; }
-    const date = todayDate();
+    const date = forDate || todayDate();
     const record = getActiveHistory().find(h => h.medId === id && h.time === time && h.date === date);
     try {
       if (record) {
         await updateDoc(doc(db, "med_history", record.id), { status });
         record.status = status;
       } else {
-        const newHistory = { medId: id, userEmail: viewingEmail.toLowerCase().trim(), time, date, status, recordedAt: new Date().toISOString() };
+        const med = allMedicines.find(x => x.id === id);
+        const newHistory = {
+          medId: id, userEmail: viewingEmail.toLowerCase().trim(), time, date, status,
+          medName: med ? med.name : "", medDose: med ? (med.dose || "") : "",
+          recordedAt: new Date().toISOString()
+        };
         const docRef = await addDoc(collection(db, "med_history"), newHistory);
         allHistory.push({ id: docRef.id, ...newHistory });
       }
@@ -1712,30 +1717,34 @@ a{text-decoration:none;color:inherit}
   };
 
   function renderHistory() {
-    const pastDates = [];
-    for (let i = 0; i < 3; i++) {
-      const t = new Date();
-      t.setDate(t.getDate() - i);
-      pastDates.push(`${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`);
-    }
-    const records = getActiveHistory().filter(h => pastDates.includes(h.date));
+    const limit = new Date();
+    limit.setDate(limit.getDate() - 29);
+    const minDate = `${limit.getFullYear()}-${String(limit.getMonth() + 1).padStart(2, "0")}-${String(limit.getDate()).padStart(2, "0")}`;
+
+    const records = getActiveHistory().filter(h => h.date >= minDate);
     records.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
-    if (!records.length) return '<div class="empty">No history available for the last 3 days.</div>';
+    if (!records.length) return '<div class="empty">No history available for the last 30 days.</div>';
 
     const canEdit = currentUser && canModifyTarget(currentUser.email, viewingEmail);
     const medMap = new Map(allMedicines.map(x => [x.id, x]));
 
+    let lastDate = "";
     return records.map(h => {
       const m = medMap.get(h.medId);
+      const name = (m && m.name) || h.medName || "Deleted medicine";
+      const dose = (m && m.dose) || h.medDose || "";
       const isTaken = h.status === "taken";
-      return `<div class="med-row">
+      const head = h.date !== lastDate
+        ? `<div style="font-size:11px;font-weight:800;color:var(--primary);margin:16px 0 4px;">${safeText(h.date)}</div>` : "";
+      lastDate = h.date;
+      return head + `<div class="med-row">
         <div class="med-row-top">
-          <div><h4>${safeText(m?.name || "Deleted medicine")}</h4><p>${safeText(h.date)} · ${safeText(h.time)}</p></div>
+          <div><h4>${safeText(name)}</h4><p>${dose ? safeText(dose) + " · " : ""}${safeText(h.time)}</p></div>
           <span style="font-size:11px;font-weight:700;color:${isTaken ? "#159968" : "#d17c3c"}">${isTaken ? "Taken" : "Skipped"}</span>
         </div>
         ${canEdit ? `
         <div class="med-buttons">
-          <button class="med-action ${isTaken ? 'med-skipped' : 'med-taken'}" onclick="window.markMedicine('${h.medId}','${h.time}','${isTaken ? 'skipped' : 'taken'}')">
+          <button class="med-action ${isTaken ? 'med-skipped' : 'med-taken'}" onclick="window.markMedicine('${h.medId}','${h.time}','${isTaken ? 'skipped' : 'taken'}','${h.date}')">
             <i class="fa-solid fa-rotate"></i> Change to ${isTaken ? 'Skipped' : 'Taken'}
           </button>
         </div>` : ''}
@@ -1766,6 +1775,15 @@ a{text-decoration:none;color:inherit}
     if (!currentUser || !canModifyTarget(currentUser.email, viewingEmail)) return;
     if (!confirm("Delete this medicine?")) return;
     try {
+      const med = allMedicines.find(x => x.id === id);
+      if (med) {
+        const rel = allHistory.filter(h => h.medId === id && !h.medName);
+        await Promise.all(rel.map(h => {
+          const p = { medName: med.name, medDose: med.dose || "" };
+          Object.assign(h, p);
+          return updateDoc(doc(db, "med_history", h.id), p).catch(() => {});
+        }));
+      }
       await deleteDoc(doc(db, "medicines", id));
       allMedicines = allMedicines.filter(m => m.id !== id);
       renderAll();
