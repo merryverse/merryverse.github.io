@@ -493,7 +493,7 @@ function tone(type, f, t0, dur, vol) {
 function vibeSound(k) {
   if (k === "rickshaw") [0, .16, .5, .66].forEach(t => { tone("sine", 2600, t, .14, .07); tone("sine", 3900, t, .1, .03); });
 }
-const SFX = "https://github.com/merryverse/merryverse.github.io/releases/download/assets/";
+const SFX = "/games/carracing/";
 const crashSnd = new Audio(SFX + "collision.mp3"), brakeSnd = new Audio(SFX + "break.mp3"), hornSnd = new Audio(SFX + "horn.mp3"), shoutSnd = new Audio(SFX + "shout.mp3");
 const allSfx = [crashSnd, brakeSnd, hornSnd, shoutSnd]; allSfx.forEach(a => a.preload = "auto");
 let shoutDone = false, shoutPending = false, hornT = 8, wasBrake = false, sfxUnlocked = false;
@@ -505,7 +505,7 @@ function unlockSfx() {
 }
 
 // ---------- Radio (single player only) ----------
-const radio = new Audio("https://github.com/merryverse/merryverse.github.io/releases/download/assets/abcsong.mp3");
+const radio = new Audio("/games/carracing/abcsong.mp3");
 radio.loop = true; radio.volume = .5; radio.preload = "auto";
 let radioOn = true;
 function radioSync() {
